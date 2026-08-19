@@ -53,36 +53,54 @@ export default function ConversionCTA() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
+      className="cta-glass-card"
       style={{
         position: "relative",
         maxWidth: "900px",
         margin: "0 auto",
-        borderRadius: "24px",
-        background: "rgba(12,14,24,0.85)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
-        border: "1px solid rgba(124,58,237,0.12)",
+        borderRadius: "28px",
+        background: "linear-gradient(165deg, rgba(15,15,25,0.85) 0%, rgba(10,10,20,0.9) 50%, rgba(20,12,40,0.85) 100%)",
+        backdropFilter: "blur(60px) saturate(180%)",
+        WebkitBackdropFilter: "blur(60px) saturate(180%)",
+        border: "1px solid rgba(255,255,255,0.08)",
         boxShadow:
-          "0 0 0 1px rgba(255,255,255,0.03), 0 20px 60px rgba(0,0,0,0.5), 0 0 80px rgba(124,58,237,0.06)",
-        padding: "52px 44px",
+          "0 24px 80px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,255,255,0.03), 0 0 120px rgba(124,58,237,0.05)",
+        padding: "56px 48px",
         textAlign: "center",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "20px",
+        gap: "24px",
         overflow: "hidden",
-        transition: "box-shadow 0.3s ease",
+        transition: "box-shadow 0.4s ease, border-color 0.4s ease",
       }}
     >
-      {/* Subtle glow behind the card */}
+      {/* Top glow orb */}
       <div aria-hidden="true" style={{
-        position: "absolute", top: "-60px", left: "50%", transform: "translateX(-50%)",
-        width: "400px", height: "200px", borderRadius: "50%",
-        background: "radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 70%)",
-        filter: "blur(60px)", pointerEvents: "none",
+        position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)",
+        width: "500px", height: "280px", borderRadius: "50%",
+        background: "radial-gradient(ellipse, rgba(124,58,237,0.15) 0%, rgba(79,70,229,0.06) 40%, transparent 70%)",
+        filter: "blur(80px)", pointerEvents: "none",
       }} />
 
-      {/* Icon */}
+      {/* Bottom-right ambient glow */}
+      <div aria-hidden="true" style={{
+        position: "absolute", bottom: "-60px", right: "-40px",
+        width: "350px", height: "250px", borderRadius: "50%",
+        background: "radial-gradient(ellipse, rgba(79,70,229,0.1) 0%, transparent 70%)",
+        filter: "blur(70px)", pointerEvents: "none",
+      }} />
+
+      {/* Glass inner highlight line */}
+      <div aria-hidden="true" style={{
+        position: "absolute", top: 0, left: "10%", right: "10%", height: "1px",
+        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+        pointerEvents: "none",
+      }} />
+
+
+
+      {/* ── Icon ── */}
       <motion.div
         initial={{ scale: 0.8 }}
         whileInView={{ scale: 1 }}
@@ -90,34 +108,36 @@ export default function ConversionCTA() {
         transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
         style={{
           position: "relative", zIndex: 1,
-          width: "52px", height: "52px", borderRadius: "16px",
-          background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(79,70,229,0.15))",
-          border: "1px solid rgba(124,58,237,0.2)",
+          width: "56px", height: "56px", borderRadius: "18px",
+          background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(79,70,229,0.12))",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          border: "1px solid rgba(124,58,237,0.25)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 0 30px rgba(124,58,237,0.15)",
+          boxShadow: "0 0 40px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.1)",
         }}
       >
-        <Rocket size={22} color="#a78bfa" />
+        <Rocket size={24} color="#a78bfa" />
       </motion.div>
 
-      {/* Text */}
-      <div style={{ maxWidth: "480px", position: "relative", zIndex: 1 }}>
+      {/* ── Text ── */}
+      <div style={{ maxWidth: "500px", position: "relative", zIndex: 1 }}>
         <h3 style={{
-          fontSize: "1.5rem", fontWeight: 800, margin: "0 0 12px",
-          background: "linear-gradient(135deg, #e0e7ff, #c4b5fd)",
+          fontSize: "1.6rem", fontWeight: 800, margin: "0 0 14px",
+          background: "linear-gradient(135deg, #f1f5f9, #c4b5fd)",
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           backgroundClip: "text",
         }}>
           ارتقِ باستراتيجيتك التسويقية
         </h3>
-        <p style={{ color: "#64748b", lineHeight: 1.8, fontSize: "14px", margin: 0 }}>
+        <p style={{ color: "#94a3b8", lineHeight: 1.85, fontSize: "14.5px", margin: 0 }}>
           المنصة الكاملة قيد التطوير. انضم لقائمة الانتظار الآن للحصول على وصول مبكر
           وقوالب حصرية مجانية.
         </p>
       </div>
 
-      {/* Email form / Success state */}
-      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "420px", marginTop: "4px" }}>
+      {/* ── Email form / Success state ── */}
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "440px", marginTop: "4px" }}>
         <AnimatePresence mode="wait">
           {submitted ? (
             <motion.div
@@ -129,8 +149,11 @@ export default function ConversionCTA() {
             >
               <div style={{
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                padding: "14px 20px", borderRadius: "14px",
-                background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.2)",
+                padding: "14px 20px", borderRadius: "16px",
+                background: "rgba(34,197,94,0.08)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                border: "1px solid rgba(34,197,94,0.2)",
                 color: "#4ade80", fontSize: "14px", fontWeight: 600, width: "100%",
               }}>
                 <Check size={16} />
@@ -143,8 +166,11 @@ export default function ConversionCTA() {
                   transition={{ delay: 0.3 }}
                   style={{
                     display: "flex", alignItems: "center", gap: "6px",
-                    padding: "8px 16px", borderRadius: "10px",
-                    background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)",
+                    padding: "8px 16px", borderRadius: "12px",
+                    background: "rgba(124,58,237,0.1)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    border: "1px solid rgba(124,58,237,0.2)",
                     color: "#a78bfa", fontSize: "12px", fontWeight: 600,
                   }}
                 >
@@ -155,9 +181,9 @@ export default function ConversionCTA() {
             </motion.div>
           ) : (
             <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <form onSubmit={handleSubmit} style={{ display: "flex", gap: "8px", width: "100%" }}>
+              <form onSubmit={handleSubmit} className="cta-form-layout">
                 <div style={{ position: "relative", flex: 1 }}>
-                  <Mail size={15} color="#475569" style={{
+                  <Mail size={15} color="#64748b" style={{
                     position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)",
                     pointerEvents: "none",
                   }} />
@@ -173,19 +199,23 @@ export default function ConversionCTA() {
                     dir="rtl"
                     style={{
                       width: "100%",
-                      padding: "13px 40px 13px 14px",
-                      borderRadius: "12px",
+                      padding: "14px 42px 14px 14px",
+                      borderRadius: "14px",
                       border: focused
                         ? "1px solid rgba(124,58,237,0.5)"
-                        : "1px solid rgba(255,255,255,0.08)",
-                      background: "rgba(255,255,255,0.04)",
+                        : "1px solid rgba(255,255,255,0.1)",
+                      background: "rgba(255,255,255,0.05)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
                       color: "#e2e8f0",
                       fontSize: "14px",
                       outline: "none",
                       fontFamily: "inherit",
                       boxSizing: "border-box",
-                      boxShadow: focused ? "0 0 0 3px rgba(124,58,237,0.1)" : "none",
-                      transition: "all 0.2s ease",
+                      boxShadow: focused
+                        ? "0 0 0 3px rgba(124,58,237,0.12), inset 0 1px 0 rgba(255,255,255,0.08)"
+                        : "inset 0 1px 0 rgba(255,255,255,0.06)",
+                      transition: "all 0.25s ease",
                       opacity: loading ? 0.6 : 1,
                     }}
                   />
@@ -193,26 +223,26 @@ export default function ConversionCTA() {
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  whileHover={loading ? {} : { y: -2, boxShadow: "0 8px 25px rgba(124,58,237,0.5)" }}
+                  whileHover={loading ? {} : { y: -2, boxShadow: "0 12px 35px rgba(124,58,237,0.55)" }}
                   whileTap={loading ? {} : { scale: 0.97 }}
                   style={{
-                    display: "flex", alignItems: "center", gap: "6px",
-                    padding: "13px 22px",
-                    borderRadius: "12px",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
+                    padding: "14px 24px",
+                    borderRadius: "14px",
                     border: "none",
                     background: loading
                       ? "rgba(124,58,237,0.4)"
-                      : "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                      : "linear-gradient(135deg, #7c3aed, #6d28d9, #4f46e5)",
                     color: "#fff",
                     fontWeight: 700,
-                    fontSize: "13px",
+                    fontSize: "13.5px",
                     cursor: loading ? "not-allowed" : "pointer",
                     fontFamily: "inherit",
                     letterSpacing: "0.01em",
-                    boxShadow: "0 4px 20px rgba(124,58,237,0.4)",
+                    boxShadow: "0 6px 24px rgba(124,58,237,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
                     whiteSpace: "nowrap",
                     flexShrink: 0,
-                    transition: "all 0.2s ease",
+                    transition: "all 0.25s ease",
                   }}
                 >
                   {loading ? (
@@ -241,19 +271,20 @@ export default function ConversionCTA() {
         </AnimatePresence>
       </div>
 
-      {/* Trust indicators */}
+      {/* ── Trust indicators ── */}
       <div style={{
-        display: "flex", gap: "20px", justifyContent: "center",
+        display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap",
         position: "relative", zIndex: 1, marginTop: "4px",
       }}>
         {["وصول مبكر", "قوالب مجانية", "بدون التزام"].map((item) => (
           <span key={item} style={{
-            display: "flex", alignItems: "center", gap: "5px",
-            fontSize: "11px", fontWeight: 600, color: "#475569",
+            display: "flex", alignItems: "center", gap: "6px",
+            fontSize: "11px", fontWeight: 600, color: "#64748b",
           }}>
             <div style={{
               width: "5px", height: "5px", borderRadius: "50%",
-              background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+              background: "linear-gradient(135deg, #a78bfa, #818cf8)",
+              boxShadow: "0 0 8px rgba(124,58,237,0.3)",
             }} />
             {item}
           </span>
@@ -262,6 +293,32 @@ export default function ConversionCTA() {
 
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        .cta-glass-card:hover {
+          border-color: rgba(124,58,237,0.25) !important;
+          box-shadow:
+            0 24px 80px -12px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255,255,255,0.18),
+            inset 0 -1px 0 rgba(255,255,255,0.05),
+            0 0 160px rgba(124,58,237,0.1) !important;
+        }
+
+        .cta-form-layout {
+          display: flex;
+          gap: 10px;
+          width: 100%;
+        }
+
+        /* Mobile: stack form vertically, badges wrap naturally */
+        @media (max-width: 640px) {
+          .cta-form-layout {
+            flex-direction: column;
+          }
+
+          .cta-badges-row {
+            gap: 8px !important;
+          }
+        }
       `}</style>
     </motion.div>
   );

@@ -18,13 +18,13 @@ import GenerationResult from "./GenerationResult";
 type ViewState = "empty" | "loading" | "result" | "locked";
 
 const DARK_CARD: React.CSSProperties = {
-  background: "rgba(12,14,24,0.8)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid rgba(255,255,255,0.05)",
+  background: "linear-gradient(165deg, rgba(15,15,25,0.82) 0%, rgba(10,10,20,0.88) 50%, rgba(20,12,40,0.82) 100%)",
+  backdropFilter: "blur(50px) saturate(170%)",
+  WebkitBackdropFilter: "blur(50px) saturate(170%)",
+  border: "1px solid rgba(255,255,255,0.07)",
   boxShadow:
-    "0 0 0 1px rgba(255,255,255,0.02), 0 20px 60px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.04) inset, 0 0 40px rgba(124,58,237,0.04)",
-  borderRadius: "20px",
+    "0 20px 60px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,255,255,0.03)",
+  borderRadius: "24px",
 };
 
 const scrollToCTA = () => {
@@ -111,7 +111,7 @@ export default function ContentGenerator() {
       */}
       <div
         dir="rtl"
-        className="flex flex-col lg:flex-row items-start gap-5 lg:gap-7"
+        className="flex flex-col lg:flex-row items-stretch gap-5 lg:gap-7"
       >
         {/* ────────────────── Settings Panel ────────────────── */}
         {/* Fixed 380px on desktop, full-width on mobile */}
@@ -257,7 +257,7 @@ export default function ContentGenerator() {
 
         {/* ────────────────── Result Area ────────────────── */}
         {/* Fills remaining horizontal space */}
-        <div className="flex-1 min-w-0 w-full">
+        <div className="flex-1 min-w-0 w-full flex flex-col">
           <AnimatePresence mode="wait">
 
             {/* ── Empty State ── */}
@@ -269,13 +269,18 @@ export default function ContentGenerator() {
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 style={{
-                  minHeight: "520px",
+                  minHeight: "0",
+                  flex: 1,
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
-                  borderRadius: "20px",
-                  border: "1px dashed rgba(124,58,237,0.15)",
-                  background: "rgba(12,14,24,0.4)",
+                  borderRadius: "24px",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                  background: "linear-gradient(165deg, rgba(15,15,25,0.82) 0%, rgba(10,10,20,0.88) 50%, rgba(20,12,40,0.82) 100%)",
+                  backdropFilter: "blur(50px) saturate(160%)",
+                  WebkitBackdropFilter: "blur(50px) saturate(160%)",
+                  boxShadow: "0 20px 60px -12px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07), inset 0 -1px 0 rgba(255,255,255,0.03), 0 0 100px rgba(124,58,237,0.04)",
                   padding: "48px 32px", textAlign: "center", gap: "24px",
+                  position: "relative", overflow: "hidden",
                 }}
               >
                 <motion.div

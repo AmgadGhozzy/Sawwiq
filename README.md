@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sawwiq (سويّق) 🚀
 
-## Getting Started
+**Sawwiq** is a next-generation SaaS platform designed for AI-powered content generation. Built with modern web technologies, it provides a seamless and responsive user experience for generating high-quality marketing and creative content using Google's advanced Gemini AI.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **🧠 AI Content Generation:** Powered by Google Gemini API (`gemini-2.5-flash-lite` by default) for blazing-fast, high-quality text generation.
+- **🔐 Secure Authentication & Backend:** Fully integrated with Supabase for robust user authentication, real-time database, and secure data handling.
+- **⚡ Lightning Fast UI:** Built on top of Next.js 16 and React 19, utilizing the App Router for optimal performance and SEO.
+- **🎨 Modern Design:** Beautiful, responsive, and accessible interfaces styled with Tailwind CSS v4 and animated using Framer Motion.
+- **🛡️ Type-Safe:** End-to-end type safety with TypeScript and Zod schema validation.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+- **Library:** [React 19](https://react.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Backend/BaaS:** [Supabase](https://supabase.com/) (Auth, Postgres DB)
+- **AI Provider:** [Google GenAI API](https://ai.google.dev/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Forms & Validation:** [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v20 or higher recommended)
+- [npm](https://www.npmjs.com/) (or yarn/pnpm)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/sawwiq.git
+   cd sawwiq
+   ```
 
-## Deploy on Vercel
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Set up environment variables:**
+   Copy the example environment file and fill in your keys:
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Open `.env.local` and add your configurations:
+   ```env
+   # Google Gemini API
+   GEMINI_API_KEY=your_gemini_api_key_here
+   GEMINI_MODEL=gemini-2.5-flash-lite
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # Supabase Configuration
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+   ```
+
+4. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at [http://localhost:3000](http://localhost:3000).
+
+## 📁 Project Structure
+
+- `/app`: Next.js App Router pages and layouts.
+- `/components`: Reusable React components (UI and layout).
+- `/lib`: Utility functions and shared logic.
+- `/supabase`: Supabase database migrations and types.
+- `/scripts`: Utility scripts for testing and benchmarking.
+- `/__tests__`: Test suites and scenarios.
+
+## 📜 Available Scripts
+
+- `npm run dev`: Starts the Next.js development server.
+- `npm run build`: Builds the app for production.
+- `npm run start`: Runs the built production application.
+- `npm run lint`: Runs ESLint to check for code issues.
+- `npm run test`: Executes the test suite using `tsx`.
+- `npm run test:scenarios`: Runs specific test scenarios.
+- `npm run benchmark`: Runs performance benchmarks.
+
+## ☁️ Deployment
+
+This project is optimized for deployment on [Vercel](https://vercel.com). The project requires setting up the environment variables listed above in the Vercel project settings prior to deployment.
+
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+---
+
+*Designed and engineered with passion.*
