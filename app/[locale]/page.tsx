@@ -1,10 +1,14 @@
 import ContentGenerator from "@/components/generator/ContentGenerator";
 import ConversionCTA from "@/components/marketing/ConversionCTA";
-import { appConfig } from "@/lib/config";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const tGlobal = useTranslations("Global");
+  const tHome = useTranslations("HomePage");
+
   return (
     <main
       className="relative min-h-screen overflow-x-hidden pb-24"
@@ -66,8 +70,13 @@ export default function Home() {
         }} />
       </div>
 
+      {/* ── Navbar / Switcher ── */}
+      <div style={{ position: "absolute", top: "20px", left: "20px", zIndex: 50 }}>
+        <LanguageSwitcher />
+      </div>
+
       {/* ── Hero Header ── */}
-      <header className="relative z-10 pt-14 pb-20 px-4 text-center" dir="rtl">
+      <header className="relative z-10 pt-14 pb-20 px-4 text-center">
         {/* Logo + Brand */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -86,7 +95,7 @@ export default function Home() {
             fontSize: "1.8rem", fontWeight: 800, color: "#e2e8f0",
             letterSpacing: "-0.02em",
           }}>
-            {appConfig.productName}
+            {tGlobal("productName")}
           </span>
         </div>
 
@@ -98,7 +107,7 @@ export default function Home() {
           backgroundClip: "text", lineHeight: 1.35, margin: "0 0 16px",
           paddingBottom: "10px",
         }}>
-          اصنع محتوى تسويقي استثنائي في ثوانٍ
+          {tHome("headline")}
         </h1>
 
         {/* Subtitle */}
@@ -106,7 +115,7 @@ export default function Home() {
           fontSize: "1.05rem", color: "#64748b", fontWeight: 400,
           maxWidth: "520px", margin: "0 auto", lineHeight: 1.8,
         }}>
-          {appConfig.productTagline}
+          {tGlobal("productTagline")}
         </p>
 
         {/* Sparkle badge */}
@@ -119,7 +128,7 @@ export default function Home() {
         }}>
           <Sparkles size={14} color="#a78bfa" />
           <span style={{ fontSize: "12px", fontWeight: 600, color: "#a78bfa" }}>
-            مدعوم بالذكاء الاصطناعي التوليدي
+            {tHome("aiBadge")}
           </span>
         </div>
       </header>

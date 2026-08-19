@@ -1,0 +1,131 @@
+{
+  "Global": {
+    "productName": "سَوِّق",
+    "productTagline": "أداتك الذكية لإنشاء محتوى تسويقي في ثوانٍ."
+  },
+  "HomePage": {
+    "headline": "أنشئ محتوى تسويقي في ثوانٍ",
+    "aiBadge": "مدعوم بالذكاء الاصطناعي"
+  },
+  "ConversionCTA": {
+    "title": "ارتقِ باستراتيجيتك التسويقية",
+    "subtitle": "المنصة الكاملة قيد التطوير. انضم لقائمة الانتظار الآن للحصول على وصول مبكر وقوالب حصرية مجانية.",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "buttonText": "انضم لقائمة الانتظار",
+    "successMessage": "تم التسجيل بنجاح! سنتواصل معك قريباً.",
+    "bonusMessage": "توليد مجاني إضافي أُضيف لجلستك!",
+    "errorMessage": "تعذر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.",
+    "trustEarlyAccess": "وصول مبكر",
+    "trustFreeTemplates": "قوالب مجانية",
+    "trustNoCommitment": "بدون التزام"
+  },
+  "ContentGenerator": {
+    "settingsTitle": "إعدادات المحتوى",
+    "settingsSubtitle": "خصّص المحتوى ودع الذكاء الاصطناعي يكمل العمل",
+    "creditsRemaining": "متبقي {count}",
+    "zeroCredits": "0 متبقي",
+    "genericError": "حدث خطأ غير متوقع. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
+    "lockedButton": "انضم لقائمة الانتظار للمزيد",
+    "emptyStateTitle": "جاهز لإبهار عملائك؟",
+    "emptyStateSubtitle": "أدخل تفاصيل منتجك أو خدمتك، وسيقوم الذكاء الاصطناعي بإنشاء نص تسويقي احترافي جاهز للنشر.",
+    "emptyStateTags": {
+      "impactfulTitles": "عناوين جذابة",
+      "captivatingHooks": "افتتاحيات قوية",
+      "smartHashtags": "هاشتاغات ذكية",
+      "effectiveCTAs": "دعوات فعّالة"
+    },
+    "lockedStateTitle": "انتهت محاولاتك المجانية",
+    "lockedStateSubtitle": "لقد استخدمت محاولاتك الثلاث المجانية. انضم لقائمة الانتظار للحصول على توليد مجاني إضافي!",
+    "lockedStateButton": "انضم لقائمة الانتظار مجاناً"
+  },
+  "GeneratorInput": {
+    "label": "عن ماذا تريد أن تتحدث؟",
+    "placeholders": [
+      "شقة 3 غرف في التجمع الخامس، 180 متر، تشطيب كامل، قريبة من الجامعة الأمريكية",
+      "ساعة ذكية رياضية، مقاومة للماء، بطارية 10 أيام، شحن سريع",
+      "مجموعة عطور شرقية فاخرة، 5 روائح مختلفة، عبوات أنيقة",
+      "فيلا دوبلكس 350 متر في الشيخ زايد، حديقة خاصة، 4 غرف نوم"
+    ],
+    "clearBtn": "حذف",
+    "clearTitle": "حذف النص",
+    "pasteBtn": "لصق",
+    "pasteTitle": "لصق من الحافظة"
+  },
+  "GeneratorSettings": {
+    "platformLabel": "المنصة",
+    "contentTypeLabel": "نوع المحتوى",
+    "arabicStyleLabel": "اللهجة",
+    "platforms": {
+      "tiktok": "تيك توك / ريلز",
+      "instagram": "انستجرام",
+      "linkedin": "لينكد إن",
+      "x_twitter": "إكس / تويتر"
+    },
+    "contentTypes": {
+      "sponsored_ad": "إعلان ممول",
+      "interactive_post": "منشور تفاعلي",
+      "ecommerce_product": "وصف منتج",
+      "real_estate": "وصف عقاري",
+      "short_video_script": "سكريبت فيديو",
+      "marketing_email": "رسالة تسويقية"
+    },
+    "arabicStyles": {
+      "saudi_marketing": "سعودي تسويقي",
+      "gulf_premium": "خليجي فخم",
+      "egyptian_colloquial": "مصري دارج",
+      "white_arabic": "عربية بيضاء",
+      "formal_b2b": "فصحى مبسطة"
+    }
+  },
+  "GenerateButton": {
+    "generate": "أنشئ المحتوى",
+    "loading": "جارٍ التوليد..."
+  },
+  "GenerationResult": {
+    "readyContent": "المحتوى الجاهز",
+    "copyAll": "نسخ الكل",
+    "copied": "تم النسخ",
+    "rewrite": "إعادة الكتابة",
+    "newContent": "محتوى جديد"
+  },
+  "GenerationSkeleton": {
+    "loadingMessages": [
+      "جارٍ ضبط الصياغة...",
+      "نضفي لمسة طبيعية على المحتوى...",
+      "نضيف اللمسة التسويقية...",
+      "لحظات وننتهي...",
+      "نراجع المحتوى النهائي..."
+    ]
+  },
+  "HashtagList": {
+    "title": "هاشتاغات",
+    "copyAllAria": "نسخ جميع الهاشتاغات",
+    "copyAll": "نسخ الكل",
+    "copied": "تم النسخ",
+    "clickToCopy": "اضغط للنسخ",
+    "copiedBadge": "تم"
+  },
+  "SEO": {
+    "homeTitle": "سَوِّق — أداتك الذكية لإنشاء محتوى تسويقي",
+    "homeDescription": "أنشئ محتوى تسويقي احترافي باللهجة العربية التي تريدها في ثوانٍ. منصة ذكية مدعومة بالذكاء الاصطناعي."
+  },
+  "Errors": {
+    "VALIDATION_ERROR": "البيانات المدخلة غير صحيحة. يرجى التأكد من ملء جميع الحقول المطلوبة.",
+    "SESSION_MISSING": "انتهت الجلسة. أعد تحميل الصفحة وحاول مرة أخرى.",
+    "RATE_LIMITED": "لقد تجاوزت الحد المسموح. حاول مرة أخرى بعد قليل.",
+    "RATE_LIMIT_REACHED": "انتهت محاولاتك المجانية. انضم لقائمة الانتظار للحصول على المزيد.",
+    "GENERATION_FAILED": "تعذر إنشاء المحتوى. حاول مرة أخرى.",
+    "EMPTY_RESPONSE": "لم يتم استلام المحتوى. حاول مرة أخرى.",
+    "OUTPUT_VALIDATION_FAILED": "تعذر معالجة النتيجة. حاول مرة أخرى.",
+    "OUTPUT_SCHEMA_INVALID": "فشلت معالجة المخرجات. حاول مرة أخرى.",
+    "CLAIM_VALIDATION_FAILED": "يحتوي المحتوى على عبارات غير مسموح بها. حاول تغيير المدخلات.",
+    "PERSISTENCE_FAILED": "تعذر حفظ النتيجة. حاول مرة أخرى.",
+    "MISSING_API_KEY": "الخدمة غير متاحة حالياً. حاول لاحقاً.",
+    "PROVIDER_ERROR": "حدث خطأ في الخدمة. حاول مرة أخرى.",
+    "TIMEOUT": "استغرقت العملية وقتاً طويلاً. حاول مرة أخرى.",
+    "INTERNAL_ERROR": "حدث خطأ غير متوقع. حاول مرة أخرى.",
+    "SERVICE_UNAVAILABLE": "الخدمة غير متاحة حالياً. حاول لاحقاً.",
+    "WAITLIST_INVALID_EMAIL": "البريد الإلكتروني غير صالح. يرجى إدخال بريد صحيح.",
+    "WAITLIST_ERROR": "حدث خطأ أثناء التسجيل. حاول مرة أخرى."
+  }
+}
