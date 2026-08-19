@@ -18,7 +18,23 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { z } from "zod";
 import type { GeneratedContent, ArabicStyle, ContentType } from "@/types/content";
-import { ARABIC_STYLE_LABELS, CONTENT_TYPE_LABELS } from "@/types/content";
+
+const ARABIC_STYLE_LABELS: Record<ArabicStyle, string> = {
+  saudi_marketing: "سعودي تسويقي",
+  gulf_premium: "خليجي فخم",
+  egyptian_colloquial: "مصري عامية",
+  white_arabic: "عربية بيضاء",
+  formal_b2b: "فصحى أعمال",
+};
+
+const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
+  sponsored_ad: "إعلان ممول",
+  interactive_post: "منشور تفاعلي",
+  ecommerce_product: "وصف منتج",
+  real_estate: "وصف عقار",
+  short_video_script: "سكريبت فيديو",
+  marketing_email: "إيميل تسويقي",
+};
 import type {
   TestCaseExpectations,
   DeterministicScore,

@@ -4,8 +4,8 @@
     "category": "real_estate",
     "name": "شقة للبيع بالتجمع الخامس",
     "input": {
-      "contentType": "property_description",
-      "arabicStyle": "egyptian",
+      "contentType": "real_estate",
+      "arabicStyle": "egyptian_colloquial",
       "rawInput": "شقة 220 متر في النرجس التجمع الخامس، بحري صريح، 3 نوم و3 حمام، استلام فوري"
     },
     "criteria": [
@@ -30,8 +30,8 @@
     "category": "real_estate",
     "name": "فيلا فاخرة في دبي",
     "input": {
-      "contentType": "property_description",
-      "arabicStyle": "gulf",
+      "contentType": "real_estate",
+      "arabicStyle": "gulf_premium",
       "rawInput": "فيلا مستقلة 5 غرف نوم في دبي هيلز استيت، مسبح خاص وإطلالة على الجولف"
     },
     "criteria": [
@@ -53,8 +53,8 @@
     "category": "real_estate",
     "name": "شاليه بالساحل الشمالي",
     "input": {
-      "contentType": "social_post",
-      "arabicStyle": "egyptian",
+      "contentType": "interactive_post",
+      "arabicStyle": "egyptian_colloquial",
       "rawInput": "شاليه 110 متر بريفيرا الساحل الشمالي، صف أول على البحر، مفروش بالكامل"
     },
     "criteria": [
@@ -78,8 +78,8 @@
     "category": "real_estate",
     "name": "مقر إداري بالرياض",
     "input": {
-      "contentType": "property_description",
-      "arabicStyle": "formal",
+      "contentType": "real_estate",
+      "arabicStyle": "formal_b2b",
       "rawInput": "مبنى إداري مساحة 1500 متر مربع على طريق الملك فهد بالرياض، مواقف سيارات خاصة"
     },
     "criteria": [
@@ -100,7 +100,7 @@
     "category": "product",
     "name": "سماعات لاسلكية عازلة للضوضاء",
     "input": {
-      "contentType": "product_description",
+      "contentType": "ecommerce_product",
       "arabicStyle": "white_arabic",
       "rawInput": "سماعة بلوتوث لاسلكية، عزل ضوضاء نشط ANC، بطارية 35 ساعة، مقاومة للعرق IPX4"
     },
@@ -122,8 +122,8 @@
     "category": "product",
     "name": "قهوة مختصة كولومبية",
     "input": {
-      "contentType": "social_post",
-      "arabicStyle": "gulf",
+      "contentType": "interactive_post",
+      "arabicStyle": "gulf_premium",
       "rawInput": "بن قهوة مختصة محصول كولومبي معالجة مجففة، إيحاءات شوكولاتة وتوت، تحميص طازج"
     },
     "criteria": [
@@ -145,7 +145,7 @@
     "category": "product",
     "name": "كريم عناية بالبشرة طبيعي",
     "input": {
-      "contentType": "product_description",
+      "contentType": "ecommerce_product",
       "arabicStyle": "white_arabic",
       "rawInput": "كريم ترطيب وتفتيح بحمض الهيالورونيك وخلاصة العرقسوس، خالٍ من العطور والبارابين"
     },
@@ -167,8 +167,8 @@
     "category": "product",
     "name": "حذاء جري خفيف الوزن",
     "input": {
-      "contentType": "social_post",
-      "arabicStyle": "egyptian",
+      "contentType": "interactive_post",
+      "arabicStyle": "egyptian_colloquial",
       "rawInput": "كوتشي جري خفيف جداً، نعل ممتص للصدمات، قماش شبكي يسمح بالتهوية، مريح للمشي الطويل"
     },
     "criteria": [
@@ -189,7 +189,7 @@
     "category": "product_collection",
     "name": "مجموعة العناية بالشعر الصيفية",
     "input": {
-      "contentType": "product_collection",
+      "contentType": "ecommerce_product",
       "arabicStyle": "white_arabic",
       "rawInput": "مجموعة صيفية للعناية بالشعر: شامبو خالٍ من السلفات، ماسك ترطيب عميق، وسيروم حماية من حرارة الشمس"
     },
@@ -212,8 +212,8 @@
     "category": "product_collection",
     "name": "باقة عطور المناسبات",
     "input": {
-      "contentType": "product_collection",
-      "arabicStyle": "gulf",
+      "contentType": "ecommerce_product",
+      "arabicStyle": "gulf_premium",
       "rawInput": "مجموعة 3 عطور شرقية: عطر عود مروكي، عطر مسك أبيض، وعطر عنبر ملكي في صندوق إهداء فاخر"
     },
     "criteria": [
@@ -235,8 +235,8 @@
     "category": "product_collection",
     "name": "تشكيلة أثاث المكاتب المنزلية",
     "input": {
-      "contentType": "product_collection",
-      "arabicStyle": "formal",
+      "contentType": "ecommerce_product",
+      "arabicStyle": "formal_b2b",
       "rawInput": "مجموعة المكتب المنزلي المتكامل: مكتب خشبي مدمج، كرسي مريح داعم للفقرات، ووحدة إضاءة ليد ذكية"
     },
     "criteria": [
@@ -254,7 +254,7 @@
     "category": "incomplete_input",
     "name": "مكتب إداري بدون تفاصيل",
     "input": {
-      "contentType": "property_description",
+      "contentType": "real_estate",
       "arabicStyle": "white_arabic",
       "rawInput": "مكتب 70 متر في العاصمة الإدارية"
     },
@@ -279,8 +279,8 @@
     "category": "incomplete_input",
     "name": "عطر بدون نوتات",
     "input": {
-      "contentType": "product_description",
-      "arabicStyle": "gulf",
+      "contentType": "ecommerce_product",
+      "arabicStyle": "gulf_premium",
       "rawInput": "عطر جديد للرجال 100 مل"
     },
     "criteria": [
@@ -304,8 +304,8 @@
     "category": "incomplete_input",
     "name": "أرض للبيع ببيانات مقتضبة",
     "input": {
-      "contentType": "property_description",
-      "arabicStyle": "formal",
+      "contentType": "real_estate",
+      "arabicStyle": "formal_b2b",
       "rawInput": "أرض سكنية 500 متر في حي النرجس بالرياض"
     },
     "criteria": [
@@ -329,8 +329,8 @@
     "category": "poor_input",
     "name": "إدخال عامي فوضوي لعقار",
     "input": {
-      "contentType": "social_post",
-      "arabicStyle": "egyptian",
+      "contentType": "interactive_post",
+      "arabicStyle": "egyptian_colloquial",
       "rawInput": "شقه حلوه اوى ف المعادى تانى نمره م الكورنيش دور رابع وفيها اسانسير ومتبهدلتش خالص"
     },
     "criteria": [
@@ -353,7 +353,7 @@
     "category": "poor_input",
     "name": "مواصفات منتج مكتوبة بكلمات متفرقة",
     "input": {
-      "contentType": "product_description",
+      "contentType": "ecommerce_product",
       "arabicStyle": "white_arabic",
       "rawInput": "باور بنك سريع 20000 اسود صغير يشحن 3 اجهزة"
     },
@@ -375,8 +375,8 @@
     "category": "poor_input",
     "name": "مدخل غير منسق بتكرار مفرط",
     "input": {
-      "contentType": "social_post",
-      "arabicStyle": "gulf",
+      "contentType": "interactive_post",
+      "arabicStyle": "gulf_premium",
       "rawInput": "عبايات روعه روعه فخمة جدا قماش كريب كوري اسود سواد الليل وتطريز يدوي فاخر مرررره"
     },
     "criteria": [
@@ -397,7 +397,7 @@
     "category": "mixed_language",
     "name": "منتج إلكتروني بمصطلحات تقنية إنجليزية",
     "input": {
-      "contentType": "product_description",
+      "contentType": "ecommerce_product",
       "arabicStyle": "white_arabic",
       "rawInput": "Mechanical Keyboard RGB Wireless مع Hot-swappable switches وبطارية 4000mAh تدعم Bluetooth و 2.4Ghz"
     },
@@ -416,8 +416,8 @@
     "category": "mixed_language",
     "name": "عقار استثماري بمصطلحات تسويقية هجينة",
     "input": {
-      "contentType": "social_post",
-      "arabicStyle": "egyptian",
+      "contentType": "interactive_post",
+      "arabicStyle": "egyptian_colloquial",
       "rawInput": "Studio fully finished في New Cairo بفيو Open Park وقريب من Golden Square مع High ROI"
     },
     "criteria": [
@@ -435,7 +435,7 @@
     "category": "mixed_language",
     "name": "تطبيق SaaS لإدارة المشاريع",
     "input": {
-      "contentType": "social_post",
+      "contentType": "interactive_post",
       "arabicStyle": "white_arabic",
       "rawInput": "SaaS Platform لإدارة الـ Tasks والـ Sprints مع Real-time collaboration و Integration مع Slack و GitHub"
     },
@@ -458,8 +458,8 @@
     "category": "dialect_stress",
     "name": "اختبار اللهجة المصرية الصرفة",
     "input": {
-      "contentType": "social_post",
-      "arabicStyle": "egyptian",
+      "contentType": "interactive_post",
+      "arabicStyle": "egyptian_colloquial",
       "rawInput": "باقة دروس تأسيس في الرياضيات للأطفال، متابعة أسبوعية وتمارين تفاعلية تبسط المنهج"
     },
     "criteria": [
@@ -480,8 +480,8 @@
     "category": "dialect_stress",
     "name": "اختبار الأسلوب الخليجي الراقي",
     "input": {
-      "contentType": "product_description",
-      "arabicStyle": "gulf",
+      "contentType": "ecommerce_product",
+      "arabicStyle": "gulf_premium",
       "rawInput": "دهن عود كلاكاسي معتق طبيعي 100%، فوحان عالي وثبات يدوم لأيام"
     },
     "criteria": [
@@ -503,8 +503,8 @@
     "category": "dialect_stress",
     "name": "اختبار الفصحى المعاصرة الموجهة للشركات",
     "input": {
-      "contentType": "product_description",
-      "arabicStyle": "formal",
+      "contentType": "ecommerce_product",
+      "arabicStyle": "formal_b2b",
       "rawInput": "برنامج محاسبة سحابي معتمد من هيئة الزكاة والضريبة والجمارك لإصدار الفوترة الإلكترونية"
     },
     "criteria": [
@@ -525,7 +525,7 @@
     "category": "dialect_stress",
     "name": "اختبار العربية البيضاء التسويقية العابرة للحدود",
     "input": {
-      "contentType": "social_post",
+      "contentType": "interactive_post",
       "arabicStyle": "white_arabic",
       "rawInput": "دورة تدريبية أونلاين لتعلم مهارات التفاوض وإغلاق الصفقات للمحترفين في الشرق الأوسط"
     },

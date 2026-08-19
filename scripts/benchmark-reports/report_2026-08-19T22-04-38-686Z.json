@@ -1,0 +1,1264 @@
+{
+  "timestamp": "2026-08-19T22:04:38.687Z",
+  "model": "gemini-2.5-flash-lite",
+  "promptVersion": "1.0.0",
+  "datasetVersion": "1.0.0",
+  "totalCases": 24,
+  "passedCases": 23,
+  "overallDeterministicScore": 96,
+  "overallCombinedScore": 96,
+  "categoryScores": {},
+  "results": [
+    {
+      "testCaseId": "re-01",
+      "testCaseName": "شقة للبيع بالتجمع الخامس",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2321
+    },
+    {
+      "testCaseId": "re-02",
+      "testCaseName": "فيلا فاخرة في دبي",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2174
+    },
+    {
+      "testCaseId": "re-03",
+      "testCaseName": "شاليه بالساحل الشمالي",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2960
+    },
+    {
+      "testCaseId": "re-04",
+      "testCaseName": "مقر إداري بالرياض",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2192
+    },
+    {
+      "testCaseId": "prod-01",
+      "testCaseName": "سماعات لاسلكية عازلة للضوضاء",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2527
+    },
+    {
+      "testCaseId": "prod-02",
+      "testCaseName": "قهوة مختصة كولومبية",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2462
+    },
+    {
+      "testCaseId": "prod-03",
+      "testCaseName": "كريم عناية بالبشرة طبيعي",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2688
+    },
+    {
+      "testCaseId": "prod-04",
+      "testCaseName": "حذاء جري خفيف الوزن",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2906
+    },
+    {
+      "testCaseId": "coll-01",
+      "testCaseName": "مجموعة العناية بالشعر الصيفية",
+      "category": "product_collection",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 3232
+    },
+    {
+      "testCaseId": "coll-02",
+      "testCaseName": "باقة عطور المناسبات",
+      "category": "product_collection",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2844
+    },
+    {
+      "testCaseId": "coll-03",
+      "testCaseName": "تشكيلة أثاث المكاتب المنزلية",
+      "category": "product_collection",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2524
+    },
+    {
+      "testCaseId": "incomp-01",
+      "testCaseName": "مكتب إداري بدون تفاصيل",
+      "category": "incomplete_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2407
+    },
+    {
+      "testCaseId": "incomp-02",
+      "testCaseName": "عطر بدون نوتات",
+      "category": "incomplete_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2128
+    },
+    {
+      "testCaseId": "incomp-03",
+      "testCaseName": "أرض للبيع ببيانات مقتضبة",
+      "category": "incomplete_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2123
+    },
+    {
+      "testCaseId": "poor-01",
+      "testCaseName": "إدخال عامي فوضوي لعقار",
+      "category": "poor_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2310
+    },
+    {
+      "testCaseId": "poor-02",
+      "testCaseName": "مواصفات منتج مكتوبة بكلمات متفرقة",
+      "category": "poor_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2280
+    },
+    {
+      "testCaseId": "poor-03",
+      "testCaseName": "مدخل غير منسق بتكرار مفرط",
+      "category": "poor_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1957
+    },
+    {
+      "testCaseId": "mix-01",
+      "testCaseName": "منتج إلكتروني بمصطلحات تقنية إنجليزية",
+      "category": "mixed_language",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 3069
+    },
+    {
+      "testCaseId": "mix-02",
+      "testCaseName": "عقار استثماري بمصطلحات تسويقية هجينة",
+      "category": "mixed_language",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2288
+    },
+    {
+      "testCaseId": "mix-03",
+      "testCaseName": "تطبيق SaaS لإدارة المشاريع",
+      "category": "mixed_language",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": false,
+            "detail": "مفقود: Sprints"
+          }
+        ],
+        "score": 89,
+        "passed": false,
+        "details": [
+          "❌ mustContain: مفقود: Sprints"
+        ]
+      },
+      "claimViolations": [],
+      "combinedScore": 0,
+      "latencyMs": 2667
+    },
+    {
+      "testCaseId": "dialect-01",
+      "testCaseName": "اختبار اللهجة المصرية الصرفة",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1854
+    },
+    {
+      "testCaseId": "dialect-02",
+      "testCaseName": "اختبار الأسلوب الخليجي الراقي",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2458
+    },
+    {
+      "testCaseId": "dialect-03",
+      "testCaseName": "اختبار الفصحى المعاصرة الموجهة للشركات",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2410
+    },
+    {
+      "testCaseId": "dialect-04",
+      "testCaseName": "اختبار العربية البيضاء التسويقية العابرة للحدود",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2269
+    }
+  ]
+}

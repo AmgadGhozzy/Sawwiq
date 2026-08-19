@@ -16,11 +16,12 @@ config({ path: ".env" });
 import dataset from "../lib/evaluation/dataset.json";
 import { aiConfig, PROMPT_VERSION, DATASET_VERSION } from "../lib/config";
 import type { EvaluationTestCase, BenchmarkReport, TestCaseResult } from "../lib/evaluation/types";
-import { GeminiProvider } from "../lib/ai/gemini";
+import { ProductionGenerationAdapter } from "../lib/ai/productionAdapter";
 import { evaluateDeterministic, evaluateSemantic, computeCombinedScore } from "../lib/evaluation/evaluator";
 
 const runSemantic = process.argv.includes("--semantic");
 const saveOutput = process.argv.includes("--save-output");
+const compareBaseline = process.argv.includes("--compare-baseline");
 
 async function runFullBenchmark() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -37,9 +38,21 @@ async function runFullBenchmark() {
   console.log(`Dataset Ver:   ${DATASET_VERSION}`);
   console.log(`Test Cases:    ${dataset.length}`);
   console.log(`Semantic Eval: ${runSemantic ? "Enabled" : "Disabled"}`);
-  console.log(`Save Output:   ${saveOutput ? "Enabled" : "Disabled"}\n`);
+  console.log(`Save Output:   ${saveOutput ? "Enabled" : "Disabled"}`);
+  console.log(`Compare Base:  ${compareBaseline ? "Enabled" : "Disabled"}\n`);
 
-  const provider = new GeminiProvider();
+  let baselineReport: BenchmarkReport | null = null;
+  if (compareBaseline) {
+    const baselinePath = path.join(__dirname, "benchmark-reports", "baseline.json");
+    if (fs.existsSync(baselinePath)) {
+      baselineReport = JSON.parse(fs.readFileSync(baselinePath, "utf-8"));
+      console.log(`📊 Loaded baseline from ${baselineReport?.timestamp}\n`);
+    } else {
+      console.log(`⚠️ Baseline file not found at ${baselinePath}. Continuing without comparison.\n`);
+    }
+  }
+
+  const provider = new ProductionGenerationAdapter();
   const testCases = dataset as EvaluationTestCase[];
 
   const results: TestCaseResult[] = [];
@@ -57,14 +70,15 @@ async function runFullBenchmark() {
         const inputPayload = { ...tc.input, platform: "tiktok" } as import("../types/content").GenerationInput;
         const generationResult = await provider.generateContent(inputPayload);
         generatedContent = generationResult.content;
-      } catch (err: any) {
-        console.log(`❌ FAIL: ${err.message}`);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.log(`❌ FAIL: ${message}`);
         results.push({
           testCaseId: tc.id,
           testCaseName: tc.name,
           category: tc.category,
-          deterministic: { checks: [], score: 0, passed: false, details: [err.message] },
-          claimViolations: [err.message],
+          deterministic: { checks: [], score: 0, passed: false, details: [message] },
+          claimViolations: [message],
           combinedScore: 0,
           latencyMs: Date.now() - startTime
         });
@@ -159,11 +173,50 @@ async function runFullBenchmark() {
   }
 
   const structuralPassRate = Math.round((passedTotal / testCases.length) * 100);
-  const productionReadiness = structuralPassRate === 100 ? "PASS" : "FAIL";
   const semScoreAvg = runSemantic && passedTotal > 0 ? (totalSemScore / passedTotal).toFixed(1) : "N/A";
+
+  // Baseline Comparison Logic
+  let newRegressions = 0;
+  let fixedRegressions = 0;
+  let unchangedFailures = 0;
+  let delta = 0;
+
+  if (baselineReport) {
+    delta = structuralPassRate - baselineReport.overallDeterministicScore;
+    
+    for (const r of results) {
+      const baselineRes = baselineReport.results.find(br => br.testCaseId === r.testCaseId);
+      const isPass = r.deterministic.passed && r.claimViolations.length === 0;
+      
+      if (baselineRes) {
+        const baselinePass = baselineRes.deterministic.passed && baselineRes.claimViolations.length === 0;
+        if (baselinePass && !isPass) newRegressions++;
+        else if (!baselinePass && isPass) fixedRegressions++;
+        else if (!baselinePass && !isPass) unchangedFailures++;
+      }
+    }
+  }
+
+  // Production Gate Logic
+  const productionGateFailed = 
+    structuralPassRate < 100 || 
+    newRegressions > 0 || 
+    failureReasons.claimViolation > 0;
+
+  const productionReadiness = productionGateFailed ? "FAIL ❌" : "PASS ✅";
 
   console.log("\n" + "=".repeat(70));
   console.log(`Benchmark: ${structuralPassRate}%\n`);
+  
+  if (baselineReport) {
+    console.log(`Baseline Compare`);
+    console.log(`  Baseline Score:     ${baselineReport.overallDeterministicScore}%`);
+    console.log(`  Candidate Score:    ${structuralPassRate}%`);
+    console.log(`  Delta:              ${delta > 0 ? "+" : ""}${delta}%`);
+    console.log(`  New Regressions:    ${newRegressions}`);
+    console.log(`  Fixed Regressions:  ${fixedRegressions}`);
+    console.log(`  Unchanged Failures: ${unchangedFailures}\n`);
+  }
   
   console.log(`Structural Gate`);
   console.log(`  Passed: ${passedTotal}/${testCases.length}`);
@@ -183,7 +236,6 @@ async function runFullBenchmark() {
 
   if (regressions.length > 0) {
     console.log(`\nTop regressions`);
-    // Deduplicate regressions per test case for cleaner output
     const uniqueRegressions = Array.from(new Set(regressions));
     uniqueRegressions.slice(0, 5).forEach(reg => console.log(`  ${reg}`));
   }
