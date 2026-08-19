@@ -1,36 +1,14 @@
-import { z } from "npm:zod";
-import { Type } from "npm:@google/genai";
-
-// ---------------------------------------------------------------------------
-// Input validation (Zod)
-// ---------------------------------------------------------------------------
-
-export const inputSchema = z.object({
-  rawInput: z.string().min(10, "الوصف قصير جدًا").max(2000),
-  platform: z.enum(["tiktok", "instagram", "linkedin", "x_twitter"]),
-  contentType: z.enum([
-    "sponsored_ad",
-    "interactive_post",
-    "ecommerce_product",
-    "real_estate",
-    "short_video_script",
-    "marketing_email",
-  ]),
-  arabicStyle: z.enum([
-    "saudi_marketing",
-    "gulf_premium",
-    "egyptian_colloquial",
-    "white_arabic",
-    "formal_b2b",
-  ]),
-});
+import { Type } from "@google/genai";
+import { z } from "zod";
+export {
+  generateInputSchema as inputSchema,
+  generatedContentSchema,
+} from "@/lib/validation/generation";
 
 export type InputDTO = z.infer<typeof inputSchema>;
 
-// ---------------------------------------------------------------------------
-// Gemini Output Schema
-// ---------------------------------------------------------------------------
-
+// We keep this local because it imports from @google/genai, 
+// and we don't want to bundle @google/genai in Next.js client code.
 export const GEMINI_RESPONSE_SCHEMA = {
   type: Type.OBJECT,
   properties: {

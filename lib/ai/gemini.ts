@@ -14,9 +14,9 @@ import {
   generatedContentSchema,
   CONTENT_FIELD_DESCRIPTIONS,
 } from "@/lib/validation/generation";
-import { buildSystemPrompt, buildUserPrompt } from "@/lib/prompts/promptBuilder";
+import { buildSystemPrompt, buildUserPrompt } from "../../supabase/functions/generate/prompts/promptBuilder.ts";
 import { aiConfig } from "@/lib/config";
-import { validateClaims } from "@/lib/validation/claimValidator";
+import { validateClaims } from "../../supabase/functions/generate/validation/claimValidator.ts";
 
 // ---------------------------------------------------------------------------
 // Derived JSON Schema

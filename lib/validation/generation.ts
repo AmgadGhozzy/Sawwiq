@@ -51,10 +51,6 @@ export const CONTENT_FIELD_DESCRIPTIONS = {
   hashtags: "هاشتاغات مرتبطة بالموضوع",
 } as const;
 
-export const CONTENT_REQUIRED_FIELDS = Object.keys(
-  CONTENT_FIELD_DESCRIPTIONS
-) as (keyof typeof CONTENT_FIELD_DESCRIPTIONS)[];
-
 // ---------------------------------------------------------------------------
 // Output Validation (validate AI response)
 //
