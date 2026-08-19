@@ -1,0 +1,1355 @@
+{
+  "timestamp": "2026-08-19T07:05:16.309Z",
+  "model": "gemini-3.1-flash-lite",
+  "promptVersion": "1.0.0",
+  "datasetVersion": "1.0.0",
+  "totalCases": 24,
+  "passedCases": 19,
+  "overallDeterministicScore": 79,
+  "overallCombinedScore": 79,
+  "categoryScores": {},
+  "results": [
+    {
+      "testCaseId": "re-01",
+      "testCaseName": "شقة للبيع بالتجمع الخامس",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [],
+        "score": 0,
+        "passed": false,
+        "details": [
+          "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"يضمن\") لكن غير مذكور في المدخلات"
+        ]
+      },
+      "claimViolations": [
+        "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"يضمن\") لكن غير مذكور في المدخلات"
+      ],
+      "combinedScore": 0,
+      "latencyMs": 1973
+    },
+    {
+      "testCaseId": "re-02",
+      "testCaseName": "فيلا فاخرة في دبي",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1882,
+      "output": {
+        "title": "فخامة الخصوصية في دبي هيلز استيت",
+        "hook": "هل تبحث عن مسكن يجمع بين هدوء الطبيعة وخصوصية الفيلا المستقلة؟",
+        "body": "نقدم لكم فيلا مستقلة بتصميم مميز في قلب دبي هيلز استيت، مصممة لتلبي تطلعات الباحثين عن الرفاهية والخصوصية. تتميز الفيلا بوجود مسبح خاص يمنحك مساحة للاستجمام داخل منزلك، بالإضافة إلى إطلالة مباشرة على ملعب الجولف تضفي طابعًا من الهدوء والجمال على أوقاتك. تتكون الفيلا من 5 غرف نوم واسعة، مما يوفر مرونة عالية في توزيع المساحات لتناسب احتياجات عائلتك.",
+        "callToAction": "تواصل معنا اليوم لمعرفة المزيد عن تفاصيل الفيلا وترتيب موعد للزيارة.",
+        "hashtags": [
+          "عقارات دبي",
+          "دبي هيلز",
+          "فلل للبيع",
+          "عقارات فاخرة",
+          "دبي"
+        ]
+      }
+    },
+    {
+      "testCaseId": "re-03",
+      "testCaseName": "شاليه بالساحل الشمالي",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1797,
+      "output": {
+        "title": "شاليهك في الصف الأول على البحر بريفيرا الساحل",
+        "hook": "تخيل تصحى كل يوم على صوت البحر مباشرة من شاليهك.",
+        "body": "لو بتدور على مكان يجمع بين الاسترخاء والموقع المميز، الشاليه ده بمساحة 110 متر في ريفيرا الساحل الشمالي بيقدملك تجربة مميزة بوقوعه في الصف الأول على البحر. الشاليه مفروش بالكامل، يعني هتاخد مفاتيحك وتستلم مكان جاهز للسكن مباشرة من غير أي مجهود في التجهيز.",
+        "callToAction": "تواصل معانا دلوقتي لمعرفة التفاصيل وتحديد موعد للمعاينة.",
+        "hashtags": [
+          "الساحل_الشمالي",
+          "ريفيرا",
+          "شاليهات_للبيع",
+          "عقارات_مصر",
+          "مصيف",
+          "البحر_الأبيض"
+        ]
+      }
+    },
+    {
+      "testCaseId": "re-04",
+      "testCaseName": "مقر إداري بالرياض",
+      "category": "real_estate",
+      "deterministic": {
+        "checks": [],
+        "score": 0,
+        "passed": false,
+        "details": [
+          "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"ضمان\") لكن غير مذكور في المدخلات"
+        ]
+      },
+      "claimViolations": [
+        "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"ضمان\") لكن غير مذكور في المدخلات"
+      ],
+      "combinedScore": 0,
+      "latencyMs": 1795
+    },
+    {
+      "testCaseId": "prod-01",
+      "testCaseName": "سماعات لاسلكية عازلة للضوضاء",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1897,
+      "output": {
+        "title": "استمتع بصفاء الصوت وحرية الحركة",
+        "hook": "هل تبحث عن تجربة صوتية غامرة ترافقك في كل تفاصيل يومك؟",
+        "body": "مع سماعة البلوتوث الجديدة، يمكنك الآن عزل ضوضاء العالم من حولك بفضل تقنية العزل النشط ANC، لتستمتع بتركيز كامل أو تجربة استماع نقية. صُممت السماعة لتكون رفيقك الدائم، حيث تمنحك بطارية تدوم حتى 35 ساعة من التشغيل المتواصل، مما يعني استمرارية لأيام دون الحاجة للقلق بشأن الشحن المتكرر. ولأننا نهتم بنشاطك، تأتي السماعة بمعيار IPX4 لمقاومة العرق، لتكون خيارك المثالي أثناء ممارسة الرياضة أو في تنقلاتك اليومية.",
+        "callToAction": "اطلب سماعاتك الآن واستمتع بتجربة صوتية لا تنقطع.",
+        "hashtags": [
+          "سماعات",
+          "صوتيات",
+          "تقنية",
+          "سماعات بلوتوث",
+          "رياضة",
+          "عزل الضوضاء"
+        ]
+      }
+    },
+    {
+      "testCaseId": "prod-02",
+      "testCaseName": "قهوة مختصة كولومبية",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1966,
+      "output": {
+        "title": "تجربة كولومبية بلمسة شوكولاتة وتوت",
+        "hook": "تبحث عن كوب قهوة يجمع بين توازن الإيحاءات وجودة التحميص؟",
+        "body": "استمتع بمحصول كولومبي فاخر، تم اختياره بعناية ومعالجته بالطريقة المجففة ليقدم لك قواماً غنياً. يبرز المحصول بإيحاءات واضحة من الشوكولاتة والتوت، مما يمنحك تجربة مذاق متناغمة.\n\nنهتم بتقديم البن طازجاً لنضمن وصول نكهات المحصول الأصلية إلى كوبك بكل تفاصيلها.",
+        "callToAction": "اطلب محصولك الكولومبي الطازج الآن واستمتع بتحضير قهوتك المختصة.",
+        "hashtags": [
+          "قهوة_مختصة",
+          "محصول_كولومبي",
+          "قهوة_طازجة",
+          "عشاق_القهوة",
+          "محامص_القهوة",
+          "تذوق_القهوة"
+        ]
+      }
+    },
+    {
+      "testCaseId": "prod-03",
+      "testCaseName": "كريم عناية بالبشرة طبيعي",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2200,
+      "output": {
+        "title": "ترطيب وتفتيح في خطوة واحدة",
+        "hook": "هل تبحثين عن روتين عناية يجمع بين الترطيب العميق وتوحيد لون البشرة بتركيبة آمنة؟",
+        "body": "نقدم لكِ كريم العناية المتكامل بتركيبة غنية بحمض الهيالورونيك الذي يمنح بشرتك ترطيباً مكثفاً، وخلاصة العرقسوس المعروفة بخصائصها في تفتيح وتوحيد لون البشرة. صُمم هذا الكريم ليكون خياراً مثالياً لمن يبحثون عن النقاء، فهو خالٍ تماماً من العطور والبارابين، مما يجعله لطيفاً على البشرة ومناسباً للاستخدام اليومي ضمن روتين العناية الخاص بكِ.",
+        "callToAction": "اطلبي الكريم الآن وجددي حيوية بشرتك.",
+        "hashtags": [
+          "عناية بالبشرة",
+          "جمال",
+          "بشرة صحية",
+          "ترطيب البشرة",
+          "عناية طبيعية",
+          "تفتيح البشرة"
+        ]
+      }
+    },
+    {
+      "testCaseId": "prod-04",
+      "testCaseName": "حذاء جري خفيف الوزن",
+      "category": "product",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1522,
+      "output": {
+        "title": "خفة وراحة في كل خطوة",
+        "hook": "لو بتدور على كوتشي يريحك في المشي الطويل، ده اختيارك المثالي.",
+        "body": "الكوتشي ده مصمم عشان يجمع بين الوزن الخفيف جداً والخامة الشبكية اللي بتسمح بتهوية ممتازة لقدمك. كمان بيجي بنعل ممتص للصدمات عشان يقلل الضغط أثناء الحركة، وده بيخليه مريح جداً في المشاوير الطويلة خلال يومك.",
+        "callToAction": "اطلبه دلوقتي وجرب الراحة بنفسك.",
+        "hashtags": [
+          "كوتشي",
+          "راحة",
+          "أحذية",
+          "مشي",
+          "أناقة",
+          "رياضة"
+        ]
+      }
+    },
+    {
+      "testCaseId": "coll-01",
+      "testCaseName": "مجموعة العناية بالشعر الصيفية",
+      "category": "product_collection",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1548,
+      "output": {
+        "title": "عناية متكاملة لشعرك هذا الصيف",
+        "hook": "هل تبحثين عن روتين يحافظ على حيوية شعرك تحت شمس الصيف؟",
+        "body": "نقدم لك مجموعة العناية الصيفية المصممة خصيصاً لتلبية احتياجات شعرك في الأجواء الحارة. تتكون المجموعة من شامبو خالٍ من السلفات للتنظيف اللطيف، وماسك للترطيب العميق يعيد لشعرك حيويته، بالإضافة إلى سيروم مصمم خصيصاً لتوفير طبقة حماية من حرارة الشمس. هذه المنتجات تعمل معاً لتمنحك عناية متوازنة وشعراً محمياً طوال الموسم.",
+        "callToAction": "استكشفي المجموعة الكاملة الآن",
+        "hashtags": [
+          "عناية بالشعر",
+          "صيف",
+          "جمال",
+          "شعر صحي",
+          "روتين العناية",
+          "ترطيب الشعر"
+        ]
+      }
+    },
+    {
+      "testCaseId": "coll-02",
+      "testCaseName": "باقة عطور المناسبات",
+      "category": "product_collection",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1689,
+      "output": {
+        "title": "ثلاثية العطور الشرقية في صندوق الإهداء",
+        "hook": "اكتشف توازناً عطرياً يجمع بين أصالة الشرق ونقاء المكونات في مجموعة واحدة.",
+        "body": "نقدم لك مجموعة مختارة بعناية تضم ثلاثة عطور شرقية مميزة: عطر العود المروكي، عطر المسك الأبيض، وعطر العنبر الملكي. صُممت هذه المجموعة لتلبي ذائقتك في مختلف الأوقات، حيث يمنحك العود المروكي طابعاً غنياً، بينما يضفي المسك الأبيض لمسة من النقاء، ويكمل العنبر الملكي هذه التجربة بعبق فخم. تأتي العطور في صندوق إهداء فاخر يجعلها خياراً مثالياً لمن تحب أو إضافة قيمة لمقتنياتك الشخصية.",
+        "callToAction": "اطلب مجموعتك الآن واستمتع بتجربة عطرية متكاملة.",
+        "hashtags": [
+          "عطور",
+          "عطور_شرقية",
+          "عود_مروكي",
+          "مسك",
+          "عنبر",
+          "هدايا_فاخرة",
+          "بخور_وعطور"
+        ]
+      }
+    },
+    {
+      "testCaseId": "coll-03",
+      "testCaseName": "تشكيلة أثاث المكاتب المنزلية",
+      "category": "product_collection",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1924,
+      "output": {
+        "title": "ارتقِ ببيئة عملك مع مجموعة المكتب المنزلي المتكامل",
+        "hook": "هل تبحث عن التوازن المثالي بين الراحة والتركيز في مساحة عملك الخاصة؟",
+        "body": "صممنا لك مجموعة المكتب المنزلي المتكامل لتكون شريكك في إنجاز مهامك اليومية بكفاءة. تضم المجموعة مكتباً خشبياً مدمجاً يمنحك مساحة منظمة، وكرسياً مصمماً بعناية لدعم الفقرات وتوفير الراحة خلال ساعات العمل الطويلة، بالإضافة إلى وحدة إضاءة ليد ذكية تمنحك تحكماً أفضل في أجواء مكتبك. هذه المجموعة تجمع بين العملية والتصميم المتناغم لتجعل من منزلك بيئة عمل متكاملة تلبي احتياجاتك الأساسية.",
+        "callToAction": "اكتشف تفاصيل المجموعة الآن وقم بتجهيز مكتبك المثالي.",
+        "hashtags": [
+          "مكتب_منزلي",
+          "تجهيزات_المكتب",
+          "بيئة_عمل",
+          "تصميم_داخلي",
+          "أثاث_مكتبي",
+          "إنتاجية"
+        ]
+      }
+    },
+    {
+      "testCaseId": "incomp-01",
+      "testCaseName": "مكتب إداري بدون تفاصيل",
+      "category": "incomplete_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1846,
+      "output": {
+        "title": "مكتبك الجديد في قلب العاصمة الإدارية",
+        "hook": "هل تبحث عن مساحة عمل تجمع بين الحيوية والموقع الاستراتيجي لتطوير أعمالك؟",
+        "body": "نقدم لك فرصة امتلاك مكتب بمساحة 70 متراً في العاصمة الإدارية، وهي مساحة توفر مرونة عالية لتصميم بيئة عمل احترافية تلائم احتياجات فريقك. اختر موقعاً يعزز من حضورك في واحدة من أبرز الوجهات التجارية الواعدة، واستفد من المساحة المتاحة لتأسيس مقر يعكس هوية عملك.",
+        "callToAction": "تواصل معنا الآن للحصول على مزيد من التفاصيل حول المكتب.",
+        "hashtags": [
+          "العاصمة_الإدارية",
+          "مكاتب_للبيع",
+          "عقارات_إدارية",
+          "استثمار_عقاري",
+          "مكتب_للعمل",
+          "عقارات_مصر"
+        ]
+      }
+    },
+    {
+      "testCaseId": "incomp-02",
+      "testCaseName": "عطر بدون نوتات",
+      "category": "incomplete_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1547,
+      "output": {
+        "title": "عطر الرجولة الجديد.. حضور لا ينسى",
+        "hook": "هل تبحث عن لمسة تعكس تفردك في كل مناسبة؟",
+        "body": "نقدم لك عطرنا الرجالي الجديد، المصمم ليرافقك في يومك بحجم 100 مل، مما يجعله رفيقك المثالي للاستخدام المتكرر. صُممت هذه التركيبة لتمنحك شعوراً بالثقة والتجدد، ولتكون إضافة أساسية لمقتنياتك الشخصية بفضل توازنه في الحجم والتركيز.",
+        "callToAction": "اطلبه الآن واستمتع برائحتك المميزة",
+        "hashtags": [
+          "عطور",
+          "عطور رجالية",
+          "عطر جديد",
+          "أناقة",
+          "عطور خليجية"
+        ]
+      }
+    },
+    {
+      "testCaseId": "incomp-03",
+      "testCaseName": "أرض للبيع ببيانات مقتضبة",
+      "category": "incomplete_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          },
+          {
+            "name": "mustNotContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1421,
+      "output": {
+        "title": "فرصة لامتلاك أرض سكنية في حي النرجس بالرياض",
+        "hook": "هل تبحث عن المساحة المثالية لبناء مستقبلك السكني في أحد أحياء الرياض الحيوية؟",
+        "body": "نطرح بين أيديكم أرضاً سكنية بمساحة 500 متر مربع في حي النرجس بالرياض. توفر هذه الأرض مساحة عملية تتيح لك مرونة واسعة في تصميم وتخطيط مسكنك الخاص وفق تطلعاتك الشخصية، ضمن موقع يتميز بكونه وجهة سكنية مطلوبة في العاصمة.",
+        "callToAction": "تواصل معنا الآن للحصول على مزيد من التفاصيل حول هذه الأرض.",
+        "hashtags": [
+          "عقارات الرياض",
+          "حي النرجس",
+          "أراضي سكنية",
+          "عقارات السعودية",
+          "استثمار عقاري"
+        ]
+      }
+    },
+    {
+      "testCaseId": "poor-01",
+      "testCaseName": "إدخال عامي فوضوي لعقار",
+      "category": "poor_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1690,
+      "output": {
+        "title": "شقة مميزة في قلب المعادي",
+        "hook": "لو بتدور على سكن يجمع بين الهدوء وقربك من أهم المحاور، الشقة دي اختيار مناسب ليك.",
+        "body": "الشقة موجودة في موقع استراتيجي بالمعادي، تحديداً تاني نمرة من الكورنيش، مما يسهل عليك التحرك في كل الاتجاهات. الوحدة تقع في الدور الرابع ومجهزة بأسانسير لراحتك.\n\nالشقة بحالة ممتازة جداً ولم تُستهلك، مما يجعلها خياراً جاهزاً للسكن المباشر.",
+        "callToAction": "تواصل معانا دلوقتي عشان تحدد ميعاد للمعاينة وتشوف الشقة على الطبيعة.",
+        "hashtags": [
+          "المعادي",
+          "عقارات_مصر",
+          "شقق_للبيع",
+          "سكن_مميز",
+          "عقارات_المعادي"
+        ]
+      }
+    },
+    {
+      "testCaseId": "poor-02",
+      "testCaseName": "مواصفات منتج مكتوبة بكلمات متفرقة",
+      "category": "poor_input",
+      "deterministic": {
+        "checks": [],
+        "score": 0,
+        "passed": false,
+        "details": [
+          "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"يضمن\") لكن غير مذكور في المدخلات"
+        ]
+      },
+      "claimViolations": [
+        "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"يضمن\") لكن غير مذكور في المدخلات"
+      ],
+      "combinedScore": 0,
+      "latencyMs": 1490
+    },
+    {
+      "testCaseId": "poor-03",
+      "testCaseName": "مدخل غير منسق بتكرار مفرط",
+      "category": "poor_input",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1275,
+      "output": {
+        "title": "أناقة السواد الفاخر",
+        "hook": "هل تبحثين عن عباية تجمع بين فخامة التصميم ودقة التفاصيل؟",
+        "body": "نقدم لكِ عباياتنا المميزة المصنوعة من قماش الكريب الكوري بجودته العالية ولونه الأسود العميق. تتميز كل قطعة بتطريز يدوي دقيق يضيف لمسة من الرقي والفخامة لإطلالتك في مختلف المناسبات.",
+        "callToAction": "اطلبي عبايتك الآن وتألقي بإطلالة استثنائية.",
+        "hashtags": [
+          "عبايات",
+          "عبايات_فخمة",
+          "أزياء_خليجية",
+          "عبايات_سوداء",
+          "تطريز_يدوي",
+          "أناقة"
+        ]
+      }
+    },
+    {
+      "testCaseId": "mix-01",
+      "testCaseName": "منتج إلكتروني بمصطلحات تقنية إنجليزية",
+      "category": "mixed_language",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 2321,
+      "output": {
+        "title": "تحكم كامل في تجربة الكتابة مع لوحة المفاتيح الميكانيكية",
+        "hook": "هل تبحث عن الأداء العالي والحرية الكاملة في تخصيص أدوات عملك؟",
+        "body": "تجمع هذه اللوحة الميكانيكية بين دقة الاستجابة ومرونة الاستخدام، حيث تتيح لك خاصية التبديل السريع للمفاتيح (Hot-swappable) تغيير المفاتيح بسهولة دون الحاجة لخبرة تقنية. استمتع بحرية التنقل بفضل خيارات الاتصال المتعددة عبر Bluetooth أو تقنية 2.4Ghz، مع بطارية بسعة 4000mAh توفر لك استمرارية في العمل. كما تضفي إضاءة RGB طابعاً عصرياً على مساحة عملك، مما يجعلها خياراً عملياً يجمع بين التخصيص والأداء.",
+        "callToAction": "اطلب لوحتك الميكانيكية الآن وخصص تجربة كتابتك.",
+        "hashtags": [
+          "لوحة_مفاتيح",
+          "تقنية",
+          "إكسسوارات_حاسوب",
+          "تطوير_العمل",
+          "أدوات_مكتبية",
+          "ميكانيكال_كيبورد"
+        ]
+      }
+    },
+    {
+      "testCaseId": "mix-02",
+      "testCaseName": "عقار استثماري بمصطلحات تسويقية هجينة",
+      "category": "mixed_language",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1342,
+      "output": {
+        "title": "استوديو متكامل في قلب القاهرة الجديدة",
+        "hook": "بتدور على وحدة جاهزة في موقع متميز يجمع بين الراحة والعائد الاستثماري؟",
+        "body": "نقدم لك استوديو بتشطيب كامل في القاهرة الجديدة، يتميز بإطلالة مباشرة على مساحة خضراء مفتوحة. الموقع يضعك بالقرب من المربع الذهبي، مما يجعله خيارًا يهتم به الباحثون عن الوحدات ذات العائد الاستثماري المرتفع.",
+        "callToAction": "تواصل معانا دلوقتي لمعرفة تفاصيل أكتر وحجز وحدتك.",
+        "hashtags": [
+          "القاهرة_الجديدة",
+          "عقارات_مصر",
+          "استثمار_عقاري",
+          "استوديو",
+          "سكن_فاخر",
+          "عقارات_القاهرة"
+        ]
+      }
+    },
+    {
+      "testCaseId": "mix-03",
+      "testCaseName": "تطبيق SaaS لإدارة المشاريع",
+      "category": "mixed_language",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1569,
+      "output": {
+        "title": "نظم مهام فريقك بفعالية أكبر",
+        "hook": "هل تبحث عن طريقة لتعزيز إنتاجية فريقك وتنسيق العمل في مكان واحد؟",
+        "body": "مع منصتنا المتخصصة، يمكنك إدارة المهام ودورات العمل (Sprints) بوضوح تام. استفد من ميزة التعاون اللحظي ليبقى فريقك على اطلاع دائم بكل المستجدات. ولتسهيل سير عملك، توفر المنصة تكاملاً مباشراً مع Slack وGitHub، مما يربط أدواتك التقنية ببيئة إدارة المهام الخاصة بك دون تعقيدات.",
+        "callToAction": "ابدأ في تنظيم مهام فريقك اليوم.",
+        "hashtags": [
+          "إدارة_المشاريع",
+          "العمل_الجماعي",
+          "برمجيات",
+          "إنتاجية",
+          "تطوير_البرمجيات",
+          "إدارة_المهام"
+        ]
+      }
+    },
+    {
+      "testCaseId": "dialect-01",
+      "testCaseName": "اختبار اللهجة المصرية الصرفة",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1608,
+      "output": {
+        "title": "أسس طفلك في الرياضيات بطريقة مبسطة",
+        "hook": "بتدور على طريقة تخلي طفلك يحب الرياضيات ويفهم أساسياتها من غير تعقيد؟",
+        "body": "باقة دروس التأسيس بتاعتنا مصممة عشان تبسط المنهج وتوصل المعلومة لطفلك بوضوح. بنعتمد على تمارين تفاعلية بتخلي التعلم تجربة ممتعة، مش مجرد حفظ للمسائل. كمان بنقدم متابعة أسبوعية عشان نضمن إن طفلك ماشي على الطريق الصح وبيستوعب كل جزء في المنهج بشكل سليم.",
+        "callToAction": "ابعت لنا رسالة دلوقتي واعرف تفاصيل الباقة وازاي تقدر تشترك لطفلك.",
+        "hashtags": [
+          "تأسيس_رياضيات",
+          "تعليم_أطفال",
+          "رياضيات_مبسطة",
+          "تطوير_التعليم",
+          "تعليم_تفاعلي",
+          "تأسيس_دراسي"
+        ]
+      }
+    },
+    {
+      "testCaseId": "dialect-02",
+      "testCaseName": "اختبار الأسلوب الخليجي الراقي",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [],
+        "score": 0,
+        "passed": false,
+        "details": [
+          "Claim validation failed: ادعاء \"specification\" موجود في المخرجات (طابق: \"خامة\") لكن غير مذكور في المدخلات"
+        ]
+      },
+      "claimViolations": [
+        "Claim validation failed: ادعاء \"specification\" موجود في المخرجات (طابق: \"خامة\") لكن غير مذكور في المدخلات"
+      ],
+      "combinedScore": 0,
+      "latencyMs": 1698
+    },
+    {
+      "testCaseId": "dialect-03",
+      "testCaseName": "اختبار الفصحى المعاصرة الموجهة للشركات",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [],
+        "score": 0,
+        "passed": false,
+        "details": [
+          "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"ضمان\") لكن غير مذكور في المدخلات"
+        ]
+      },
+      "claimViolations": [
+        "Claim validation failed: ادعاء \"guarantee\" موجود في المخرجات (طابق: \"ضمان\") لكن غير مذكور في المدخلات"
+      ],
+      "combinedScore": 0,
+      "latencyMs": 1547
+    },
+    {
+      "testCaseId": "dialect-04",
+      "testCaseName": "اختبار العربية البيضاء التسويقية العابرة للحدود",
+      "category": "dialect_stress",
+      "deterministic": {
+        "checks": [
+          {
+            "name": "fieldsPresent",
+            "passed": true
+          },
+          {
+            "name": "contentLength",
+            "passed": true
+          },
+          {
+            "name": "hashtagCount",
+            "passed": true
+          },
+          {
+            "name": "hashtagsNoHash",
+            "passed": true
+          },
+          {
+            "name": "hashtagsUnique",
+            "passed": true
+          },
+          {
+            "name": "noHtml",
+            "passed": true
+          },
+          {
+            "name": "noMarkdown",
+            "passed": true
+          },
+          {
+            "name": "noJsonArtifacts",
+            "passed": true
+          },
+          {
+            "name": "mustContain",
+            "passed": true
+          }
+        ],
+        "score": 100,
+        "passed": true,
+        "details": []
+      },
+      "claimViolations": [],
+      "combinedScore": 100,
+      "latencyMs": 1697,
+      "output": {
+        "title": "ارتقِ بمهاراتك في التفاوض وإغلاق الصفقات",
+        "hook": "هل تبحث عن أدوات عملية لتطوير أدائك المهني في سوق العمل بالشرق الأوسط؟",
+        "body": "نقدم لك دورة تدريبية أونلاين مصممة خصيصًا للمحترفين الراغبين في تعزيز قدراتهم في التفاوض. تركز الدورة على تزويدك بالمهارات الأساسية التي تساعدك على إدارة النقاشات المهنية بفعالية أكبر، مع توفير استراتيجيات واضحة لإغلاق الصفقات بنجاح. صُمم المحتوى ليناسب احتياجات السوق الإقليمي، مما يمنحك مرونة في التعلم وتطبيق المهارات في بيئة عملك اليومية.",
+        "callToAction": "سجل الآن في الدورة وابدأ في تطوير مهاراتك المهنية.",
+        "hashtags": [
+          "تطوير_مهني",
+          "مهارات_التفاوض",
+          "إغلاق_الصفقات",
+          "تدريب_أونلاين",
+          "الشرق_الأوسط",
+          "نجاح_مهني"
+        ]
+      }
+    }
+  ]
+}

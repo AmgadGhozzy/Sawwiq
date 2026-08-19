@@ -1,0 +1,542 @@
+[
+  {
+    "id": "re-01",
+    "category": "real_estate",
+    "name": "شقة للبيع بالتجمع الخامس",
+    "input": {
+      "contentType": "property_description",
+      "arabicStyle": "egyptian",
+      "rawInput": "شقة 220 متر في النرجس التجمع الخامس، بحري صريح، 3 نوم و3 حمام، استلام فوري"
+    },
+    "criteria": [
+      "Must not invent price or payment terms",
+      "Must emphasize immediate delivery and northern facing (بحري)",
+      "Must use authentic Egyptian real estate terminology without exaggeration"
+    ],
+    "expectations": {
+      "mustContain": [
+        "النرجس",
+        "بحري"
+      ],
+      "mustNotContain": [
+        "سعر",
+        "تقسيط",
+        "مقدم"
+      ]
+    }
+  },
+  {
+    "id": "re-02",
+    "category": "real_estate",
+    "name": "فيلا فاخرة في دبي",
+    "input": {
+      "contentType": "property_description",
+      "arabicStyle": "gulf",
+      "rawInput": "فيلا مستقلة 5 غرف نوم في دبي هيلز استيت، مسبح خاص وإطلالة على الجولف"
+    },
+    "criteria": [
+      "Must use premium Gulf real estate tone",
+      "Must connect private pool and golf view to lifestyle luxury",
+      "Must not invent square footage or payment plan"
+    ],
+    "expectations": {
+      "mustContain": [
+        "دبي هيلز",
+        "مسبح",
+        "جولف"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "re-03",
+    "category": "real_estate",
+    "name": "شاليه بالساحل الشمالي",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "egyptian",
+      "rawInput": "شاليه 110 متر بريفيرا الساحل الشمالي، صف أول على البحر، مفروش بالكامل"
+    },
+    "criteria": [
+      "Hook must evoke summer beach lifestyle",
+      "Must emphasize first row sea view and fully furnished",
+      "Clear call to action for booking/inquiry"
+    ],
+    "expectations": {
+      "mustContain": [
+        "ريفيرا",
+        "الساحل",
+        "مفروش"
+      ],
+      "mustNotContain": [
+        "سعر"
+      ]
+    }
+  },
+  {
+    "id": "re-04",
+    "category": "real_estate",
+    "name": "مقر إداري بالرياض",
+    "input": {
+      "contentType": "property_description",
+      "arabicStyle": "formal",
+      "rawInput": "مبنى إداري مساحة 1500 متر مربع على طريق الملك فهد بالرياض، مواقف سيارات خاصة"
+    },
+    "criteria": [
+      "Must use formal business-to-business tone",
+      "Must highlight strategic location on King Fahd Road",
+      "Must focus on corporate prestige and accessibility"
+    ],
+    "expectations": {
+      "mustContain": [
+        "الملك فهد",
+        "مواقف"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "prod-01",
+    "category": "product",
+    "name": "سماعات لاسلكية عازلة للضوضاء",
+    "input": {
+      "contentType": "product_description",
+      "arabicStyle": "white_arabic",
+      "rawInput": "سماعة بلوتوث لاسلكية، عزل ضوضاء نشط ANC، بطارية 35 ساعة، مقاومة للعرق IPX4"
+    },
+    "criteria": [
+      "Must convert ANC feature into benefit (focus, immersive experience)",
+      "Must highlight 35-hour battery life without exaggerating",
+      "Must clearly differentiate specifications from user benefits"
+    ],
+    "expectations": {
+      "mustContain": [
+        "35",
+        "ANC"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "prod-02",
+    "category": "product",
+    "name": "قهوة مختصة كولومبية",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "gulf",
+      "rawInput": "بن قهوة مختصة محصول كولومبي معالجة مجففة، إيحاءات شوكولاتة وتوت، تحميص طازج"
+    },
+    "criteria": [
+      "Hook must speak to specialty coffee enthusiasts in the Gulf",
+      "Must accurately preserve flavour notes (chocolate, berries)",
+      "Warm, engaging tone suitable for specialty roaster"
+    ],
+    "expectations": {
+      "mustContain": [
+        "كولومبي",
+        "شوكولاتة",
+        "توت"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "prod-03",
+    "category": "product",
+    "name": "كريم عناية بالبشرة طبيعي",
+    "input": {
+      "contentType": "product_description",
+      "arabicStyle": "white_arabic",
+      "rawInput": "كريم ترطيب وتفتيح بحمض الهيالورونيك وخلاصة العرقسوس، خالٍ من العطور والبارابين"
+    },
+    "criteria": [
+      "Must emphasize clean beauty and hydration benefits",
+      "Must not make unsubstantiated medical claims",
+      "Must preserve fragrance-free / paraben-free USP"
+    ],
+    "expectations": {
+      "mustContain": [
+        "هيالورونيك",
+        "عرقسوس"
+      ],
+      "mustNotContain": ["كحول", "سيليكون", "زيوت معدنية"]
+    }
+  },
+  {
+    "id": "prod-04",
+    "category": "product",
+    "name": "حذاء جري خفيف الوزن",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "egyptian",
+      "rawInput": "كوتشي جري خفيف جداً، نعل ممتص للصدمات، قماش شبكي يسمح بالتهوية، مريح للمشي الطويل"
+    },
+    "criteria": [
+      "Must use relatable Egyptian tone (كوتشي / مشي طويل)",
+      "Must highlight shock absorption and breathability for comfort",
+      "Engaging action-oriented call to action"
+    ],
+    "expectations": {
+      "mustContain": [
+        "مشي",
+        "شبكي"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "coll-01",
+    "category": "product_collection",
+    "name": "مجموعة العناية بالشعر الصيفية",
+    "input": {
+      "contentType": "product_collection",
+      "arabicStyle": "white_arabic",
+      "rawInput": "مجموعة صيفية للعناية بالشعر: شامبو خالٍ من السلفات، ماسك ترطيب عميق، وسيروم حماية من حرارة الشمس"
+    },
+    "criteria": [
+      "Must present products as a complete, complementary routine",
+      "Must focus on the overarching summer protection theme",
+      "Must not describe products purely as isolated items"
+    ],
+    "expectations": {
+      "mustContain": [
+        "سلفات",
+        "سيروم",
+        "ماسك"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "coll-02",
+    "category": "product_collection",
+    "name": "باقة عطور المناسبات",
+    "input": {
+      "contentType": "product_collection",
+      "arabicStyle": "gulf",
+      "rawInput": "مجموعة 3 عطور شرقية: عطر عود مروكي، عطر مسك أبيض، وعطر عنبر ملكي في صندوق إهداء فاخر"
+    },
+    "criteria": [
+      "Must emphasize luxury gifting experience and harmony between scents",
+      "Must appeal to Gulf appreciation for premium oriental perfumery",
+      "Rich evocative vocabulary"
+    ],
+    "expectations": {
+      "mustContain": [
+        "مروكي",
+        "مسك",
+        "عنبر"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "coll-03",
+    "category": "product_collection",
+    "name": "تشكيلة أثاث المكاتب المنزلية",
+    "input": {
+      "contentType": "product_collection",
+      "arabicStyle": "formal",
+      "rawInput": "مجموعة المكتب المنزلي المتكامل: مكتب خشبي مدمج، كرسي مريح داعم للفقرات، ووحدة إضاءة ليد ذكية"
+    },
+    "criteria": [
+      "Must emphasize unified ergonomic and productive work environment",
+      "Must articulate the value of buying the collection together",
+      "Professional and structured tone"
+    ],
+    "expectations": {
+      "mustContain": ["مكتب", "كرسي", "ليد|LED"],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "incomp-01",
+    "category": "incomplete_input",
+    "name": "مكتب إداري بدون تفاصيل",
+    "input": {
+      "contentType": "property_description",
+      "arabicStyle": "white_arabic",
+      "rawInput": "مكتب 70 متر في العاصمة الإدارية"
+    },
+    "criteria": [
+      "CRITICAL: Must NOT invent price, payment plan, or developer name",
+      "CRITICAL: Must NOT invent floor number or view",
+      "Must build copy purely around 70sqm and New Capital strategic positioning"
+    ],
+    "expectations": {
+      "mustContain": [
+        "70"
+      ],
+      "mustNotContain": [
+        "سعر",
+        "مطور",
+        "دور"
+      ]
+    }
+  },
+  {
+    "id": "incomp-02",
+    "category": "incomplete_input",
+    "name": "عطر بدون نوتات",
+    "input": {
+      "contentType": "product_description",
+      "arabicStyle": "gulf",
+      "rawInput": "عطر جديد للرجال 100 مل"
+    },
+    "criteria": [
+      "Must NOT invent specific ingredients like 'oud' or 'vanilla' if not stated",
+      "Must focus on elegance, bottle size (100ml), and masculine appeal generically",
+      "Must keep description authentic without hallucinated claims"
+    ],
+    "expectations": {
+      "mustContain": [
+        "100"
+      ],
+      "mustNotContain": [
+        "عود",
+        "فانيليا",
+        "عنبر"
+      ]
+    }
+  },
+  {
+    "id": "incomp-03",
+    "category": "incomplete_input",
+    "name": "أرض للبيع ببيانات مقتضبة",
+    "input": {
+      "contentType": "property_description",
+      "arabicStyle": "formal",
+      "rawInput": "أرض سكنية 500 متر في حي النرجس بالرياض"
+    },
+    "criteria": [
+      "Must NOT invent price per meter or building permits",
+      "Must highlight residential potential and 500m area in Al-Narjis",
+      "Must invite interested buyers to inquire for specifics"
+    ],
+    "expectations": {
+      "mustContain": [
+        "500",
+        "النرجس"
+      ],
+      "mustNotContain": [
+        "سعر",
+        "رخصة"
+      ]
+    }
+  },
+  {
+    "id": "poor-01",
+    "category": "poor_input",
+    "name": "إدخال عامي فوضوي لعقار",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "egyptian",
+      "rawInput": "شقه حلوه اوى ف المعادى تانى نمره م الكورنيش دور رابع وفيها اسانسير ومتبهدلتش خالص"
+    },
+    "criteria": [
+      "Must elevate colloquial messy wording into persuasive marketing copy",
+      "Must preserve key USPs (Maadi, near Corniche, 4th floor, elevator, excellent condition)",
+      "Must maintain genuine Egyptian warmth without feeling robotic"
+    ],
+    "expectations": {
+      "mustContain": [
+        "المعادي",
+        "رابع",
+        "اسانسير",
+        "كورنيش"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "poor-02",
+    "category": "poor_input",
+    "name": "مواصفات منتج مكتوبة بكلمات متفرقة",
+    "input": {
+      "contentType": "product_description",
+      "arabicStyle": "white_arabic",
+      "rawInput": "باور بنك سريع 20000 اسود صغير يشحن 3 اجهزة"
+    },
+    "criteria": [
+      "Must restructure raw keywords into a coherent narrative",
+      "Must emphasize capacity (20,000mAh), compact size, and 3-device simultaneous charging",
+      "Must sound like professional e-commerce product copy"
+    ],
+    "expectations": {
+      "mustContain": [
+        "20000",
+        "3"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "poor-03",
+    "category": "poor_input",
+    "name": "مدخل غير منسق بتكرار مفرط",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "gulf",
+      "rawInput": "عبايات روعه روعه فخمة جدا قماش كريب كوري اسود سواد الليل وتطريز يدوي فاخر مرررره"
+    },
+    "criteria": [
+      "Must transform repeated emphasis into sophisticated luxury Gulf phrasing",
+      "Must preserve Korean crepe fabric, jet black tone, and handcrafted embroidery",
+      "Must have refined, elegant CTA"
+    ],
+    "expectations": {
+      "mustContain": [
+        "كوري",
+        "يدوي"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "mix-01",
+    "category": "mixed_language",
+    "name": "منتج إلكتروني بمصطلحات تقنية إنجليزية",
+    "input": {
+      "contentType": "product_description",
+      "arabicStyle": "white_arabic",
+      "rawInput": "Mechanical Keyboard RGB Wireless مع Hot-swappable switches وبطارية 4000mAh تدعم Bluetooth و 2.4Ghz"
+    },
+    "criteria": [
+      "Must seamlessly weave English tech specs into natural Arabic copy without awkward translation",
+      "Must highlight tactile experience, wireless flexibility, and battery capacity",
+      "Must format mixed RTL/LTR text cleanly"
+    ],
+    "expectations": {
+      "mustContain": ["4000", "Bluetooth|بلوتوث"],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "mix-02",
+    "category": "mixed_language",
+    "name": "عقار استثماري بمصطلحات تسويقية هجينة",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "egyptian",
+      "rawInput": "Studio fully finished في New Cairo بفيو Open Park وقريب من Golden Square مع High ROI"
+    },
+    "criteria": [
+      "Must handle real estate Franco-Arab jargon naturally",
+      "Must emphasize investment value (High ROI) and prime location (Golden Square)",
+      "Must remain punchy and clear"
+    ],
+    "expectations": {
+      "mustContain": ["ROI|عائد", "Golden Square|جولدن سكوير|المربع الذهبي"],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "mix-03",
+    "category": "mixed_language",
+    "name": "تطبيق SaaS لإدارة المشاريع",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "white_arabic",
+      "rawInput": "SaaS Platform لإدارة الـ Tasks والـ Sprints مع Real-time collaboration و Integration مع Slack و GitHub"
+    },
+    "criteria": [
+      "Must resonate with Arabic tech teams and startup founders",
+      "Must preserve technical terms (Sprints, Tasks, Integration)",
+      "Must articulate team productivity benefits"
+    ],
+    "expectations": {
+      "mustContain": [
+        "Slack",
+        "GitHub",
+        "Sprints"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "dialect-01",
+    "category": "dialect_stress",
+    "name": "اختبار اللهجة المصرية الصرفة",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "egyptian",
+      "rawInput": "باقة دروس تأسيس في الرياضيات للأطفال، متابعة أسبوعية وتمارين تفاعلية تبسط المنهج"
+    },
+    "criteria": [
+      "Must sound like a trusted Egyptian educational academy speaking to parents",
+      "Must use natural Egyptian phrasings without caricatures",
+      "Must focus on removing math anxiety and building confidence"
+    ],
+    "expectations": {
+      "mustContain": [
+        "تأسيس",
+        "أسبوعية"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "dialect-02",
+    "category": "dialect_stress",
+    "name": "اختبار الأسلوب الخليجي الراقي",
+    "input": {
+      "contentType": "product_description",
+      "arabicStyle": "gulf",
+      "rawInput": "دهن عود كلاكاسي معتق طبيعي 100%، فوحان عالي وثبات يدوم لأيام"
+    },
+    "criteria": [
+      "Must use authentic Gulf fragrance terms (معتق، ثبات، فوحان)",
+      "Must project authentic heritage luxury",
+      "Must strictly avoid non-Gulf colloquialisms"
+    ],
+    "expectations": {
+      "mustContain": [
+        "كلاكاسي",
+        "طبيعي",
+        "100%"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "dialect-03",
+    "category": "dialect_stress",
+    "name": "اختبار الفصحى المعاصرة الموجهة للشركات",
+    "input": {
+      "contentType": "product_description",
+      "arabicStyle": "formal",
+      "rawInput": "برنامج محاسبة سحابي معتمد من هيئة الزكاة والضريبة والجمارك لإصدار الفوترة الإلكترونية"
+    },
+    "criteria": [
+      "Must use impeccable Modern Standard Arabic",
+      "Must highlight regulatory compliance (ZATCA e-invoicing)",
+      "Must convey reliability, security, and institutional trust"
+    ],
+    "expectations": {
+      "mustContain": [
+        "الزكاة",
+        "فوترة"
+      ],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "dialect-04",
+    "category": "dialect_stress",
+    "name": "اختبار العربية البيضاء التسويقية العابرة للحدود",
+    "input": {
+      "contentType": "social_post",
+      "arabicStyle": "white_arabic",
+      "rawInput": "دورة تدريبية أونلاين لتعلم مهارات التفاوض وإغلاق الصفقات للمحترفين في الشرق الأوسط"
+    },
+    "criteria": [
+      "Must be universally understood from Cairo to Dubai to Riyadh",
+      "Must project executive professionalism",
+      "Must clearly define the transformation (from struggling negotiator to closing deals)"
+    ],
+    "expectations": {
+      "mustContain": ["التفاوض", "أونلاين|إنترنت|عن بعد"],
+      "mustNotContain": []
+    }
+  }
+]
