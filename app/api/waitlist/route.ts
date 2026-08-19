@@ -14,12 +14,12 @@ import { getSupabaseAdmin } from "@/lib/supabase/server";
 import { sessionConfig } from "@/lib/config";
 
 const waitlistSchema = z.object({
-  email: z.string().email("البريد الإلكتروني غير صالح"),
+  email: z.string().email("WAITLIST_INVALID_EMAIL"),
 });
 
 type WaitlistResponse =
-  | { success: true; message: string; bonus: boolean }
-  | { success: false; error: string };
+  | { success: true; bonus: boolean }
+  | { success: false; error: { code: string } };
 
 export async function POST(
   request: NextRequest
@@ -30,7 +30,7 @@ export async function POST(
     !process.env.SUPABASE_SERVICE_ROLE_KEY
   ) {
     return NextResponse.json(
-      { success: false, error: "الخدمة غير متاحة حالياً. حاول لاحقاً." },
+      { success: false, error: { code: "SERVICE_UNAVAILABLE" } },
       { status: 503 }
     );
   }
@@ -40,13 +40,13 @@ export async function POST(
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ success: false, error: "طلب غير صالح." }, { status: 400 });
+    return NextResponse.json({ success: false, error: { code: "VALIDATION_ERROR" } }, { status: 400 });
   }
 
   const parsed = waitlistSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: parsed.error.issues[0]?.message ?? "البريد الإلكتروني غير صالح" },
+      { success: false, error: { code: parsed.error.issues[0]?.message ?? "WAITLIST_INVALID_EMAIL" } },
       { status: 400 }
     );
   }
@@ -81,7 +81,7 @@ export async function POST(
   if (upsertError) {
     console.error("[Waitlist] Upsert error:", upsertError);
     return NextResponse.json(
-      { success: false, error: "حدث خطأ أثناء التسجيل. حاول مرة أخرى." },
+      { success: false, error: { code: "WAITLIST_ERROR" } },
       { status: 500 }
     );
   }
@@ -99,7 +99,6 @@ export async function POST(
 
   return NextResponse.json({
     success: true,
-    message: "تم تسجيلك بنجاح في قائمة الانتظار!",
     bonus,
   });
 }
