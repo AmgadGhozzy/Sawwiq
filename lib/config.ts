@@ -20,15 +20,7 @@ export const sessionConfig = {
   freeGenerations: 3,
 };
 
-/** @deprecated — Supabase session-based rate limiting is now the default.
- * The memory limiter is kept as a local-dev fallback when Supabase is not configured. */
-export const rateLimitConfig = {
-  mode: (process.env.RATE_LIMITER ?? "memory") as "memory" | "external",
-  windowMs: 60_000,
-  maxRequests: 10,
-};
-
 export const appConfig = {
   productName: "سَوِّق",
-  productTagline: "منصة الذكاء الاصطناعي الأقوى لصياغة المحتوى التسويقي في ثوانٍ.",
+  productTagline: "أداتك الذكية لإنشاء محتوى تسويقي في ثوانٍ.",
 };
