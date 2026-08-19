@@ -7,6 +7,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface HashtagListProps {
   hashtags: string[];
@@ -14,6 +15,7 @@ interface HashtagListProps {
 }
 
 export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
+  const t = useTranslations("HashtagList");
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [copiedAll, setCopiedAll] = useState(false);
 
@@ -43,11 +45,11 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
           fontSize: "11px", fontWeight: 700, color: "#475569",
           textTransform: "uppercase", letterSpacing: "0.06em",
         }}>
-          هاشتاغات
+          {t("title")}
         </span>
         <button
           onClick={copyAll}
-          aria-label="نسخ جميع الهاشتاغات"
+          aria-label={t("copyAllAria")}
           style={{
             display: "flex", alignItems: "center", gap: "4px",
             fontSize: "11px", fontWeight: 600,
@@ -59,7 +61,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
           }}
         >
           {copiedAll && <Check size={11} />}
-          {copiedAll ? "تم النسخ" : "نسخ الكل"}
+          {copiedAll ? t("copied") : t("copyAll")}
         </button>
       </div>
 
@@ -72,7 +74,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05, type: "spring", stiffness: 300, damping: 20 }}
             onClick={() => copyTag(tag, index)}
-            title="اضغط للنسخ"
+            title={t("clickToCopy")}
             style={{
               display: "inline-flex", alignItems: "center",
               padding: "5px 14px", borderRadius: "999px",
@@ -91,7 +93,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
             {copiedIndex === index ? (
               <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                 <Check size={11} />
-                تم
+                {t("copiedBadge")}
               </span>
             ) : (
               <span>#{tag}</span>

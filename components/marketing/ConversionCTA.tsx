@@ -3,14 +3,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Rocket, ArrowLeft, Check, Mail, Loader2, Gift } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function ConversionCTA() {
+  const t = useTranslations("ConversionCTA");
+  const tErrors = useTranslations("Errors");
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState("تم التسجيل بنجاح! سنتواصل معك قريباً.");
+  const [successMessage, setSuccessMessage] = useState(t("successMessage"));
   const [hasBonus, setHasBonus] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,19 +30,20 @@ export default function ConversionCTA() {
       });
 
       const data = (await res.json()) as
-        | { success: true; message: string; bonus: boolean }
-        | { success: false; error: string };
+        | { success: true; bonus: boolean }
+        | { success: false; error: { code: string } };
 
       if (!data.success) {
-        setError(data.error);
+        const code = data.error?.code || "WAITLIST_ERROR";
+        setError(tErrors(code));
         return;
       }
 
-      setSuccessMessage(data.message);
+      setSuccessMessage(t("successMessage"));
       setHasBonus(data.bonus);
       setSubmitted(true);
     } catch {
-      setError("حدث خطأ في الاتصال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.");
+      setError(t("errorMessage"));
     } finally {
       setLoading(false);
     }
@@ -48,7 +52,6 @@ export default function ConversionCTA() {
   return (
     <motion.div
       id="waitlist-cta"
-      dir="rtl"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -98,8 +101,6 @@ export default function ConversionCTA() {
         pointerEvents: "none",
       }} />
 
-
-
       {/* ── Icon ── */}
       <motion.div
         initial={{ scale: 0.8 }}
@@ -128,11 +129,10 @@ export default function ConversionCTA() {
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           backgroundClip: "text",
         }}>
-          ارتقِ باستراتيجيتك التسويقية
+          {t("title")}
         </h3>
         <p style={{ color: "#94a3b8", lineHeight: 1.85, fontSize: "14.5px", margin: 0 }}>
-          المنصة الكاملة قيد التطوير. انضم لقائمة الانتظار الآن للحصول على وصول مبكر
-          وقوالب حصرية مجانية.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -175,7 +175,7 @@ export default function ConversionCTA() {
                   }}
                 >
                   <Gift size={13} />
-                  توليد مجاني إضافي أُضيف لجلستك!
+                  {t("bonusMessage")}
                 </motion.div>
               )}
             </motion.div>
@@ -184,7 +184,7 @@ export default function ConversionCTA() {
               <form onSubmit={handleSubmit} className="cta-form-layout">
                 <div style={{ position: "relative", flex: 1 }}>
                   <Mail size={15} color="#64748b" style={{
-                    position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)",
+                    position: "absolute", marginInlineEnd: "14px", insetInlineEnd: 0, top: "50%", transform: "translateY(-50%)",
                     pointerEvents: "none",
                   }} />
                   <input
@@ -193,13 +193,14 @@ export default function ConversionCTA() {
                     onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setFocused(true)}
                     onBlur={() => setFocused(false)}
-                    placeholder="أدخل بريدك الإلكتروني"
+                    placeholder={t("emailPlaceholder")}
                     required
                     disabled={loading}
-                    dir="rtl"
                     style={{
                       width: "100%",
                       padding: "14px 42px 14px 14px",
+                      paddingInlineStart: "42px",
+                      paddingInlineEnd: "14px",
                       borderRadius: "14px",
                       border: focused
                         ? "1px solid rgba(124,58,237,0.5)"
@@ -248,7 +249,7 @@ export default function ConversionCTA() {
                   {loading ? (
                     <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} />
                   ) : (
-                    <>انضم لقائمة النخبة<ArrowLeft size={14} /></>
+                    <>{t("buttonText")}<ArrowLeft size={14} className="rtl-flip" /></>
                   )}
                 </motion.button>
               </form>
@@ -259,7 +260,7 @@ export default function ConversionCTA() {
                   animate={{ opacity: 1, y: 0 }}
                   style={{
                     margin: "8px 0 0", fontSize: "12px",
-                    color: "#f87171", fontWeight: 500, textAlign: "right",
+                    color: "#f87171", fontWeight: 500, textAlign: "right", // Note: textAlign might need logical prop
                   }}
                   role="alert"
                 >
@@ -276,7 +277,7 @@ export default function ConversionCTA() {
         display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap",
         position: "relative", zIndex: 1, marginTop: "4px",
       }}>
-        {["وصول مبكر", "قوالب مجانية", "بدون التزام"].map((item) => (
+        {[t("trustEarlyAccess"), t("trustFreeTemplates"), t("trustNoCommitment")].map((item) => (
           <span key={item} style={{
             display: "flex", alignItems: "center", gap: "6px",
             fontSize: "11px", fontWeight: 600, color: "#64748b",
@@ -307,6 +308,10 @@ export default function ConversionCTA() {
           display: flex;
           gap: 10px;
           width: 100%;
+        }
+
+        html[dir='ltr'] .rtl-flip {
+           transform: rotate(180deg);
         }
 
         /* Mobile: stack form vertically, badges wrap naturally */

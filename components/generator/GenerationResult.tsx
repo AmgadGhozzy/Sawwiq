@@ -6,6 +6,7 @@ import type { GeneratedContent } from "@/types/content";
 import { Target, RefreshCw, PenLine, Copy, Check } from "lucide-react";
 import HashtagList from "./HashtagList";
 import { getTracker } from "@/lib/analytics/tracker";
+import { useTranslations } from "next-intl";
 
 interface GenerationResultProps {
   content: GeneratedContent;
@@ -47,6 +48,7 @@ const itemVariants: Variants = {
 export default function GenerationResult({
   content, onRegenerate, onStartOver, loading,
 }: GenerationResultProps) {
+  const t = useTranslations("GenerationResult");
   const [copiedAll, setCopiedAll] = useState(false);
   const tracker = getTracker();
 
@@ -87,7 +89,7 @@ export default function GenerationResult({
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "linear-gradient(135deg,#7c3aed,#4f46e5)" }} />
-          <span style={{ fontSize: "13px", fontWeight: 700, color: "#94a3b8" }}>المحتوى الجاهز</span>
+          <span style={{ fontSize: "13px", fontWeight: 700, color: "#94a3b8" }}>{t("readyContent")}</span>
         </div>
         <button
           onClick={copyAll}
@@ -103,13 +105,12 @@ export default function GenerationResult({
           }}
         >
           {copiedAll ? <Check size={13} /> : <Copy size={13} />}
-          {copiedAll ? "تم النسخ" : "نسخ الكل"}
+          {copiedAll ? t("copied") : t("copyAll")}
         </button>
       </motion.div>
 
       {/* ── Content ── */}
-      <div style={{ padding: "28px 28px 24px", display: "flex", flexDirection: "column", gap: "24px" }} dir="rtl">
-
+      <div style={{ padding: "28px 28px 24px", display: "flex", flexDirection: "column", gap: "24px" }}>
         {/* Title */}
         <motion.h2 variants={itemVariants} style={{
           fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 900, lineHeight: 1.25, margin: 0,
@@ -127,10 +128,10 @@ export default function GenerationResult({
           padding: "16px 20px 16px 18px",
         }}>
           <div style={{
-            position: "absolute", top: 0, right: 0, width: "3px", height: "100%",
+            position: "absolute", top: 0, insetInlineEnd: 0, width: "3px", height: "100%",
             background: "linear-gradient(180deg, #7c3aed, #4f46e5)",
           }} />
-          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", paddingRight: "8px" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", paddingInlineEnd: "8px" }}>
             <Target size={16} color="#a5b4fc" style={{ flexShrink: 0, marginTop: "3px" }} />
             <p style={{ fontSize: "15px", fontWeight: 500, fontStyle: "italic", color: "#e0e7ff", lineHeight: 1.7, margin: 0 }}>
               {content.hook}
@@ -188,7 +189,7 @@ export default function GenerationResult({
           }}
         >
           <RefreshCw size={14} />
-          إعادة الكتابة
+          {t("rewrite")}
         </motion.button>
         <motion.button
           onClick={onStartOver}
@@ -208,7 +209,7 @@ export default function GenerationResult({
           }}
         >
           <PenLine size={14} />
-          محتوى جديد
+          {t("newContent")}
         </motion.button>
       </motion.div>
     </motion.div>

@@ -8,6 +8,7 @@ import { Wand2, Zap, Lock, Sparkles } from "lucide-react";
 import { generateInputSchema, type GenerateInputDTO } from "@/lib/validation/generation";
 import type { GeneratedContent, GenerateResponse } from "@/types/content";
 import { ERROR_CODES } from "@/types/content";
+import { useTranslations } from "next-intl";
 
 import GeneratorInput from "./GeneratorInput";
 import GeneratorSettings from "./GeneratorSettings";
@@ -37,6 +38,8 @@ const scrollToCTA = () => {
 };
 
 export default function ContentGenerator() {
+  const t = useTranslations("ContentGenerator");
+  const tErrors = useTranslations("Errors");
   const [viewState, setViewState] = useState<ViewState>("empty");
   const [result, setResult] = useState<GeneratedContent | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -76,7 +79,8 @@ export default function ContentGenerator() {
           setTimeout(scrollToCTA, 400);
           return;
         }
-        setApiError(resultData.error.message);
+        const code = resultData.error.code || "GENERATION_FAILED";
+        setApiError(tErrors(code));
         setViewState("empty");
         return;
       }
@@ -85,11 +89,11 @@ export default function ContentGenerator() {
       setRemainingGenerations(resultData.remainingGenerations);
       setViewState("result");
     } catch (error) {
-      setApiError("حدث خطأ غير متوقع. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.");
+      setApiError(tErrors("INTERNAL_ERROR"));
       setViewState("empty");
       console.error("Submission error:", error);
     }
-  }, []);
+  }, [tErrors]);
 
   const handleRegenerate = useCallback(() => doGenerate(lastInput ?? getValues()), [doGenerate, lastInput, getValues]);
 
@@ -104,17 +108,10 @@ export default function ContentGenerator() {
 
   return (
     <>
-      {/*
-        Mobile  → flex-col  : settings on top, results stacked below
-        Desktop → flex-row  : in RTL, first child anchors to the RIGHT (settings)
-                               second child fills remaining space (results)
-      */}
       <div
-        dir="rtl"
         className="flex flex-col lg:flex-row items-stretch gap-5 lg:gap-7"
       >
         {/* ────────────────── Settings Panel ────────────────── */}
-        {/* Fixed 380px on desktop, full-width on mobile */}
         <div className="w-full lg:w-[380px] shrink-0">
           <div className="lg:sticky lg:top-8">
             <motion.div
@@ -139,10 +136,10 @@ export default function ContentGenerator() {
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: "13px", fontWeight: 700, color: "#f1f5f9", margin: 0 }}>
-                    إعدادات المحتوى
+                    {t("settingsTitle")}
                   </p>
                   <p style={{ fontSize: "11px", color: "#475569", margin: 0, marginTop: "2px" }}>
-                    خصّص المحتوى ودع الذكاء الاصطناعي يتولّى الباقي
+                    {t("settingsSubtitle")}
                   </p>
                 </div>
                 {/* Credits badge */}
@@ -158,7 +155,7 @@ export default function ContentGenerator() {
                       fontSize: "11px", fontWeight: 700, whiteSpace: "nowrap" as const,
                     }}
                   >
-                    {remainingGenerations > 0 ? `${remainingGenerations} متبقية` : "0 متبقية"}
+                    {remainingGenerations > 0 ? t("creditsRemaining", { count: remainingGenerations }) : t("zeroCredits")}
                   </motion.div>
                 )}
               </div>
@@ -241,7 +238,7 @@ export default function ContentGenerator() {
                       }}
                     >
                       <Sparkles size={15} />
-                      انضم لقائمة الانتظار للمزيد
+                      {t("lockedButton")}
                     </motion.button>
                   ) : (
                     <GenerateButton
@@ -256,10 +253,8 @@ export default function ContentGenerator() {
         </div>
 
         {/* ────────────────── Result Area ────────────────── */}
-        {/* Fills remaining horizontal space */}
         <div className="flex-1 min-w-0 w-full flex flex-col">
           <AnimatePresence mode="wait">
-
             {/* ── Empty State ── */}
             {viewState === "empty" && (
               <motion.div
@@ -300,16 +295,15 @@ export default function ContentGenerator() {
 
                 <div style={{ maxWidth: "360px" }}>
                   <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#f1f5f9", margin: "0 0 10px" }}>
-                    جاهز لإبهار عملائك؟
+                    {t("emptyStateTitle")}
                   </h3>
                   <p style={{ color: "#475569", lineHeight: 1.75, fontSize: "14px", margin: 0 }}>
-                    أدخل تفاصيل منتجك أو خدمتك في لوحة الإعدادات، وسيقوم الذكاء الاصطناعي
-                    بصياغة محتوى تسويقي احترافي جاهز للنشر فوراً.
+                    {t("emptyStateSubtitle")}
                   </p>
                 </div>
 
                 <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }}>
-                  {["عناوين مؤثرة", "افتتاحيات آسرة", "هاشتاغات ذكية", "دعوات فعّالة"].map((tag, i) => (
+                  {[t("emptyStateTags.impactfulTitles"), t("emptyStateTags.captivatingHooks"), t("emptyStateTags.smartHashtags"), t("emptyStateTags.effectiveCTAs")].map((tag, i) => (
                     <motion.span
                       key={tag}
                       initial={{ opacity: 0, y: 10 }}
@@ -399,11 +393,10 @@ export default function ContentGenerator() {
                     WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                   }}>
-                    استنفدت محاولاتك المجانية
+                    {t("lockedStateTitle")}
                   </h3>
                   <p style={{ color: "#64748b", lineHeight: 1.8, fontSize: "14px", margin: 0 }}>
-                    لقد استخدمت محاولاتك الثلاث المجانية. انضم لقائمة الانتظار أدناه
-                    للحصول على توليد مجاني إضافي فوراً!
+                    {t("lockedStateSubtitle")}
                   </p>
                 </div>
 
@@ -422,15 +415,13 @@ export default function ContentGenerator() {
                   }}
                 >
                   <Sparkles size={16} />
-                  انضم لقائمة الانتظار مجاناً
+                  {t("lockedStateButton")}
                 </motion.button>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
-
-
     </>
   );
 }

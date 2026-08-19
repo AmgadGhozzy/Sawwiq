@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
-  ARABIC_STYLES, ARABIC_STYLE_LABELS,
-  CONTENT_TYPES, CONTENT_TYPE_LABELS,
-  PLATFORMS, PLATFORM_LABELS,
+  ARABIC_STYLES,
+  CONTENT_TYPES,
+  PLATFORMS,
   type ArabicStyle, type ContentType, type Platform,
 } from "@/types/content";
 
@@ -82,7 +83,7 @@ function CustomDropdown<T extends string>({
             opacity: disabled ? 0.4 : 1,
             boxShadow: isOpen ? "0 0 0 3px rgba(124,58,237,0.15)" : "none",
             transition: "all 0.2s ease",
-            fontFamily: "inherit", boxSizing: "border-box", textAlign: "right"
+            fontFamily: "inherit", boxSizing: "border-box", textAlign: "right", // Note: textAlign might need logical prop
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -183,24 +184,26 @@ const getPlatformIcon = (platform: Platform) => {
 export default function GeneratorSettings({
   platform, arabicStyle, contentType, onPlatformChange, onArabicStyleChange, onContentTypeChange, disabled,
 }: GeneratorSettingsProps) {
+  const t = useTranslations("GeneratorSettings");
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
       <CustomDropdown
-        label="المنصة"
+        label={t("platformLabel")}
         value={platform} onChange={onPlatformChange} disabled={disabled}
-        options={PLATFORMS.map((p) => ({ value: p, label: PLATFORM_LABELS[p] }))}
+        options={PLATFORMS.map((p) => ({ value: p, label: t(`platforms.${p}`) }))}
         renderIcon={getPlatformIcon as (val: string) => React.ReactNode}
       />
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
         <CustomDropdown
-          label="نوع المحتوى"
+          label={t("contentTypeLabel")}
           value={contentType} onChange={onContentTypeChange} disabled={disabled}
-          options={CONTENT_TYPES.map((t) => ({ value: t, label: CONTENT_TYPE_LABELS[t] }))}
+          options={CONTENT_TYPES.map((type) => ({ value: type, label: t(`contentTypes.${type}`) }))}
         />
         <CustomDropdown
-          label="اللهجة"
+          label={t("arabicStyleLabel")}
           value={arabicStyle} onChange={onArabicStyleChange} disabled={disabled}
-          options={ARABIC_STYLES.map((s) => ({ value: s, label: ARABIC_STYLE_LABELS[s] }))}
+          options={ARABIC_STYLES.map((s) => ({ value: s, label: t(`arabicStyles.${s}`) }))}
         />
       </div>
     </div>

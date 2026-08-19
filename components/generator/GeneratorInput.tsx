@@ -2,6 +2,7 @@
 
 import { forwardRef, useState, useEffect, useCallback } from "react";
 import { Trash2, ClipboardPaste } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface GeneratorInputProps {
   value: string;
@@ -10,20 +11,20 @@ interface GeneratorInputProps {
   disabled?: boolean;
 }
 
-const PLACEHOLDER_EXAMPLES = [
-  "شقة 3 غرف في التجمع الخامس، 180 متر، تشطيب كامل، قريبة من الجامعة الأمريكية",
-  "ساعة ذكية رياضية، مقاومة للماء، بطارية 10 أيام، شحن سريع",
-  "مجموعة عطور شرقية فاخرة، 5 روائح مختلفة، عبوات أنيقة",
-  "فيلا دوبلكس 350 متر في الشيخ زايد، حديقة خاصة، 4 غرف نوم",
-];
-
 const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
   function GeneratorInput({ value, onChange, error, disabled }, ref) {
+    const t = useTranslations("GeneratorInput");
+    
     // Empty on server, random on client after mount — avoids SSR hydration mismatch
     const [placeholder, setPlaceholder] = useState("");
+    
     useEffect(() => {
+      // Get array of placeholders from translations. Assuming it returns an array of strings.
+      // With next-intl we can use raw() for arrays or objects.
+      const PLACEHOLDER_EXAMPLES = t.raw("placeholders") as string[];
       setPlaceholder(PLACEHOLDER_EXAMPLES[Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)]);
-    }, []);
+    }, [t]);
+    
     const [focused, setFocused] = useState(false);
 
     const handleClear = useCallback(() => {
@@ -41,18 +42,16 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-
         <label
           htmlFor="raw-input"
           style={{ fontSize: "12px", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}
         >
-          عن ماذا تريد أن تتحدث؟
+          {t("label")}
         </label>
         <div style={{ position: "relative" }}>
           <textarea
             ref={ref}
             id="raw-input"
-            dir="rtl"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onFocus={() => setFocused(true)}
@@ -91,12 +90,12 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               type="button"
               onClick={handleClear}
               disabled={disabled}
-              title="حذف النص"
-              aria-label="حذف النص"
+              title={t("clearTitle")}
+              aria-label={t("clearTitle")}
               style={{
                 position: "absolute",
                 bottom: "16px",
-                left: "10px",
+                insetInlineStart: "10px",
                 display: "flex", alignItems: "center", gap: "5px",
                 padding: "5px 12px",
                 borderRadius: "8px",
@@ -111,19 +110,19 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               }}
             >
               <Trash2 size={12} />
-              حذف
+              {t("clearBtn")}
             </button>
           ) : (
             <button
               type="button"
               onClick={handlePaste}
               disabled={disabled}
-              title="لصق من الحافظة"
-              aria-label="لصق من الحافظة"
+              title={t("pasteTitle")}
+              aria-label={t("pasteTitle")}
               style={{
                 position: "absolute",
                 bottom: "16px",
-                left: "10px",
+                insetInlineStart: "10px",
                 display: "flex", alignItems: "center", gap: "5px",
                 padding: "5px 12px",
                 borderRadius: "8px",
@@ -138,7 +137,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               }}
             >
               <ClipboardPaste size={12} />
-              لصق
+              {t("pasteBtn")}
             </button>
           )}
         </div>

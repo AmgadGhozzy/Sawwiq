@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const LOADING_MESSAGES = [
-  "جارٍ ضبط الصياغة...",
-  "نضفي لمسة طبيعية على المحتوى...",
-  "نضيف اللمسة التسويقية...",
-  "لحظات وننتهي...",
-  "نراجع المحتوى النهائي...",
-];
+import { useTranslations } from "next-intl";
 
 function Pulse({ width, delay = 0 }: { width: string; delay?: number }) {
   return (
@@ -22,12 +15,16 @@ function Pulse({ width, delay = 0 }: { width: string; delay?: number }) {
 }
 
 export default function GenerationSkeleton() {
+  const t = useTranslations("GenerationSkeleton");
   const [msgIdx, setMsgIdx] = useState(0);
+
+  // We fetch raw array from translations
+  const LOADING_MESSAGES = t.raw("loadingMessages") as string[];
 
   useEffect(() => {
     const id = setInterval(() => setMsgIdx((p) => (p + 1) % LOADING_MESSAGES.length), 2200);
     return () => clearInterval(id);
-  }, []);
+  }, [LOADING_MESSAGES.length]);
 
   return (
     <>
@@ -44,7 +41,6 @@ export default function GenerationSkeleton() {
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.3 }}
         style={{ display: "flex", flexDirection: "column", gap: "24px" }}
-        dir="rtl"
       >
         {/* Rotating status message */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "8px 0" }}>
