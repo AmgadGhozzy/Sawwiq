@@ -5,7 +5,6 @@
     "@supabase/supabase-js": "npm:@supabase/supabase-js@2",
     "@/lib/validation/generation": "../../lib/validation/generation.ts",
     "@/types/content": "../../types/content.ts",
-    "@/lib/config": "../../lib/config.ts",
-    "@/": "../../"
+    "@/lib/config": "../../lib/config.ts"
   }
 }
