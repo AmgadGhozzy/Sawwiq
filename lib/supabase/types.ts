@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 // Supabase Database Types
-// Mirrors the schema in supabase/migrations/001_initial_schema.sql
+// Mirrors migrations 001_initial_schema.sql + 003_generation_atomicity.sql
 //
 // NOTE: These types follow the exact shape required by @supabase/supabase-js
 // generic typing system. Do not simplify the Row/Insert/Update structure.
@@ -42,6 +42,7 @@ export interface Database {
         Row: {
           id: string;
           session_id: string | null;
+          request_id: string | null;
           prompt: string;
           platform: string;
           content_type: string;
@@ -52,6 +53,7 @@ export interface Database {
         Insert: {
           id?: string | undefined;
           session_id?: string | null | undefined;
+          request_id?: string | null | undefined;
           prompt: string;
           platform: string;
           content_type: string;
@@ -62,6 +64,7 @@ export interface Database {
         Update: {
           id?: string | undefined;
           session_id?: string | null | undefined;
+          request_id?: string | null | undefined;
           prompt?: string | undefined;
           platform?: string | undefined;
           content_type?: string | undefined;
@@ -94,7 +97,20 @@ export interface Database {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      persist_generation: {
+        Args: {
+          p_session_id: string;
+          p_request_id: string;
+          p_prompt: string;
+          p_platform: string;
+          p_content_type: string;
+          p_arabic_style: string;
+          p_ai_response: Json;
+        };
+        Returns: Json;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

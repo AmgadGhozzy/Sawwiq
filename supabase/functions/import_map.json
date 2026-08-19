@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "zod": "npm:zod@3.22.4",
+    "@google/genai": "npm:@google/genai@2.17.1",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2",
+    "@/lib/validation/generation": "../../lib/validation/generation.ts",
+    "@/types/content": "../../types/content.ts",
+    "@/lib/config": "../../lib/config.ts",
+    "@/": "../../"
+  }
+}
