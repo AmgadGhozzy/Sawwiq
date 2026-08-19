@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// middleware.ts — The Gatekeeper
+// proxy.ts — The Gatekeeper (Next.js 16 Proxy Convention)
 //
 // Runs on every request before the page/API route.
 // Ensures every visitor has a persistent anonymous session cookie.
@@ -16,7 +16,7 @@ import type { Database } from "@/lib/supabase/types";
 const SESSION_COOKIE = "sawwiq_session";
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const response = NextResponse.next();
 
   // Skip if Supabase is not yet configured (dev without keys)
