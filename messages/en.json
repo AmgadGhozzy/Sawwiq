@@ -1,50 +1,50 @@
 {
   "Global": {
     "productName": "Sawwiq",
-    "productTagline": "Your smart tool for creating marketing content in seconds."
+    "productTagline": "Generate professional marketing content with AI — from idea to publish in seconds."
   },
   "HomePage": {
-    "headline": "Create marketing content in seconds",
+    "headline": "Marketing content that sells — in seconds",
     "aiBadge": "Powered by AI"
   },
   "ConversionCTA": {
-    "title": "Elevate your marketing strategy",
-    "subtitle": "The full platform is currently under development. Join the waitlist now for early access and exclusive free templates.",
-    "emailPlaceholder": "Enter your email",
-    "buttonText": "Join Waitlist",
-    "successMessage": "Successfully registered! We'll be in touch soon.",
+    "title": "Don't miss the early access",
+    "subtitle": "We're launching soon. Sign up now for exclusive early access and free templates.",
+    "emailPlaceholder": "Your email address",
+    "buttonText": "Get Early Access",
+    "successMessage": "You're on the list! We'll notify you when we launch.",
     "bonusMessage": "Extra free generation added to your session!",
     "errorMessage": "Connection error. Check your internet and try again.",
     "trustEarlyAccess": "Early Access",
     "trustFreeTemplates": "Free Templates",
-    "trustNoCommitment": "No Commitment"
+    "trustNoCommitment": "No Credit Card"
   },
   "ContentGenerator": {
-    "settingsTitle": "Content Settings",
-    "settingsSubtitle": "Customize the content and let AI handle the rest",
+    "settingsTitle": "Customize Content",
+    "settingsSubtitle": "Pick platform, type, and dialect — let AI handle the rest",
     "creditsRemaining": "{count} remaining",
     "zeroCredits": "0 remaining",
-    "genericError": "An unexpected error occurred. Check your connection and try again.",
-    "lockedButton": "Join waitlist for more",
-    "emptyStateTitle": "Ready to impress your clients?",
-    "emptyStateSubtitle": "Enter your product or service details, and the AI will craft professional marketing content ready to publish.",
+    "genericError": "Something went wrong. Check your connection and try again.",
+    "lockedButton": "Sign up for more",
+    "emptyStateTitle": "Need content that converts?",
+    "emptyStateSubtitle": "Describe your product or service — and we'll generate ready-to-publish marketing copy in seconds.",
     "emptyStateTags": {
-      "impactfulTitles": "Impactful Titles",
-      "captivatingHooks": "Captivating Hooks",
-      "smartHashtags": "Smart Hashtags",
-      "effectiveCTAs": "Effective CTAs"
+      "impactfulTitles": "Scroll-stopping headlines",
+      "captivatingHooks": "Attention-grabbing hooks",
+      "smartHashtags": "Reach-boosting hashtags",
+      "effectiveCTAs": "High-converting CTAs"
     },
-    "lockedStateTitle": "Free trials exhausted",
-    "lockedStateSubtitle": "You've run out of free trials. Join the waitlist to get an extra free generation instantly!",
-    "lockedStateButton": "Join Waitlist"
+    "lockedStateTitle": "Free trials used up",
+    "lockedStateSubtitle": "Join the waitlist and get extra free generations instantly!",
+    "lockedStateButton": "Sign up free"
   },
   "GeneratorInput": {
-    "label": "What do you want to talk about?",
+    "label": "Describe your product or service",
     "placeholders": [
       "3-bedroom apartment in 5th Settlement, 180m, fully finished, near AUC",
-      "Sports smartwatch, water-resistant, 10-day battery, fast charging",
-      "Luxury oriental perfume set, 5 different scents, elegant packaging",
-      "350m duplex villa in Sheikh Zayed, private garden, 4 bedrooms"
+      "Sports smartwatch — water-resistant, 10-day battery, fast charging",
+      "Luxury oriental perfume set — 5 different scents, elegant packaging",
+      "350m duplex villa in Sheikh Zayed — private garden, 4 bedrooms"
     ],
     "clearBtn": "Clear",
     "clearTitle": "Clear text",
@@ -90,11 +90,11 @@
   },
   "GenerationSkeleton": {
     "loadingMessages": [
-      "Adjusting phrasing...",
-      "Adding a natural touch...",
-      "Applying marketing flair...",
-      "Almost done...",
-      "Reviewing final content..."
+      "Writing your content...",
+      "Adding marketing flair...",
+      "Crafting headlines...",
+      "Almost there...",
+      "Reviewing final result..."
     ]
   },
   "HashtagList": {
@@ -114,7 +114,7 @@
     "subtitle": "All your generated content",
     "triggerLabel": "History",
     "emptyTitle": "No content yet",
-    "emptySubtitle": "Start generating marketing content and it will appear here",
+    "emptySubtitle": "Start generating and your content will appear here",
     "copyContent": "Copy Content",
     "copied": "Copied",
     "expand": "Show All",
@@ -129,7 +129,7 @@
     "VALIDATION_ERROR": "Invalid input. Make sure to fill all required fields.",
     "SESSION_MISSING": "Invalid session. Reload the page and try again.",
     "RATE_LIMITED": "You've exceeded the limit. Try again later.",
-    "RATE_LIMIT_REACHED": "You've run out of free trials. Join the waitlist for more.",
+    "RATE_LIMIT_REACHED": "You've run out of free trials. Sign up for more.",
     "GENERATION_FAILED": "Couldn't generate the content. Try again.",
     "EMPTY_RESPONSE": "No content received. Try again.",
     "OUTPUT_VALIDATION_FAILED": "Couldn't process the result. Try again.",
