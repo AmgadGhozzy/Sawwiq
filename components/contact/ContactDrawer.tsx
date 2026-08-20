@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowUpRight, Mail, MessageCircle } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
+import Image from "next/image";
 
 // ---------------------------------------------------------------------------
 // ContactDrawer — glassmorphism bottom-sheet / centered floating panel
@@ -183,8 +184,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
                   style={{
-                    width: "52px",
-                    height: "52px",
+                    width: "56px",
+                    height: "56px",
                     borderRadius: "16px",
                     background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(79,70,229,0.12))",
                     backdropFilter: "blur(12px)",
@@ -196,12 +197,16 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     margin: "0 auto 16px",
                     boxShadow:
                       "0 0 40px rgba(124,58,237,0.15), inset 0 1px 0 rgba(255,255,255,0.1)",
-                    fontSize: "20px",
-                    fontWeight: 800,
-                    color: "#c4b5fd",
+                    overflow: "hidden",
+                    position: "relative",
                   }}
                 >
-                  {isRTL ? "أ" : "A"}
+                  <Image
+                    src="/founder.png"
+                    alt={founderName}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
                 </motion.div>
 
                 <h3

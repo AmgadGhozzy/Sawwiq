@@ -11,6 +11,7 @@ import JsonLd, {
   buildWebSiteSchema,
   buildSoftwareApplicationSchema,
 } from "@/components/seo/JsonLd";
+import { Analytics } from "@vercel/analytics/react";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://sawwiq.com";
@@ -144,6 +145,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
