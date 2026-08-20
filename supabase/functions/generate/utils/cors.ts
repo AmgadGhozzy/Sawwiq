@@ -1,9 +1,16 @@
-const ALLOWED_ORIGINS = [
+const PRODUCTION_ORIGINS = [
   "https://sawwiq.com",
   "https://www.sawwiq.com",
+];
+
+const DEVELOPMENT_ORIGINS = [
+  ...PRODUCTION_ORIGINS,
   "http://localhost:3000",
   "http://localhost:3001",
 ];
+
+const isProd = Deno.env.get("DENO_DEPLOYMENT_ID") !== undefined;
+const ALLOWED_ORIGINS = isProd ? PRODUCTION_ORIGINS : DEVELOPMENT_ORIGINS;
 
 function getAllowedOrigin(reqOrigin: string | null): string {
   if (reqOrigin && ALLOWED_ORIGINS.includes(reqOrigin)) {

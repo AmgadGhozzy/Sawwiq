@@ -109,6 +109,22 @@
     "homeTitle": "Sawwiq — Your smart tool for creating marketing content",
     "homeDescription": "Generate professional marketing content in Arabic dialects and English instantly. AI-powered platform."
   },
+  "History": {
+    "title": "Content History",
+    "subtitle": "All your generated content",
+    "triggerLabel": "History",
+    "emptyTitle": "No content yet",
+    "emptySubtitle": "Start generating marketing content and it will appear here",
+    "copyContent": "Copy Content",
+    "copied": "Copied",
+    "expand": "Show All",
+    "collapse": "Hide",
+    "close": "Close",
+    "loading": "Loading...",
+    "errorTitle": "Failed to load history",
+    "errorSubtitle": "Check your connection and try again",
+    "retry": "Retry"
+  },
   "Errors": {
     "VALIDATION_ERROR": "Invalid input. Make sure to fill all required fields.",
     "SESSION_MISSING": "Invalid session. Reload the page and try again.",

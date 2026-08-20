@@ -46,7 +46,7 @@ export async function POST(
   const parsed = waitlistSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: { code: parsed.error.issues[0]?.message ?? "WAITLIST_INVALID_EMAIL" } },
+      { success: false, error: { code: "WAITLIST_INVALID_EMAIL" } },
       { status: 400 }
     );
   }

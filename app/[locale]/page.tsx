@@ -1,6 +1,7 @@
 import ContentGenerator from "@/components/generator/ContentGenerator";
 import ConversionCTA from "@/components/marketing/ConversionCTA";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import HistoryProvider from "@/components/history/HistoryProvider";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -71,8 +72,9 @@ export default function Home() {
       </div>
 
       {/* ── Navbar / Switcher ── */}
-      <div style={{ position: "absolute", top: "20px", left: "20px", zIndex: 50 }}>
+      <div style={{ position: "absolute", top: "20px", left: "20px", zIndex: 50, display: "flex", alignItems: "center", gap: "8px" }}>
         <LanguageSwitcher />
+        <HistoryProvider />
       </div>
 
       {/* ── Hero Header ── */}
