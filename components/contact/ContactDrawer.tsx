@@ -82,16 +82,15 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
             role="dialog"
             aria-modal="true"
             aria-label={t("drawerGreeting")}
-            initial={{ opacity: 0, y: 60, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.97 }}
+            initial={{ x: "-50%", opacity: 0, y: 60, scale: 0.96 }}
+            animate={{ x: "-50%", opacity: 1, y: 0, scale: 1 }}
+            exit={{ x: "-50%", opacity: 0, y: 40, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 380, damping: 30 }}
             className="contact-drawer-panel"
             style={{
               position: "fixed",
               bottom: "24px",
               left: "50%",
-              transform: "translateX(-50%)",
               width: "min(520px, calc(100vw - 32px))",
               zIndex: 999,
               borderRadius: "24px",
@@ -380,8 +379,6 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   border-bottom-left-radius: 0 !important;
                   border-bottom-right-radius: 0 !important;
                   width: 100vw !important;
-                  left: 0 !important;
-                  transform: none !important;
                 }
               }
             `}</style>
