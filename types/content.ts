@@ -7,6 +7,7 @@ export const PLATFORMS = [
   "instagram",
   "linkedin",
   "x_twitter",
+  "facebook",
 ] as const;
 
 export type Platform = (typeof PLATFORMS)[number];

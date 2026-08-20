@@ -59,7 +59,8 @@
       "tiktok": "TikTok / Reels",
       "instagram": "Instagram",
       "linkedin": "LinkedIn",
-      "x_twitter": "X / Twitter"
+      "x_twitter": "X / Twitter",
+      "facebook": "Facebook"
     },
     "contentTypes": {
       "sponsored_ad": "Sponsored Ad",

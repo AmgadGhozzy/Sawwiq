@@ -71,14 +71,16 @@ export default function Home() {
         }} />
       </div>
 
-      {/* ── Navbar / Switcher ── */}
-      <div style={{ position: "absolute", top: "20px", left: "20px", zIndex: 50, display: "flex", alignItems: "center", gap: "8px" }}>
+      {/* ── Navbar ── */}
+      <div style={{ position: "absolute", top: "20px", left: "20px", zIndex: 50 }}>
         <LanguageSwitcher />
+      </div>
+      <div style={{ position: "absolute", top: "20px", right: "20px", zIndex: 50 }}>
         <HistoryProvider />
       </div>
 
       {/* ── Hero Header ── */}
-      <header className="relative z-10 pt-14 pb-20 px-4 text-center">
+      <header className="relative z-10 pt-8 pb-6 px-4 text-center">
         {/* Logo + Brand */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -123,7 +125,7 @@ export default function Home() {
         {/* Sparkle badge */}
         <div style={{
           display: "inline-flex", alignItems: "center", gap: "6px",
-          marginTop: "20px", padding: "6px 16px",
+          marginTop: "12px", padding: "6px 16px",
           borderRadius: "999px",
           background: "rgba(124,58,237,0.08)",
           border: "1px solid rgba(124,58,237,0.15)",

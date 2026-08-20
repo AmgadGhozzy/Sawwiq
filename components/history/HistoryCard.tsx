@@ -16,6 +16,7 @@ const PLATFORM_CONFIG: Record<string, { label: string; color: string; bg: string
   tiktok: { label: "TikTok", color: "#00f2ea", bg: "rgba(0,242,234,0.08)", border: "rgba(0,242,234,0.18)" },
   linkedin: { label: "LinkedIn", color: "#0A66C2", bg: "rgba(10,102,194,0.10)", border: "rgba(10,102,194,0.20)" },
   x_twitter: { label: "X", color: "#a3a3a3", bg: "rgba(163,163,163,0.08)", border: "rgba(163,163,163,0.18)" },
+  facebook: { label: "Facebook", color: "#1877F2", bg: "rgba(24,119,242,0.10)", border: "rgba(24,119,242,0.20)" },
 };
 
 // ---------------------------------------------------------------------------

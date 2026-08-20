@@ -56,10 +56,11 @@
     "contentTypeLabel": "نوع المحتوى",
     "arabicStyleLabel": "اللهجة",
     "platforms": {
-      "tiktok": "تيك توك / ريلز",
+      "tiktok": "تيك توك",
       "instagram": "انستجرام",
       "linkedin": "لينكد إن",
-      "x_twitter": "إكس / تويتر"
+      "x_twitter": "إكس / تويتر",
+      "facebook": "فيسبوك"
     },
     "contentTypes": {
       "sponsored_ad": "إعلان ممول",
