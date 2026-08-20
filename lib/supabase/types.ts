@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 // Supabase Database Types
-// Mirrors migrations 001_initial_schema.sql + 003_generation_atomicity.sql
+// Mirrors migrations 001–004
 //
 // NOTE: These types follow the exact shape required by @supabase/supabase-js
 // generic typing system. Do not simplify the Row/Insert/Update structure.
@@ -79,18 +79,24 @@ export interface Database {
           id: string;
           session_id: string | null;
           email: string;
+          fingerprint_hash: string | null;
+          client_ip: string | null;
           created_at: string;
         };
         Insert: {
           id?: string | undefined;
           session_id?: string | null | undefined;
           email: string;
+          fingerprint_hash?: string | null | undefined;
+          client_ip?: string | null | undefined;
           created_at?: string | undefined;
         };
         Update: {
           id?: string | undefined;
           session_id?: string | null | undefined;
           email?: string | undefined;
+          fingerprint_hash?: string | null | undefined;
+          client_ip?: string | null | undefined;
           created_at?: string | undefined;
         };
         Relationships: [];
@@ -107,6 +113,15 @@ export interface Database {
           p_content_type: string;
           p_arabic_style: string;
           p_ai_response: Json;
+        };
+        Returns: Json;
+      };
+      register_waitlist: {
+        Args: {
+          p_email: string;
+          p_session_id: string | null;
+          p_fingerprint_hash: string | null;
+          p_client_ip: string | null;
         };
         Returns: Json;
       };

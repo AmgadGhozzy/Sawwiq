@@ -120,8 +120,18 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/20 selection:text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
+}
+
+/* Text selection — visible on dark backgrounds */
+::selection {
+  background: rgba(124, 58, 237, 0.4);
+  color: #f1f5f9;
+}
+::-moz-selection {
+  background: rgba(124, 58, 237, 0.4);
+  color: #f1f5f9;
 }
 
 /* Smooth animations */

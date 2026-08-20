@@ -54,7 +54,7 @@ export default function ContentGenerator() {
     formState: { errors, isValid },
   } = useForm<GenerateInputDTO>({
     resolver: zodResolver(generateInputSchema),
-    defaultValues: { platform: "instagram", contentType: "sponsored_ad", arabicStyle: "white_arabic", rawInput: "" },
+    defaultValues: { platform: "facebook", contentType: "interactive_post", arabicStyle: "egyptian_colloquial", rawInput: "" },
     mode: "onChange",
   });
 

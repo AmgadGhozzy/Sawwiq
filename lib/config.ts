@@ -20,6 +20,16 @@ export const sessionConfig = {
   freeGenerations: 3,
 };
 
+export const waitlistConfig = {
+  /** Max value for session.max_limit (original 3 + max bonus). Must match RPC constant. */
+  maxBonusCap: 5,
+  /** Max bonus-granting registrations per IP within the window. Must match RPC constant. */
+  ipBonusLimit: 3,
+  /** Time window in hours for IP-based bonus rate limiting. Must match RPC constant. */
+  ipBonusWindowHours: 24,
+};
+
+
 export const appConfig = {
   productName: "سَوِّق",
   productTagline: "أداتك الذكية لإنشاء محتوى تسويقي في ثوانٍ.",

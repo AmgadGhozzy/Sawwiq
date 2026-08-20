@@ -12,6 +12,7 @@
     "benchmark": "tsx scripts/run-benchmark.ts"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^5.2.0",
     "@google/genai": "^2.17.1",
     "@hookform/resolvers": "^5.9.1",
     "@supabase/supabase-js": "^2.112.3",

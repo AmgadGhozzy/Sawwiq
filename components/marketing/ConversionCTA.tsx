@@ -4,10 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Rocket, ArrowLeft, Check, Mail, Loader2, Gift } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useFingerprint } from "@/hooks/useFingerprint";
 
 export default function ConversionCTA() {
   const t = useTranslations("ConversionCTA");
   const tErrors = useTranslations("Errors");
+  const fingerprint = useFingerprint();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ export default function ConversionCTA() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, ...(fingerprint ? { fingerprint } : {}) }),
       });
 
       const data = (await res.json()) as
@@ -59,17 +61,16 @@ export default function ConversionCTA() {
       className="cta-glass-card"
       style={{
         position: "relative",
-        width: "100%",
-        maxWidth: "380px",
+        maxWidth: "900px",
         margin: "0 auto",
-        borderRadius: "20px",
+        borderRadius: "28px",
         background: "linear-gradient(165deg, rgba(15,15,25,0.85) 0%, rgba(10,10,20,0.9) 50%, rgba(20,12,40,0.85) 100%)",
         backdropFilter: "blur(60px) saturate(180%)",
         WebkitBackdropFilter: "blur(60px) saturate(180%)",
         border: "1px solid rgba(255,255,255,0.08)",
         boxShadow:
           "0 24px 80px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,255,255,0.03), 0 0 120px rgba(124,58,237,0.05)",
-        padding: "32px 24px",
+        padding: "56px 48px",
         textAlign: "center",
         display: "flex",
         flexDirection: "column",
@@ -123,17 +124,16 @@ export default function ConversionCTA() {
       </motion.div>
 
       {/* ── Text ── */}
-      <div style={{ maxWidth: "100%", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: "500px", position: "relative", zIndex: 1 }}>
         <h3 style={{
-          fontSize: "1.25rem", fontWeight: 800, margin: "0 0 10px",
+          fontSize: "1.6rem", fontWeight: 800, margin: "0 0 14px",
           background: "linear-gradient(135deg, #f1f5f9, #c4b5fd)",
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           backgroundClip: "text",
-          lineHeight: 1.4,
         }}>
           {t("title")}
         </h3>
-        <p style={{ color: "#94a3b8", lineHeight: 1.7, fontSize: "13.5px", margin: 0 }}>
+        <p style={{ color: "#94a3b8", lineHeight: 1.85, fontSize: "14.5px", margin: 0 }}>
           {t("subtitle")}
         </p>
       </div>
@@ -183,7 +183,7 @@ export default function ConversionCTA() {
             </motion.div>
           ) : (
             <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", width: "100%" }}>
+              <form onSubmit={handleSubmit} className="cta-form-layout">
                 <div style={{ position: "relative", flex: 1 }}>
                   <Mail size={15} color="#64748b" style={{
                     position: "absolute", marginInlineEnd: "14px", insetInlineEnd: 0, top: "50%", transform: "translateY(-50%)",
