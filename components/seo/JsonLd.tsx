@@ -34,8 +34,8 @@ export function buildOrganizationSchema(locale: string) {
     url: `${BASE_URL}/${locale}`,
     logo: `${BASE_URL}/logo.png`,
     description: isAr
-      ? "أداتك الذكية لإنشاء محتوى تسويقي في ثوانٍ."
-      : "Your smart tool for creating marketing content in seconds.",
+      ? "ولّد محتوى تسويقي احترافي بالذكاء الاصطناعي — من الفكرة إلى النشر في ثوانٍ."
+      : "Generate professional marketing content with AI — from idea to publish in seconds.",
     sameAs: [],
   };
 }
@@ -52,8 +52,8 @@ export function buildWebSiteSchema(locale: string) {
     url: `${BASE_URL}/${locale}`,
     inLanguage: locale,
     description: isAr
-      ? "أداتك الذكية لإنشاء محتوى تسويقي في ثوانٍ."
-      : "Your smart tool for creating marketing content in seconds.",
+      ? "ولّد محتوى تسويقي احترافي بالذكاء الاصطناعي — من الفكرة إلى النشر في ثوانٍ."
+      : "Generate professional marketing content with AI — from idea to publish in seconds.",
   };
 }
 
@@ -70,13 +70,13 @@ export function buildSoftwareApplicationSchema(locale: string) {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description: isAr
-      ? "منصة ذكية لتوليد المحتوى التسويقي بالذكاء الاصطناعي."
-      : "AI platform for generating marketing content.",
+      ? "منصة ذكية لتوليد محتوى تسويقي بالذكاء الاصطناعي — عناوين، افتتاحيات، هاشتاغات، ودعوات عمل."
+      : "AI-powered platform for generating marketing content — headlines, hooks, hashtags, and CTAs.",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: isAr ? "تجربة مجانية" : "Free trial",
+      description: isAr ? "مجاني — بدون بطاقة ائتمان" : "Free — no credit card required",
     },
     inLanguage: [locale],
   };
