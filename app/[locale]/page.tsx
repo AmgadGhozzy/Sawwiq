@@ -5,7 +5,7 @@ import HistoryProvider from "@/components/history/HistoryProvider";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-
+import Footer from "@/components/contact/Footer";
 export default function Home() {
   const tGlobal = useTranslations("Global");
   const tHome = useTranslations("HomePage");
@@ -143,9 +143,12 @@ export default function Home() {
       </section>
 
       {/* ── CTA Section ── */}
-      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20">
+      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20 mb-20">
         <ConversionCTA />
       </section>
+
+      {/* ── Footer ── */}
+      <Footer />
     </main>
   );
 }

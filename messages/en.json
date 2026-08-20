@@ -144,5 +144,19 @@
     "SERVICE_UNAVAILABLE": "Service is currently unavailable. Try again later.",
     "WAITLIST_INVALID_EMAIL": "Invalid email address. Please enter a valid email.",
     "WAITLIST_ERROR": "An error occurred while registering. Try again."
+  },
+  "Contact": {
+    "footerDescription": "A simple tool for creating better content.",
+    "footerTagline": "Built with care, one idea at a time.",
+    "footerCTA": "Made by {name}",
+    "drawerGreeting": "Hey there 👋",
+    "drawerIntro": "I'm {name}, the maker of Sawwiq.",
+    "drawerBody": "I built Sawwiq to make creating marketing content simpler and faster.\nIf you have an idea, an issue, or something you think could be better — reach out.",
+    "whatsappLabel": "WhatsApp",
+    "whatsappDesc": "Fastest way to reach me",
+    "emailLabel": "Email",
+    "emailDesc": "For suggestions, issues & collaboration",
+    "close": "Close",
+    "copyright": "All rights reserved"
   }
 }
