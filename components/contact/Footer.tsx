@@ -37,7 +37,7 @@ export default function Footer() {
           style={{
             height: "1px",
             background:
-              "linear-gradient(90deg, transparent, rgba(124,58,237,0.3), rgba(99,102,241,0.2), transparent)",
+              "linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-brand-primary) 30%, transparent), color-mix(in srgb, var(--color-brand-primary) 20%, transparent), transparent)",
             marginBottom: "40px",
           }}
         />
@@ -71,7 +71,7 @@ export default function Footer() {
               style={{
                 fontSize: "1.1rem",
                 fontWeight: 700,
-                color: "#94a3b8",
+                color: "var(--color-foreground-secondary)",
                 letterSpacing: "-0.01em",
               }}
             >
@@ -83,7 +83,7 @@ export default function Footer() {
           <p
             style={{
               fontSize: "13px",
-              color: "#475569",
+              color: "var(--color-foreground-disabled)",
               margin: 0,
               lineHeight: 1.7,
               maxWidth: "320px",
@@ -96,7 +96,7 @@ export default function Footer() {
           <p
             style={{
               fontSize: "12px",
-              color: "#64748b",
+              color: "var(--color-foreground-tertiary)",
               margin: 0,
               fontStyle: "italic",
               opacity: 0.7,
@@ -115,9 +115,9 @@ export default function Footer() {
               gap: "6px",
               padding: "8px 18px",
               borderRadius: "999px",
-              background: "rgba(124,58,237,0.08)",
-              border: "1px solid rgba(124,58,237,0.15)",
-              color: "#a78bfa",
+              background: "color-mix(in srgb, var(--color-brand-primary) 8%, transparent)",
+              border: "1px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
+              color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
               fontSize: "13px",
               fontWeight: 600,
               cursor: "pointer",
@@ -134,7 +134,7 @@ export default function Footer() {
           <p
             style={{
               fontSize: "11px",
-              color: "#334155",
+              color: "var(--color-foreground-disabled)",
               margin: "8px 0 0",
             }}
           >
@@ -144,10 +144,10 @@ export default function Footer() {
 
         <style>{`
           .founder-cta-btn:hover {
-            background: rgba(124,58,237,0.15) !important;
-            border-color: rgba(124,58,237,0.3) !important;
-            color: #c4b5fd !important;
-            box-shadow: 0 0 20px rgba(124,58,237,0.12);
+            background: color-mix(in srgb, var(--color-brand-primary) 15%, transparent) !important;
+            border-color: color-mix(in srgb, var(--color-brand-primary) 30%, transparent) !important;
+            color: color-mix(in srgb, var(--color-brand-primary) 70%, var(--color-foreground)) !important;
+            box-shadow: var(--shadow-glow);
           }
         `}</style>
       </footer>

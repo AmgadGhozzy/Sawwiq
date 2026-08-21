@@ -18,28 +18,33 @@ export default function LanguageSwitcher() {
     <button
       onClick={handleSwitch}
       style={{
-        display: "flex", alignItems: "center", gap: "6px",
-        padding: "8px 12px",
-        borderRadius: "999px",
-        background: "rgba(255,255,255,0.05)",
-        border: "1px solid rgba(255,255,255,0.1)",
-        color: "#cbd5e1",
-        fontSize: "13px", fontWeight: 600,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "40px",
+        height: "40px",
+        borderRadius: "50%",
+        background: "var(--color-surface)",
+        border: "1px solid var(--color-border)",
         cursor: "pointer",
+        color: "var(--color-foreground-secondary)",
         transition: "all 0.2s ease",
-        fontFamily: "inherit",
+        boxShadow: "var(--shadow-sm)",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-        e.currentTarget.style.color = "#fff";
+        e.currentTarget.style.background = "var(--color-surface-elevated)";
+        e.currentTarget.style.color = "var(--color-foreground)";
+        e.currentTarget.style.transform = "scale(1.05)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-        e.currentTarget.style.color = "#cbd5e1";
+        e.currentTarget.style.background = "var(--color-surface)";
+        e.currentTarget.style.color = "var(--color-foreground-secondary)";
+        e.currentTarget.style.transform = "scale(1)";
       }}
+      title={locale === "ar" ? "English" : "العربية"}
+      aria-label={locale === "ar" ? "English" : "العربية"}
     >
-      <Globe size={14} />
-      {locale === "ar" ? "English" : "العربية"}
+      <Globe size={18} />
     </button>
   );
 }

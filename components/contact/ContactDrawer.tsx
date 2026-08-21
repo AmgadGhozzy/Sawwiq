@@ -95,13 +95,11 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
               width: "min(520px, calc(100vw - 32px))",
               zIndex: 999,
               borderRadius: "24px",
-              background:
-                "linear-gradient(165deg, rgba(15,15,25,0.92) 0%, rgba(10,10,20,0.95) 50%, rgba(20,12,40,0.92) 100%)",
+              background: "color-mix(in srgb, var(--color-background) 85%, transparent)",
               backdropFilter: "blur(60px) saturate(180%)",
               WebkitBackdropFilter: "blur(60px) saturate(180%)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow:
-                "0 24px 80px -12px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(255,255,255,0.03), 0 0 120px rgba(124,58,237,0.08)",
+              border: "1px solid var(--color-border)",
+              boxShadow: "var(--shadow-elevated)",
               outline: "none",
               overflow: "hidden",
             }}
@@ -118,7 +116,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 height: "200px",
                 borderRadius: "50%",
                 background:
-                  "radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, rgba(79,70,229,0.05) 40%, transparent 70%)",
+                  "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 12%, transparent) 0%, color-mix(in srgb, var(--color-brand-primary) 5%, transparent) 40%, transparent 70%)",
                 filter: "blur(60px)",
                 pointerEvents: "none",
               }}
@@ -150,13 +148,13 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 width: "32px",
                 height: "32px",
                 borderRadius: "10px",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
+                border: "1px solid var(--color-border)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
-                color: "#94a3b8",
+                color: "var(--color-foreground-secondary)",
                 transition: "all 0.2s ease",
                 fontFamily: "inherit",
                 zIndex: 2,
@@ -187,16 +185,16 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     width: "56px",
                     height: "56px",
                     borderRadius: "16px",
-                    background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(79,70,229,0.12))",
+                    background: "color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
                     backdropFilter: "blur(12px)",
                     WebkitBackdropFilter: "blur(12px)",
-                    border: "1px solid rgba(124,58,237,0.25)",
+                    border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     margin: "0 auto 16px",
                     boxShadow:
-                      "0 0 40px rgba(124,58,237,0.15), inset 0 1px 0 rgba(255,255,255,0.1)",
+                      "0 0 40px color-mix(in srgb, var(--color-brand-primary) 15%, transparent), inset 0 1px 0 color-mix(in srgb, var(--color-foreground) 10%, transparent)",
                     overflow: "hidden",
                     position: "relative",
                   }}
@@ -214,10 +212,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     fontSize: "1.25rem",
                     fontWeight: 800,
                     margin: "0 0 6px",
-                    background: "linear-gradient(135deg, #f1f5f9, #c4b5fd)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
+                    color: "var(--color-foreground)",
                   }}
                 >
                   {t("drawerGreeting")}
@@ -227,7 +222,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   style={{
                     fontSize: "14px",
                     fontWeight: 600,
-                    color: "#cbd5e1",
+                    color: "var(--color-foreground-secondary)",
                     margin: "0 0 10px",
                   }}
                 >
@@ -237,7 +232,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 <p
                   style={{
                     fontSize: "13px",
-                    color: "#64748b",
+                    color: "var(--color-foreground-tertiary)",
                     lineHeight: 1.8,
                     margin: 0,
                     maxWidth: "380px",
@@ -284,14 +279,14 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                       boxShadow: "0 4px 14px rgba(37,211,102,0.3)",
                     }}
                   >
-                    <MessageCircle size={18} color="#fff" />
+                    <MessageCircle size={18} color="white" />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p
                       style={{
                         fontSize: "14px",
                         fontWeight: 700,
-                        color: "#e2e8f0",
+                        color: "var(--color-foreground)",
                         margin: 0,
                       }}
                     >
@@ -300,7 +295,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     <p
                       style={{
                         fontSize: "11px",
-                        color: "#64748b",
+                        color: "var(--color-foreground-tertiary)",
                         margin: "2px 0 0",
                       }}
                     >
@@ -317,7 +312,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 {/* Email — Secondary CTA */}
                 <motion.a
                   href={`mailto:${EMAIL}`}
-                  whileHover={{ y: -2, boxShadow: "0 12px 35px rgba(124,58,237,0.15)" }}
+                  whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
                   whileTap={{ scale: 0.98 }}
                   style={{
                     display: "flex",
@@ -325,8 +320,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     gap: "12px",
                     padding: "14px 18px",
                     borderRadius: "14px",
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
+                    border: "1px solid var(--color-border)",
                     textDecoration: "none",
                     cursor: "pointer",
                     transition: "all 0.25s ease",
@@ -337,22 +332,21 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                       width: "38px",
                       height: "38px",
                       borderRadius: "10px",
-                      background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(79,70,229,0.12))",
-                      border: "1px solid rgba(124,58,237,0.2)",
+                      background: "var(--color-brand-surface)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       flexShrink: 0,
                     }}
                   >
-                    <Mail size={16} color="#a78bfa" />
+                    <Mail size={16} color="color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))" />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p
                       style={{
                         fontSize: "14px",
                         fontWeight: 700,
-                        color: "#e2e8f0",
+                        color: "var(--color-foreground)",
                         margin: 0,
                       }}
                     >
@@ -361,7 +355,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     <p
                       style={{
                         fontSize: "11px",
-                        color: "#64748b",
+                        color: "var(--color-foreground-tertiary)",
                         margin: "2px 0 0",
                       }}
                     >
@@ -370,7 +364,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   </div>
                   <ArrowUpRight
                     size={16}
-                    color="#64748b"
+                    color="var(--color-foreground-secondary)"
                     style={{ flexShrink: 0, opacity: 0.5 }}
                   />
                 </motion.a>
