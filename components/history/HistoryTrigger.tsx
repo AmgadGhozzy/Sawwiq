@@ -19,34 +19,28 @@ export default function HistoryTrigger({ onClick }: HistoryTriggerProps) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: "6px",
-        padding: "8px 12px",
-        borderRadius: "999px",
-        background: "rgba(255,255,255,0.05)",
-        border: "1px solid rgba(255,255,255,0.1)",
+        width: "40px",
+        height: "40px",
+        borderRadius: "50%",
+        background: "var(--color-surface)",
+        border: "1px solid var(--color-border)",
         cursor: "pointer",
-        fontFamily: "inherit",
-        color: "#cbd5e1",
-        fontSize: "13px",
-        fontWeight: 600,
+        color: "var(--color-foreground-secondary)",
         transition: "all 0.2s ease",
+        boxShadow: "var(--shadow-sm)",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-        e.currentTarget.style.color = "#fff";
+        e.currentTarget.style.background = "var(--color-surface-elevated)";
+        e.currentTarget.style.color = "var(--color-foreground)";
+        e.currentTarget.style.transform = "scale(1.05)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-        e.currentTarget.style.color = "#cbd5e1";
+        e.currentTarget.style.background = "var(--color-surface)";
+        e.currentTarget.style.color = "var(--color-foreground-secondary)";
+        e.currentTarget.style.transform = "scale(1)";
       }}
     >
-      <Clock size={14} />
-      <span
-        style={{ display: "none" }}
-        className="sm:inline-block"
-      >
-        {t("triggerLabel")}
-      </span>
+      <Clock size={18} />
     </button>
   );
 }
