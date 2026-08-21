@@ -133,13 +133,11 @@ export default async function RootLayout({
       <body
         style={{
           minHeight: "100vh",
-          background: "#09090b",
           fontFamily,
           margin: 0,
           padding: 0,
           WebkitFontSmoothing: "antialiased",
           MozOsxFontSmoothing: "grayscale",
-          color: "#f1f5f9",
         }}
       >
         <NextIntlClientProvider messages={messages}>
