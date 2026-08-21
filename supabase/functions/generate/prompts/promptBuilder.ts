@@ -158,7 +158,19 @@ function buildFactBoundaryLayer(): PromptLayer {
   };
 }
 
-function buildOutputContractLayer(): PromptLayer {
+function buildOutputContractLayer(contentType?: string): PromptLayer {
+  let bodyInstruction = `
+body:
+Focus on BENEFITS, not just features. For Real Estate: sell the lifestyle, not just the walls. For Products: sell the convenience or status. Use emojis naturally but sparingly.`.trim();
+
+  if (contentType === "short_video_script") {
+    bodyInstruction = `
+body:
+CRITICAL: The body MUST ONLY contain the structured scenes. 
+DO NOT write any introductory text, concluding paragraphs, or normal text outside the scenes. 
+You MUST use the exact format: [Scene X — Ns] followed by [Visual] and [Audio].`.trim();
+  }
+
   return {
     label: "Output Contract",
     content: `
@@ -173,8 +185,7 @@ title:
 hook:
 MUST NOT be a generic yes/no question. It MUST use the PAS framework (Problem-Agitation) or evoke FOMO (Fear Of Missing Out) or Curiosity. Tap into the customer's lifestyle desires.
 
-body:
-Focus on BENEFITS, not just features. For Real Estate: sell the lifestyle, not just the walls. For Products: sell the convenience or status. Use emojis naturally but sparingly.
+${bodyInstruction}
 
 callToAction:
 Must be strong and value-driven (e.g., 'احجز وحدتك الآن قبل زيادة الأسعار' instead of a boring 'تواصل معنا').
@@ -194,7 +205,7 @@ export function getPromptLayers(input: InputDTO): PromptLayer[] {
     buildMarketingObjectiveLayer(input.marketingObjective),
     buildInputContextLayer(input.rawInput),
     buildFactBoundaryLayer(),
-    buildOutputContractLayer(),
+    buildOutputContractLayer(input.contentType),
   ];
   return layers.filter((layer): layer is PromptLayer => layer !== null);
 }

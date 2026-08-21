@@ -9,6 +9,7 @@ import { getCorsHeaders, corsResponse } from "./utils/cors.ts";
 import { inputSchema, GEMINI_RESPONSE_SCHEMA, generatedContentSchema } from "./validation/schema.ts";
 import { buildSystemPrompt } from "./prompts/promptBuilder.ts";
 import { validateClaims } from "./validation/claimValidator.ts";
+import { repairVideoScriptTiming } from "./utils/repair.ts";
 
 Deno.serve(async (req: Request) => {
   // 1. CORS preflight
@@ -163,6 +164,10 @@ Deno.serve(async (req: Request) => {
     }
 
     const result = outputParse.data;
+
+    if (input.contentType === "short_video_script") {
+      result.body = repairVideoScriptTiming(result.body);
+    }
 
     const claimValidation = validateClaims(result, input);
     if (!claimValidation.passed) {

@@ -156,6 +156,30 @@ export function validateClaims(
     });
   }
 
+  if (input.contentType === "short_video_script") {
+    const scenePattern = /\[Scene\s+(\d+)\s*[—–-]\s*(\d+)s?\]/gi;
+    const matches = [...output.body.matchAll(scenePattern)];
+    if (matches.length > 0) {
+      // Index 2 is the duration capturing group
+      const firstDuration = parseInt(matches[0][2], 10);
+      if (firstDuration > 3) {
+        violations.push({
+          field: "body",
+          claim: "video_hook",
+          pattern: firstDuration.toString(),
+          reason: `First scene is ${firstDuration}s (should be ≤3s for hook)`,
+        });
+      }
+    } else {
+       violations.push({
+          field: "body",
+          claim: "video_structure",
+          pattern: "missing_scenes",
+          reason: "No scenes found in the video script body.",
+        });
+    }
+  }
+
   return {
     passed: violations.length === 0,
     violations,

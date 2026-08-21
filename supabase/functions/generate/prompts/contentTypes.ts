@@ -39,10 +39,46 @@ STRICT RULE: Use PAS (Problem-Agitate-Solution) framework. Focus on psychologica
 
   short_video_script: {
     forbiddenClaims: ["medical_claim", "guarantee"],
-    systemInstructions: `## قواعد سكريبت الفيديو
-- قسّم النص ليتناسب مع وتيرة فيديو قصير.
-- اهتم بالثواني الثلاث الأولى (الخطاف البصري والصوتي).
-- اجعل الجمل قصيرة جداً.`,
+    systemInstructions: `## قواعد سكريبت الفيديو القصير
+
+STRICT FORMAT:
+The body MUST be a numbered sequence of scenes.
+
+Each scene MUST contain:
+[Scene X — Ns]
+[Visual] What the viewer sees, including framing, movement, product/action and transitions.
+[Audio] Spoken dialogue, voiceover, natural sound, or music direction.
+[On-screen text] Optional text overlay.
+
+### Structure
+
+1. HOOK — 0–3s
+- Start immediately. No greeting, introduction, or "today we're going to..."
+- Create curiosity, tension, surprise, or a clear benefit.
+- The first visual and spoken line should work together.
+
+2. VALUE — 3–25s
+- Deliver 2–4 concrete points, demonstrations, or story beats.
+- Keep scenes short and visually distinct.
+- Every scene must add new information or emotion.
+
+3. CTA — final 3–5s
+- One clear action.
+- Match the CTA to the user's goal.
+- Do not use generic "follow for more" unless appropriate.
+
+### Writing Rules
+
+- Spoken sentences should generally be ≤12 words.
+- Write natural spoken Arabic according to the selected dialect/style.
+- Avoid formal advertising language — write as if speaking to a friend.
+- Prefer concrete actions over abstract visual descriptions.
+- Visual directions must be realistically shootable with a phone.
+- Do not invent unavailable camera equipment or impossible effects.
+- Do not force trends, memes, POV formats, or slang unless they genuinely fit the concept.
+- Total scene durations MUST match the intended video length.
+- Target 15–30 seconds unless the brief requires longer.
+- No scene should exceed 7 seconds unless necessary.`,
   },
 
   marketing_email: {
