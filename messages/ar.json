@@ -87,7 +87,8 @@
     "copyAll": "نسخ الكل",
     "copied": "تم النسخ",
     "rewrite": "عدّل الصياغة",
-    "newContent": "محتوى جديد"
+    "newContent": "محتوى جديد",
+    "hashtags": "هاشتاقات"
   },
   "GenerationSkeleton": {
     "loadingMessages": [

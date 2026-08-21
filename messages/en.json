@@ -87,7 +87,8 @@
     "copyAll": "Copy All",
     "copied": "Copied",
     "rewrite": "Rewrite",
-    "newContent": "New Content"
+    "newContent": "New Content",
+    "hashtags": "Hashtags"
   },
   "GenerationSkeleton": {
     "loadingMessages": [
