@@ -66,7 +66,8 @@ function normalizeArabicText(text: string): string {
 
 export function evaluateDeterministic(
   output: GeneratedContent,
-  expectations?: TestCaseExpectations
+  expectations?: TestCaseExpectations,
+  contentType?: ContentType
 ): DeterministicScore {
   const checks: DeterministicCheck[] = [];
 
@@ -174,6 +175,72 @@ export function evaluateDeterministic(
           ? `موجود: ${found.join("، ")}`
           : undefined,
     });
+  }
+
+  // ---------------------------------------------------------------------------
+  // 11. Video Script Structural Checks (only for short_video_script)
+  // ---------------------------------------------------------------------------
+  if (contentType === "short_video_script") {
+    const body = output.body;
+
+    // 11a. Scenes exist — at least one [Scene X — Ns] pattern
+    const scenePattern = /\[Scene\s+(\d+)\s*[—–-]\s*(\d+)s?\]/gi;
+    const sceneMatches = [...body.matchAll(scenePattern)];
+    checks.push({
+      name: "videoScenesExist",
+      passed: sceneMatches.length >= 2,
+      detail: sceneMatches.length < 2
+        ? `Found ${sceneMatches.length} scenes (minimum 2)`
+        : undefined,
+    });
+
+    // 11b. Scene numbers are sequential
+    if (sceneMatches.length >= 2) {
+      const sceneNumbers = sceneMatches.map(m => parseInt(m[1], 10));
+      const isSequential = sceneNumbers.every((n, i) => n === i + 1);
+      checks.push({
+        name: "videoScenesSequential",
+        passed: isSequential,
+        detail: !isSequential
+          ? `Scene numbers not sequential: ${sceneNumbers.join(", ")}`
+          : undefined,
+      });
+    }
+
+    // 11c. Every scene has [Visual] and [Audio]
+    const visualCount = (body.match(/\[Visual\]/gi) || []).length;
+    const audioCount = (body.match(/\[Audio\]/gi) || []).length;
+    checks.push({
+      name: "videoSceneComponents",
+      passed: sceneMatches.length > 0 && visualCount >= sceneMatches.length && audioCount >= sceneMatches.length,
+      detail: (visualCount < sceneMatches.length || audioCount < sceneMatches.length)
+        ? `Scenes: ${sceneMatches.length}, Visual: ${visualCount}, Audio: ${audioCount}`
+        : undefined,
+    });
+
+    // 11d. First scene starts within 0–3s (hook timing)
+    if (sceneMatches.length > 0) {
+      const firstDuration = parseInt(sceneMatches[0][2], 10);
+      checks.push({
+        name: "videoHookTiming",
+        passed: firstDuration <= 3,
+        detail: firstDuration > 3
+          ? `First scene is ${firstDuration}s (should be ≤3s for hook)`
+          : undefined,
+      });
+    }
+
+    // 11e. Total duration within allowed range (15–30s)
+    if (sceneMatches.length >= 2) {
+      const totalDuration = sceneMatches.reduce((sum, m) => sum + parseInt(m[2], 10), 0);
+      checks.push({
+        name: "videoDurationRange",
+        passed: totalDuration >= 10 && totalDuration <= 35,
+        detail: (totalDuration < 10 || totalDuration > 35)
+          ? `Total duration: ${totalDuration}s (expected 10–35s)`
+          : undefined,
+      });
+    }
   }
 
   const passedCount = checks.filter((c) => c.passed).length;

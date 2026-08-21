@@ -15,7 +15,8 @@ export type EvaluationCategory =
   | "poor_input"
   | "incomplete_input"
   | "mixed_language"
-  | "dialect_stress";
+  | "dialect_stress"
+  | "video_script";
 
 // ---------------------------------------------------------------------------
 // Test Case Expectations (deterministic assertions)

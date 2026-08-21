@@ -4,6 +4,7 @@ import type { AIProvider, GenerationResult } from "./types";
 import { buildSystemPrompt, buildUserPrompt } from "../../supabase/functions/generate/prompts/promptBuilder.ts";
 import { validateClaims } from "../../supabase/functions/generate/validation/claimValidator.ts";
 import { generatedContentSchema, type InputDTO } from "../../supabase/functions/generate/validation/schema.ts";
+import { repairVideoScriptTiming } from "../../supabase/functions/generate/utils/repair.ts";
 
 const generatedContentGeminiSchema = {
   type: Type.OBJECT,
@@ -74,6 +75,10 @@ export class ProductionGenerationAdapter implements AIProvider {
     }
 
     const validated = generatedContentSchema.parse(parsed);
+
+    if (inputDto.contentType === "short_video_script") {
+      validated.body = repairVideoScriptTiming(validated.body);
+    }
 
     const claimCheck = validateClaims(validated, inputDto);
     if (!claimCheck.passed) {

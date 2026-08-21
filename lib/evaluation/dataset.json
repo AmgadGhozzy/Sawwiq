@@ -538,5 +538,126 @@
       "mustContain": ["التفاوض", "أونلاين|إنترنت|عن بعد"],
       "mustNotContain": []
     }
+  },
+  {
+    "id": "vid-01",
+    "category": "video_script",
+    "name": "سكريبت منتج تيك توك",
+    "input": {
+      "contentType": "short_video_script",
+      "arabicStyle": "egyptian_colloquial",
+      "rawInput": "سماعة بلوتوث صغيرة جداً، عزل ضوضاء، بطارية 24 ساعة، مقاومة للمية IPX5"
+    },
+    "criteria": [
+      "Must follow structured scene format with [Scene X — Ns], [Visual], [Audio]",
+      "First scene must be a hook within 0–3 seconds",
+      "Total duration should be 15–30 seconds",
+      "Must highlight product benefits not just specs",
+      "Must use natural Egyptian dialect"
+    ],
+    "expectations": {
+      "mustContain": ["24", "بلوتوث|Bluetooth"],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "vid-02",
+    "category": "video_script",
+    "name": "سكريبت تعليمي ريلز",
+    "input": {
+      "contentType": "short_video_script",
+      "arabicStyle": "white_arabic",
+      "rawInput": "3 نصائح لتحسين جودة النوم: تقليل الشاشات قبل النوم بساعة، تثبيت موعد يومي للنوم، تهوية الغرفة"
+    },
+    "criteria": [
+      "Must follow structured scene format",
+      "Each tip should be a separate scene",
+      "Must not add medical claims beyond what was provided",
+      "Must be universally understandable Arabic"
+    ],
+    "expectations": {
+      "mustContain": ["شاشات", "تهوية"],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "vid-03",
+    "category": "video_script",
+    "name": "سكريبت عقار شورت",
+    "input": {
+      "contentType": "short_video_script",
+      "arabicStyle": "gulf_premium",
+      "rawInput": "فيلا 4 غرف نوم في الرياض حي الملقا، مسبح خاص، مجلس منفصل، قريبة من طريق الملك فهد"
+    },
+    "criteria": [
+      "Must follow structured scene format",
+      "Must sell the lifestyle not just the walls",
+      "Must use premium Gulf tone",
+      "Must not invent price or payment plan"
+    ],
+    "expectations": {
+      "mustContain": ["الملقا", "مسبح"],
+      "mustNotContain": ["سعر", "تقسيط"]
+    }
+  },
+  {
+    "id": "vid-04",
+    "category": "video_script",
+    "name": "سكريبت UGC منتج تجميل",
+    "input": {
+      "contentType": "short_video_script",
+      "arabicStyle": "saudi_marketing",
+      "rawInput": "سيروم فيتامين سي للوجه، يفتح البشرة ويوحد لونها، خالي من البارابين، مناسب للبشرة الحساسة"
+    },
+    "criteria": [
+      "Must follow structured scene format",
+      "Visual directions must be phone-shootable (close-ups of product, application)",
+      "Must not make unsubstantiated medical claims",
+      "Must use natural Saudi marketing dialect"
+    ],
+    "expectations": {
+      "mustContain": ["فيتامين سي|فيتامين C", "بارابين"],
+      "mustNotContain": ["علاج", "يزيل"]
+    }
+  },
+  {
+    "id": "vid-05",
+    "category": "video_script",
+    "name": "سكريبت فيديو بمعلومات ناقصة",
+    "input": {
+      "contentType": "short_video_script",
+      "arabicStyle": "white_arabic",
+      "rawInput": "تطبيق توصيل طلبات سريع"
+    },
+    "criteria": [
+      "Must follow structured scene format despite minimal input",
+      "Must NOT invent delivery times, prices, or coverage areas",
+      "Must build script around speed and convenience generically",
+      "Scenes must still have proper Visual and Audio sections"
+    ],
+    "expectations": {
+      "mustContain": [],
+      "mustNotContain": ["دقيقة", "ريال", "مدينة"]
+    }
+  },
+  {
+    "id": "vid-06",
+    "category": "video_script",
+    "name": "سكريبت 15 ثانية مايكرو",
+    "input": {
+      "contentType": "short_video_script",
+      "arabicStyle": "egyptian_colloquial",
+      "rawInput": "عرض خاص: اشتري 2 واحصل على الثالث مجاناً على كل منتجات العناية بالشعر، العرض ينتهي آخر الشهر"
+    },
+    "criteria": [
+      "Must follow structured scene format",
+      "Must be very concise — target 15 seconds",
+      "Must clearly communicate the offer (buy 2 get 1 free)",
+      "Must include urgency from the end-of-month deadline"
+    ],
+    "expectations": {
+      "mustContain": ["2", "مجان"],
+      "mustNotContain": []
+    }
   }
 ]

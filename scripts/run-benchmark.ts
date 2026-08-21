@@ -87,7 +87,7 @@ async function runFullBenchmark() {
 
       const latencyMs = Date.now() - startTime;
 
-      const detScore = evaluateDeterministic(generatedContent, tc.expectations);
+      const detScore = evaluateDeterministic(generatedContent, tc.expectations, tc.input.contentType);
 
       let semScore = undefined;
       if (runSemantic && detScore.passed) {
