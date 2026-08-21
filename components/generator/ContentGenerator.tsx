@@ -19,13 +19,12 @@ import GenerationResult from "./GenerationResult";
 type ViewState = "empty" | "loading" | "result" | "locked";
 
 const DARK_CARD: React.CSSProperties = {
-  background: "linear-gradient(165deg, rgba(15,15,25,0.82) 0%, rgba(10,10,20,0.88) 50%, rgba(20,12,40,0.82) 100%)",
+  background: "var(--gradient-surface)",
   backdropFilter: "blur(50px) saturate(170%)",
   WebkitBackdropFilter: "blur(50px) saturate(170%)",
-  border: "1px solid rgba(255,255,255,0.07)",
-  boxShadow:
-    "0 20px 60px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,255,255,0.03)",
-  borderRadius: "24px",
+  border: "1px solid var(--color-border)",
+  boxShadow: "var(--shadow-elevated)",
+  borderRadius: "var(--radius-xl)",
 };
 
 const scrollToCTA = () => {
@@ -33,7 +32,7 @@ const scrollToCTA = () => {
   if (!el) return;
   el.scrollIntoView({ behavior: "smooth", block: "center" });
   el.style.transition = "box-shadow 0.3s ease";
-  el.style.boxShadow = "0 0 0 3px rgba(124,58,237,0.5), 0 0 60px rgba(124,58,237,0.2)";
+  el.style.boxShadow = "0 0 0 3px var(--color-brand-primary), var(--shadow-glow)";
   setTimeout(() => { el.style.boxShadow = ""; }, 1800);
 };
 
@@ -112,7 +111,7 @@ export default function ContentGenerator() {
         className="flex flex-col lg:flex-row items-stretch gap-5 lg:gap-7"
       >
         {/* ────────────────── Settings Panel ────────────────── */}
-        <div className="w-full lg:w-[380px] shrink-0">
+        <div className="w-full lg:w-[380px] shrink-0 relative z-50">
           <div className="lg:sticky lg:top-8">
             <motion.div
               initial={{ opacity: 0, x: 16 }}
@@ -128,17 +127,17 @@ export default function ContentGenerator() {
               }}>
                 <div style={{
                   width: "34px", height: "34px", borderRadius: "10px", flexShrink: 0,
-                  background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                  background: "var(--gradient-brand)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: "0 4px 16px rgba(124,58,237,0.35)",
+                  boxShadow: "var(--shadow-brand)",
                 }}>
-                  <Wand2 size={15} color="#fff" />
+                  <Wand2 size={15} color="white" />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: "13px", fontWeight: 700, color: "#f1f5f9", margin: 0 }}>
+                  <p style={{ fontSize: "13px", fontWeight: 700, color: "var(--color-foreground)", margin: 0 }}>
                     {t("settingsTitle")}
                   </p>
-                  <p style={{ fontSize: "11px", color: "#475569", margin: 0, marginTop: "2px" }}>
+                  <p style={{ fontSize: "11px", color: "var(--color-foreground-disabled)", margin: 0, marginTop: "2px" }}>
                     {t("settingsSubtitle")}
                   </p>
                 </div>
@@ -149,9 +148,9 @@ export default function ContentGenerator() {
                     animate={{ scale: 1, opacity: 1 }}
                     style={{
                       padding: "3px 10px", borderRadius: "999px",
-                      background: remainingGenerations > 0 ? "rgba(124,58,237,0.12)" : "rgba(239,68,68,0.1)",
-                      border: `1px solid ${remainingGenerations > 0 ? "rgba(124,58,237,0.25)" : "rgba(239,68,68,0.2)"}`,
-                      color: remainingGenerations > 0 ? "#a78bfa" : "#f87171",
+                      background: remainingGenerations > 0 ? "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)" : "color-mix(in srgb, var(--color-danger) 10%, transparent)",
+                      border: `1px solid ${remainingGenerations > 0 ? "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)" : "color-mix(in srgb, var(--color-danger) 20%, transparent)"}`,
+                      color: remainingGenerations > 0 ? "var(--color-brand-primary)" : "var(--color-danger)",
                       fontSize: "11px", fontWeight: 700, whiteSpace: "nowrap" as const,
                     }}
                   >
@@ -210,9 +209,9 @@ export default function ContentGenerator() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       style={{
-                        padding: "10px 14px", borderRadius: "10px",
-                        background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.15)",
-                        color: "#f87171", fontSize: "13px", fontWeight: 500,
+                        padding: "10px 14px", borderRadius: "var(--radius-md)",
+                        background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
+                        color: "var(--color-danger)", fontSize: "13px", fontWeight: 500,
                       }}
                       role="alert"
                     >
@@ -226,15 +225,15 @@ export default function ContentGenerator() {
                       onClick={scrollToCTA}
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      whileHover={{ y: -2, boxShadow: "0 8px 30px rgba(124,58,237,0.5)" }}
+                      whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
                       whileTap={{ scale: 0.97 }}
                       style={{
                         display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                        width: "100%", padding: "13px", borderRadius: "12px", border: "none",
-                        background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-                        color: "#fff", fontWeight: 700, fontSize: "14px",
+                        width: "100%", padding: "13px", borderRadius: "var(--radius-lg)", border: "none",
+                        background: "var(--gradient-brand)",
+                        color: "white", fontWeight: 700, fontSize: "14px",
                         cursor: "pointer", fontFamily: "inherit",
-                        boxShadow: "0 4px 20px rgba(124,58,237,0.4)",
+                        boxShadow: "var(--shadow-brand)",
                       }}
                     >
                       <Sparkles size={15} />
@@ -268,12 +267,12 @@ export default function ContentGenerator() {
                   flex: 1,
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
-                  borderRadius: "24px",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  background: "linear-gradient(165deg, rgba(15,15,25,0.82) 0%, rgba(10,10,20,0.88) 50%, rgba(20,12,40,0.82) 100%)",
+                  borderRadius: "var(--radius-xl)",
+                  border: "1px solid var(--color-border)",
+                  background: "var(--gradient-surface)",
                   backdropFilter: "blur(50px) saturate(160%)",
                   WebkitBackdropFilter: "blur(50px) saturate(160%)",
-                  boxShadow: "0 20px 60px -12px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07), inset 0 -1px 0 rgba(255,255,255,0.03), 0 0 100px rgba(124,58,237,0.04)",
+                  boxShadow: "var(--shadow-elevated)",
                   padding: "48px 32px", textAlign: "center", gap: "24px",
                   position: "relative", overflow: "hidden",
                 }}
@@ -284,20 +283,20 @@ export default function ContentGenerator() {
                   transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
                   style={{
                     width: "72px", height: "72px", borderRadius: "50%",
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
+                    border: "1px solid var(--color-border)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "0 0 0 12px rgba(124,58,237,0.06), 0 0 0 24px rgba(124,58,237,0.03), 0 12px 40px rgba(124,58,237,0.15)",
+                    boxShadow: "0 0 0 12px var(--color-brand-surface), 0 12px 40px var(--color-brand-soft)",
                   }}
                 >
-                  <Zap size={32} color="#a78bfa" />
+                  <Zap size={32} color="var(--color-brand-primary)" />
                 </motion.div>
 
                 <div style={{ maxWidth: "360px" }}>
-                  <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#f1f5f9", margin: "0 0 10px" }}>
+                  <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--color-foreground)", margin: "0 0 10px" }}>
                     {t("emptyStateTitle")}
                   </h3>
-                  <p style={{ color: "#475569", lineHeight: 1.75, fontSize: "14px", margin: 0 }}>
+                  <p style={{ color: "var(--color-foreground-disabled)", lineHeight: 1.75, fontSize: "14px", margin: 0 }}>
                     {t("emptyStateSubtitle")}
                   </p>
                 </div>
@@ -311,11 +310,15 @@ export default function ContentGenerator() {
                       transition={{ delay: 0.3 + i * 0.08 }}
                       style={{
                         padding: "5px 14px", borderRadius: "999px",
-                        background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.15)",
-                        color: "#a78bfa", fontSize: "12px", fontWeight: 600,
+                        background: "var(--color-brand-surface)", border: "1px solid var(--color-brand-soft)",
+                        color: "var(--color-brand-primary)", fontSize: "12px", fontWeight: 600,
                       }}
                     >
-                      {tag}
+                      <span style={{
+                        color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))"
+                      }}>
+                        {tag}
+                      </span>
                     </motion.span>
                   ))}
                 </div>
@@ -366,9 +369,9 @@ export default function ContentGenerator() {
                   minHeight: "520px",
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
-                  borderRadius: "20px",
-                  border: "1px solid rgba(124,58,237,0.2)",
-                  background: "linear-gradient(160deg, rgba(12,14,24,0.9) 0%, rgba(30,14,60,0.5) 100%)",
+                  borderRadius: "var(--radius-xl)",
+                  border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
+                  background: "var(--gradient-surface)",
                   padding: "48px 32px", textAlign: "center", gap: "20px",
                 }}
               >
@@ -377,25 +380,23 @@ export default function ContentGenerator() {
                   transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                   style={{
                     width: "76px", height: "76px", borderRadius: "50%",
-                    background: "rgba(124,58,237,0.1)",
-                    border: "1px solid rgba(124,58,237,0.25)",
+                    background: "var(--color-brand-surface)",
+                    border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "0 0 0 16px rgba(124,58,237,0.05), 0 0 60px rgba(124,58,237,0.2)",
+                    boxShadow: "0 0 0 16px var(--color-brand-surface), var(--shadow-glow)",
                   }}
                 >
-                  <Lock size={30} color="#a78bfa" />
+                  <Lock size={30} color="var(--color-brand-primary)" />
                 </motion.div>
 
                 <div style={{ maxWidth: "380px" }}>
                   <h3 style={{
                     fontSize: "1.5rem", fontWeight: 800, margin: "0 0 12px",
-                    background: "linear-gradient(135deg, #e0e7ff, #c4b5fd)",
-                    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
+                    color: "var(--color-foreground)",
                   }}>
                     {t("lockedStateTitle")}
                   </h3>
-                  <p style={{ color: "#64748b", lineHeight: 1.8, fontSize: "14px", margin: 0 }}>
+                  <p style={{ color: "var(--color-foreground-tertiary)", lineHeight: 1.8, fontSize: "14px", margin: 0 }}>
                     {t("lockedStateSubtitle")}
                   </p>
                 </div>
@@ -403,15 +404,15 @@ export default function ContentGenerator() {
                 <motion.button
                   type="button"
                   onClick={scrollToCTA}
-                  whileHover={{ y: -3, boxShadow: "0 12px 40px rgba(124,58,237,0.55)" }}
+                  whileHover={{ y: -3, boxShadow: "var(--shadow-brand)" }}
                   whileTap={{ scale: 0.97 }}
                   style={{
                     display: "flex", alignItems: "center", gap: "8px",
-                    padding: "14px 28px", borderRadius: "14px", border: "none",
-                    background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-                    color: "#fff", fontWeight: 700, fontSize: "15px",
+                    padding: "14px 28px", borderRadius: "var(--radius-lg)", border: "none",
+                    background: "var(--gradient-brand)",
+                    color: "white", fontWeight: 700, fontSize: "15px",
                     cursor: "pointer", fontFamily: "inherit",
-                    boxShadow: "0 6px 24px rgba(124,58,237,0.45)",
+                    boxShadow: "var(--shadow-brand)",
                   }}
                 >
                   <Sparkles size={16} />

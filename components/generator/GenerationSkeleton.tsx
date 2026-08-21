@@ -8,7 +8,7 @@ function Pulse({ width, delay = 0 }: { width: string; delay?: number }) {
   return (
     <div style={{
       height: "10px", width, borderRadius: "6px",
-      background: "rgba(255,255,255,0.06)",
+      background: "var(--color-border)",
       animation: `pulse 1.8s ease-in-out ${delay}ms infinite`,
     }} />
   );
@@ -49,8 +49,8 @@ export default function GenerationSkeleton() {
             transition={{ repeat: Infinity, duration: 1.8, ease: "linear" }}
             style={{
               width: "18px", height: "18px", borderRadius: "50%",
-              border: "2px solid rgba(124,58,237,0.25)",
-              borderTopColor: "#7c3aed",
+              border: "2px solid var(--color-brand-surface)",
+              borderTopColor: "var(--color-brand-primary)",
             }}
           />
           <AnimatePresence mode="wait">
@@ -60,7 +60,7 @@ export default function GenerationSkeleton() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.2 }}
-              style={{ fontSize: "13px", fontWeight: 600, color: "#475569", margin: 0 }}
+              style={{ fontSize: "13px", fontWeight: 600, color: "var(--color-foreground-disabled)", margin: 0 }}
             >
               {LOADING_MESSAGES[msgIdx]}
             </motion.p>
@@ -75,8 +75,8 @@ export default function GenerationSkeleton() {
 
         {/* Hook skeleton */}
         <div style={{
-          borderRadius: "14px", background: "rgba(99,102,241,0.06)",
-          border: "1px solid rgba(99,102,241,0.1)", padding: "16px",
+          borderRadius: "14px", background: "color-mix(in srgb, var(--color-brand-primary) 6%, transparent)",
+          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "16px",
           display: "flex", flexDirection: "column", gap: "8px",
         }}>
           <Pulse width="100%" delay={80} />
@@ -92,8 +92,8 @@ export default function GenerationSkeleton() {
 
         {/* CTA skeleton */}
         <div style={{
-          borderRadius: "14px", background: "rgba(124,58,237,0.06)",
-          border: "1px solid rgba(124,58,237,0.1)", padding: "18px",
+          borderRadius: "14px", background: "var(--color-brand-surface)",
+          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "18px",
           display: "flex", justifyContent: "center",
         }}>
           <Pulse width="50%" delay={200} />
@@ -104,7 +104,7 @@ export default function GenerationSkeleton() {
           {[72, 88, 64, 96, 56].map((w, i) => (
             <div key={i} style={{
               height: "28px", width: `${w}px`, borderRadius: "999px",
-              background: "rgba(255,255,255,0.05)",
+              background: "var(--color-border)",
               animation: `pulse 1.8s ease-in-out ${i * 80}ms infinite`,
             }} />
           ))}

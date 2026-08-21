@@ -15,14 +15,46 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
   function GeneratorInput({ value, onChange, error, disabled }, ref) {
     const t = useTranslations("GeneratorInput");
     
-    // Empty on server, random on client after mount — avoids SSR hydration mismatch
     const [placeholder, setPlaceholder] = useState("");
     
     useEffect(() => {
-      // Get array of placeholders from translations. Assuming it returns an array of strings.
-      // With next-intl we can use raw() for arrays or objects.
       const PLACEHOLDER_EXAMPLES = t.raw("placeholders") as string[];
-      setPlaceholder(PLACEHOLDER_EXAMPLES[Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)]);
+      if (!PLACEHOLDER_EXAMPLES || PLACEHOLDER_EXAMPLES.length === 0) return;
+      
+      let currentIndex = 0;
+      let currentText = "";
+      let isDeleting = false;
+      let typingSpeed = 70;
+      let timeout: NodeJS.Timeout;
+      
+      const type = () => {
+        const fullText = PLACEHOLDER_EXAMPLES[currentIndex];
+        
+        if (isDeleting) {
+          currentText = fullText.substring(0, currentText.length - 1);
+          typingSpeed = 25;
+        } else {
+          currentText = fullText.substring(0, currentText.length + 1);
+          typingSpeed = 60 + Math.random() * 40;
+        }
+        
+        setPlaceholder(currentText);
+        
+        if (!isDeleting && currentText === fullText) {
+          typingSpeed = 3000;
+          isDeleting = true;
+        } else if (isDeleting && currentText === "") {
+          isDeleting = false;
+          currentIndex = (currentIndex + 1) % PLACEHOLDER_EXAMPLES.length;
+          typingSpeed = 600;
+        }
+        
+        timeout = setTimeout(type, typingSpeed);
+      };
+      
+      timeout = setTimeout(type, 800);
+      
+      return () => clearTimeout(timeout);
     }, [t]);
     
     const [focused, setFocused] = useState(false);
@@ -44,7 +76,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <label
           htmlFor="raw-input"
-          style={{ fontSize: "12px", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}
+          style={{ fontSize: "12px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}
         >
           {t("label")}
         </label>
@@ -62,22 +94,22 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
             style={{
               width: "100%", borderRadius: "12px",
               border: error
-                ? "1.5px solid rgba(239,68,68,0.5)"
+                ? "1.5px solid color-mix(in srgb, var(--color-danger) 50%, transparent)"
                 : focused
-                  ? "1.5px solid rgba(124,58,237,0.7)"
-                  : "1px solid rgba(255,255,255,0.06)",
-              background: "rgba(255,255,255,0.03)",
+                  ? "1.5px solid var(--color-brand-primary)"
+                  : "1px solid var(--color-border)",
+              background: "var(--color-surface)",
               padding: "12px 14px 44px 14px",
               fontSize: "14px", lineHeight: 1.7,
-              color: "#f1f5f9",
+              color: "var(--color-foreground)",
               resize: "none", minHeight: "140px", maxHeight: "400px",
               outline: "none",
-              boxShadow: focused ? "0 0 0 3px rgba(124,58,237,0.12)" : "none",
+              boxShadow: focused ? "0 0 0 3px var(--color-brand-surface)" : "none",
               transition: "all 0.2s ease",
               opacity: disabled ? 0.4 : 1,
               cursor: disabled ? "not-allowed" : "auto",
               fontFamily: "inherit", boxSizing: "border-box",
-              caretColor: "#a78bfa",
+              caretColor: "var(--color-brand-primary)",
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
@@ -96,12 +128,12 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                 position: "absolute",
                 bottom: "16px",
                 insetInlineStart: "10px",
-                display: "flex", alignItems: "center", gap: "5px",
-                padding: "5px 12px",
-                borderRadius: "8px",
-                background: "rgba(239,68,68,0.1)",
-                border: "1px solid rgba(239,68,68,0.2)",
-                color: "#f87171",
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "8px 16px",
+                borderRadius: "999px",
+                background: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
+                border: "1px solid color-mix(in srgb, var(--color-danger) 20%, transparent)",
+                color: "color-mix(in srgb, var(--color-danger) 80%, var(--color-foreground))",
                 fontSize: "11px", fontWeight: 600,
                 cursor: disabled ? "not-allowed" : "pointer",
                 opacity: disabled ? 0.3 : 1,
@@ -113,7 +145,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               {t("clearBtn")}
             </button>
           ) : (
-            <button
+             <button
               type="button"
               onClick={handlePaste}
               disabled={disabled}
@@ -123,12 +155,12 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                 position: "absolute",
                 bottom: "16px",
                 insetInlineStart: "10px",
-                display: "flex", alignItems: "center", gap: "5px",
-                padding: "5px 12px",
-                borderRadius: "8px",
-                background: "rgba(124,58,237,0.1)",
-                border: "1px solid rgba(124,58,237,0.2)",
-                color: "#c4b5fd",
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "8px 16px",
+                borderRadius: "999px",
+                background: "var(--color-brand-surface)",
+                border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
+                color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
                 fontSize: "11px", fontWeight: 600,
                 cursor: disabled ? "not-allowed" : "pointer",
                 opacity: disabled ? 0.3 : 1,
@@ -142,7 +174,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
           )}
         </div>
         {error && (
-          <p id="input-error" style={{ fontSize: "12px", color: "#f87171", fontWeight: 500, margin: 0 }} role="alert">
+          <p id="input-error" style={{ fontSize: "12px", color: "var(--color-danger)", fontWeight: 500, margin: 0 }} role="alert">
             {error}
           </p>
         )}

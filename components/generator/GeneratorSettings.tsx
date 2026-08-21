@@ -65,7 +65,7 @@ function CustomDropdown<T extends string>({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }} ref={dropdownRef}>
-      <label style={{ fontSize: "11px", fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
         {label}
       </label>
       <div style={{ position: "relative" }}>
@@ -74,15 +74,15 @@ function CustomDropdown<T extends string>({
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
           style={{
-            width: "100%", borderRadius: "10px",
-            border: isOpen ? "1.5px solid rgba(124,58,237,0.6)" : "1.5px solid rgba(255,255,255,0.08)",
-            background: "rgba(255,255,255,0.04)",
+            width: "100%", borderRadius: "var(--radius-md)",
+            border: isOpen ? "1.5px solid var(--color-brand-primary)" : "1.5px solid var(--color-border)",
+            background: "var(--color-surface)",
             padding: "9px 12px 9px 36px",
-            fontSize: "13px", color: "#e2e8f0",
+            fontSize: "13px", color: "var(--color-foreground)",
             display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px",
             cursor: disabled ? "not-allowed" : "pointer",
             opacity: disabled ? 0.4 : 1,
-            boxShadow: isOpen ? "0 0 0 3px rgba(124,58,237,0.15)" : "none",
+            boxShadow: isOpen ? "0 0 0 3px var(--color-brand-surface)" : "var(--shadow-card)",
             transition: "all 0.2s ease",
             fontFamily: "inherit", boxSizing: "border-box", textAlign: "right", // Note: textAlign might need logical prop
           }}
@@ -91,7 +91,7 @@ function CustomDropdown<T extends string>({
             {renderIcon && renderIcon(selectedOption.value)}
             <span>{selectedOption.label}</span>
           </div>
-          <ChevronDown size={14} color="#7c3aed" style={{ position: "absolute", left: "12px", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }} />
+          <ChevronDown size={14} color="var(--color-brand-primary)" style={{ position: "absolute", left: "12px", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }} />
         </button>
 
         <AnimatePresence>
@@ -103,12 +103,12 @@ function CustomDropdown<T extends string>({
               transition={{ duration: 0.15, ease: "easeOut" }}
               style={{
                 position: "absolute", top: "100%", right: 0, left: 0, marginTop: "6px",
-                background: "rgba(15,18,30,0.95)",
+                background: "color-mix(in srgb, var(--color-background) 90%, transparent)",
                 backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "12px",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-lg)",
                 padding: "6px", zIndex: 50,
-                boxShadow: "0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
+                boxShadow: "var(--shadow-elevated)",
                 maxHeight: "220px", overflowY: "auto",
                 scrollbarWidth: "none", msOverflowStyle: "none"
               }}
@@ -124,15 +124,15 @@ function CustomDropdown<T extends string>({
                   }}
                   style={{
                     width: "100%", textAlign: "right",
-                    padding: "8px 10px", borderRadius: "8px",
-                    background: value === opt.value ? "rgba(124,58,237,0.15)" : "transparent",
-                    color: value === opt.value ? "#c4b5fd" : "#e2e8f0",
+                    padding: "8px 10px", borderRadius: "var(--radius-sm)",
+                    background: value === opt.value ? "var(--color-brand-soft)" : "transparent",
+                    color: value === opt.value ? "var(--color-brand-primary)" : "var(--color-foreground-secondary)",
                     border: "none", cursor: "pointer",
                     fontSize: "13px", display: "flex", alignItems: "center", gap: "8px",
                     fontFamily: "inherit", transition: "background 0.1s"
                   }}
                   onMouseEnter={(e) => {
-                    if (value !== opt.value) e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+                    if (value !== opt.value) e.currentTarget.style.background = "var(--color-brand-surface)";
                   }}
                   onMouseLeave={(e) => {
                     if (value !== opt.value) e.currentTarget.style.background = "transparent";

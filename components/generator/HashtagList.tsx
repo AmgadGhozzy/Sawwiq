@@ -42,7 +42,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
       {/* Row header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{
-          fontSize: "11px", fontWeight: 700, color: "#475569",
+          fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-disabled)",
           textTransform: "uppercase", letterSpacing: "0.06em",
         }}>
           {t("title")}
@@ -53,9 +53,9 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
           style={{
             display: "flex", alignItems: "center", gap: "4px",
             fontSize: "11px", fontWeight: 600,
-            color: copiedAll ? "#4ade80" : "#7c3aed",
-            background: "none", border: "none", cursor: "pointer",
-            padding: "3px 8px", borderRadius: "6px",
+            color: copiedAll ? "var(--color-success)" : "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
+            background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)", border: "1px solid var(--color-border)", cursor: "pointer",
+            padding: "4px 10px", borderRadius: "999px",
             fontFamily: "inherit",
             transition: "color 0.2s ease",
           }}
@@ -79,12 +79,12 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
               display: "inline-flex", alignItems: "center",
               padding: "5px 14px", borderRadius: "999px",
               background: copiedIndex === index
-                ? "rgba(34,197,94,0.12)"
-                : "rgba(124,58,237,0.12)",
+                ? "color-mix(in srgb, var(--color-success) 12%, transparent)"
+                : "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
               border: copiedIndex === index
-                ? "1px solid rgba(34,197,94,0.25)"
-                : "1px solid rgba(124,58,237,0.2)",
-              color: copiedIndex === index ? "#4ade80" : "#a78bfa",
+                ? "1px solid color-mix(in srgb, var(--color-success) 25%, transparent)"
+                : "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
+              color: copiedIndex === index ? "var(--color-success)" : "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
               fontSize: "12px", fontWeight: 600,
               cursor: "pointer", fontFamily: "inherit",
               transition: "all 0.2s ease",
