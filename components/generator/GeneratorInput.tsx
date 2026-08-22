@@ -190,7 +190,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               userSelect: "none",
             }}
           >
-            {value.length} حرف
+            {t("charCount", { count: value.length })}
           </div>
         </div>
 

@@ -66,7 +66,7 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
         </motion.span>
       ) : (
         <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span>توليد المحتوى السحري</span>
+          <span>{t("generate")}</span>
           <Sparkles size={18} />
         </span>
       )}

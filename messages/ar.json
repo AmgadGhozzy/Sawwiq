@@ -49,7 +49,8 @@
     "clearBtn": "حذف",
     "clearTitle": "حذف النص",
     "pasteBtn": "لصق",
-    "pasteTitle": "لصق من الحافظة"
+    "pasteTitle": "لصق من الحافظة",
+    "charCount": "{count} حرف"
   },
   "GeneratorSettings": {
     "modeLabel": "نمط المحتوى",
@@ -63,6 +64,7 @@
     "arabicStyleLabel": "اللهجة",
     "objectiveLabel": "الهدف التسويقي",
     "formatLabel": "صيغة المحتوى",
+    "advancedSettings": "إعدادات متقدمة",
     "personaLabel": "شخصية الكاتب",
     "styleLabel": "أسلوب الطرح",
     "intentLabel": "الهدف من المنشور",
@@ -181,7 +183,7 @@
     }
   },
   "GenerateButton": {
-    "generate": "أنشئ المحتوى",
+    "generate": "توليد المحتوى السحري",
     "loading": "جارٍ التوليد..."
   },
   "GenerationResult": {

@@ -264,7 +264,7 @@ export default function GeneratorSettings({
           >
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <Settings2 size={14} color="var(--color-brand-primary)" />
-              <span>إعدادات متقدمة</span>
+              <span>{getTranslated("advancedSettings", "إعدادات متقدمة")}</span>
             </div>
             <ChevronDown 
               size={14} 

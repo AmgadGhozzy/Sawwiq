@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Briefcase, UserCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { ContentMode } from "@/types/content";
 
 interface ModeSwitcherProps {
@@ -11,6 +12,7 @@ interface ModeSwitcherProps {
 }
 
 export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
+  const t = useTranslations("GeneratorSettings.modes");
   const isMarketing = mode === "marketing";
 
   return (
@@ -49,7 +51,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         }}
       >
         <Briefcase size={14} />
-        <span>تسويقي وإعلاني</span>
+        <span>{t("marketing")}</span>
         {isMarketing && (
           <motion.div
             layoutId="mode-indicator"
@@ -91,7 +93,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         }}
       >
         <UserCheck size={14} />
-        <span>صانع محتوى وفكر</span>
+        <span>{t("creator")}</span>
         {!isMarketing && (
           <motion.div
             layoutId="mode-indicator"

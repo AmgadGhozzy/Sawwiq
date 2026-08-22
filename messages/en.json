@@ -49,7 +49,8 @@
     "clearBtn": "Clear",
     "clearTitle": "Clear text",
     "pasteBtn": "Paste",
-    "pasteTitle": "Paste from clipboard"
+    "pasteTitle": "Paste from clipboard",
+    "charCount": "{count} chars"
   },
   "GeneratorSettings": {
     "modeLabel": "Content Mode",
@@ -63,6 +64,7 @@
     "arabicStyleLabel": "Dialect",
     "objectiveLabel": "Marketing Goal",
     "formatLabel": "Format",
+    "advancedSettings": "Advanced Settings",
     "personaLabel": "Creator Persona",
     "styleLabel": "Content Style",
     "intentLabel": "Content Intent",
@@ -181,7 +183,7 @@
     }
   },
   "GenerateButton": {
-    "generate": "Generate Content",
+    "generate": "Generate Magic Content",
     "loading": "Generating..."
   },
   "GenerationResult": {

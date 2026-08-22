@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { DropdownPill } from "./ContextPills";
 
 interface Option {
@@ -30,6 +31,8 @@ export function CreatorCustomizer({
   originalityOptions, selectedOriginality, onOriginalityChange,
   disabled
 }: CreatorCustomizerProps) {
+  const t = useTranslations("GeneratorSettings");
+
   return (
     <div
       style={{
@@ -45,14 +48,14 @@ export function CreatorCustomizer({
     >
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
         <DropdownPill 
-          label="شخصية الكاتب" 
+          label={t("personaLabel")} 
           options={personas} 
           value={selectedPersona} 
           onChange={onPersonaChange} 
           disabled={disabled} 
         />
         <DropdownPill 
-          label="أسلوب الطرح" 
+          label={t("styleLabel")} 
           options={styles} 
           value={selectedStyle} 
           onChange={onStyleChange} 
@@ -62,7 +65,7 @@ export function CreatorCustomizer({
 
       <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
         <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-          مستوى الابتكار
+          {t("originalityLabel")}
         </span>
         <div style={{
           display: "flex",
