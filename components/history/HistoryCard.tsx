@@ -15,7 +15,7 @@ interface HistoryCardProps {
 }
 
 export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCardProps) {
-  const t = useTranslations("HistoryDrawer");
+  const t = useTranslations("History");
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
 

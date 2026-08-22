@@ -18,9 +18,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
   return (
     <div
       style={{
-        display: "inline-flex",
-        width: "fit-content",
-        maxWidth: "100%",
+        display: "flex",
         background: "var(--color-surface)",
         border: "1px solid var(--color-border)",
         borderRadius: "24px",
@@ -33,26 +31,26 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         disabled={disabled}
         onClick={() => onChange("marketing")}
         style={{
+          flex: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           gap: "8px",
-          padding: "7px 14px",
+          padding: "8px 16px",
           borderRadius: "20px",
           border: "none",
           background: "transparent",
           color: isMarketing ? "#ffffff" : "var(--color-foreground-secondary)",
-          fontSize: "12px",
+          fontSize: "13px",
           fontWeight: 600,
           cursor: disabled ? "not-allowed" : "pointer",
           position: "relative",
           zIndex: 1,
           transition: "color 0.2s",
           fontFamily: "inherit",
-          whiteSpace: "nowrap",
         }}
       >
-        <Briefcase size={13} />
+        <Briefcase size={14} />
         <span>{t("marketing")}</span>
         {isMarketing && (
           <motion.div
@@ -75,26 +73,26 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         disabled={disabled}
         onClick={() => onChange("creator")}
         style={{
+          flex: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           gap: "8px",
-          padding: "7px 14px",
+          padding: "8px 16px",
           borderRadius: "20px",
           border: "none",
           background: "transparent",
           color: !isMarketing ? "#ffffff" : "var(--color-foreground-secondary)",
-          fontSize: "12px",
+          fontSize: "13px",
           fontWeight: 600,
           cursor: disabled ? "not-allowed" : "pointer",
           position: "relative",
           zIndex: 1,
           transition: "color 0.2s",
           fontFamily: "inherit",
-          whiteSpace: "nowrap",
         }}
       >
-        <UserCheck size={13} />
+        <UserCheck size={14} />
         <span>{t("creator")}</span>
         {!isMarketing && (
           <motion.div

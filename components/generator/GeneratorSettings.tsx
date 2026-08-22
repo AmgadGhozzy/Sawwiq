@@ -161,8 +161,8 @@ export default function GeneratorSettings({
   return (
     <div style={{ display: "contents" }}>
       {/* 1. Mode Switcher (Order: 1) */}
-      <div style={{ order: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
-        <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center" }}>
+      <div style={{ order: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
+        <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
           {getTranslated("modeLabel", "نمط المحتوى")}
         </label>
         {onModeChange && (
