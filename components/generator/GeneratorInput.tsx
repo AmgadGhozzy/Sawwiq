@@ -94,7 +94,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                   ? "1.5px solid var(--color-brand-primary)"
                   : "1px solid var(--color-border)",
               background: "var(--color-surface)",
-              padding: "12px 14px 46px 14px",
+              padding: "12px 14px 44px 14px",
               fontSize: "14px", 
               lineHeight: 1.7,
               color: "var(--color-foreground)",
@@ -120,9 +120,9 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
           <div
             style={{
               position: "absolute",
-              bottom: "12px",
-              insetInlineEnd: "12px",
-              insetInlineStart: "12px",
+              bottom: "8px",
+              insetInlineEnd: "8px",
+              insetInlineStart: "10px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -141,8 +141,8 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "6px",
-                    padding: "4px 10px",
+                    gap: "5px",
+                    padding: "4px 8px",
                     borderRadius: "999px",
                     background: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
                     border: "1px solid color-mix(in srgb, var(--color-danger) 20%, transparent)",
@@ -168,8 +168,8 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "6px",
-                    padding: "4px 10px",
+                    gap: "5px",
+                    padding: "4px 8px",
                     borderRadius: "999px",
                     background: "var(--color-brand-surface)",
                     border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
