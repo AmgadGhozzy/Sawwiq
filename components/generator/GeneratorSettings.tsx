@@ -144,7 +144,10 @@ export default function GeneratorSettings({
 
   const getTranslated = (path: string, fallback: string) => {
     try {
-      return t(path);
+      if (t.has(path as any)) {
+        return t(path as any);
+      }
+      return fallback;
     } catch {
       return fallback;
     }
@@ -243,7 +246,7 @@ export default function GeneratorSettings({
                 if (s) onStyleChange({ id: s.id, name: s.name, characteristics: s.characteristics });
               }}
 
-              originalityOptions={ORIGINALITY_LEVELS.map((o) => ({ value: o, label: getTranslated(`originality.${o}`, o) }))}
+              originalityOptions={ORIGINALITY_LEVELS.map((o) => ({ value: o, label: getTranslated(`originalityLevels.${o}`, o) }))}
               selectedOriginality={originality}
               onOriginalityChange={(val) => onOriginalityChange(val as OriginalityLevel)}
 

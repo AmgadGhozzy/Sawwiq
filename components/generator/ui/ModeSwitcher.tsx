@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Briefcase, UserCheck } from "lucide-react";
 import { ContentMode } from "@/types/content";
 
 interface ModeSwitcherProps {
@@ -29,6 +30,10 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         onClick={() => onChange("marketing")}
         style={{
           flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
           padding: "8px 16px",
           borderRadius: "99px",
           border: "none",
@@ -42,7 +47,8 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           transition: "color 0.2s",
         }}
       >
-        🎯 تسويقي وإعلاني
+        <Briefcase size={14} />
+        <span>تسويقي وإعلاني</span>
         {isMarketing && (
           <motion.div
             layoutId="mode-indicator"
@@ -65,6 +71,10 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         onClick={() => onChange("creator")}
         style={{
           flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
           padding: "8px 16px",
           borderRadius: "99px",
           border: "none",
@@ -78,7 +88,8 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           transition: "color 0.2s",
         }}
       >
-        🧠 صانع محتوى وفكر
+        <UserCheck size={14} />
+        <span>صانع محتوى وفكر</span>
         {!isMarketing && (
           <motion.div
             layoutId="mode-indicator"

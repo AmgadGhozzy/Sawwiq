@@ -79,6 +79,12 @@
       "explainer": "تفكيك وتبسيط",
       "experiment": "تجربة واستنتاج"
     },
+    "originality": {
+      "safe": "واضح ومباشر",
+      "balanced": "متوازن",
+      "high": "عميق وغير تقليدي",
+      "experimental": "تجريبي وجريء"
+    },
     "originalityLevels": {
       "safe": "واضح ومباشر",
       "balanced": "متوازن",

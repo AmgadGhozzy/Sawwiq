@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface GenerateButtonProps {
@@ -65,7 +66,8 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
         </motion.span>
       ) : (
         <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          توليد المحتوى السحري ✨
+          <span>توليد المحتوى السحري</span>
+          <Sparkles size={18} />
         </span>
       )}
     </motion.button>

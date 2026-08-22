@@ -79,6 +79,12 @@
       "explainer": "Clear Explainer",
       "experiment": "Experiment & Takeaway"
     },
+    "originality": {
+      "safe": "Clear & Direct",
+      "balanced": "Balanced",
+      "high": "Deep & Unconventional",
+      "experimental": "Experimental & Bold"
+    },
     "originalityLevels": {
       "safe": "Clear & Direct",
       "balanced": "Balanced",
