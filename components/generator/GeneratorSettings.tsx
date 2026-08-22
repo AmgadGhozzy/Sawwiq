@@ -161,14 +161,20 @@ export default function GeneratorSettings({
   return (
     <div style={{ display: "contents" }} dir="rtl">
       {/* 1. Mode Switcher (Order: 1) */}
-      <div style={{ order: 1, marginBottom: "4px" }} dir="rtl">
+      <div style={{ order: 1, display: "flex", flexDirection: "column", gap: "6px" }} dir="rtl">
+        <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          {getTranslated("modeLabel", "نمط المحتوى")}
+        </label>
         {onModeChange && (
           <ModeSwitcher mode={mode} onChange={onModeChange} disabled={disabled} />
         )}
       </div>
 
       {/* 2. Platform Selector (Order: 2) */}
-      <div style={{ order: 2 }} dir="rtl">
+      <div style={{ order: 2, display: "flex", flexDirection: "column", gap: "6px" }} dir="rtl">
+        <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          {getTranslated("platformLabel", "المنصة")}
+        </label>
         <PlatformSelector
           platforms={registeredPlatforms}
           selected={currentPlatform}
@@ -179,8 +185,8 @@ export default function GeneratorSettings({
 
       {/* order 3 is reserved for GeneratorInput */}
 
-      {/* 4. Quick Context Pills (Order: 4) */}
-      <div style={{ order: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }} dir="rtl">
+      {/* 4. Quick Context Pills / Dropdowns (Order: 4) */}
+      <div style={{ order: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }} dir="rtl">
         <DropdownPill
           label={getTranslated("arabicStyleLabel", "اللهجة")}
           value={arabicStyle}
@@ -193,7 +199,7 @@ export default function GeneratorSettings({
         />
 
         <DropdownPill
-          label={getTranslated("formatLabel", "الصيغة")}
+          label={getTranslated("formatLabel", "صيغة المحتوى")}
           value={currentFormatEntry?.id || availableFormats[0]?.id || "post"}
           onChange={handleFormatSelect}
           disabled={disabled}
@@ -236,7 +242,7 @@ export default function GeneratorSettings({
 
       {/* 5. Creator Mode Deep Customization (Order: 5) */}
       {isCreatorMode && onPersonaChange && onStyleChange && onOriginalityChange && (
-        <div style={{ order: 5, marginTop: "4px" }} dir="rtl">
+        <div style={{ order: 5, marginTop: "2px" }} dir="rtl">
           <button
             type="button"
             onClick={() => setAdvancedOpen(!advancedOpen)}
@@ -245,21 +251,24 @@ export default function GeneratorSettings({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "8px 12px",
+              padding: "8px 10px",
               background: "transparent",
-              border: "none",
-              color: "rgba(255,255,255,0.7)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "var(--radius-md)",
+              color: "var(--color-foreground)",
               fontSize: "12px",
               fontWeight: 600,
               cursor: "pointer",
+              transition: "all 0.2s",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <Settings2 size={14} style={{ opacity: 0.8 }} />
+              <Settings2 size={14} color="var(--color-brand-primary)" />
               <span>إعدادات متقدمة</span>
             </div>
             <ChevronDown 
               size={14} 
+              color="var(--color-foreground-secondary)"
               style={{ transform: advancedOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} 
             />
           </button>

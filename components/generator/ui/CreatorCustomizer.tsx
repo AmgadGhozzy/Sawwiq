@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { DropdownPill } from "./ContextPills";
 
 interface Option {
@@ -35,24 +34,24 @@ export function CreatorCustomizer({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "12px",
+        gap: "10px",
         padding: "12px",
-        background: "rgba(255, 255, 255, 0.01)",
-        borderRadius: "12px",
-        border: "1px solid rgba(255, 255, 255, 0.05)",
-        marginTop: "4px",
+        background: "var(--color-surface)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--color-border)",
+        marginTop: "6px",
       }}
     >
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
         <DropdownPill 
-          label="الشخصية" 
+          label="شخصية الكاتب" 
           options={personas} 
           value={selectedPersona} 
           onChange={onPersonaChange} 
           disabled={disabled} 
         />
         <DropdownPill 
-          label="الأسلوب" 
+          label="أسلوب الطرح" 
           options={styles} 
           value={selectedStyle} 
           onChange={onStyleChange} 
@@ -61,13 +60,16 @@ export function CreatorCustomizer({
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>مستوى الابتكار</span>
+        <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          مستوى الابتكار
+        </span>
         <div style={{
           display: "flex",
-          background: "rgba(255,255,255,0.02)",
-          borderRadius: "8px",
-          padding: "4px",
-          border: "1px solid rgba(255,255,255,0.05)"
+          background: "var(--color-surface)",
+          borderRadius: "var(--radius-md)",
+          padding: "3px",
+          border: "1px solid var(--color-border)",
+          gap: "4px",
         }}>
           {originalityOptions.map((opt) => {
             const isActive = selectedOriginality === opt.value;
@@ -79,15 +81,16 @@ export function CreatorCustomizer({
                 onClick={() => onOriginalityChange(opt.value)}
                 style={{
                   flex: 1,
-                  padding: "6px",
-                  borderRadius: "6px",
-                  background: isActive ? "rgba(139, 92, 246, 0.2)" : "transparent",
+                  padding: "6px 8px",
+                  borderRadius: "var(--radius-sm)",
+                  background: isActive ? "var(--color-brand-primary)" : "transparent",
                   border: "none",
-                  color: isActive ? "#fff" : "rgba(255, 255, 255, 0.5)",
+                  color: isActive ? "white" : "var(--color-foreground-secondary)",
                   fontSize: "11px",
-                  fontWeight: isActive ? 600 : 400,
+                  fontWeight: 600,
                   cursor: disabled ? "not-allowed" : "pointer",
-                  transition: "all 0.2s ease",
+                  transition: "all 0.15s ease",
+                  fontFamily: "inherit",
                 }}
               >
                 {opt.label}

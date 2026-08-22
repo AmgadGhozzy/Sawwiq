@@ -16,11 +16,13 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
   return (
     <div
       style={{
-        display: "flex",
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.1)",
-        borderRadius: "99px",
-        padding: "4px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        padding: "3px",
+        borderRadius: "var(--radius-md)",
+        background: "var(--color-surface)",
+        border: "1px solid var(--color-border)",
+        gap: "4px",
         position: "relative",
       }}
     >
@@ -29,25 +31,25 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         disabled={disabled}
         onClick={() => onChange("marketing")}
         style={{
-          flex: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "8px",
-          padding: "8px 16px",
-          borderRadius: "99px",
+          gap: "6px",
+          padding: "7px 10px",
+          borderRadius: "var(--radius-sm)",
           border: "none",
-          background: "transparent",
-          color: isMarketing ? "#fff" : "rgba(255,255,255,0.5)",
-          fontSize: "13px",
+          background: isMarketing ? "var(--color-brand-primary)" : "transparent",
+          color: isMarketing ? "white" : "var(--color-foreground-secondary)",
+          fontSize: "12px",
           fontWeight: 600,
           cursor: disabled ? "not-allowed" : "pointer",
+          transition: "all 0.15s ease",
+          fontFamily: "inherit",
           position: "relative",
           zIndex: 1,
-          transition: "color 0.2s",
         }}
       >
-        <Briefcase size={14} />
+        <Briefcase size={13} />
         <span>تسويقي وإعلاني</span>
         {isMarketing && (
           <motion.div
@@ -55,12 +57,11 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
             style={{
               position: "absolute",
               inset: 0,
-              background: "rgba(139, 92, 246, 0.15)",
-              border: "1px solid rgba(139, 92, 246, 0.3)",
-              borderRadius: "99px",
+              background: "var(--color-brand-primary)",
+              borderRadius: "var(--radius-sm)",
               zIndex: -1,
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            transition={{ type: "spring", stiffness: 350, damping: 25 }}
           />
         )}
       </button>
@@ -70,25 +71,25 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         disabled={disabled}
         onClick={() => onChange("creator")}
         style={{
-          flex: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "8px",
-          padding: "8px 16px",
-          borderRadius: "99px",
+          gap: "6px",
+          padding: "7px 10px",
+          borderRadius: "var(--radius-sm)",
           border: "none",
-          background: "transparent",
-          color: !isMarketing ? "#fff" : "rgba(255,255,255,0.5)",
-          fontSize: "13px",
+          background: !isMarketing ? "var(--color-brand-primary)" : "transparent",
+          color: !isMarketing ? "white" : "var(--color-foreground-secondary)",
+          fontSize: "12px",
           fontWeight: 600,
           cursor: disabled ? "not-allowed" : "pointer",
+          transition: "all 0.15s ease",
+          fontFamily: "inherit",
           position: "relative",
           zIndex: 1,
-          transition: "color 0.2s",
         }}
       >
-        <UserCheck size={14} />
+        <UserCheck size={13} />
         <span>صانع محتوى وفكر</span>
         {!isMarketing && (
           <motion.div
@@ -96,12 +97,11 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
             style={{
               position: "absolute",
               inset: 0,
-              background: "rgba(139, 92, 246, 0.15)",
-              border: "1px solid rgba(139, 92, 246, 0.3)",
-              borderRadius: "99px",
+              background: "var(--color-brand-primary)",
+              borderRadius: "var(--radius-sm)",
               zIndex: -1,
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            transition={{ type: "spring", stiffness: 350, damping: 25 }}
           />
         )}
       </button>

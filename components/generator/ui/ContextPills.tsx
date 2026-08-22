@@ -15,9 +15,10 @@ interface DropdownPillProps {
   options: Option[];
   onChange: (val: string) => void;
   disabled?: boolean;
+  renderIcon?: (val: string) => React.ReactNode;
 }
 
-export function DropdownPill({ label, value, options, onChange, disabled }: DropdownPillProps) {
+export function DropdownPill({ label, value, options, onChange, disabled, renderIcon }: DropdownPillProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -33,100 +34,132 @@ export function DropdownPill({ label, value, options, onChange, disabled }: Drop
 
   const selectedOption = options.find((o) => o.value === value) || options[0];
 
+  useEffect(() => {
+    if (options.length > 0 && !options.find((o) => o.value === value)) {
+      onChange(options[0].value);
+    }
+  }, [value, options, onChange]);
+
   if (!selectedOption) return null;
 
   return (
-    <div style={{ position: "relative", width: "100%" }} ref={dropdownRef}>
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={() => setIsOpen(!isOpen)}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "6px",
-          padding: "8px 12px",
-          borderRadius: "10px",
-          background: "rgba(255, 255, 255, 0.03)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          color: "#fff",
-          fontSize: "12px",
-          cursor: disabled ? "not-allowed" : "pointer",
-          opacity: disabled ? 0.5 : 1,
-          transition: "all 0.2s",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", overflow: "hidden" }}>
-          <span style={{ color: "rgba(255,255,255,0.5)", whiteSpace: "nowrap" }}>{label}:</span>
-          <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500 }}>
-            {selectedOption.label}
-          </span>
-        </div>
-        <ChevronDown size={14} style={{ opacity: 0.5, flexShrink: 0, transform: isOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 4, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 4, scale: 0.95 }}
-            transition={{ duration: 0.15 }}
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "100%", position: "relative" }} ref={dropdownRef}>
+      <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+        {label}
+      </label>
+      <div style={{ position: "relative" }}>
+        <button
+          type="button"
+          onClick={() => !disabled && setIsOpen(!isOpen)}
+          disabled={disabled}
+          style={{
+            width: "100%",
+            borderRadius: "var(--radius-md)",
+            border: isOpen ? "1.5px solid var(--color-brand-primary)" : "1.5px solid var(--color-border)",
+            background: "var(--color-surface)",
+            padding: "9px 12px 9px 36px",
+            fontSize: "13px",
+            color: "var(--color-foreground)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "8px",
+            cursor: disabled ? "not-allowed" : "pointer",
+            opacity: disabled ? 0.4 : 1,
+            boxShadow: isOpen ? "0 0 0 3px var(--color-brand-surface)" : "var(--shadow-card)",
+            transition: "all 0.2s ease",
+            fontFamily: "inherit",
+            boxSizing: "border-box",
+            textAlign: "right",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", overflow: "hidden" }}>
+            {renderIcon && renderIcon(selectedOption.value)}
+            <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {selectedOption.label}
+            </span>
+          </div>
+          <ChevronDown
+            size={14}
+            color="var(--color-brand-primary)"
             style={{
               position: "absolute",
-              top: "100%",
-              right: 0,
-              left: 0,
-              marginTop: "4px",
-              background: "rgba(9, 9, 11, 0.95)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              borderRadius: "12px",
-              padding: "4px",
-              zIndex: 50,
-              boxShadow: "0 10px 40px -10px rgba(0,0,0,0.5)",
-              maxHeight: "200px",
-              overflowY: "auto",
-              scrollbarWidth: "none",
+              left: "12px",
+              transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s",
             }}
-          >
-            <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-            {options.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => {
-                  onChange(opt.value);
-                  setIsOpen(false);
-                }}
-                style={{
-                  width: "100%",
-                  textAlign: "right",
-                  padding: "8px 12px",
-                  borderRadius: "8px",
-                  background: value === opt.value ? "rgba(139, 92, 246, 0.15)" : "transparent",
-                  color: value === opt.value ? "#a78bfa" : "rgba(255, 255, 255, 0.8)",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "12px",
-                  fontWeight: value === opt.value ? 600 : 400,
-                  transition: "background 0.1s",
-                }}
-                onMouseEnter={(e) => {
-                  if (value !== opt.value) e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                }}
-                onMouseLeave={(e) => {
-                  if (value !== opt.value) e.currentTarget.style.background = "transparent";
-                }}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+          />
+        </button>
+
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -5, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -5, scale: 0.95 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                top: "100%",
+                right: 0,
+                left: 0,
+                marginTop: "6px",
+                background: "color-mix(in srgb, var(--color-background) 92%, transparent)",
+                backdropFilter: "blur(24px)",
+                WebkitBackdropFilter: "blur(24px)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-lg)",
+                padding: "6px",
+                zIndex: 60,
+                boxShadow: "var(--shadow-elevated)",
+                maxHeight: "220px",
+                overflowY: "auto",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+            >
+              <style>{`div::-webkit-scrollbar { display: none; }`}</style>
+              {options.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    onChange(opt.value);
+                    setIsOpen(false);
+                  }}
+                  style={{
+                    width: "100%",
+                    textAlign: "right",
+                    padding: "8px 10px",
+                    borderRadius: "var(--radius-sm)",
+                    background: value === opt.value ? "var(--color-brand-soft)" : "transparent",
+                    color: value === opt.value ? "var(--color-brand-primary)" : "var(--color-foreground-secondary)",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    fontFamily: "inherit",
+                    transition: "background 0.1s",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (value !== opt.value) e.currentTarget.style.background = "var(--color-brand-surface)";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (value !== opt.value) e.currentTarget.style.background = "transparent";
+                  }}
+                >
+                  {renderIcon && renderIcon(opt.value)}
+                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {opt.label}
+                  </span>
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
