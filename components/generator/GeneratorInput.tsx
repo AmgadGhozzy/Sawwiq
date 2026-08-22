@@ -120,16 +120,16 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
           <div
             style={{
               position: "absolute",
-              bottom: "10px",
-              left: "12px",
-              right: "12px",
+              bottom: "12px",
+              insetInlineEnd: "12px",
+              insetInlineStart: "12px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               pointerEvents: "none",
             }}
           >
-            {/* Action Button: Clear if has text, Paste if empty (Right side in RTL) */}
+            {/* Action Button: Clear if has text, Paste if empty */}
             <div style={{ pointerEvents: "auto" }}>
               {value ? (
                 <button
@@ -142,7 +142,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                     display: "flex",
                     alignItems: "center",
                     gap: "6px",
-                    padding: "5px 12px",
+                    padding: "4px 10px",
                     borderRadius: "999px",
                     background: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
                     border: "1px solid color-mix(in srgb, var(--color-danger) 20%, transparent)",
@@ -155,7 +155,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                     fontFamily: "inherit",
                   }}
                 >
-                  <Trash2 size={12} />
+                  <Trash2 size={13} />
                   <span>{t("clearBtn")}</span>
                 </button>
               ) : (
@@ -169,11 +169,11 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                     display: "flex",
                     alignItems: "center",
                     gap: "6px",
-                    padding: "5px 12px",
+                    padding: "4px 10px",
                     borderRadius: "999px",
                     background: "var(--color-brand-surface)",
                     border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
-                    color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
+                    color: "color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-foreground))",
                     fontSize: "11px",
                     fontWeight: 600,
                     cursor: disabled ? "not-allowed" : "pointer",
@@ -182,13 +182,13 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                     fontFamily: "inherit",
                   }}
                 >
-                  <ClipboardPaste size={12} />
+                  <ClipboardPaste size={13} />
                   <span>{t("pasteBtn")}</span>
                 </button>
               )}
             </div>
 
-            {/* Character Counter (Left side in RTL) */}
+            {/* Character Counter */}
             <div
               style={{
                 fontSize: "11px",
