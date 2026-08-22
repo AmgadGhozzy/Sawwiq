@@ -21,6 +21,7 @@ interface DropdownPillProps {
 export function DropdownPill({ label, value, options, onChange, disabled, renderIcon }: DropdownPillProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [openUpward, setOpenUpward] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -31,6 +32,17 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleToggle = () => {
+    if (disabled) return;
+    if (!isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      // If space below is less than 230px, open upwards
+      setOpenUpward(spaceBelow < 230);
+    }
+    setIsOpen(!isOpen);
+  };
 
   const selectedOption = options.find((o) => o.value === value) || options[0];
 
@@ -43,14 +55,24 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
   if (!selectedOption) return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "100%", position: "relative" }} ref={dropdownRef}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "6px",
+        width: "100%",
+        position: "relative",
+        zIndex: isOpen ? 70 : 1,
+      }}
+      ref={dropdownRef}
+    >
       <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
         {label}
       </label>
       <div style={{ position: "relative" }}>
         <button
           type="button"
-          onClick={() => !disabled && setIsOpen(!isOpen)}
+          onClick={handleToggle}
           disabled={disabled}
           style={{
             width: "100%",
@@ -95,23 +117,22 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -5, scale: 0.95 }}
+              initial={{ opacity: 0, y: openUpward ? 5 : -5, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -5, scale: 0.95 }}
+              exit={{ opacity: 0, y: openUpward ? 5 : -5, scale: 0.95 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
               style={{
                 position: "absolute",
-                top: "100%",
+                ...(openUpward ? { bottom: "100%", marginBottom: "6px" } : { top: "100%", marginTop: "6px" }),
                 right: 0,
                 left: 0,
-                marginTop: "6px",
                 background: "color-mix(in srgb, var(--color-background) 96%, transparent)",
                 backdropFilter: "blur(24px)",
                 WebkitBackdropFilter: "blur(24px)",
                 border: "1px solid var(--color-border)",
                 borderRadius: "var(--radius-lg)",
                 padding: "6px",
-                zIndex: 60,
+                zIndex: 80,
                 boxShadow: "var(--shadow-elevated)",
                 maxHeight: "220px",
                 overflowY: "auto",
