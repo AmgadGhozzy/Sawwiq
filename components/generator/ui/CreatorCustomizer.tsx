@@ -70,7 +70,7 @@ export function CreatorCustomizer({
         <div style={{
           display: "flex",
           background: "var(--color-surface)",
-          borderRadius: "24px",
+          borderRadius: "var(--radius-2xl)",
           padding: "4px",
           border: "1px solid var(--color-border)",
           position: "relative",
@@ -90,7 +90,7 @@ export function CreatorCustomizer({
                   alignItems: "center",
                   justifyContent: "center",
                   padding: "6px 8px",
-                  borderRadius: "20px",
+                  borderRadius: "var(--radius-2xl)",
                   border: "none",
                   background: "transparent",
                   color: isActive ? "#ffffff" : "var(--color-foreground-secondary)",
@@ -112,7 +112,7 @@ export function CreatorCustomizer({
                       inset: 0,
                       background: "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)",
                       border: "none",
-                      borderRadius: "20px",
+                      borderRadius: "var(--radius-2xl)",
                       zIndex: -1,
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}

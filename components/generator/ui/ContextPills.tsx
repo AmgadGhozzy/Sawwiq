@@ -77,7 +77,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
           style={{
             width: "100%",
             borderRadius: "var(--radius-md)",
-            border: isOpen ? "1.5px solid var(--color-brand-primary)" : "1.5px solid var(--color-border)",
+            border: "1px solid var(--color-border)",
             background: "var(--color-surface)",
             padding: "9px 12px",
             paddingInlineEnd: "36px",
@@ -104,7 +104,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
           </div>
           <ChevronDown
             size={14}
-            color="var(--color-brand-primary)"
+            color="var(--color-foreground-secondary)"
             style={{
               position: "absolute",
               insetInlineEnd: "12px",

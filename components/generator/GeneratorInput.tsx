@@ -87,7 +87,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
             rows={5}
             style={{
               width: "100%",
-              borderRadius: "12px",
+              borderRadius: "var(--radius-lg)",
               border: error
                 ? "1.5px solid color-mix(in srgb, var(--color-danger) 50%, transparent)"
                 : focused
@@ -131,7 +131,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                 alignItems: "center",
                 gap: "6px",
                 padding: "8px 16px",
-                borderRadius: "999px",
+                borderRadius: "var(--radius-full)",
                 background: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
                 border: "1px solid color-mix(in srgb, var(--color-danger) 20%, transparent)",
                 color: "color-mix(in srgb, var(--color-danger) 80%, var(--color-foreground))",
@@ -161,7 +161,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                 alignItems: "center",
                 gap: "6px",
                 padding: "8px 16px",
-                borderRadius: "999px",
+                borderRadius: "var(--radius-full)",
                 background: "var(--color-brand-surface)",
                 border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
                 color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",

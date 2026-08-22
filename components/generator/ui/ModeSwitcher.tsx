@@ -21,7 +21,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         display: "flex",
         background: "var(--color-surface)",
         border: "1px solid var(--color-border)",
-        borderRadius: "24px",
+        borderRadius: "var(--radius-2xl)",
         padding: "4px",
         position: "relative",
       }}
@@ -37,7 +37,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           justifyContent: "center",
           gap: "8px",
           padding: "8px 16px",
-          borderRadius: "20px",
+          borderRadius: "var(--radius-2xl)",
           border: "none",
           background: "transparent",
           color: isMarketing ? "#ffffff" : "var(--color-foreground-secondary)",
@@ -60,7 +60,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
               inset: 0,
               background: "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)",
               border: "none",
-              borderRadius: "20px",
+              borderRadius: "var(--radius-2xl)",
               zIndex: -1,
             }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -79,7 +79,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           justifyContent: "center",
           gap: "8px",
           padding: "8px 16px",
-          borderRadius: "20px",
+          borderRadius: "var(--radius-2xl)",
           border: "none",
           background: "transparent",
           color: !isMarketing ? "#ffffff" : "var(--color-foreground-secondary)",
@@ -102,7 +102,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
               inset: 0,
               background: "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)",
               border: "none",
-              borderRadius: "20px",
+              borderRadius: "var(--radius-2xl)",
               zIndex: -1,
             }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}

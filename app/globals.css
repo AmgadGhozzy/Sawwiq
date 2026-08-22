@@ -37,6 +37,9 @@
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
+  --radius-3xl: var(--radius-3xl);
+  --radius-full: var(--radius-full);
+  --radius-circle: var(--radius-circle);
 
   /* Shadows */
   --shadow-card: var(--shadow-card);
@@ -108,6 +111,9 @@
     --radius-lg: 0.75rem;
     --radius-xl: 1rem;
     --radius-2xl: 1.5rem;
+    --radius-3xl: 2rem;
+    --radius-full: 9999px;
+    --radius-circle: 50%;
 
     /* Shadows */
     --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.4);

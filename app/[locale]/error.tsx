@@ -23,7 +23,7 @@ export default function Error({
         style={{
           width: "64px",
           height: "64px",
-          borderRadius: "50%",
+          borderRadius: "var(--radius-circle)",
           background: "rgba(239, 68, 68, 0.1)",
           display: "flex",
           alignItems: "center",
@@ -70,7 +70,7 @@ export default function Error({
         onClick={reset}
         style={{
           padding: "12px 24px",
-          borderRadius: "8px",
+          borderRadius: "var(--radius-md)",
           background: "#7c3aed",
           color: "white",
           border: "none",

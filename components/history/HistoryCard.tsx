@@ -94,7 +94,7 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
               {/* Platform icon only */}
               <span style={{
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
-                width: "24px", height: "24px", borderRadius: "6px",
+                width: "24px", height: "24px", borderRadius: "var(--radius-sm)",
                 background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
                 border: "1px solid var(--color-border)",
               }}>
@@ -103,7 +103,7 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
 
               {/* Content type */}
               <span style={{
-                padding: "3px 8px", borderRadius: "6px",
+                padding: "3px 8px", borderRadius: "var(--radius-sm)",
                 background: "var(--color-brand-surface)",
                 border: "1px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
                 fontSize: "11px", fontWeight: 600,
@@ -114,7 +114,7 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
 
               {/* Dialect */}
               <span style={{
-                padding: "3px 8px", borderRadius: "6px",
+                padding: "3px 8px", borderRadius: "var(--radius-sm)",
                 background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
                 border: "1px solid var(--color-border)",
                 fontSize: "11px", color: "var(--color-foreground-secondary)",
@@ -203,7 +203,7 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "14px" }}>
                     {aiResponse.hashtags.map((tag: string) => (
                       <span key={tag} style={{
-                        padding: "3px 10px", borderRadius: "6px",
+                        padding: "3px 10px", borderRadius: "var(--radius-sm)",
                         background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
                         border: "1px solid var(--color-border)",
                         color: "var(--color-brand-primary)",

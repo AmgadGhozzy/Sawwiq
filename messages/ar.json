@@ -183,7 +183,7 @@
     }
   },
   "GenerateButton": {
-    "generate": "توليد المحتوى السحري",
+    "generate": "توليد المحتوى",
     "loading": "جارٍ التوليد..."
   },
   "GenerationResult": {

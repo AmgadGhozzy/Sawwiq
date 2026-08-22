@@ -183,7 +183,7 @@
     }
   },
   "GenerateButton": {
-    "generate": "Generate Magic Content",
+    "generate": "Generate Content",
     "loading": "Generating..."
   },
   "GenerationResult": {

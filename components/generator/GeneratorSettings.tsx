@@ -276,10 +276,9 @@ export default function GeneratorSettings({
           <AnimatePresence>
             {advancedOpen && (
               <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                style={{ overflow: "hidden" }}
+                initial={{ height: 0, opacity: 0, overflow: "hidden" }}
+                animate={{ height: "auto", opacity: 1, transitionEnd: { overflow: "visible" } }}
+                exit={{ height: 0, opacity: 0, overflow: "hidden" }}
               >
                 <CreatorCustomizer
                   personas={availablePersonas.map((p) => ({ value: p.id, label: getTranslated(`personas.${p.id}`, p.name) }))}

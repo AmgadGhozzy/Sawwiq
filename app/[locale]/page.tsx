@@ -44,7 +44,7 @@ export default function Home() {
         {/* Top-right violet orb */}
         <div style={{
           position: "absolute", top: "-180px", right: "-80px",
-          width: "700px", height: "700px", borderRadius: "50%",
+          width: "700px", height: "700px", borderRadius: "var(--radius-circle)",
           background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, rgba(79,70,229,0.08) 40%, transparent 70%)",
           filter: "blur(80px)",
           animation: "orb-float-1 18s ease-in-out infinite",
@@ -52,7 +52,7 @@ export default function Home() {
         {/* Bottom-left indigo orb */}
         <div style={{
           position: "absolute", bottom: "-60px", left: "-140px",
-          width: "550px", height: "550px", borderRadius: "50%",
+          width: "550px", height: "550px", borderRadius: "var(--radius-circle)",
           background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(139,92,246,0.06) 50%, transparent 70%)",
           filter: "blur(90px)",
           animation: "orb-float-2 22s ease-in-out infinite",
@@ -60,7 +60,7 @@ export default function Home() {
         {/* Center subtle glow */}
         <div style={{
           position: "absolute", top: "30%", left: "50%", transform: "translateX(-50%)",
-          width: "900px", height: "350px", borderRadius: "50%",
+          width: "900px", height: "350px", borderRadius: "var(--radius-circle)",
           background: "radial-gradient(ellipse, rgba(109,40,217,0.05) 0%, transparent 70%)",
           filter: "blur(100px)",
           animation: "orb-float-3 25s ease-in-out infinite",
@@ -68,7 +68,7 @@ export default function Home() {
         {/* Top-center spotlight */}
         <div style={{
           position: "absolute", top: "-200px", left: "50%", transform: "translateX(-50%)",
-          width: "600px", height: "600px", borderRadius: "50%",
+          width: "600px", height: "600px", borderRadius: "var(--radius-circle)",
           background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 60%)",
           filter: "blur(60px)",
         }} />
@@ -129,7 +129,7 @@ export default function Home() {
         <div style={{
           display: "inline-flex", alignItems: "center", gap: "6px",
           marginTop: "12px", padding: "6px 16px",
-          borderRadius: "999px",
+          borderRadius: "var(--radius-full)",
           background: "rgba(124,58,237,0.08)",
           border: "1px solid rgba(124,58,237,0.15)",
         }}>

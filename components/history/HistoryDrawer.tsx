@@ -125,7 +125,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <div
                   style={{
-                    width: "36px", height: "36px", borderRadius: "10px",
+                    width: "36px", height: "36px", borderRadius: "var(--radius-md)",
                     background: "var(--color-brand-surface)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     flexShrink: 0,
@@ -148,7 +148,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 {!error && items.length > 0 && (
                   <span
                     style={{
-                      padding: "2px 8px", borderRadius: "999px",
+                      padding: "2px 8px", borderRadius: "var(--radius-full)",
                       background: "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
                       border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                       color: "var(--color-brand-primary)",
@@ -164,7 +164,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   onClick={onClose}
                   aria-label={t("close")}
                   style={{
-                    width: "32px", height: "32px", borderRadius: "9px",
+                    width: "32px", height: "32px", borderRadius: "var(--radius-md)",
                     background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
                     border: "1px solid var(--color-border)",
                     display: "flex", alignItems: "center", justifyContent: "center",
@@ -196,7 +196,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
                     style={{
-                      width: "36px", height: "36px", borderRadius: "50%",
+                      width: "36px", height: "36px", borderRadius: "var(--radius-circle)",
                       border: "2px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
                       borderTopColor: "var(--color-brand-primary)",
                     }}
@@ -218,7 +218,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 >
                   <div
                     style={{
-                      width: "52px", height: "52px", borderRadius: "50%",
+                      width: "52px", height: "52px", borderRadius: "var(--radius-circle)",
                       background: "color-mix(in srgb, var(--color-danger) 8%, transparent)",
                       border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
                       display: "flex", alignItems: "center", justifyContent: "center",
@@ -235,7 +235,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   <button
                     onClick={fetchHistory}
                     style={{
-                      padding: "8px 18px", borderRadius: "10px",
+                      padding: "8px 18px", borderRadius: "var(--radius-md)",
                       background: "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
                       border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                       color: "var(--color-brand-primary)",
@@ -262,7 +262,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.15 }}
                     style={{
-                      width: "64px", height: "64px", borderRadius: "50%",
+                      width: "64px", height: "64px", borderRadius: "var(--radius-circle)",
                       background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
                       border: "1px solid var(--color-border)",
                       display: "flex", alignItems: "center", justifyContent: "center",

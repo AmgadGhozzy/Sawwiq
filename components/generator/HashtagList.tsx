@@ -55,7 +55,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
             fontSize: "11px", fontWeight: 600,
             color: copiedAll ? "var(--color-success)" : "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
             background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)", border: "1px solid var(--color-border)", cursor: "pointer",
-            padding: "4px 10px", borderRadius: "999px",
+            padding: "4px 10px", borderRadius: "var(--radius-full)",
             fontFamily: "inherit",
             transition: "color 0.2s ease",
           }}
@@ -77,7 +77,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
             title={t("clickToCopy")}
             style={{
               display: "inline-flex", alignItems: "center",
-              padding: "5px 14px", borderRadius: "999px",
+              padding: "5px 14px", borderRadius: "var(--radius-full)",
               background: copiedIndex === index
                 ? "color-mix(in srgb, var(--color-success) 12%, transparent)"
                 : "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",

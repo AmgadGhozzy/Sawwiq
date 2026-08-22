@@ -23,7 +23,7 @@ export default function LanguageSwitcher() {
         justifyContent: "center",
         width: "40px",
         height: "40px",
-        borderRadius: "50%",
+        borderRadius: "var(--radius-circle)",
         background: "var(--color-surface)",
         border: "1px solid var(--color-border)",
         cursor: "pointer",

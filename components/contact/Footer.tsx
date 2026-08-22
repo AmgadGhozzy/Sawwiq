@@ -114,7 +114,7 @@ export default function Footer() {
               alignItems: "center",
               gap: "6px",
               padding: "8px 18px",
-              borderRadius: "999px",
+              borderRadius: "var(--radius-full)",
               background: "color-mix(in srgb, var(--color-brand-primary) 8%, transparent)",
               border: "1px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
               color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",

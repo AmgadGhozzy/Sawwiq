@@ -48,7 +48,9 @@ export function PlatformSelector({ platforms, selected, onChange, disabled }: Pl
               background: isActive 
                 ? "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)" 
                 : "var(--color-surface)",
-              border: "none",
+              border: isActive 
+                ? "none" 
+                : "1px solid var(--color-border)",
               boxShadow: isActive 
                 ? "0 0 16px color-mix(in srgb, var(--color-brand-primary) 28%, transparent)" 
                 : "var(--shadow-card)",

@@ -95,12 +95,12 @@ export default function GenerationResult({
           <div style={{
             display: "flex", alignItems: "center", gap: "6px",
             padding: "6px 14px",
-            borderRadius: "999px",
+            borderRadius: "var(--radius-full)",
             background: "color-mix(in srgb, var(--color-brand-primary) 10%, transparent)",
             border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
           }}>
             <span style={{
-              width: "5px", height: "5px", borderRadius: "50%",
+              width: "5px", height: "5px", borderRadius: "var(--radius-circle)",
               background: "var(--color-brand-primary)",
               boxShadow: "0 0 6px var(--color-brand-primary)",
               display: "block",
@@ -116,7 +116,7 @@ export default function GenerationResult({
 
         {/* Actions right side */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "4px", background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)", borderRadius: "999px", padding: "2px", border: "1px solid color-mix(in srgb, var(--color-foreground) 10%, transparent)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)", borderRadius: "var(--radius-full)", padding: "2px", border: "1px solid color-mix(in srgb, var(--color-foreground) 10%, transparent)" }}>
             <motion.button
               onClick={onPrevHistory}
               disabled={!hasPrevHistory}
@@ -124,7 +124,7 @@ export default function GenerationResult({
               whileTap={hasPrevHistory ? { scale: 0.9 } : {}}
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center",
-                width: "26px", height: "26px", borderRadius: "50%", border: "none",
+                width: "26px", height: "26px", borderRadius: "var(--radius-circle)", border: "none",
                 background: "transparent",
                 color: hasPrevHistory ? "var(--color-foreground)" : "var(--color-foreground-disabled)",
                 cursor: hasPrevHistory ? "pointer" : "not-allowed",
@@ -144,7 +144,7 @@ export default function GenerationResult({
               whileTap={hasNextHistory ? { scale: 0.9 } : {}}
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center",
-                width: "26px", height: "26px", borderRadius: "50%", border: "none",
+                width: "26px", height: "26px", borderRadius: "var(--radius-circle)", border: "none",
                 background: "transparent",
                 color: hasNextHistory ? "var(--color-foreground)" : "var(--color-foreground-disabled)",
                 cursor: hasNextHistory ? "pointer" : "not-allowed",
@@ -163,7 +163,7 @@ export default function GenerationResult({
             whileTap={{ scale: 0.96 }}
             style={{
               display: "flex", alignItems: "center", gap: "6px",
-              padding: "6px 14px", borderRadius: "999px",
+              padding: "6px 14px", borderRadius: "var(--radius-full)",
               background: copiedAll
                 ? "color-mix(in srgb, var(--color-success) 10%, transparent)"
                 : "color-mix(in srgb, var(--color-foreground) 5%, transparent)",
@@ -303,7 +303,7 @@ export default function GenerationResult({
               style={{
                 flex: 1,
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
-                borderRadius: "12px", border: "none",
+                borderRadius: "var(--radius-lg)", border: "none",
                 background: "var(--gradient-brand)",
                 color: "white", fontWeight: 700, fontSize: "13px",
                 padding: "12px 16px",
@@ -331,7 +331,7 @@ export default function GenerationResult({
             style={{
               flex: 1,
               display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
-              borderRadius: "12px",
+              borderRadius: "var(--radius-lg)",
               border: "1px solid color-mix(in srgb, var(--color-border) 80%, transparent)",
               background: "transparent",
               color: "var(--color-foreground-secondary)", fontWeight: 600, fontSize: "13px",

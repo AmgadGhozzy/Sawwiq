@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 function Pulse({ width, delay = 0 }: { width: string; delay?: number }) {
   return (
     <div style={{
-      height: "10px", width, borderRadius: "6px",
+      height: "10px", width, borderRadius: "var(--radius-sm)",
       background: "var(--color-border)",
       animation: `pulse 1.8s ease-in-out ${delay}ms infinite`,
     }} />
@@ -48,7 +48,7 @@ export default function GenerationSkeleton() {
             animate={{ rotate: 360 }}
             transition={{ repeat: Infinity, duration: 1.8, ease: "linear" }}
             style={{
-              width: "18px", height: "18px", borderRadius: "50%",
+              width: "18px", height: "18px", borderRadius: "var(--radius-circle)",
               border: "2px solid var(--color-brand-surface)",
               borderTopColor: "var(--color-brand-primary)",
             }}
@@ -75,7 +75,7 @@ export default function GenerationSkeleton() {
 
         {/* Hook skeleton */}
         <div style={{
-          borderRadius: "14px", background: "color-mix(in srgb, var(--color-brand-primary) 6%, transparent)",
+          borderRadius: "var(--radius-lg)", background: "color-mix(in srgb, var(--color-brand-primary) 6%, transparent)",
           border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "16px",
           display: "flex", flexDirection: "column", gap: "8px",
         }}>
@@ -92,7 +92,7 @@ export default function GenerationSkeleton() {
 
         {/* CTA skeleton */}
         <div style={{
-          borderRadius: "14px", background: "var(--color-brand-surface)",
+          borderRadius: "var(--radius-lg)", background: "var(--color-brand-surface)",
           border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "18px",
           display: "flex", justifyContent: "center",
         }}>
@@ -103,7 +103,7 @@ export default function GenerationSkeleton() {
         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
           {[72, 88, 64, 96, 56].map((w, i) => (
             <div key={i} style={{
-              height: "28px", width: `${w}px`, borderRadius: "999px",
+              height: "28px", width: `${w}px`, borderRadius: "var(--radius-full)",
               background: "var(--color-border)",
               animation: `pulse 1.8s ease-in-out ${i * 80}ms infinite`,
             }} />

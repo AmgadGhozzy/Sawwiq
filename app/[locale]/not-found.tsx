@@ -52,7 +52,7 @@ export default function NotFound() {
         href="/"
         style={{
           padding: "12px 24px",
-          borderRadius: "8px",
+          borderRadius: "var(--radius-md)",
           background: "#7c3aed",
           color: "white",
           textDecoration: "none",

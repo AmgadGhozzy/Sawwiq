@@ -177,6 +177,9 @@ export default function ContentGenerator() {
       setResult(resultData.data);
       setRemainingGenerations(resultData.remainingGenerations);
       setViewState("result");
+      setTimeout(() => {
+        document.getElementById("result-area")?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     } catch (error) {
       setApiError(tErrors("INTERNAL_ERROR"));
       setViewState("empty");
@@ -256,7 +259,7 @@ export default function ContentGenerator() {
                 flexShrink: 0
               }}>
                 <div style={{
-                  width: "34px", height: "34px", borderRadius: "10px", flexShrink: 0,
+                  width: "34px", height: "34px", borderRadius: "var(--radius-md)", flexShrink: 0,
                   background: "var(--gradient-brand)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   boxShadow: "var(--shadow-brand)",
@@ -277,7 +280,7 @@ export default function ContentGenerator() {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     style={{
-                      padding: "3px 10px", borderRadius: "999px",
+                      padding: "3px 10px", borderRadius: "var(--radius-full)",
                       background: remainingGenerations > 0 ? "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)" : "color-mix(in srgb, var(--color-danger) 10%, transparent)",
                       border: `1px solid ${remainingGenerations > 0 ? "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)" : "color-mix(in srgb, var(--color-danger) 20%, transparent)"}`,
                       color: remainingGenerations > 0 ? "var(--color-brand-primary)" : "var(--color-danger)",
@@ -290,16 +293,18 @@ export default function ContentGenerator() {
               </div>
 
               {/* Form */}
-              <div style={{
-                padding: "16px",
-                overflowY: "auto",
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                flex: 1,
-                minHeight: 0
-              }}>
-                <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-                <form onSubmit={handleSubmit(doGenerate)} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <form onSubmit={handleSubmit(doGenerate)} style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0, position: "relative" }}>
+                <div style={{
+                  padding: "16px",
+                  paddingBottom: "120px",
+                  overflowY: "auto",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                  flex: 1,
+                  minHeight: 0
+                }}>
+                  <style>{`div::-webkit-scrollbar { display: none; }`}</style>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   <Controller
                     name="rawInput"
                     control={control}
@@ -397,58 +402,74 @@ export default function ContentGenerator() {
                       />
                     )}
                   />
-
-                  <div style={{ order: 10, display: "flex", flexDirection: "column", gap: "16px" }}>
-                    {apiError && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        style={{
-                          padding: "10px 14px", borderRadius: "var(--radius-md)",
-                          background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
-                          color: "var(--color-danger)", fontSize: "13px", fontWeight: 500,
-                        }}
-                        role="alert"
-                      >
-                        {apiError}
-                      </motion.div>
-                    )}
-
-                    {isLocked ? (
-                      <motion.button
-                        type="button"
-                        onClick={scrollToCTA}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
-                        whileTap={{ scale: 0.97 }}
-                        style={{
-                          display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                          width: "100%", padding: "13px", borderRadius: "var(--radius-lg)", border: "none",
-                          background: "var(--gradient-brand)",
-                          color: "white", fontWeight: 700, fontSize: "14px",
-                          cursor: "pointer", fontFamily: "inherit",
-                          boxShadow: "var(--shadow-brand)",
-                        }}
-                      >
-                        <Sparkles size={15} />
-                        {t("lockedButton")}
-                      </motion.button>
-                    ) : (
-                      <GenerateButton
-                        loading={viewState === "loading"}
-                        disabled={!isValid || viewState === "loading"}
-                      />
-                    )}
-                  </div>
-                </form>
+                </div>
               </div>
+
+              {/* Fixed Bottom Sheet for Generate Button */}
+              <div style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: "16px",
+                background: "var(--color-surface)",
+                borderTopLeftRadius: "24px",
+                borderTopRightRadius: "24px",
+                boxShadow: "0 -8px 30px rgba(0, 0, 0, 0.12)",
+                zIndex: 20,
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px"
+              }}>
+                {apiError && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    style={{
+                      padding: "10px 14px", borderRadius: "var(--radius-md)",
+                      background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
+                      color: "var(--color-danger)", fontSize: "13px", fontWeight: 500,
+                    }}
+                    role="alert"
+                  >
+                    {apiError}
+                  </motion.div>
+                )}
+
+                {isLocked ? (
+                  <motion.button
+                    type="button"
+                    onClick={scrollToCTA}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
+                    whileTap={{ scale: 0.97 }}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                      width: "100%", padding: "13px", borderRadius: "var(--radius-lg)", border: "none",
+                      background: "var(--gradient-brand)",
+                      color: "white", fontWeight: 700, fontSize: "14px",
+                      cursor: "pointer", fontFamily: "inherit",
+                      boxShadow: "var(--shadow-brand)",
+                    }}
+                  >
+                    <Sparkles size={15} />
+                    {t("lockedButton")}
+                  </motion.button>
+                ) : (
+                  <GenerateButton
+                    loading={viewState === "loading"}
+                    disabled={!isValid || viewState === "loading"}
+                  />
+                )}
+              </div>
+            </form>
             </motion.div>
           </div>
         </div>
 
         {/* ────────────────── Result Area ────────────────── */}
-        <div className="flex-1 min-w-0 w-full flex flex-col">
+        <div id="result-area" className="flex-1 min-w-0 w-full flex flex-col">
           <AnimatePresence mode="wait">
             {/* ── Empty State ── */}
             {viewState === "empty" && (
@@ -478,7 +499,7 @@ export default function ContentGenerator() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
                   style={{
-                    width: "72px", height: "72px", borderRadius: "50%",
+                    width: "72px", height: "72px", borderRadius: "var(--radius-circle)",
                     background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
                     border: "1px solid var(--color-border)",
                     display: "flex", alignItems: "center", justifyContent: "center",
@@ -505,7 +526,7 @@ export default function ContentGenerator() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + i * 0.08 }}
                       style={{
-                        padding: "5px 14px", borderRadius: "999px",
+                        padding: "5px 14px", borderRadius: "var(--radius-full)",
                         background: "var(--color-brand-surface)", border: "1px solid var(--color-brand-soft)",
                         color: "var(--color-brand-primary)", fontSize: "12px", fontWeight: 600,
                       }}
@@ -585,7 +606,7 @@ export default function ContentGenerator() {
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                   style={{
-                    width: "76px", height: "76px", borderRadius: "50%",
+                    width: "76px", height: "76px", borderRadius: "var(--radius-circle)",
                     background: "var(--color-brand-surface)",
                     border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                     display: "flex", alignItems: "center", justifyContent: "center",

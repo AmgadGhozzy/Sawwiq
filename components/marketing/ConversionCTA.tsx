@@ -63,7 +63,7 @@ export default function ConversionCTA() {
         position: "relative",
         maxWidth: "900px",
         margin: "0 auto",
-        borderRadius: "28px",
+        borderRadius: "var(--radius-3xl)",
         background: "var(--gradient-surface)",
         backdropFilter: "blur(60px) saturate(180%)",
         WebkitBackdropFilter: "blur(60px) saturate(180%)",
@@ -82,7 +82,7 @@ export default function ConversionCTA() {
       {/* Top glow orb */}
       <div aria-hidden="true" style={{
         position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)",
-        width: "500px", height: "280px", borderRadius: "50%",
+        width: "500px", height: "280px", borderRadius: "var(--radius-circle)",
         background: "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 15%, transparent) 0%, color-mix(in srgb, var(--color-brand-primary) 6%, transparent) 40%, transparent 70%)",
         filter: "blur(80px)", pointerEvents: "none",
       }} />
@@ -90,7 +90,7 @@ export default function ConversionCTA() {
       {/* Bottom-right ambient glow */}
       <div aria-hidden="true" style={{
         position: "absolute", bottom: "-60px", right: "-40px",
-        width: "350px", height: "250px", borderRadius: "50%",
+        width: "350px", height: "250px", borderRadius: "var(--radius-circle)",
         background: "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 10%, transparent) 0%, transparent 70%)",
         filter: "blur(70px)", pointerEvents: "none",
       }} />
@@ -110,7 +110,7 @@ export default function ConversionCTA() {
         transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
         style={{
           position: "relative", zIndex: 1,
-          width: "56px", height: "56px", borderRadius: "18px",
+          width: "56px", height: "56px", borderRadius: "var(--radius-xl)",
           background: "color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
@@ -148,7 +148,7 @@ export default function ConversionCTA() {
             >
               <div style={{
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                padding: "14px 20px", borderRadius: "16px",
+                padding: "14px 20px", borderRadius: "var(--radius-xl)",
                 background: "color-mix(in srgb, var(--color-success) 8%, transparent)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
@@ -165,7 +165,7 @@ export default function ConversionCTA() {
                   transition={{ delay: 0.3 }}
                   style={{
                     display: "flex", alignItems: "center", gap: "6px",
-                    padding: "8px 16px", borderRadius: "12px",
+                    padding: "8px 16px", borderRadius: "var(--radius-lg)",
                     background: "var(--color-brand-surface)",
                     backdropFilter: "blur(12px)",
                     WebkitBackdropFilter: "blur(12px)",
@@ -200,7 +200,7 @@ export default function ConversionCTA() {
                       padding: "14px 42px 14px 14px",
                       paddingInlineStart: "42px",
                       paddingInlineEnd: "14px",
-                      borderRadius: "14px",
+                      borderRadius: "var(--radius-lg)",
                       border: focused
                         ? "1.5px solid var(--color-brand-primary)"
                         : "1px solid var(--color-border)",
@@ -228,7 +228,7 @@ export default function ConversionCTA() {
                   style={{
                     display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
                     padding: "14px 24px",
-                    borderRadius: "14px",
+                    borderRadius: "var(--radius-lg)",
                     border: "none",
                     background: loading
                       ? "color-mix(in srgb, var(--color-brand-primary) 40%, transparent)"
@@ -282,7 +282,7 @@ export default function ConversionCTA() {
             fontSize: "11px", fontWeight: 600, color: "var(--color-foreground-secondary)",
           }}>
             <div style={{
-              width: "5px", height: "5px", borderRadius: "50%",
+              width: "5px", height: "5px", borderRadius: "var(--radius-circle)",
               background: "var(--color-foreground-secondary)",
               opacity: 0.7,
             }} />

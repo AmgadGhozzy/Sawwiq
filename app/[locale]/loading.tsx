@@ -16,7 +16,7 @@ export default function Loading() {
           height: "48px",
           border: "3px solid rgba(124, 58, 237, 0.2)",
           borderTopColor: "#7c3aed",
-          borderRadius: "50%",
+          borderRadius: "var(--radius-circle)",
           animation: "spin 1s linear infinite",
         }}
       />
