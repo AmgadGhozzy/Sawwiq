@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { DropdownPill } from "./ContextPills";
 
 interface Option {
@@ -66,10 +67,11 @@ export function CreatorCustomizer({
         <div style={{
           display: "flex",
           background: "var(--color-surface)",
-          borderRadius: "var(--radius-md)",
-          padding: "3px",
+          borderRadius: "24px",
+          padding: "4px",
           border: "1px solid var(--color-border)",
-          gap: "4px",
+          position: "relative",
+          gap: "2px",
         }}>
           {originalityOptions.map((opt) => {
             const isActive = selectedOriginality === opt.value;
@@ -81,19 +83,38 @@ export function CreatorCustomizer({
                 onClick={() => onOriginalityChange(opt.value)}
                 style={{
                   flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   padding: "6px 8px",
-                  borderRadius: "var(--radius-sm)",
-                  background: isActive ? "var(--color-brand-primary)" : "transparent",
+                  borderRadius: "20px",
                   border: "none",
-                  color: isActive ? "white" : "var(--color-foreground-secondary)",
+                  background: "transparent",
+                  color: isActive ? "var(--color-foreground)" : "var(--color-foreground-secondary)",
                   fontSize: "11px",
                   fontWeight: 600,
                   cursor: disabled ? "not-allowed" : "pointer",
-                  transition: "all 0.15s ease",
+                  transition: "color 0.15s ease",
                   fontFamily: "inherit",
+                  position: "relative",
+                  zIndex: 1,
                 }}
               >
-                {opt.label}
+                <span>{opt.label}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="originality-indicator"
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "var(--color-brand-soft)",
+                      border: "none",
+                      borderRadius: "20px",
+                      zIndex: -1,
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  />
+                )}
               </button>
             );
           })}

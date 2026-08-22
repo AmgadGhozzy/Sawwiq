@@ -19,7 +19,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         display: "flex",
         background: "var(--color-surface)",
         border: "1px solid var(--color-border)",
-        borderRadius: "99px",
+        borderRadius: "24px",
         padding: "4px",
         position: "relative",
       }}
@@ -35,7 +35,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           justifyContent: "center",
           gap: "8px",
           padding: "8px 16px",
-          borderRadius: "99px",
+          borderRadius: "20px",
           border: "none",
           background: "transparent",
           color: isMarketing ? "var(--color-foreground)" : "var(--color-foreground-secondary)",
@@ -57,8 +57,8 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
               position: "absolute",
               inset: 0,
               background: "var(--color-brand-soft)",
-              border: "1px solid var(--color-brand-primary)",
-              borderRadius: "99px",
+              border: "none",
+              borderRadius: "20px",
               zIndex: -1,
             }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -77,7 +77,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           justifyContent: "center",
           gap: "8px",
           padding: "8px 16px",
-          borderRadius: "99px",
+          borderRadius: "20px",
           border: "none",
           background: "transparent",
           color: !isMarketing ? "var(--color-foreground)" : "var(--color-foreground-secondary)",
@@ -99,8 +99,8 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
               position: "absolute",
               inset: 0,
               background: "var(--color-brand-soft)",
-              border: "1px solid var(--color-brand-primary)",
-              borderRadius: "99px",
+              border: "none",
+              borderRadius: "20px",
               zIndex: -1,
             }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
