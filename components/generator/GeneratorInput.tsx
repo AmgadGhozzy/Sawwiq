@@ -14,22 +14,22 @@ interface GeneratorInputProps {
 const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
   function GeneratorInput({ value, onChange, error, disabled }, ref) {
     const t = useTranslations("GeneratorInput");
-    
+
     const [placeholder, setPlaceholder] = useState("");
-    
+
     useEffect(() => {
       const PLACEHOLDER_EXAMPLES = t.raw("placeholders") as string[];
       if (!PLACEHOLDER_EXAMPLES || PLACEHOLDER_EXAMPLES.length === 0) return;
-      
+
       let currentIndex = 0;
       let currentText = "";
       let isDeleting = false;
       let typingSpeed = 70;
       let timeout: NodeJS.Timeout;
-      
+
       const type = () => {
         const fullText = PLACEHOLDER_EXAMPLES[currentIndex];
-        
+
         if (isDeleting) {
           currentText = fullText.substring(0, currentText.length - 1);
           typingSpeed = 25;
@@ -37,9 +37,9 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
           currentText = fullText.substring(0, currentText.length + 1);
           typingSpeed = 60 + Math.random() * 40;
         }
-        
+
         setPlaceholder(currentText);
-        
+
         if (!isDeleting && currentText === fullText) {
           typingSpeed = 3000;
           isDeleting = true;
@@ -48,15 +48,15 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
           currentIndex = (currentIndex + 1) % PLACEHOLDER_EXAMPLES.length;
           typingSpeed = 600;
         }
-        
+
         timeout = setTimeout(type, typingSpeed);
       };
-      
+
       timeout = setTimeout(type, 800);
-      
+
       return () => clearTimeout(timeout);
     }, [t]);
-    
+
     const [focused, setFocused] = useState(false);
 
     const handleClear = useCallback(() => {
@@ -86,7 +86,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
             placeholder={placeholder}
             rows={5}
             style={{
-              width: "100%", 
+              width: "100%",
               borderRadius: "12px",
               border: error
                 ? "1.5px solid color-mix(in srgb, var(--color-danger) 50%, transparent)"
@@ -94,113 +94,103 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                   ? "1.5px solid var(--color-brand-primary)"
                   : "1px solid var(--color-border)",
               background: "var(--color-surface)",
-              padding: "12px 14px 44px 14px",
-              fontSize: "14px", 
+              padding: "12px 14px 44px",
+              fontSize: "14px",
               lineHeight: 1.7,
               color: "var(--color-foreground)",
-              resize: "none", 
-              minHeight: "140px", 
+              resize: "none",
+              minHeight: "140px",
               maxHeight: "400px",
               outline: "none",
               boxShadow: focused ? "0 0 0 3px var(--color-brand-surface)" : "none",
-              transition: "all 0.2s ease",
+              transition: "0.2s",
               opacity: disabled ? 0.4 : 1,
               cursor: disabled ? "not-allowed" : "auto",
-              fontFamily: "inherit", 
+              fontFamily: "inherit",
               boxSizing: "border-box",
               caretColor: "var(--color-brand-primary)",
               scrollbarWidth: "none",
-              msOverflowStyle: "none",
             }}
             aria-invalid={!!error}
             aria-describedby={error ? "input-error" : undefined}
           />
-          
-          {/* Floating Bottom Toolbar Container */}
+
+          {/* Action Button: Clear if has text, Paste if empty */}
+          {value ? (
+            <button
+              type="button"
+              onClick={handleClear}
+              disabled={disabled}
+              title={t("clearTitle")}
+              aria-label={t("clearTitle")}
+              style={{
+                position: "absolute",
+                bottom: "16px",
+                insetInlineStart: "10px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "8px 16px",
+                borderRadius: "999px",
+                background: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
+                border: "1px solid color-mix(in srgb, var(--color-danger) 20%, transparent)",
+                color: "color-mix(in srgb, var(--color-danger) 80%, var(--color-foreground))",
+                fontSize: "11px",
+                fontWeight: 600,
+                cursor: disabled ? "not-allowed" : "pointer",
+                opacity: disabled ? 0.3 : 1,
+                transition: "all 0.2s ease",
+                fontFamily: "inherit",
+              }}
+            >
+              <Trash2 size={12} />
+              <span>{t("clearBtn")}</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handlePaste}
+              disabled={disabled}
+              title={t("pasteTitle")}
+              aria-label={t("pasteTitle")}
+              style={{
+                position: "absolute",
+                bottom: "16px",
+                insetInlineStart: "10px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "8px 16px",
+                borderRadius: "999px",
+                background: "var(--color-brand-surface)",
+                border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
+                color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
+                fontSize: "11px",
+                fontWeight: 600,
+                cursor: disabled ? "not-allowed" : "pointer",
+                opacity: disabled ? 0.3 : 1,
+                transition: "all 0.2s ease",
+                fontFamily: "inherit",
+              }}
+            >
+              <ClipboardPaste size={12} />
+              <span>{t("pasteBtn")}</span>
+            </button>
+          )}
+
+          {/* Character Counter */}
           <div
             style={{
               position: "absolute",
-              bottom: "8px",
-              insetInlineEnd: "8px",
-              insetInlineStart: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              pointerEvents: "none",
+              bottom: "16px",
+              insetInlineEnd: "14px",
+              fontSize: "11px",
+              color: "var(--color-foreground-disabled)",
+              fontWeight: 500,
+              userSelect: "none",
             }}
           >
-            {/* Action Button: Clear if has text, Paste if empty */}
-            <div style={{ pointerEvents: "auto" }}>
-              {value ? (
-                <button
-                  type="button"
-                  onClick={handleClear}
-                  disabled={disabled}
-                  title={t("clearTitle")}
-                  aria-label={t("clearTitle")}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    padding: "4px 8px",
-                    borderRadius: "999px",
-                    background: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
-                    border: "1px solid color-mix(in srgb, var(--color-danger) 20%, transparent)",
-                    color: "color-mix(in srgb, var(--color-danger) 80%, var(--color-foreground))",
-                    fontSize: "11px",
-                    fontWeight: 600,
-                    cursor: disabled ? "not-allowed" : "pointer",
-                    opacity: disabled ? 0.3 : 1,
-                    transition: "all 0.2s ease",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  <Trash2 size={13} />
-                  <span>{t("clearBtn")}</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handlePaste}
-                  disabled={disabled}
-                  title={t("pasteTitle")}
-                  aria-label={t("pasteTitle")}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    padding: "4px 8px",
-                    borderRadius: "999px",
-                    background: "var(--color-brand-surface)",
-                    border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
-                    color: "color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-foreground))",
-                    fontSize: "11px",
-                    fontWeight: 600,
-                    cursor: disabled ? "not-allowed" : "pointer",
-                    opacity: disabled ? 0.3 : 1,
-                    transition: "all 0.2s ease",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  <ClipboardPaste size={13} />
-                  <span>{t("pasteBtn")}</span>
-                </button>
-              )}
-            </div>
-
-            {/* Character Counter */}
-            <div
-              style={{
-                fontSize: "11px",
-                color: "var(--color-foreground-disabled)",
-                fontWeight: 500,
-                userSelect: "none",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {value.length} حرف
-            </div>
+            {value.length} حرف
           </div>
         </div>
 
