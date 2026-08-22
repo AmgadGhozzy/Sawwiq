@@ -42,9 +42,15 @@ export function PlatformSelector({ platforms, selected, onChange, disabled }: Pl
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: isActive ? "var(--color-brand-soft)" : "var(--color-surface)",
-              border: isActive ? "1.5px solid var(--color-brand-primary)" : "1px solid var(--color-border)",
-              boxShadow: isActive ? "0 0 12px var(--color-brand-surface)" : "var(--shadow-card)",
+              background: isActive 
+                ? "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)" 
+                : "var(--color-surface)",
+              border: isActive 
+                ? "1.5px solid var(--color-brand-primary)" 
+                : "1px solid var(--color-border)",
+              boxShadow: isActive 
+                ? "0 0 16px color-mix(in srgb, var(--color-brand-primary) 28%, transparent)" 
+                : "var(--shadow-card)",
               cursor: disabled ? "not-allowed" : "pointer",
               opacity: disabled ? 0.4 : 1,
               transition: "all 0.2s ease",

@@ -90,7 +90,7 @@ export function CreatorCustomizer({
                   borderRadius: "20px",
                   border: "none",
                   background: "transparent",
-                  color: isActive ? "var(--color-foreground)" : "var(--color-foreground-secondary)",
+                  color: isActive ? "#ffffff" : "var(--color-foreground-secondary)",
                   fontSize: "11px",
                   fontWeight: 600,
                   cursor: disabled ? "not-allowed" : "pointer",
@@ -107,7 +107,7 @@ export function CreatorCustomizer({
                     style={{
                       position: "absolute",
                       inset: 0,
-                      background: "var(--color-brand-soft)",
+                      background: "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)",
                       border: "none",
                       borderRadius: "20px",
                       zIndex: -1,
