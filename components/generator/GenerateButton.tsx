@@ -28,7 +28,6 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
         ]
       } : undefined}
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-      dir="rtl"
       style={{
         width: "100%",
         display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",

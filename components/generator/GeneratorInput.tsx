@@ -73,7 +73,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
     }, [onChange, value]);
 
     return (
-      <div dir="rtl" style={{ display: "flex", flexDirection: "column", gap: "8px", order: 3, marginTop: "8px", marginBottom: "8px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px", order: 3, marginTop: "8px", marginBottom: "8px" }}>
         <div style={{ position: "relative" }}>
           <textarea
             ref={ref}

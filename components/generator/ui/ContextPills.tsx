@@ -57,7 +57,8 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
             borderRadius: "var(--radius-md)",
             border: isOpen ? "1.5px solid var(--color-brand-primary)" : "1.5px solid var(--color-border)",
             background: "var(--color-surface)",
-            padding: "9px 12px 9px 36px",
+            padding: "9px 12px",
+            paddingInlineEnd: "36px",
             fontSize: "13px",
             color: "var(--color-foreground)",
             display: "flex",
@@ -70,7 +71,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
             transition: "all 0.2s ease",
             fontFamily: "inherit",
             boxSizing: "border-box",
-            textAlign: "right",
+            textAlign: "start",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "8px", overflow: "hidden" }}>
@@ -84,7 +85,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
             color="var(--color-brand-primary)"
             style={{
               position: "absolute",
-              left: "12px",
+              insetInlineEnd: "12px",
               transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
               transition: "transform 0.2s",
             }}
@@ -104,7 +105,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
                 right: 0,
                 left: 0,
                 marginTop: "6px",
-                background: "color-mix(in srgb, var(--color-background) 92%, transparent)",
+                background: "color-mix(in srgb, var(--color-background) 96%, transparent)",
                 backdropFilter: "blur(24px)",
                 WebkitBackdropFilter: "blur(24px)",
                 border: "1px solid var(--color-border)",
@@ -129,7 +130,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
                   }}
                   style={{
                     width: "100%",
-                    textAlign: "right",
+                    textAlign: "start",
                     padding: "8px 10px",
                     borderRadius: "var(--radius-sm)",
                     background: value === opt.value ? "var(--color-brand-soft)" : "transparent",

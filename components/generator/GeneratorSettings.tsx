@@ -159,9 +159,9 @@ export default function GeneratorSettings({
   const isCreatorMode = mode === "creator" || mode === "personal_creator";
 
   return (
-    <div style={{ display: "contents" }} dir="rtl">
+    <div style={{ display: "contents" }}>
       {/* 1. Mode Switcher (Order: 1) */}
-      <div style={{ order: 1, display: "flex", flexDirection: "column", gap: "6px" }} dir="rtl">
+      <div style={{ order: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
         <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
           {getTranslated("modeLabel", "نمط المحتوى")}
         </label>
@@ -171,7 +171,7 @@ export default function GeneratorSettings({
       </div>
 
       {/* 2. Platform Selector (Order: 2) */}
-      <div style={{ order: 2, display: "flex", flexDirection: "column", gap: "6px" }} dir="rtl">
+      <div style={{ order: 2, display: "flex", flexDirection: "column", gap: "6px" }}>
         <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
           {getTranslated("platformLabel", "المنصة")}
         </label>
@@ -186,7 +186,7 @@ export default function GeneratorSettings({
       {/* order 3 is reserved for GeneratorInput */}
 
       {/* 4. Quick Context Pills / Dropdowns (Order: 4) */}
-      <div style={{ order: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }} dir="rtl">
+      <div style={{ order: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
         <DropdownPill
           label={getTranslated("arabicStyleLabel", "اللهجة")}
           value={arabicStyle}
@@ -242,7 +242,7 @@ export default function GeneratorSettings({
 
       {/* 5. Creator Mode Deep Customization (Order: 5) */}
       {isCreatorMode && onPersonaChange && onStyleChange && onOriginalityChange && (
-        <div style={{ order: 5, marginTop: "2px" }} dir="rtl">
+        <div style={{ order: 5, marginTop: "2px" }}>
           <button
             type="button"
             onClick={() => setAdvancedOpen(!advancedOpen)}

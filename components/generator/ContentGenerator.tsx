@@ -295,7 +295,8 @@ export default function ContentGenerator() {
                 overflowY: "auto",
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
-                flex: 1
+                flex: 1,
+                minHeight: 0
               }}>
                 <style>{`div::-webkit-scrollbar { display: none; }`}</style>
                 <form onSubmit={handleSubmit(doGenerate)} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
