@@ -18,24 +18,36 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
       type="submit"
       disabled={disabled || loading}
       whileTap={!disabled && !loading ? { scale: 0.97 } : undefined}
-      whileHover={!disabled && !loading ? { y: -2, boxShadow: "var(--shadow-brand)" } : undefined}
+      whileHover={!disabled && !loading ? { y: -2, scale: 1.01 } : undefined}
       aria-busy={loading}
+      animate={!isOff && !loading ? {
+        boxShadow: [
+          "0 0 16px color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
+          "0 0 28px color-mix(in srgb, var(--color-brand-hover) 50%, transparent)",
+          "0 0 16px color-mix(in srgb, var(--color-brand-primary) 30%, transparent)"
+        ]
+      } : undefined}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       style={{
-        display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-        width: "100%", padding: "13px", borderRadius: "var(--radius-lg)", border: "none",
-        background: isOff ? "color-mix(in srgb, var(--color-foreground) 10%, transparent)" : "var(--gradient-brand)",
-        color: isOff ? "var(--color-foreground-disabled)" : "white",
-        fontWeight: 700, fontSize: "14px",
+        width: "100%",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
+        borderRadius: "var(--radius-xl)", border: "none",
+        padding: "var(--space-3) var(--space-5)",
+        fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground-inverse)",
         cursor: isOff || loading ? "not-allowed" : "pointer",
-        opacity: isOff ? 0.6 : 1,
+        opacity: isOff ? 0.45 : 1,
         fontFamily: "inherit",
-        boxShadow: isOff ? "none" : "var(--shadow-brand)",
-        transition: "all 0.2s ease",
+        background: isOff
+          ? "color-mix(in srgb, var(--color-foreground) 5%, transparent)"
+          : "var(--gradient-brand)",
+        boxShadow: "var(--shadow-brand)",
+        transition: "var(--transition-normal)",
+        letterSpacing: "0.01em",
       }}
     >
       {loading ? (
         <motion.span
-          style={{ display: "flex", alignItems: "center", gap: "10px" }}
+          style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -43,8 +55,8 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
             style={{
               display: "inline-block", width: "16px", height: "16px",
               borderRadius: "var(--radius-circle)",
-              border: "2px solid rgba(255, 255, 255, 0.3)",
-              borderTopColor: "white",
+              border: "2px solid color-mix(in srgb, var(--color-foreground-inverse) 30%, transparent)",
+              borderTopColor: "var(--color-foreground-inverse)",
             }}
             animate={{ rotate: 360 }}
             transition={{ repeat: Infinity, duration: 0.75, ease: "linear" }}
@@ -52,9 +64,9 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
           {t("loading")}
         </motion.span>
       ) : (
-        <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
           <span>{t("generate")}</span>
-          <Sparkles size={15} />
+          <Sparkles size={18} />
         </span>
       )}
     </motion.button>

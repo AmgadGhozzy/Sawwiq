@@ -17,9 +17,9 @@ export function PlatformSelector({ platforms, selected, onChange, disabled }: Pl
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: "8px",
+        gap: "var(--space-2)",
         overflowX: "auto",
-        padding: "4px 2px",
+        padding: "var(--space-3) var(--space-2)",
         width: "100%",
         scrollbarWidth: "none",
         msOverflowStyle: "none",
@@ -39,24 +39,24 @@ export function PlatformSelector({ platforms, selected, onChange, disabled }: Pl
             whileTap={!disabled ? { scale: 0.95 } : {}}
             style={{
               flexShrink: 0,
-              width: "44px",
-              height: "44px",
+              width: "var(--control-h-xl)",
+              height: "var(--control-h-xl)",
               borderRadius: "var(--radius-md)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               background: isActive 
-                ? "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)" 
+                ? "var(--color-brand-soft)" 
                 : "var(--color-surface)",
               border: isActive 
                 ? "none" 
                 : "1px solid var(--color-border)",
               boxShadow: isActive 
-                ? "0 0 16px color-mix(in srgb, var(--color-brand-primary) 28%, transparent)" 
+                ? "var(--shadow-glow)" 
                 : "var(--shadow-card)",
               cursor: disabled ? "not-allowed" : "pointer",
               opacity: disabled ? 0.4 : 1,
-              transition: "all 0.2s ease",
+              transition: "var(--transition-normal)",
             }}
           >
             <PlatformIcon platform={platform} />

@@ -3,7 +3,6 @@ import assert from "node:assert/strict";
 import {
   getAvailablePersonas,
   getPersona,
-  isPersonaSupported,
   normalizePersona,
 } from "../lib/content/personas";
 
@@ -24,17 +23,18 @@ describe("Persona Domain & Normalizer", () => {
     const dev = getPersona("developer");
     assert.ok(dev);
     assert.strictEqual(dev?.id, "developer");
-    assert.ok(dev?.interests.length > 0);
-    assert.ok(dev?.characteristics.length > 0);
+    assert.ok(dev?.reasoningProfile, "Expected reasoningProfile on preset personas");
+    assert.ok(dev?.description?.length > 0);
   });
 
   test("normalizes a preset persona configuration", () => {
     const normalized = normalizePersona({ id: "developer" });
     assert.ok(normalized);
     assert.strictEqual(normalized?.id, "developer");
-    assert.strictEqual(normalized?.identity, "المبرمج والتقني");
-    assert.ok(normalized?.interests.includes("البرمجة وهندسة البرمجيات"));
-    assert.ok(normalized?.traits.includes("تحليلي ومنطقي"));
+    assert.strictEqual(normalized?.identity, getPersona("developer")?.name);
+
+    const overridden = normalizePersona({ id: "developer", name: "مهندس أنظمة" });
+    assert.strictEqual(overridden?.identity, "مهندس أنظمة");
   });
 
   test("normalizes custom persona interests and characteristics", () => {

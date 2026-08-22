@@ -38,15 +38,15 @@ export function CreatorCustomizer({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "10px",
-        padding: "12px",
+        gap: "var(--space-2)",
+        padding: "var(--space-3)",
         background: "var(--color-surface)",
         borderRadius: "var(--radius-md)",
         border: "1px solid var(--color-border)",
-        marginTop: "6px",
+        marginTop: "var(--space-1)",
       }}
     >
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-2)" }}>
         <DropdownPill 
           label={t("personaLabel")} 
           options={personas} 
@@ -63,18 +63,18 @@ export function CreatorCustomizer({
         />
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-        <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+        <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
           {t("originalityLabel")}
         </span>
         <div style={{
           display: "flex",
           background: "var(--color-surface)",
           borderRadius: "var(--radius-2xl)",
-          padding: "4px",
+          padding: "var(--space-1)",
           border: "1px solid var(--color-border)",
           position: "relative",
-          gap: "2px",
+          gap: "var(--space-1)",
         }}>
           {originalityOptions.map((opt) => {
             const isActive = selectedOriginality === opt.value;
@@ -89,28 +89,30 @@ export function CreatorCustomizer({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  padding: "6px 8px",
+                  padding: "var(--space-1) var(--space-2)",
                   borderRadius: "var(--radius-2xl)",
                   border: "none",
                   background: "transparent",
-                  color: isActive ? "#ffffff" : "var(--color-foreground-secondary)",
-                  fontSize: "11px",
-                  fontWeight: 600,
+                  color: isActive ? "var(--color-foreground-inverse)" : "var(--color-foreground-secondary)",
+                  fontSize: "var(--text-xs)",
+                  fontWeight: "var(--font-weight-semibold)",
                   cursor: disabled ? "not-allowed" : "pointer",
-                  transition: "color 0.15s ease",
+                  transition: "color var(--transition-fast)",
                   fontFamily: "inherit",
                   position: "relative",
                   zIndex: 1,
+                  overflow: "hidden",
+                  minWidth: 0,
                 }}
               >
-                <span>{opt.label}</span>
+                <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{opt.label}</span>
                 {isActive && (
                   <motion.div
                     layoutId="originality-indicator"
                     style={{
                       position: "absolute",
                       inset: 0,
-                      background: "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)",
+                      background: "var(--color-brand-soft)",
                       border: "none",
                       borderRadius: "var(--radius-2xl)",
                       zIndex: -1,

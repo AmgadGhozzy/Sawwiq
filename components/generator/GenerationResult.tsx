@@ -73,41 +73,41 @@ export default function GenerationResult({
       variants={containerVariants}
       style={{
         background: "var(--color-surface)",
-        border: "1px solid color-mix(in srgb, var(--color-border) 80%, transparent)",
+        border: "1px solid var(--color-border)",
         borderRadius: "var(--radius-xl)",
         overflow: "hidden",
-        boxShadow: "0 2px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.04) inset",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       {/* ── Header ── */}
       <motion.div
         variants={itemVariants}
         style={{
-          padding: "14px 20px",
-          borderBottom: "1px solid color-mix(in srgb, var(--color-border) 60%, transparent)",
+          padding: "var(--space-3-5) var(--space-5)",
+          borderBottom: "1px solid var(--color-border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
         {/* Status pill */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
           <div style={{
-            display: "flex", alignItems: "center", gap: "6px",
-            padding: "6px 14px",
+            display: "flex", alignItems: "center", gap: "var(--space-1)",
+            padding: "var(--space-1-5) var(--space-3-5)",
             borderRadius: "var(--radius-full)",
-            background: "color-mix(in srgb, var(--color-brand-primary) 10%, transparent)",
-            border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
+            background: "var(--color-brand-surface)",
+            border: "1px solid var(--color-brand-soft)",
           }}>
             <span style={{
               width: "5px", height: "5px", borderRadius: "var(--radius-circle)",
               background: "var(--color-brand-primary)",
-              boxShadow: "0 0 6px var(--color-brand-primary)",
+              boxShadow: "var(--shadow-glow)",
               display: "block",
             }} />
             <span style={{
-              fontSize: "12px", fontWeight: 700, letterSpacing: "0.03em",
-              color: "color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-foreground))",
+              fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-bold)", letterSpacing: "0.03em",
+              color: "var(--color-brand-primary)",
             }}>
               {t("readyContent")}
             </span>
@@ -115,8 +115,8 @@ export default function GenerationResult({
         </div>
 
         {/* Actions right side */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "4px", background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)", borderRadius: "var(--radius-full)", padding: "2px", border: "1px solid color-mix(in srgb, var(--color-foreground) 10%, transparent)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)", background: "var(--color-brand-surface)", borderRadius: "var(--radius-full)", padding: "var(--space-0-5)", border: "1px solid var(--color-border)" }}>
             <motion.button
               onClick={onPrevHistory}
               disabled={!hasPrevHistory}
@@ -124,18 +124,18 @@ export default function GenerationResult({
               whileTap={hasPrevHistory ? { scale: 0.9 } : {}}
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center",
-                width: "26px", height: "26px", borderRadius: "var(--radius-circle)", border: "none",
+                width: "var(--space-6)", height: "var(--space-6)", borderRadius: "var(--radius-circle)", border: "none",
                 background: "transparent",
                 color: hasPrevHistory ? "var(--color-foreground)" : "var(--color-foreground-disabled)",
                 cursor: hasPrevHistory ? "pointer" : "not-allowed",
-                transition: "color 0.2s ease",
+                transition: "color var(--transition-fast)",
               }}
               aria-label="Previous"
             >
               {isRTL ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
             </motion.button>
-            
-            <div style={{ width: "1px", height: "12px", background: "color-mix(in srgb, var(--color-foreground) 12%, transparent)" }} />
+
+            <div style={{ width: "1px", height: "var(--space-3)", background: "var(--color-border)" }} />
 
             <motion.button
               onClick={onNextHistory}
@@ -144,11 +144,11 @@ export default function GenerationResult({
               whileTap={hasNextHistory ? { scale: 0.9 } : {}}
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center",
-                width: "26px", height: "26px", borderRadius: "var(--radius-circle)", border: "none",
+                width: "var(--space-6)", height: "var(--space-6)", borderRadius: "var(--radius-circle)", border: "none",
                 background: "transparent",
                 color: hasNextHistory ? "var(--color-foreground)" : "var(--color-foreground-disabled)",
                 cursor: hasNextHistory ? "pointer" : "not-allowed",
-                transition: "color 0.2s ease",
+                transition: "color var(--transition-fast)",
               }}
               aria-label="Next"
             >
@@ -162,17 +162,17 @@ export default function GenerationResult({
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             style={{
-              display: "flex", alignItems: "center", gap: "6px",
-              padding: "6px 14px", borderRadius: "var(--radius-full)",
+              display: "flex", alignItems: "center", gap: "var(--space-1)",
+              padding: "var(--space-1-5) var(--space-3-5)", borderRadius: "var(--radius-full)",
               background: copiedAll
-                ? "color-mix(in srgb, var(--color-success) 10%, transparent)"
-                : "color-mix(in srgb, var(--color-foreground) 5%, transparent)",
+                ? "var(--color-success-surface)"
+                : "var(--color-brand-surface)",
               border: `1px solid ${copiedAll
-                ? "color-mix(in srgb, var(--color-success) 30%, transparent)"
-                : "color-mix(in srgb, var(--color-foreground) 12%, transparent)"}`,
-              color: copiedAll ? "var(--color-success)" : "var(--color-foreground-secondary)",
-              fontSize: "12px", fontWeight: 600, cursor: "pointer",
-              transition: "all 0.2s ease", fontFamily: "inherit",
+                ? "var(--color-success-border)"
+                : "var(--color-brand-soft)"}`,
+              color: copiedAll ? "var(--color-success)" : "var(--color-brand-primary)",
+              fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)", cursor: "pointer",
+              transition: "var(--transition-normal)", fontFamily: "inherit",
             }}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -192,14 +192,14 @@ export default function GenerationResult({
       </motion.div>
 
       {/* ── Content ── */}
-      <div style={{ padding: "24px 20px", display: "flex", flexDirection: "column", gap: "20px" }}>
+      <div style={{ padding: "var(--space-6) var(--space-5)", display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
 
         {/* Title */}
         <motion.h2
           variants={itemVariants}
           style={{
-            fontSize: "clamp(1.3rem, 2.8vw, 1.9rem)",
-            fontWeight: 900, lineHeight: 1.3, margin: 0,
+            fontSize: "var(--text-2xl)",
+            fontWeight: "var(--font-weight-black)", lineHeight: "var(--leading-tight)", margin: 0,
             color: "var(--color-foreground)",
             letterSpacing: "-0.02em",
           }}
@@ -210,9 +210,9 @@ export default function GenerationResult({
         {/* Divider */}
         <motion.div variants={itemVariants} style={{
           height: "1px",
-          background: "linear-gradient(to right, color-mix(in srgb, var(--color-brand-primary) 30%, transparent), transparent)",
-          borderRadius: "1px",
-          marginBlock: "-4px",
+          background: "var(--gradient-divider)",
+          borderRadius: "var(--radius-xs)",
+          marginBlock: "calc(var(--space-1) * -1)",
         }} />
 
         {/* Hook */}
@@ -220,20 +220,20 @@ export default function GenerationResult({
           variants={itemVariants}
           style={{
             borderRadius: "var(--radius-lg)",
-            background: "color-mix(in srgb, var(--color-brand-primary) 6%, transparent)",
+            background: "var(--color-brand-surface)",
             borderInlineStart: "3px solid var(--color-brand-primary)",
-            padding: "14px 16px",
-            display: "flex", alignItems: "flex-start", gap: "10px",
+            padding: "var(--space-3-5) var(--space-4)",
+            display: "flex", alignItems: "flex-start", gap: "var(--space-2)",
           }}
         >
           <Quote size={16}
-            color="color-mix(in srgb, var(--color-brand-primary) 70%, var(--color-foreground))"
-            style={{ flexShrink: 0, marginTop: "2px" }}
+            color="var(--color-brand-primary)"
+            style={{ flexShrink: 0, marginTop: "var(--space-0-5)" }}
           />
           <p style={{
-            fontSize: "15px", fontWeight: 700, margin: 0, flex: 1,
-            color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
-            lineHeight: 1.6,
+            fontSize: "var(--text-base)", fontWeight: "var(--font-weight-bold)", margin: 0, flex: 1,
+            color: "var(--color-brand-primary)",
+            lineHeight: "var(--leading-normal)",
           }}>
             {content.hook}
           </p>
@@ -244,7 +244,7 @@ export default function GenerationResult({
           variants={itemVariants}
           style={{
             color: "var(--color-foreground-secondary)",
-            fontSize: "14px", lineHeight: 1.9,
+            fontSize: "var(--text-base)", lineHeight: "var(--leading-loose)",
             whiteSpace: "pre-wrap", margin: 0,
           }}
         >
@@ -256,16 +256,16 @@ export default function GenerationResult({
           variants={itemVariants}
           style={{
             borderRadius: "var(--radius-lg)",
-            background: "color-mix(in srgb, var(--color-brand-primary) 6%, transparent)",
-            border: "1px dashed color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
-            padding: "20px 20px",
+            background: "var(--color-brand-surface)",
+            border: "1px dashed var(--color-brand-soft)",
+            padding: "var(--space-5) var(--space-5)",
             textAlign: "center",
           }}
         >
           <p style={{
-            fontSize: "18px", fontWeight: 800, margin: 0,
-            color: "color-mix(in srgb, var(--color-brand-primary) 65%, var(--color-foreground))",
-            lineHeight: 1.5,
+            fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", margin: 0,
+            color: "var(--color-brand-primary)",
+            lineHeight: "var(--leading-snug)",
           }}>
             {content.callToAction}
           </p>
@@ -274,7 +274,7 @@ export default function GenerationResult({
         {/* Hashtags — title is rendered inside HashtagList */}
         <motion.div variants={itemVariants} style={{
           borderTop: "1px solid color-mix(in srgb, var(--color-border) 50%, transparent)",
-          paddingTop: "16px",
+          paddingTop: "var(--space-4)",
         }}>
           <HashtagList hashtags={content.hashtags} onCopy={handleSectionCopy} />
         </motion.div>
@@ -284,66 +284,66 @@ export default function GenerationResult({
       <motion.div
         variants={itemVariants}
         style={{
-          display: "flex", gap: "10px",
-          padding: "16px 16px",
-          borderTop: "1px solid color-mix(in srgb, var(--color-border) 60%, transparent)",
-          borderTopLeftRadius: "20px",
-          borderTopRightRadius: "20px",
-          background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
-          marginTop: "2px",
+          display: "flex", gap: "var(--space-2)",
+          padding: "var(--space-4) var(--space-4)",
+          borderTop: "1px solid var(--color-border)",
+          borderTopLeftRadius: "var(--radius-xl)",
+          borderTopRightRadius: "var(--radius-xl)",
+          background: "var(--color-brand-surface)",
+          marginTop: "var(--space-0-5)",
         }}
       >
-          {/* Regenerate */}
-          {!isHistoryView && (
-            <motion.button
-              onClick={() => { tracker.track("regeneration_requested"); onRegenerate(); }}
-              disabled={loading}
-              whileHover={!loading ? { scale: 1.02, boxShadow: "var(--shadow-brand)" } : undefined}
-              whileTap={!loading ? { scale: 0.96 } : undefined}
-              style={{
-                flex: 1,
-                display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
-                borderRadius: "var(--radius-lg)", border: "none",
-                background: "var(--gradient-brand)",
-                color: "white", fontWeight: 700, fontSize: "13px",
-                padding: "12px 16px",
-                cursor: loading ? "not-allowed" : "pointer",
-                opacity: loading ? 0.5 : 1,
-                boxShadow: "var(--shadow-brand)",
-                transition: "all 0.2s ease", fontFamily: "inherit",
-              }}
-            >
-              <RefreshCw size={14} />
-              {t("rewrite")}
-            </motion.button>
-          )}
-
-          {/* Start over */}
+        {/* Regenerate */}
+        {!isHistoryView && (
           <motion.button
-            onClick={onStartOver}
+            onClick={() => { tracker.track("regeneration_requested"); onRegenerate(); }}
             disabled={loading}
-            whileHover={!loading ? {
-              scale: 1.02,
-              background: "color-mix(in srgb, var(--color-foreground) 8%, transparent)",
-              borderColor: "color-mix(in srgb, var(--color-foreground) 22%, transparent)",
-            } : undefined}
+            whileHover={!loading ? { scale: 1.02, boxShadow: "var(--shadow-brand)" } : undefined}
             whileTap={!loading ? { scale: 0.96 } : undefined}
             style={{
               flex: 1,
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
-              borderRadius: "var(--radius-lg)",
-              border: "1px solid color-mix(in srgb, var(--color-border) 80%, transparent)",
-              background: "transparent",
-              color: "var(--color-foreground-secondary)", fontWeight: 600, fontSize: "13px",
-              padding: "12px 16px",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-1-5)",
+              borderRadius: "var(--radius-lg)", border: "none",
+              background: "var(--gradient-brand)",
+              color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-sm)",
+              padding: "var(--space-3) var(--space-4)",
               cursor: loading ? "not-allowed" : "pointer",
               opacity: loading ? 0.5 : 1,
-              transition: "all 0.2s ease", fontFamily: "inherit",
+              boxShadow: "var(--shadow-brand)",
+              transition: "var(--transition-normal)", fontFamily: "inherit",
             }}
           >
-            <PenLine size={14} />
-            {t("newContent")}
+            <RefreshCw size={14} />
+            {t("rewrite")}
           </motion.button>
+        )}
+
+        {/* Start over */}
+        <motion.button
+          onClick={onStartOver}
+          disabled={loading}
+          whileHover={!loading ? {
+            scale: 1.02,
+            background: "var(--color-brand-surface)",
+            borderColor: "var(--color-brand-soft)",
+          } : undefined}
+          whileTap={!loading ? { scale: 0.96 } : undefined}
+          style={{
+            flex: 1,
+            display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-1-5)",
+            borderRadius: "var(--radius-lg)",
+            border: "1px solid var(--color-border)",
+            background: "transparent",
+            color: "var(--color-foreground-secondary)", fontWeight: "var(--font-weight-semibold)", fontSize: "var(--text-sm)",
+            padding: "var(--space-3) var(--space-4)",
+            cursor: loading ? "not-allowed" : "pointer",
+            opacity: loading ? 0.5 : 1,
+            transition: "var(--transition-normal)", fontFamily: "inherit",
+          }}
+        >
+          <PenLine size={14} />
+          {t("newContent")}
+        </motion.button>
       </motion.div>
     </motion.div>
   );

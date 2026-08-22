@@ -30,12 +30,12 @@ export function buildOrganizationSchema(locale: string) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: isAr ? "سَوِّق" : "Sawwiq",
+    name: isAr ? "سوّق" : "Sawwiq",
     url: `${BASE_URL}/${locale}`,
     logo: `${BASE_URL}/logo.png`,
     description: isAr
-      ? "ولّد محتوى تسويقي احترافي بالذكاء الاصطناعي — من الفكرة إلى النشر في ثوانٍ."
-      : "Generate professional marketing content with AI — from idea to publish in seconds.",
+      ? "ولّد بوستات وإعلانات وسكريبتات فيديو جاهزة للنشر بأي لهجة عربية أو بالإنجليزي — في ثوانٍ. مجاني، بدون بطاقة ائتمان."
+      : "Generate scroll-stopping posts, ads, and video scripts in any Arabic dialect or English — free, in seconds. No credit card required.",
     sameAs: [],
   };
 }
@@ -48,12 +48,12 @@ export function buildWebSiteSchema(locale: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: isAr ? "سَوِّق" : "Sawwiq",
+    name: isAr ? "سوّق" : "Sawwiq",
     url: `${BASE_URL}/${locale}`,
     inLanguage: locale,
     description: isAr
-      ? "ولّد محتوى تسويقي احترافي بالذكاء الاصطناعي — من الفكرة إلى النشر في ثوانٍ."
-      : "Generate professional marketing content with AI — from idea to publish in seconds.",
+      ? "ولّد بوستات وإعلانات وسكريبتات فيديو جاهزة للنشر بأي لهجة عربية أو بالإنجليزي — في ثوانٍ. مجاني، بدون بطاقة ائتمان."
+      : "Generate scroll-stopping posts, ads, and video scripts in any Arabic dialect or English — free, in seconds. No credit card required.",
   };
 }
 

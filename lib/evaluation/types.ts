@@ -1,60 +1,161 @@
-// ---------------------------------------------------------------------------
-// Evaluation Types — deterministic + semantic scoring, versioned reports
-// ---------------------------------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
+// EXP-004 Shared Types
+// ═══════════════════════════════════════════════════════════════
 
-import type { ArabicStyle, ContentType, GeneratedContent } from "@/types/content";
+export type PersonaId = "developer" | "psychology" | "intellectual" | "creative";
+export type StyleId = "mystery" | "storytelling" | "contrarian";
+export type PlatformId = "linkedin" | "x" | "instagram";
 
-// ---------------------------------------------------------------------------
-// Test Case Categories
-// ---------------------------------------------------------------------------
+export const PERSONA_LETTER_MAP: Record<PersonaId, "A" | "B" | "C" | "D"> = {
+  developer: "A",
+  psychology: "B",
+  intellectual: "C",
+  creative: "D",
+};
+
+export const LETTER_PERSONA_MAP: Record<"A" | "B" | "C" | "D", PersonaId> = {
+  A: "developer",
+  B: "psychology",
+  C: "intellectual",
+  D: "creative",
+};
+
+export interface Topic {
+  id: string;
+  prompt: string;
+}
+
+export interface GeneratedContent {
+  title: string;
+  hook: string;
+  body: string;
+  callToAction: string;
+  hashtags: string[];
+}
+
+// ── Per-case result ─────────────────────────────────────────────
+
+export interface PersonaEvaluation {
+  predicted_persona: "A" | "B" | "C" | "D";
+  confidence_score: number;
+  reasoning_pattern_detected: string;
+  is_relying_on_cheap_keywords: boolean;
+  is_correct: boolean; // filled after comparing predicted vs actual
+  // 3D.1.1 — Dimensional scores (0-100 each)
+  worldview_match?: number;
+  reasoning_match?: number;
+  evidence_match?: number;
+  conclusion_match?: number;
+  /** 0 = pure structural classification; 100 = topic drove the prediction */
+  topic_leakage_risk?: number;
+}
+
+export interface AblationEvaluation {
+  ablatedText: string;
+  predicted_persona: "A" | "B" | "C" | "D";
+  confidence_score: number;
+  is_correct: boolean;
+}
+
+export interface PairwiseResult {
+  pair: [PersonaId, PersonaId];
+  topic: string;
+  platform: PlatformId;
+  separation_score: number;
+  is_just_vocabulary_swap: boolean;
+  perspective_difference: string;
+  reasoning_difference: string;
+  voice_difference: string;
+}
+
+export interface GenericnessEvaluation {
+  score: number;
+  detectedPatterns: string[];
+  openingSpecificity: number;
+}
+
+export interface FactEvaluation {
+  hasCriticalFailure: boolean;
+  unsupportedClaimsCount: number;
+  notes: string;
+}
+
+export interface StructuralEvaluation {
+  passed: boolean;
+  issues: string[];
+}
+
+export interface BenchmarkCaseResult {
+  caseId: string;
+  persona: PersonaId;
+  style: StyleId;
+  platform: PlatformId;
+  topic: Topic;
+
+  promptVersion: string;
+  promptTokenEstimate: number;
+  baselineTokenEstimate: number;
+
+  generatedContent: GeneratedContent;
+
+  personaEvaluation: PersonaEvaluation;
+  /** Vocabulary Ablation Test result — undefined if ablation step failed */
+  ablationEvaluation?: AblationEvaluation;
+  genericnessEvaluation: GenericnessEvaluation;
+  factEvaluation: FactEvaluation;
+  structuralEvaluation: StructuralEvaluation;
+
+  timestamp: string;
+}
+
+// ── Report ───────────────────────────────────────────────────────
+
+export interface BenchmarkSummary {
+  personaClassificationAccuracy: number;   // % of correct blind classifications
+  ablationAccuracy: number;                // % still correct after vocabulary ablation
+  avgPersonaSeparationScore: number;        // avg pairwise score
+  avgGenericnessScore: number;              // lower = better
+  avgOpeningSpecificity: number;            // higher = better
+  criticalFactFailures: number;             // must be 0
+  structuralPassRate: number;               // %
+  promptGrowthPercent: number;              // % token growth vs baseline
+
+  gates: {
+    personaClassification: boolean;    // actual ≥ 75%
+    personaSeparation: boolean;        // avg ≥ 80
+    genericnessScore: boolean;         // avg ≤ 60
+    criticalFactFailures: boolean;     // = 0
+    structuralCompliance: boolean;     // ≥ 98%
+    promptGrowth: boolean;             // ≤ 10%
+  };
+  overallPass: boolean;
+}
+
+export interface BenchmarkReport {
+  experiment: string;
+  promptVersion: string;
+  totalCases: number;
+  timestamp: string;
+  cases: BenchmarkCaseResult[];
+  pairwiseResults: PairwiseResult[];
+  summary: BenchmarkSummary;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LEGACY — run-benchmark.ts / evaluator.ts / benchmarkAnalysis.ts
+// These types belong to the original marketing benchmark system,
+// kept here to avoid breaking existing files during the EXP-004 refactor.
+// ═══════════════════════════════════════════════════════════════
 
 export type EvaluationCategory =
   | "real_estate"
   | "product"
   | "product_collection"
-  | "poor_input"
   | "incomplete_input"
+  | "poor_input"
   | "mixed_language"
   | "dialect_stress"
   | "video_script";
-
-// ---------------------------------------------------------------------------
-// Test Case Expectations (deterministic assertions)
-// ---------------------------------------------------------------------------
-
-export interface TestCaseExpectations {
-  /** Strings that MUST appear somewhere in the generated content. */
-  mustContain?: string[];
-  /** Strings that MUST NOT appear in the generated content. */
-  mustNotContain?: string[];
-  /** Minimum number of hashtags (defaults to 5). */
-  minHashtags?: number;
-  /** Maximum number of hashtags (defaults to 8). */
-  maxHashtags?: number;
-}
-
-// ---------------------------------------------------------------------------
-// Test Case Definition
-// ---------------------------------------------------------------------------
-
-export interface EvaluationTestCase {
-  id: string;
-  category: EvaluationCategory;
-  name: string;
-  input: {
-    contentType: ContentType;
-    arabicStyle: ArabicStyle;
-    rawInput: string;
-  };
-  /** Human-readable criteria (used by semantic judge). */
-  criteria: string[];
-  /** Machine-checkable expectations (used by deterministic evaluator). */
-  expectations?: TestCaseExpectations;
-}
-
-// ---------------------------------------------------------------------------
-// Deterministic Score (Level 1 — code-based, no API calls)
-// ---------------------------------------------------------------------------
 
 export interface DeterministicCheck {
   name: string;
@@ -63,20 +164,13 @@ export interface DeterministicCheck {
 }
 
 export interface DeterministicScore {
-  checks: DeterministicCheck[];
-  /** 0-100 percentage of checks passed. */
-  score: number;
-  /** True only if ALL checks pass. */
   passed: boolean;
-  /** Human-readable list of failures. */
-  details: string[];
+  score: number;
+  checks: DeterministicCheck[];
 }
 
-// ---------------------------------------------------------------------------
-// Semantic Score (Level 2 — LLM-as-judge, requires API call)
-// ---------------------------------------------------------------------------
-
 export interface SemanticScore {
+  overall: number;
   factuality: number;
   dialectAccuracy: number;
   marketingQuality: number;
@@ -84,95 +178,35 @@ export interface SemanticScore {
   hookQuality: number;
   ctaQuality: number;
   hallucinationSafety: number;
-  overall: number;
-  violations: string[];
 }
 
-// ---------------------------------------------------------------------------
-// Per–Test Case Result
-// ---------------------------------------------------------------------------
+export interface TestCaseExpectations {
+  mustContain?: string[];
+  mustNotContain?: string[];
+  minHashtags?: number;
+  maxHashtags?: number;
+}
 
 export interface TestCaseResult {
   testCaseId: string;
-  testCaseName: string;
   category: EvaluationCategory;
   deterministic: DeterministicScore;
   semantic?: SemanticScore;
   claimViolations: string[];
-  /** Provider, transport, or schema error unrelated to a factual claim. */
   generationError?: string;
-  retryAttempts?: number;
-  /** Provider-reported usage for this generation, when available. */
-  tokenUsage?: {
-    promptTokens?: number;
-    completionTokens?: number;
-    totalTokens?: number;
-    thoughtsTokens?: number;
-  };
-  systemPromptEstimatedTokens?: number;
-  dynamicContextEstimatedTokens?: number;
-  /** Structural gate → 0 if schema invalid; else 40% det + 60% sem. */
-  combinedScore: number;
-  latencyMs: number;
-  /** Optionally persisted when --save-output is passed. */
-  output?: GeneratedContent;
 }
 
-// ---------------------------------------------------------------------------
-// Benchmark Report (versioned, persisted to JSON)
-// ---------------------------------------------------------------------------
-
-export interface BenchmarkReport {
-  timestamp: string;
-  model: string;
+export interface LegacyBenchmarkReport {
   promptVersion: string;
   datasetVersion: string;
-  experimentId: string;
-  generationConfig: {
-    temperature: number;
-    topP: number;
-  };
-  totalCases: number;
-  passedCases: number;
   overallDeterministicScore: number;
   overallSemanticScore?: number;
-  overallCombinedScore: number;
-  results: TestCaseResult[];
-  /** Per-dimension averages (only when semantic evaluation is run). */
   dimensionAverages?: Record<string, number>;
-  /** Prompt matrix measurements used to guard against instruction bloat. */
-  promptBudget?: PromptBudgetSummary;
-  /** Strict production decision, including the reasons behind a rejection. */
-  acceptance?: BenchmarkAcceptance;
-  runComplete?: boolean;
-  providerFailureCount?: number;
-  categoryScores: Record<
-    string,
-    {
-      total: number;
-      averageDeterministic: number;
-      averageSemantic?: number;
-    }
-  >;
+  results: TestCaseResult[];
   benchmarkGroups?: Record<string, {
     total: number;
     passed: number;
     structuralPassRate: number;
     semanticAverage?: number;
   }>;
-}
-
-export interface PromptBudgetSummary {
-  maxGrowthPercent: number;
-  totalCharacters: number;
-  estimatedTokens: number;
-  violations: string[];
-  /** Estimated context split; exact total input tokens come from provider usage per case. */
-  averageSystemPromptTokens: number;
-  averageDynamicContextTokens: number;
-}
-
-export interface BenchmarkAcceptance {
-  passed: boolean;
-  reasons: string[];
 }

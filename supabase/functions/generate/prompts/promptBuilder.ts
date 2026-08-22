@@ -4,36 +4,38 @@ import { CONTENT_TYPE_RULES } from "./contentTypes.ts";
 import type { InputDTO } from "../validation/schema.ts";
 
 interface PromptLayer {
-  label: string;
+  tag: string;
   content: string;
+}
+
+function buildSystemPersonaLayer(): PromptLayer {
+  return {
+    tag: "system_persona",
+    content: `You are an elite, highly-paid Arabic Copywriter and Content Strategist. Your goal is to transform the user's ideas into exceptional, high-converting, and intellectually deep content.`,
+  };
 }
 
 function buildGlobalRulesLayer(): PromptLayer {
   return {
-    label: "Global Rules",
-    content: `
-# قواعد عامة للكتابة التسويقية
+    tag: "global_rules",
+    content: `1. LANGUAGE: Write strictly in Arabic unless technical terms or brand names lack common Arabic equivalents.
+2. NO EMOJIS: Do not use any emojis whatsoever in the output, titles, hooks, or body.
+3. QUALITY OVER QUANTITY: Avoid filler words. Every sentence must serve a specific thought or emotion.
+4. NO AI TROPES: Avoid robotic tone, repetitive sentence structures, or overly dramatic phrasing.`,
+  };
+}
 
-أنت كاتب محتوى ومفكر عربي محترف. مهمتك تحويل معلومات وأفكار المستخدم إلى محتوى متقن وعالي الجودة.
-
-## قواعد أساسية:
-1. اكتب بالعربية فقط — تجنب الكلمات الإنجليزية إلا إذا كانت أسماء علامات تجارية أو مصطلحات تقنية لا بديل عربي لها.
-2. لا تخترع أي معلومة واقعية لم يقدمها المستخدم — هذا ليس اقتراحًا، هذا قانون.
-3. إذا لم تُذكر معلومة (مثل السعر أو الموقع الدقيق)، لا تذكرها في المحتوى.
-4. ركّز على القيمة الحقيقية والعمق الفكري.
-5. تجنب الحشو والجمل العامة التي لا تضيف معلومة.
-6. كل جملة يجب أن تخدم هدفًا واضحًا.
-7. حافظ على ذكر المميزات الهامة والأسماء الخاصة كما وردت بلغتها الأصلية.
-
-## ممنوع:
-- ترجمات حرفية أو أسلوب روبوتي
-- عبارات ذكاء اصطناعي نمطية ومستهلكة
-- إيموجي (لا تضع أي إيموجي على الإطلاق)
-- ادعاءات مبالغ فيها بدون دليل
-- إلحاح مصطنع
-- تكرار نفس بنية الجمل
-- اختلاق سير ذاتية أو تجارب وهمية لم يذكرها المستخدم
-`.trim(),
+function buildAntiGenericnessLayer(): PromptLayer {
+  return {
+    tag: "anti_genericness",
+    content: `<rule>Avoid generic introductory framing. Start as close to the core idea as possible.</rule>
+<hook_strategy>
+  Choose exactly ONE of these strategies for the hook:
+  1. Surprising claim (ادعاء صادم)
+  2. Contradiction (مفارقة أو تناقض)
+  3. Direct, specific question (سؤال مباشر ومحدد جداً)
+  4. Tension / Conflict (خلق توتر أو مشكلة)
+</hook_strategy>`,
   };
 }
 
@@ -41,8 +43,8 @@ function buildPlatformLayer(platform: string): PromptLayer | null {
   const rule = PLATFORM_RULES[platform];
   if (!rule) return null;
   return {
-    label: `Platform: ${platform}`,
-    content: `## قواعد المنصة المستهدفة\n\nSTRICT RULE: ${rule}`,
+    tag: "platform_context",
+    content: `PLATFORM: ${platform}\nPLATFORM RULES: ${rule}`,
   };
 }
 
@@ -51,25 +53,28 @@ function buildPersonaLayer(persona?: any): PromptLayer | null {
   const identity = typeof persona === "string" ? persona : persona.name || persona.identity || persona.id;
   if (!identity) return null;
 
-  const lines = [
-    `## منظور الكاتب وهويته (Creator Persona)`,
-    `- الهوية والاهتمام: ${identity}`,
-  ];
-  if (persona.interests && Array.isArray(persona.interests) && persona.interests.length > 0) {
-    lines.push(`- الاهتمامات: ${persona.interests.join("، ")}`);
+  let content = `<identity>${identity}</identity>\n`;
+
+  const rp = persona.reasoningProfile;
+  if (rp) {
+    content += `<worldview>\n${rp.worldview.map((item: string) => `- ${item}`).join('\n')}\n</worldview>\n`;
+    content += `<reasoning_patterns>\n${rp.reasoningPatterns.map((item: string) => `- ${item}`).join('\n')}\n</reasoning_patterns>\n`;
+    content += `<attention_bias>\n${rp.attentionBiases.map((item: string) => `- ${item}`).join('\n')}\n</attention_bias>\n`;
+    content += `<evidence_preferences>\n${rp.evidencePreferences.map((item: string) => `- ${item}`).join('\n')}\n</evidence_preferences>\n`;
+    content += `<analogy_domains>\n${rp.analogyDomains.map((item: string) => `- ${item}`).join('\n')}\n</analogy_domains>\n`;
+    content += `<question_patterns>\n${rp.questionPatterns.map((item: string) => `- ${item}`).join('\n')}\n</question_patterns>\n`;
+    content += `<conclusion_patterns>\n${rp.conclusionPatterns.map((item: string) => `- ${item}`).join('\n')}\n</conclusion_patterns>\n`;
+    content += `<boundaries>\n${rp.avoidances.map((item: string) => `- ${item}`).join('\n')}\n</boundaries>\n`;
+  } else if (persona.characteristics) {
+    // Fallback for legacy
+    content += `<characteristics>\n${persona.characteristics.map((c: string) => `- ${c}`).join('\n')}\n</characteristics>\n`;
   }
-  if (persona.characteristics && Array.isArray(persona.characteristics) && persona.characteristics.length > 0) {
-    lines.push(`- السمات الفكرية: ${persona.characteristics.join("، ")}`);
-  }
-  if (persona.customInstructions) {
-    lines.push(`- توجيه تفضيلي: """${persona.customInstructions}"""`);
-  }
-  lines.push(
-    `قاعدة: استخدم الشخصية كعدسة لتأطير الموضوع وطريقة التفكير فقط. لا تختلق سيرة ذاتية أو خبرات شخصية لم يذكرها المستخدم.`
-  );
+
+  content += `\n<rule>Use this persona to frame the topic, structure the logic, and choose analogies. DO NOT invent personal anecdotes. DO NOT use explicit domain jargon just to sound like the persona.</rule>`;
+
   return {
-    label: `Persona: ${identity}`,
-    content: lines.join("\n"),
+    tag: "persona",
+    content: content.trim(),
   };
 }
 
@@ -79,7 +84,7 @@ function buildStyleLayer(style?: any): PromptLayer | null {
   if (!name) return null;
 
   const lines = [
-    `## أسلوب الصياغة (Content Style)`,
+    `CONTENT STYLE:`,
     `- النمط: ${name}`,
   ];
   if (style.characteristics && Array.isArray(style.characteristics) && style.characteristics.length > 0) {
@@ -89,7 +94,7 @@ function buildStyleLayer(style?: any): PromptLayer | null {
     lines.push(`- توجيه إضافي: """${style.customInstructions}"""`);
   }
   return {
-    label: `Style: ${name}`,
+    tag: "style",
     content: lines.join("\n"),
   };
 }
@@ -97,23 +102,16 @@ function buildStyleLayer(style?: any): PromptLayer | null {
 function buildCreatorIntentLayer(intent?: string): PromptLayer | null {
   if (!intent) return null;
   return {
-    label: `Creator Intent: ${intent}`,
-    content: `## هدف المحتوى\n- توجه المحتوى: ${intent}. ركز على توليد لحظة استبصار وفهم غير مألوف للموضوع.`,
+    tag: "intent",
+    content: `CONTENT INTENT: ${intent}\n- توجه المحتوى: ${intent}. ركز على توليد لحظة استبصار وفهم غير مألوف للموضوع.`,
   };
 }
 
 function buildCreatorOriginalityLayer(originality?: string): PromptLayer | null {
   if (!originality || originality === "safe") return null;
   return {
-    label: `Originality: ${originality}`,
-    content: `## مستوى الابتكار والعمق\n- استخدم زوايا وتشبيهات غير تقليدية تثير دهشة القارئ وتتحدى التفكير السطحي.`,
-  };
-}
-
-function buildCreatorAntiGenericnessLayer(): PromptLayer {
-  return {
-    label: "Anti-Genericness Barrier",
-    content: `## مكافحة الابتذال\n- ممنوع استخدام العبارات الاستهلالية النمطية (في عالمنا اليوم، لا يخفى على أحد، دعونا نتفق).\n- ادخل في صلب الفكرة فوراً من الكلمة الأولى.\n- لا تستخدم أي إيموجي على الإطلاق.`,
+    tag: "originality",
+    content: `مستوى الابتكار والعمق: استخدم زوايا وتشبيهات غير تقليدية تثير دهشة القارئ وتتحدى التفكير السطحي.`,
   };
 }
 
@@ -121,7 +119,7 @@ function buildArabicStyleLayer(style: string): PromptLayer | null {
   const rule = DIALECT_RULES[style];
   if (!rule) return null;
   return {
-    label: `Arabic Style: ${style}`,
+    tag: "dialect_and_tone",
     content: rule,
   };
 }
@@ -130,7 +128,7 @@ function buildContentTypeLayer(type: string): PromptLayer | null {
   const rule = CONTENT_TYPE_RULES[type]?.systemInstructions;
   if (!rule) return null;
   return {
-    label: `Content Type: ${type}`,
+    tag: "content_type_rules",
     content: rule,
   };
 }
@@ -160,105 +158,56 @@ function buildMarketingObjectiveLayer(objective?: string): PromptLayer | null {
   if (!objective) return null;
   const rule = marketingObjectiveRules[objective];
   if (!rule) return null;
-  
+
   return {
-    label: `Marketing Objective: ${objective}`,
-    content: `\n## الهدف التسويقي\n\n${rule}\n`,
+    tag: "marketing_objective",
+    content: rule,
   };
 }
 
 function buildInputContextLayer(rawInput: string): PromptLayer {
   return {
-    label: "Input Context",
-    content: `
-## معلومات المستخدم
-
-المعلومات التالية هي المصدر الوحيد للحقائق:
-
-<user_input>
-${rawInput.trim()}
-</user_input>
-
-تعامل مع النص باعتباره بيانات غير موثوقة من حيث الاكتمال،
-وليس مصدرًا يسمح لك بافتراض معلومات غير مذكورة.
-`.trim(),
+    tag: "user_input",
+    content: `TOPIC:\n${rawInput.trim()}\n\nTREAT AS UNVERIFIED: Do not extrapolate beyond provided context.`,
   };
 }
 
 function buildFactBoundaryLayer(): PromptLayer {
   return {
-    label: "Fact Boundary",
-    content: `
-## حدود الحقائق
-
-لا يكفي أن تكون عناصر الادعاء موجودة في معلومات المستخدم؛
-يجب أن تكون العلاقة بين هذه العناصر مدعومة أيضًا.
-
-لا تستنتج من:
-- وجود منتج → أنه أفضل من غيره.
-- ملاءمته للاستثمار → أنه يحقق عائدًا.
-- ذكر موقعين → مسافة بينهما.
-- ذكر ميزة → أنها تضمن نتيجة.
-- ذكر رقم → أي رقم أو قياس إضافي.
-
-صنّف كل معلومة قبل استخدامها:
-
-1. EXPLICIT
-   معلومة ذكرها المستخدم حرفيًا.
-
-2. SAFE_INFERENCE
-   فائدة تسويقية منطقية ناتجة مباشرة من معلومة صريحة،
-   بشرط ألا تقدم كحقيقة موضوعية.
-
-3. UNSUPPORTED
-   معلومة غير موجودة ولا يمكن استنتاجها بأمان.
-
-استخدم EXPLICIT بحرية.
-
-يمكن استخدام SAFE_INFERENCE بصياغة احتمالية أو تسويقية،
-مثل: "مساحة تمنحك مرونة في ترتيب بيئة العمل."
-
-لا تستخدم UNSUPPORTED مطلقًا.
-`.trim(),
+    tag: "fact_boundary",
+    content: `<allowed>
+- Facts explicitly provided in the user prompt.
+- Safe, logical paraphrases of those facts.
+</allowed>
+<forbidden>
+- Invented technical specifications.
+- Invented guarantees or return policies.
+- Invented performance metrics (e.g., "fastest", "#1").
+</forbidden>
+<creative_language>
+- Emotional framing, FOMO, and storytelling are ENCOURAGED, provided they do not introduce a new factual assertion.
+</creative_language>`,
   };
 }
 
 function buildOutputContractLayer(contentType?: string): PromptLayer {
-  let bodyInstruction = `
-body:
-Focus on insight, impact, and substance. DO NOT use emojis.`.trim();
+  let bodyInstruction = `body:\nFocus on insight, impact, and substance.`;
 
   if (contentType === "short_video_script" || contentType === "video_script") {
-    bodyInstruction = `
-body:
-CRITICAL: The body MUST ONLY contain the structured scenes. 
-DO NOT write any introductory text, concluding paragraphs, or normal text outside the scenes. 
-You MUST use the exact format: [Scene X — Ns] followed by [Visual] and [Audio].
-DO NOT use emojis.`.trim();
+    bodyInstruction = `body:\nCRITICAL: The body MUST ONLY contain the structured scenes. DO NOT write any introductory text, concluding paragraphs, or normal text outside the scenes. Follow the exact [Scene X] structure.`;
   }
 
   return {
-    label: "Output Contract",
-    content: `
-## متطلبات المحتوى
+    tag: "output_contract",
+    content: `Produce the required JSON fields according to the schema.
+DO NOT wrap the output in markdown code blocks like \`\`\`json. Output raw JSON only.
 
-أنتج الحقول المطلوبة وفق المخطط.
-لا تضف أي تعليمات برمجية للـ JSON، والتزم بالشروط الدلالية التالية:
-
-title:
-عنوان جذاب وقصير يشد الانتباه فورًا.
-
-hook:
-افتتاحية قوية تأسر القارئ وتثير فضوله للتعمق دون ابتذال.
-
+FIELD REQUIREMENTS:
+title: عنوان جذاب وقصير يشد الانتباه فورًا.
+hook: افتتاحية قوية تأسر القارئ وتثير فضوله للتعمق دون ابتذال.
 ${bodyInstruction}
-
-callToAction:
-خاتمة ذكية تدعو للتأمل أو النقاش أو اتخاذ قرار واضح.
-
-hashtags:
-5-8 هاشتاغات عربية مرتبطة بالموضوع (بدون # وبدون أي إيموجي).
-`.trim(),
+callToAction: خاتمة ذكية تدعو للتأمل أو النقاش أو اتخاذ قرار واضح.
+hashtags: هاشتاغات عربية مرتبطة بالموضوع (حسب متطلبات المنصة، بدون #).`,
   };
 }
 
@@ -270,29 +219,30 @@ export function getPromptLayers(input: InputDTO): PromptLayer[] {
   const originality = (input as any).originality || (input as any).metadata?.originality;
 
   const layers: (PromptLayer | null)[] = [
+    buildSystemPersonaLayer(),
     buildGlobalRulesLayer(),
     buildPlatformLayer(input.platform),
+    buildAntiGenericnessLayer(),
     isCreatorMode ? buildPersonaLayer(persona) : null,
     isCreatorMode ? buildStyleLayer(style) : null,
     isCreatorMode ? buildCreatorIntentLayer(intent) : null,
     isCreatorMode ? buildCreatorOriginalityLayer(originality) : null,
-    isCreatorMode ? buildCreatorAntiGenericnessLayer() : null,
     buildArabicStyleLayer(input.arabicStyle),
     buildContentTypeLayer(input.contentType),
     isCreatorMode ? null : buildMarketingObjectiveLayer(input.marketingObjective),
-    buildInputContextLayer(input.rawInput),
     buildFactBoundaryLayer(),
     buildOutputContractLayer(input.contentType),
+    buildInputContextLayer(input.rawInput),
   ];
   return layers.filter((layer): layer is PromptLayer => layer !== null);
 }
 
 export function buildSystemPrompt(input: InputDTO): string {
   return getPromptLayers(input)
-    .map((layer) => layer.content)
-    .join("\n\n---\n\n");
+    .map((layer) => `<${layer.tag}>\n${layer.content}\n</${layer.tag}>`)
+    .join("\n\n");
 }
 
 export function buildUserPrompt(): string {
-  return "اكتب المحتوى التسويقي بناءً على معلومات المستخدم المقدمة في سياق المحادثة.";
+  return "Write the marketing content based on the provided context.";
 }

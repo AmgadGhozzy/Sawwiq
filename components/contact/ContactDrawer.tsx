@@ -69,10 +69,10 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
             style={{
               position: "fixed",
               inset: 0,
-              zIndex: 998,
-              background: "rgba(0,0,0,0.6)",
-              backdropFilter: "blur(6px)",
-              WebkitBackdropFilter: "blur(6px)",
+              zIndex: "var(--z-backdrop)",
+              background: "var(--color-overlay)",
+              backdropFilter: "blur(var(--blur-sm))",
+              WebkitBackdropFilter: "blur(var(--blur-sm))",
             }}
           />
 
@@ -90,10 +90,10 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
             className="contact-drawer-panel"
             style={{
               position: "fixed",
-              bottom: "24px",
+              bottom: "var(--space-6)",
               left: "50%",
-              width: "min(520px, calc(100vw - 32px))",
-              zIndex: 999,
+              width: "min(var(--drawer-max-w), calc(100vw - var(--space-8)))",
+              zIndex: "var(--z-modal)",
               borderRadius: "var(--radius-2xl)",
               background: "color-mix(in srgb, var(--color-background) 85%, transparent)",
               backdropFilter: "blur(60px) saturate(180%)",
@@ -112,12 +112,11 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 top: "-60px",
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: "400px",
-                height: "200px",
+                width: "var(--orb-size-md)",
+                height: "var(--orb-size-xs)",
                 borderRadius: "var(--radius-circle)",
-                background:
-                  "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 12%, transparent) 0%, color-mix(in srgb, var(--color-brand-primary) 5%, transparent) 40%, transparent 70%)",
-                filter: "blur(60px)",
+                background: "var(--gradient-orb-3)",
+                filter: "blur(var(--blur-lg))",
                 pointerEvents: "none",
               }}
             />
@@ -131,8 +130,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 left: "10%",
                 right: "10%",
                 height: "1px",
-                background:
-                  "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                background: "var(--gradient-divider)",
                 pointerEvents: "none",
               }}
             />
@@ -143,19 +141,19 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
               aria-label={t("close")}
               style={{
                 position: "absolute",
-                top: "16px",
-                [isRTL ? "left" : "right"]: "16px",
-                width: "32px",
-                height: "32px",
+                top: "var(--space-4)",
+                [isRTL ? "left" : "right"]: "var(--space-4)",
+                width: "var(--space-8)",
+                height: "var(--space-8)",
                 borderRadius: "var(--radius-md)",
-                background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
+                background: "var(--color-brand-surface)",
                 border: "1px solid var(--color-border)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
                 color: "var(--color-foreground-secondary)",
-                transition: "all 0.2s ease",
+                transition: "var(--transition-normal)",
                 fontFamily: "inherit",
                 zIndex: 2,
               }}
@@ -168,10 +166,10 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
               style={{
                 position: "relative",
                 zIndex: 1,
-                padding: "36px 32px 28px",
+                padding: "var(--space-9) var(--space-8) var(--space-7)",
                 display: "flex",
                 flexDirection: "column",
-                gap: "20px",
+                gap: "var(--space-5)",
               }}
             >
               {/* Greeting + Intro */}
@@ -182,19 +180,18 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
                   style={{
-                    width: "56px",
-                    height: "56px",
+                    width: "var(--space-14)",
+                    height: "var(--space-14)",
                     borderRadius: "var(--radius-xl)",
-                    background: "color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
+                    background: "var(--color-brand-surface)",
                     backdropFilter: "blur(12px)",
                     WebkitBackdropFilter: "blur(12px)",
                     border: "none",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    margin: "0 auto 16px",
-                    boxShadow:
-                      "0 0 40px color-mix(in srgb, var(--color-brand-primary) 15%, transparent), inset 0 1px 0 color-mix(in srgb, var(--color-foreground) 10%, transparent)",
+                    margin: "0 auto var(--space-4)",
+                    boxShadow: "var(--shadow-brand-glow)",
                     overflow: "hidden",
                     position: "relative",
                   }}
@@ -209,9 +206,9 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
 
                 <h3
                   style={{
-                    fontSize: "1.25rem",
-                    fontWeight: 800,
-                    margin: "0 0 6px",
+                    fontSize: "var(--text-lg)",
+                    fontWeight: "var(--font-weight-extrabold)",
+                    margin: "0 0 var(--space-1-5)",
                     color: "var(--color-foreground)",
                   }}
                 >
@@ -220,10 +217,10 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
 
                 <p
                   style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
+                    fontSize: "var(--text-base)",
+                    fontWeight: "var(--font-weight-semibold)",
                     color: "var(--color-foreground-secondary)",
-                    margin: "0 0 10px",
+                    margin: "0 0 var(--space-2-5)",
                   }}
                 >
                   {t("drawerIntro", { name: founderName })}
@@ -231,7 +228,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
 
                 <p
                   style={{
-                    fontSize: "13px",
+                    fontSize: "var(--text-sm)",
                     color: "var(--color-foreground-tertiary)",
                     lineHeight: 1.8,
                     margin: 0,
@@ -245,38 +242,38 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
               </div>
 
               {/* ── Contact Buttons ── */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
                 {/* WhatsApp — Primary CTA */}
                 <motion.a
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ y: -2, boxShadow: "0 12px 35px rgba(37,211,102,0.25)" }}
+                  whileHover={{ y: -2, boxShadow: "var(--shadow-whatsapp)" }}
                   whileTap={{ scale: 0.98 }}
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "12px",
-                    padding: "14px 18px",
+                    gap: "var(--space-3)",
+                    padding: "var(--space-3-5) var(--space-4-5)",
                     borderRadius: "var(--radius-lg)",
-                    background: "linear-gradient(135deg, rgba(37,211,102,0.12), rgba(37,211,102,0.06))",
-                    border: "1px solid rgba(37,211,102,0.2)",
+                    background: "var(--color-whatsapp-surface)",
+                    border: "1px solid var(--color-whatsapp-border)",
                     textDecoration: "none",
                     cursor: "pointer",
-                    transition: "all 0.25s ease",
+                    transition: "var(--transition-normal)",
                   }}
                 >
                   <div
                     style={{
-                      width: "38px",
-                      height: "38px",
+                      width: "var(--control-h-md)",
+                      height: "var(--control-h-md)",
                       borderRadius: "var(--radius-md)",
-                      background: "linear-gradient(135deg, #25d366, #128c7e)",
+                      background: "var(--gradient-whatsapp)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       flexShrink: 0,
-                      boxShadow: "0 4px 14px rgba(37,211,102,0.3)",
+                      boxShadow: "var(--shadow-whatsapp)",
                     }}
                   >
                     <MessageCircle size={18} color="white" />
@@ -284,8 +281,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p
                       style={{
-                        fontSize: "14px",
-                        fontWeight: 700,
+                        fontSize: "var(--text-base)",
+                        fontWeight: "var(--font-weight-bold)",
                         color: "var(--color-foreground)",
                         margin: 0,
                       }}
@@ -294,9 +291,9 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     </p>
                     <p
                       style={{
-                        fontSize: "11px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-foreground-tertiary)",
-                        margin: "2px 0 0",
+                        margin: "var(--space-0-5) 0 0",
                       }}
                     >
                       {t("whatsappDesc")}
@@ -304,7 +301,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   </div>
                   <ArrowUpRight
                     size={16}
-                    color="#25d366"
+                    color="var(--color-whatsapp)"
                     style={{ flexShrink: 0, opacity: 0.7 }}
                   />
                 </motion.a>
@@ -317,23 +314,23 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "12px",
-                    padding: "14px 18px",
+                    gap: "var(--space-3)",
+                    padding: "var(--space-3-5) var(--space-4-5)",
                     borderRadius: "var(--radius-lg)",
-                    background: "linear-gradient(135deg, color-mix(in srgb, var(--color-brand-primary) 12%, transparent), color-mix(in srgb, var(--color-brand-primary) 6%, transparent))",
-                    border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
+                    background: "var(--color-brand-surface)",
+                    border: "1px solid var(--color-brand-soft)",
                     textDecoration: "none",
                     cursor: "pointer",
-                    transition: "all 0.25s ease",
+                    transition: "var(--transition-normal)",
                   }}
                 >
                   <div
                     style={{
-                      width: "38px",
-                      height: "38px",
+                      width: "var(--control-h-md)",
+                      height: "var(--control-h-md)",
                       borderRadius: "var(--radius-md)",
-                      background: "linear-gradient(135deg, var(--color-brand-primary), color-mix(in srgb, var(--color-brand-primary) 80%, black))",
-                      boxShadow: "0 4px 14px color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
+                      background: "var(--gradient-brand)",
+                      boxShadow: "var(--shadow-brand)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -345,8 +342,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p
                       style={{
-                        fontSize: "14px",
-                        fontWeight: 700,
+                        fontSize: "var(--text-base)",
+                        fontWeight: "var(--font-weight-bold)",
                         color: "var(--color-foreground)",
                         margin: 0,
                       }}
@@ -355,9 +352,9 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     </p>
                     <p
                       style={{
-                        fontSize: "11px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-foreground-tertiary)",
-                        margin: "2px 0 0",
+                        margin: "var(--space-0-5) 0 0",
                       }}
                     >
                       {t("emailDesc")}

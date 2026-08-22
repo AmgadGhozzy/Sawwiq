@@ -21,14 +21,14 @@ export default function LanguageSwitcher() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "40px",
-        height: "40px",
+        width: "var(--control-h-lg)",
+        height: "var(--control-h-lg)",
         borderRadius: "var(--radius-circle)",
         background: "var(--color-surface)",
         border: "1px solid var(--color-border)",
         cursor: "pointer",
         color: "var(--color-foreground-secondary)",
-        transition: "all 0.2s ease",
+        transition: "var(--transition-normal)",
         boxShadow: "var(--shadow-sm)",
       }}
       onMouseEnter={(e) => {

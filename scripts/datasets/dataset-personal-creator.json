@@ -1,0 +1,83 @@
+{
+  "styles": [
+    "mystery",
+    "storytelling",
+    "contrarian"
+  ],
+  "personas": [
+    "developer",
+    "psychology",
+    "intellectual",
+    "creative"
+  ],
+  "platforms": [
+    "linkedin",
+    "x",
+    "instagram"
+  ],
+  "name": "Personal Creator Fingerprint v2 — 10 Topics × 4 Personas",
+  "experiment": "EXP-004",
+  "topics": [
+    {
+      "prompt": "اكتب عن وهم تعدد المهام (Multitasking) وكيف يدمر التركيز والإنتاجية.",
+      "nature": "mixed",
+      "note": "neutral cognitive topic",
+      "id": "T1"
+    },
+    {
+      "prompt": "اكتب عن متلازمة المحتال (Imposter Syndrome) التي تصيب الشخص عند تعلم مهارة جديدة وكيف يتجاوزها.",
+      "nature": "psychological-ish",
+      "note": "adversarial case — psychologically-named topic",
+      "id": "T2"
+    },
+    {
+      "prompt": "اكتب عن كيفية تسعير خدمة أو منتج جديد بشكل صحيح دون أن تخسر عملاء أو تخسر أرباحاً.",
+      "nature": "business",
+      "note": "business/economic topic",
+      "id": "T3"
+    },
+    {
+      "prompt": "اكتب عن لماذا يؤجل معظم الناس المهام الصعبة وما هي الطريقة الحقيقية للتغلب على التسويف.",
+      "nature": "neutral",
+      "note": "behavioral but neutral in framing",
+      "id": "T4"
+    },
+    {
+      "prompt": "اكتب عن قرار صعب اضطررت لاتخاذه بين أمرين مهمين وكيف تتعامل مع مثل هذه القرارات.",
+      "nature": "neutral",
+      "note": "decision-making — completely neutral domain",
+      "id": "T5"
+    },
+    {
+      "prompt": "اكتب عن الفشل: هل هو حقاً درس، أم أن هذه الفكرة مجرد قصة نحكيها لأنفسنا؟",
+      "nature": "contrarian",
+      "note": "philosophical-ish but adversarial for intellectual persona",
+      "id": "T6"
+    },
+    {
+      "prompt": "اكتب عن كيفية بناء منتج رقمي ناجح من الصفر: ما الذي يجعله يبقى ويتوسع؟",
+      "nature": "technical",
+      "note": "technical/product — favors developer but tests others",
+      "id": "T7"
+    },
+    {
+      "prompt": "اكتب عن العلاقات المهنية: لماذا يصعب بناء ثقة حقيقية في بيئة العمل وكيف يحدث ذلك؟",
+      "nature": "social",
+      "note": "social/professional — neutral domain",
+      "id": "T8"
+    },
+    {
+      "prompt": "اكتب عن المال وعلاقتنا به: لماذا يكسب بعض الناس كثيراً ويعيشون بشح، والعكس أيضاً صحيح؟",
+      "nature": "neutral-sensitive",
+      "note": "money mindset — accessible for all personas",
+      "id": "T9"
+    },
+    {
+      "prompt": "اكتب عن العمل العميق (Deep Work): لماذا أصبح نادراً، وكيف تستعيده في عالم مشتت؟",
+      "nature": "mixed",
+      "note": "productivity — neutral but structured thinking favored",
+      "id": "T10"
+    }
+  ],
+  "version": "v2"
+}

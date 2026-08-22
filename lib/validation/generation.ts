@@ -89,8 +89,9 @@ export const CONTENT_FIELD_DESCRIPTIONS = {
 // ---------------------------------------------------------------------------
 // Output Validation (validate AI response)
 //
-// Contract: 5-8 unique hashtags without #. This matches the prompt
-// instructions exactly — no "robustness" fallbacks that break the contract.
+// Contract: up to 8 unique non-empty hashtags without #. Hashtag COUNT is
+// platform-aware and enforced via prompts (e.g. X allows 0-2, or none for
+// native-feeling threads), so no global minimum is enforced here.
 // ---------------------------------------------------------------------------
 
 export const generatedContentSchema = z.object({
@@ -100,7 +101,6 @@ export const generatedContentSchema = z.object({
   callToAction: z.string().min(1, "دعوة العمل مطلوبة."),
   hashtags: z
     .array(z.string().min(1))
-    .min(5, "الحد الأدنى 5 هاشتاغات.")
     .max(8, "الحد الأقصى 8 هاشتاغات.")
     .refine(
       (tags) => tags.every((tag) => !tag.includes("#")),

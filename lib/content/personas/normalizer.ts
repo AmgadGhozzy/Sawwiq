@@ -38,25 +38,44 @@ export function normalizePersona(config?: PersonaConfig): NormalizedPersona | un
   if (!config) return undefined;
 
   const preset = config.id ? getPersona(config.id) : undefined;
+  const rp = preset?.reasoningProfile;
+
+  // Derive interests from analogy domains + attention biases (best approximation from reasoning profile)
+  const presetInterests: string[] = rp
+    ? [...rp.analogyDomains, ...rp.attentionBiases].slice(0, 5)
+    : [];
 
   const interests = Array.from(
     new Set([
-      ...(preset?.interests || []),
+      ...presetInterests,
       ...(config.interests || []),
     ])
   ).filter(Boolean);
 
+  // Derive traits from reasoning patterns
+  const presetTraits: string[] = rp ? rp.reasoningPatterns.slice(0, 3) : [];
   const traits = Array.from(
     new Set([
-      ...(preset?.characteristics || []),
+      ...presetTraits,
       ...(config.characteristics || []),
     ])
   ).filter(Boolean);
 
-  const voiceSignals = preset?.tone || ["ذكي", "متزن", "أصيل"];
-  const contentPatterns = preset?.contentPatterns || ["زاوية نظر غير مألوفة وعميقة"];
-  const vocabulary = preset?.vocabulary || [];
-  const avoid = preset?.avoid || ["الكليشيهات والعبارات المبتذلة", "ادعاء خبرات وهمية"];
+  // Voice signals from conclusion patterns or generic defaults
+  const voiceSignals: string[] = rp
+    ? rp.conclusionPatterns.slice(0, 2)
+    : ["ذكي", "متزن", "أصيل"];
+
+  // Content patterns from question patterns
+  const contentPatterns: string[] = rp
+    ? rp.questionPatterns.slice(0, 2)
+    : ["زاوية نظر غير مألوفة وعميقة"];
+
+  // No preset vocabulary list anymore — avoidances become the avoid list
+  const vocabulary: string[] = [];
+  const avoid: string[] = rp
+    ? rp.avoidances
+    : ["الكليشيهات والعبارات المبتذلة", "ادعاء خبرات وهمية"];
 
   const customInstructions = sanitizeInstructions(config.customInstructions);
 

@@ -83,10 +83,10 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
             onClick={onClose}
             aria-hidden="true"
             style={{
-              position: "fixed", inset: 0, zIndex: 998,
-              background: "rgba(0,0,0,0.55)",
-              backdropFilter: "blur(4px)",
-              WebkitBackdropFilter: "blur(4px)",
+              position: "fixed", inset: 0, zIndex: "var(--z-backdrop)",
+              background: "var(--color-overlay)",
+              backdropFilter: "blur(var(--blur-sm))",
+              WebkitBackdropFilter: "blur(var(--blur-sm))",
             }}
           />
 
@@ -104,8 +104,8 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
             style={{
               position: "fixed", top: 0, bottom: 0,
               [isRTL ? "left" : "right"]: 0,
-              width: "min(420px, 90vw)",
-              zIndex: 999,
+              width: "min(var(--drawer-w), 90vw)",
+              zIndex: "var(--z-modal)",
               display: "flex", flexDirection: "column",
               background: "var(--color-background)",
               borderInlineStart: "1px solid var(--color-border)",
@@ -122,28 +122,28 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 flexShrink: 0,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
                 <div
                   style={{
-                    width: "36px", height: "36px", borderRadius: "var(--radius-md)",
+                    width: "var(--space-9)", height: "var(--space-9)", borderRadius: "var(--radius-md)",
                     background: "var(--color-brand-surface)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <Clock size={18} color="color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))" />
+                  <Clock size={18} color="var(--color-brand-primary)" />
                 </div>
                 <div>
-                  <p style={{ fontSize: "14px", fontWeight: 700, color: "var(--color-foreground)", margin: 0 }}>
+                  <p style={{ fontSize: "var(--text-base)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground)", margin: 0 }}>
                     {t("title")}
                   </p>
-                  <p style={{ fontSize: "11px", color: "var(--color-foreground-disabled)", margin: 0, marginTop: "1px" }}>
+                  <p style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-disabled)", margin: 0, marginTop: "var(--space-0-5)" }}>
                     {t("subtitle")}
                   </p>
                 </div>
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
                 {/* Count badge */}
                 {!error && items.length > 0 && (
                   <span
@@ -152,7 +152,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                       background: "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
                       border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                       color: "var(--color-brand-primary)",
-                      fontSize: "11px", fontWeight: 700,
+                      fontSize: "var(--text-xs)", fontWeight: 700,
                     }}
                   >
                     {items.length}
@@ -164,12 +164,12 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   onClick={onClose}
                   aria-label={t("close")}
                   style={{
-                    width: "32px", height: "32px", borderRadius: "var(--radius-md)",
-                    background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
+                    width: "var(--space-8)", height: "var(--space-8)", borderRadius: "var(--radius-md)",
+                    background: "var(--color-brand-surface)",
                     border: "1px solid var(--color-border)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     cursor: "pointer", color: "var(--color-foreground-secondary)",
-                    transition: "all 0.2s ease", fontFamily: "inherit",
+                    transition: "var(--transition-normal)", fontFamily: "inherit",
                   }}
                 >
                   <X size={15} />
@@ -189,19 +189,19 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 <div
                   style={{
                     display: "flex", flexDirection: "column", alignItems: "center",
-                    justifyContent: "center", minHeight: "300px", gap: "16px",
+                    justifyContent: "center", minHeight: "300px", gap: "var(--space-4)",
                   }}
                 >
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
                     style={{
-                      width: "36px", height: "36px", borderRadius: "var(--radius-circle)",
-                      border: "2px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
+                      width: "var(--space-9)", height: "var(--space-9)", borderRadius: "var(--radius-circle)",
+                      border: "2px solid var(--color-brand-soft)",
                       borderTopColor: "var(--color-brand-primary)",
                     }}
                   />
-                  <p style={{ fontSize: "13px", color: "var(--color-foreground-tertiary)", margin: 0 }}>
+                  <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-tertiary)", margin: 0 }}>
                     {t("loading")}
                   </p>
                 </div>
@@ -212,24 +212,24 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 <div
                   style={{
                     display: "flex", flexDirection: "column", alignItems: "center",
-                    justifyContent: "center", minHeight: "300px", gap: "16px",
-                    textAlign: "center", padding: "24px",
+                    justifyContent: "center", minHeight: "300px", gap: "var(--space-4)",
+                    textAlign: "center", padding: "var(--space-6)",
                   }}
                 >
                   <div
                     style={{
-                      width: "52px", height: "52px", borderRadius: "var(--radius-circle)",
-                      background: "color-mix(in srgb, var(--color-danger) 8%, transparent)",
-                      border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
+                      width: "calc(var(--space-12) + var(--space-1))", height: "calc(var(--space-12) + var(--space-1))", borderRadius: "var(--radius-circle)",
+                      background: "var(--color-danger-surface)",
+                      border: "1px solid var(--color-danger-border)",
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}
                   >
                     <X size={22} color="var(--color-danger)" />
                   </div>
-                  <p style={{ fontSize: "14px", fontWeight: 600, color: "var(--color-danger)", margin: 0 }}>
+                  <p style={{ fontSize: "var(--text-base)", fontWeight: "var(--font-weight-bold)", color: "var(--color-danger)", margin: 0 }}>
                     {t("errorTitle")}
                   </p>
-                  <p style={{ fontSize: "12px", color: "var(--color-foreground-tertiary)", margin: 0, lineHeight: 1.6 }}>
+                  <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-tertiary)", margin: 0, lineHeight: 1.6 }}>
                     {t("errorSubtitle")}
                   </p>
                   <button
@@ -239,8 +239,8 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                       background: "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
                       border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                       color: "var(--color-brand-primary)",
-                      fontSize: "12px", fontWeight: 700, cursor: "pointer",
-                      fontFamily: "inherit", marginTop: "4px",
+                      fontSize: "var(--text-sm)", fontWeight: 700, cursor: "pointer",
+                      fontFamily: "inherit", marginTop: "var(--space-1)",
                     }}
                   >
                     {t("retry")}
@@ -253,7 +253,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 <div
                   style={{
                     display: "flex", flexDirection: "column", alignItems: "center",
-                    justifyContent: "center", minHeight: "300px", gap: "20px",
+                    justifyContent: "center", minHeight: "300px", gap: "var(--space-5)",
                     textAlign: "center", padding: "32px 24px",
                   }}
                 >
@@ -262,21 +262,21 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.15 }}
                     style={{
-                      width: "64px", height: "64px", borderRadius: "var(--radius-circle)",
-                      background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
+                      width: "var(--space-16)", height: "var(--space-16)", borderRadius: "var(--radius-circle)",
+                      background: "var(--color-brand-surface)",
                       border: "1px solid var(--color-border)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      boxShadow: "0 0 0 10px color-mix(in srgb, var(--color-brand-surface) 50%, transparent), 0 0 0 20px color-mix(in srgb, var(--color-brand-surface) 20%, transparent)",
+                      boxShadow: "0 0 0 var(--space-2-5) var(--color-brand-surface), 0 0 0 var(--space-5) var(--color-brand-surface)",
                     }}
                   >
                     <Sparkles size={26} color="var(--color-brand-primary)" />
                   </motion.div>
 
                   <div>
-                    <h4 style={{ fontSize: "16px", fontWeight: 800, color: "var(--color-foreground)", margin: "0 0 8px" }}>
+                    <h4 style={{ fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground)", margin: "0 0 var(--space-2)" }}>
                       {t("emptyTitle")}
                     </h4>
-                    <p style={{ fontSize: "13px", color: "var(--color-foreground-disabled)", lineHeight: 1.7, margin: 0 }}>
+                    <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-disabled)", lineHeight: 1.7, margin: 0 }}>
                       {t("emptySubtitle")}
                     </p>
                   </div>

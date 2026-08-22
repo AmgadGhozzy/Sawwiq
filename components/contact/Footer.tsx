@@ -26,9 +26,9 @@ export default function Footer() {
       <footer
         style={{
           position: "relative",
-          maxWidth: "900px",
+          maxWidth: "var(--container-md)",
           margin: "0 auto",
-          padding: "0 24px 48px",
+          padding: "0 var(--space-6) var(--space-12)",
         }}
       >
         {/* ── Top gradient divider ── */}
@@ -36,9 +36,8 @@ export default function Footer() {
           aria-hidden="true"
           style={{
             height: "1px",
-            background:
-              "linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-brand-primary) 30%, transparent), color-mix(in srgb, var(--color-brand-primary) 20%, transparent), transparent)",
-            marginBottom: "40px",
+            background: "var(--gradient-divider)",
+            marginBottom: "var(--space-10)",
           }}
         />
 
@@ -47,7 +46,7 @@ export default function Footer() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "20px",
+            gap: "var(--space-5)",
             textAlign: "center",
           }}
         >
@@ -56,7 +55,7 @@ export default function Footer() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "10px",
+              gap: "var(--space-2)",
             }}
           >
             <Image
@@ -69,8 +68,8 @@ export default function Footer() {
             />
             <span
               style={{
-                fontSize: "1.1rem",
-                fontWeight: 700,
+                fontSize: "var(--text-md)",
+                fontWeight: "var(--font-weight-bold)",
                 color: "var(--color-foreground-secondary)",
                 letterSpacing: "-0.01em",
               }}
@@ -82,7 +81,7 @@ export default function Footer() {
           {/* ── Description ── */}
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "var(--text-sm)",
               color: "var(--color-foreground-disabled)",
               margin: 0,
               lineHeight: 1.7,
@@ -95,7 +94,7 @@ export default function Footer() {
           {/* ── Tagline ── */}
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "var(--text-sm)",
               color: "var(--color-foreground-tertiary)",
               margin: 0,
               fontStyle: "italic",
@@ -112,17 +111,17 @@ export default function Footer() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "6px",
-              padding: "8px 18px",
+              gap: "var(--space-1)",
+              padding: "var(--space-2) var(--space-4-5)",
               borderRadius: "var(--radius-full)",
-              background: "color-mix(in srgb, var(--color-brand-primary) 8%, transparent)",
-              border: "1px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
-              color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
-              fontSize: "13px",
-              fontWeight: 600,
+              background: "var(--color-brand-surface)",
+              border: "1px solid var(--color-brand-soft)",
+              color: "var(--color-brand-primary)",
+              fontSize: "var(--text-sm)",
+              fontWeight: "var(--font-weight-semibold)",
               cursor: "pointer",
               fontFamily: "inherit",
-              transition: "all 0.25s ease",
+              transition: "var(--transition-normal)",
               letterSpacing: "0.01em",
             }}
           >
@@ -133,9 +132,9 @@ export default function Footer() {
           {/* ── Copyright ── */}
           <p
             style={{
-              fontSize: "11px",
+              fontSize: "var(--text-xs)",
               color: "var(--color-foreground-disabled)",
-              margin: "8px 0 0",
+              margin: "var(--space-2) 0 0",
             }}
           >
             © {new Date().getFullYear()} {tGlobal("productName")} · {t("copyright")}
@@ -144,9 +143,9 @@ export default function Footer() {
 
         <style>{`
           .founder-cta-btn:hover {
-            background: color-mix(in srgb, var(--color-brand-primary) 15%, transparent) !important;
-            border-color: color-mix(in srgb, var(--color-brand-primary) 30%, transparent) !important;
-            color: color-mix(in srgb, var(--color-brand-primary) 70%, var(--color-foreground)) !important;
+            background: var(--color-brand-soft) !important;
+            border-color: var(--color-brand-soft) !important;
+            color: var(--color-brand-primary) !important;
             box-shadow: var(--shadow-glow);
           }
         `}</style>

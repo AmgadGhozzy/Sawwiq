@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const t = await getTranslations("NotFound");
+
   return (
     <div
       style={{
@@ -9,59 +12,58 @@ export default function NotFound() {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        background: "#09090b",
-        padding: "24px",
+        background: "var(--color-background)",
+        padding: "var(--space-6)",
       }}
     >
       <div
         style={{
-          fontSize: "6rem",
-          fontWeight: 900,
-          background:
-            "linear-gradient(135deg, #e0e7ff 0%, #c4b5fd 40%, #a78bfa 70%, #818cf8 100%)",
+          fontSize: "var(--text-hero-num)",
+          fontWeight: "var(--font-weight-black)",
+          background: "var(--gradient-headline)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
           lineHeight: 1,
-          marginBottom: "16px",
+          marginBottom: "var(--space-4)",
         }}
       >
         404
       </div>
       <h2
         style={{
-          fontSize: "1.5rem",
-          fontWeight: 700,
-          color: "#f1f5f9",
-          marginBottom: "8px",
+          fontSize: "var(--text-xl)",
+          fontWeight: "var(--font-weight-bold)",
+          color: "var(--color-foreground)",
+          marginBottom: "var(--space-2)",
         }}
       >
-        الصفحة غير موجودة
+        {t("title")}
       </h2>
       <p
         style={{
-          color: "#64748b",
-          marginBottom: "24px",
+          color: "var(--color-foreground-secondary)",
+          marginBottom: "var(--space-6)",
           textAlign: "center",
-          maxWidth: "400px",
+          maxWidth: "var(--container-sm)",
         }}
       >
-        عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها.
+        {t("description")}
       </p>
       <Link
         href="/"
         style={{
-          padding: "12px 24px",
+          padding: "var(--space-3) var(--space-6)",
           borderRadius: "var(--radius-md)",
-          background: "#7c3aed",
-          color: "white",
+          background: "var(--color-brand-primary)",
+          color: "var(--color-foreground-inverse)",
           textDecoration: "none",
-          fontSize: "14px",
-          fontWeight: 600,
-          transition: "background 0.2s",
+          fontSize: "var(--text-base)",
+          fontWeight: "var(--font-weight-semibold)",
+          transition: "background var(--transition-fast)",
         }}
       >
-        العودة للرئيسية
+        {t("backHome")}
       </Link>
     </div>
   );

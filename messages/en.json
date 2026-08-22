@@ -1,14 +1,65 @@
 {
   "Global": {
     "productName": "Sawwiq",
-    "productTagline": "Generate professional marketing content with AI — from idea to publish in seconds."
+    "productTagline": "Posts, ads, and video scripts in any Arabic dialect or English — powered by Gemini."
   },
   "HomePage": {
     "headline": "Marketing content that sells — in seconds",
     "aiBadge": "Powered by AI"
   },
+  "Showcase": {
+    "badge": "Real output samples",
+    "title": "See the results before you sign up",
+    "subtitle": "Real samples of what Sawwiq generates — every platform has its style, every dialect its voice.",
+    "samples": [
+      {
+        "platform": "instagram",
+        "label": "Instagram",
+        "contentType": "Interactive Post — Smartwatch",
+        "title": "Your smartwatch… smarter than your schedule",
+        "hook": "A 10-day battery? Yes, you read that right.",
+        "body": "A featherlight build you'll forget you're wearing, a display that never sleeps before you do, and precise tracking for workouts and sleep.\nCharge it once… forget the charger for a full week.",
+        "cta": "Tap the link in bio for the full specs",
+        "hashtags": ["smartwatch", "tech", "fitness", "deals"]
+      },
+      {
+        "platform": "x",
+        "label": "X / Twitter",
+        "contentType": "Opinion Post — Creator",
+        "title": "Reach isn't talent… it's a repeatable system",
+        "hook": "Most people who built their first following weren't the best — they were the most consistent.",
+        "body": "Posted 100 posts with almost no engagement. Then post #101 flipped the table.\n\nThe difference? Not just quality — the consistency that produced quality.",
+        "cta": "How many posts away is your breakthrough?",
+        "hashtags": ["creatoreconomy", "growth"]
+      },
+      {
+        "platform": "linkedin",
+        "label": "LinkedIn",
+        "contentType": "Leadership Article — Team Management",
+        "title": "Your team doesn't need a new manager… it needs a clearer system",
+        "hook": "Most team problems aren't about capability — they're about missing clarity.",
+        "body": "More meetings, scattered goals? The problem is rarely the people — it's unwritten processes.\n\nStart by documenting decisions, assigning one owner per goal, and running short weekly reviews.\n\nClarity isn't an administrative luxury… it's the fastest path to execution.",
+        "cta": "Share your experience: what's the biggest clarity blocker your team faced?",
+        "hashtags": ["management", "leadership", "workculture"]
+      }
+    ]
+  },
+  "SEO": {
+    "homeTitle": "Sawwiq — AI Marketing Content Generator in Arabic & English",
+    "homeDescription": "Generate scroll-stopping posts, ads, and video scripts in any Arabic dialect or English — free, in seconds. No credit card required."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "Sorry, the page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to homepage"
+  },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "description": "Sorry, an unexpected error occurred. Please try again.",
+    "retry": "Try again"
+  },
   "ConversionCTA": {
-    "title": "Don't miss the early access",
+    "title": "Be first to try Sawwiq",
     "subtitle": "We're launching soon. Sign up now for exclusive early access and free templates.",
     "emailPlaceholder": "Your email address",
     "buttonText": "Get Early Access",
@@ -34,8 +85,16 @@
       "smartHashtags": "Reach-boosting hashtags",
       "effectiveCTAs": "High-converting CTAs"
     },
-    "lockedStateTitle": "Free trials used up",
-    "lockedStateSubtitle": "Join the waitlist and get extra free generations instantly!",
+    "emptyStateTitleCreator": "An idea worth a post that sticks?",
+    "emptyStateSubtitleCreator": "Write your thought or opinion as it comes — we'll shape it into a post in your own voice, ready to publish in seconds.",
+    "emptyStateTagsCreator": {
+      "insights": "Counterintuitive insights",
+      "storytelling": "Scroll-worthy storytelling",
+      "voice": "Your authentic voice",
+      "discussion": "Discussion-sparking endings"
+    },
+    "lockedStateTitle": "You're out of free generations 🎁",
+    "lockedStateSubtitle": "Sign up now for instant bonus credits",
     "lockedStateButton": "Sign up free"
   },
   "GeneratorInput": {
@@ -45,6 +104,12 @@
       "Sports smartwatch — water-resistant, 10-day battery, fast charging",
       "Luxury oriental perfume set — 5 different scents, elegant packaging",
       "350m duplex villa in Sheikh Zayed — private garden, 4 bedrooms"
+    ],
+    "creatorPlaceholders": [
+      "My perspective on the passion trap and why discipline actually drives success...",
+      "A key lesson learned after my first startup failed and how it shifted my mindset...",
+      "An observation on how AI is reshaping the creator economy in the next 5 years...",
+      "Why most people confuse being busy with being productive: a contrarian take..."
     ],
     "clearBtn": "Clear",
     "clearTitle": "Clear text",
@@ -56,11 +121,9 @@
     "modeLabel": "Content Mode",
     "modes": {
       "marketing": "Marketing & Ads",
-      "personal_creator": "Personal Creator & Insights",
       "creator": "Personal Creator & Insights"
     },
     "platformLabel": "Platform",
-    "contentTypeLabel": "Content Type",
     "arabicStyleLabel": "Dialect",
     "objectiveLabel": "Marketing Goal",
     "formatLabel": "Format",
@@ -80,12 +143,6 @@
       "reflection": "Quiet Reflection",
       "explainer": "Clear Explainer",
       "experiment": "Experiment & Takeaway"
-    },
-    "originality": {
-      "safe": "Clear & Direct",
-      "balanced": "Balanced",
-      "high": "Deep & Unconventional",
-      "experimental": "Experimental & Bold"
     },
     "originalityLevels": {
       "safe": "Clear & Direct",
@@ -107,34 +164,6 @@
       "intellectual": "Intellectual Deep-Dive",
       "cinematic": "Cinematic Scene Pacing",
       "minimalist": "Minimalist & Punchy"
-    },
-    "platforms": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "linkedin": "LinkedIn",
-      "x_twitter": "X / Twitter",
-      "x": "X / Twitter",
-      "facebook": "Facebook",
-      "youtube": "YouTube"
-    },
-    "contentTypes": {
-      "sponsored_ad": "Sponsored Ad",
-      "interactive_post": "Interactive Post",
-      "ecommerce_product": "Product Description",
-      "real_estate": "Real Estate Listing",
-      "short_video_script": "Short Video Script",
-      "marketing_email": "Marketing Email",
-      "social_post": "Social Post",
-      "advertisement": "Advertisement",
-      "product_description": "Product Description",
-      "real_estate_listing": "Real Estate Listing",
-      "video_script": "Video Script",
-      "email": "Marketing Email",
-      "thread": "Thread",
-      "carousel_copy": "Carousel Copy",
-      "story_sequence": "Story Sequence",
-      "ugc_script": "UGC Video Script",
-      "landing_page_copy": "Landing Page Copy"
     },
     "formats": {
       "post": "Standard Post",
@@ -166,13 +195,7 @@
       "app_installs": "App Installs",
       "retention": "Customer Retention",
       "community": "Build Trust & Community",
-      "education": "Educate Audience",
-      "sell": "Sales",
-      "attract_messages": "Direct Messages",
-      "drive_traffic": "Drive Traffic",
-      "launch_product": "Product Launch",
-      "build_trust": "Build Trust",
-      "generate_leads": "Generate Leads"
+      "education": "Educate Audience"
     },
     "arabicStyles": {
       "saudi_marketing": "Saudi",
@@ -185,6 +208,34 @@
   "GenerateButton": {
     "generate": "Generate Content",
     "loading": "Generating..."
+  },
+  "Labels": {
+    "contentTypes": {
+      "social_post": "Social Post",
+      "interactive_post": "Interactive Post",
+      "advertisement": "Advertisement",
+      "sponsored_ad": "Sponsored Ad",
+      "product_description": "Product Description",
+      "ecommerce_product": "E-commerce Product",
+      "real_estate_listing": "Real Estate Listing",
+      "real_estate": "Real Estate Listing",
+      "video_script": "Video Script",
+      "short_video_script": "Short Video Script",
+      "email": "Marketing Email",
+      "marketing_email": "Marketing Email",
+      "thread": "Thread",
+      "carousel_copy": "Carousel Copy",
+      "story_sequence": "Story Sequence",
+      "ugc_script": "UGC Video Script",
+      "landing_page_copy": "Landing Page Copy"
+    },
+    "arabicStyles": {
+      "saudi_marketing": "Saudi",
+      "gulf_premium": "Gulf Premium",
+      "egyptian_colloquial": "Egyptian",
+      "white_arabic": "White Arabic",
+      "formal_b2b": "Formal B2B"
+    }
   },
   "GenerationResult": {
     "readyContent": "Ready Content",
@@ -211,13 +262,9 @@
     "clickToCopy": "Click to copy",
     "copiedBadge": "Copied"
   },
-  "SEO": {
-    "homeTitle": "Sawwiq — Your smart tool for creating marketing content",
-    "homeDescription": "Generate professional marketing content in Arabic dialects and English instantly. AI-powered platform."
-  },
   "History": {
     "title": "Content History",
-    "subtitle": "All your generated content",
+    "subtitle": "Everything you've generated in one place",
     "triggerLabel": "History",
     "emptyTitle": "No content yet",
     "emptySubtitle": "Start generating and your content will appear here",
@@ -252,7 +299,7 @@
     "WAITLIST_ERROR": "An error occurred while registering. Try again."
   },
   "Contact": {
-    "footerDescription": "A simple tool for creating better content.",
+    "footerDescription": "From idea to publish-ready content.",
     "footerTagline": "Built with care, one idea at a time.",
     "footerCTA": "Made by {name}",
     "drawerGreeting": "Hey there 👋",

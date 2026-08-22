@@ -1,4 +1,4 @@
-import type { BenchmarkReport, TestCaseResult } from "./types";
+import type { LegacyBenchmarkReport as BenchmarkReport, TestCaseResult } from "./types";
 import { buildGroupScores } from "./benchmarkGroups";
 
 export interface BenchmarkAnalysis {

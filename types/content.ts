@@ -152,17 +152,22 @@ export interface NormalizedCreatorConfig {
 // ---------------------------------------------------------------------------
 export type PersonaId = string;
 
+export interface PersonaReasoningProfile {
+  worldview: string[];
+  reasoningPatterns: string[];
+  attentionBiases: string[];
+  evidencePreferences: string[];
+  analogyDomains: string[];
+  questionPatterns: string[];
+  conclusionPatterns: string[];
+  avoidances: string[];
+}
+
 export interface ContentPersona {
   id: PersonaId;
   name: string;
   description: string;
-  interests: string[];
-  characteristics: string[];
-  preferredTopics?: string[];
-  contentPatterns?: string[];
-  tone?: string[];
-  vocabulary?: string[];
-  avoid?: string[];
+  reasoningProfile: PersonaReasoningProfile;
   enabled: boolean;
 }
 

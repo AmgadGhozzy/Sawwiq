@@ -1,5 +1,6 @@
 import ContentGenerator from "@/components/generator/ContentGenerator";
 import ConversionCTA from "@/components/marketing/ConversionCTA";
+import OutputShowcase from "@/components/marketing/OutputShowcase";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import HistoryProvider from "@/components/history/HistoryProvider";
 import { Sparkles } from "lucide-react";
@@ -17,7 +18,7 @@ export default function Home() {
       <main
         className="relative min-h-screen overflow-x-hidden pb-24"
         style={{
-          background: "#09090b",
+          background: "var(--color-background)",
         }}
       >
       <style>{`
@@ -40,45 +41,45 @@ export default function Home() {
       `}</style>
 
       {/* ── Decorative background orbs ── */}
-      <div aria-hidden="true" style={{ position: "fixed", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
+      <div aria-hidden="true" style={{ position: "fixed", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: "var(--z-base)" }}>
         {/* Top-right violet orb */}
         <div style={{
           position: "absolute", top: "-180px", right: "-80px",
-          width: "700px", height: "700px", borderRadius: "var(--radius-circle)",
-          background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, rgba(79,70,229,0.08) 40%, transparent 70%)",
-          filter: "blur(80px)",
+          width: "var(--orb-size-xl)", height: "var(--orb-size-xl)", borderRadius: "var(--radius-circle)",
+          background: "var(--gradient-orb-1)",
+          filter: "blur(var(--blur-orb))",
           animation: "orb-float-1 18s ease-in-out infinite",
         }} />
         {/* Bottom-left indigo orb */}
         <div style={{
           position: "absolute", bottom: "-60px", left: "-140px",
-          width: "550px", height: "550px", borderRadius: "var(--radius-circle)",
-          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(139,92,246,0.06) 50%, transparent 70%)",
-          filter: "blur(90px)",
+          width: "var(--orb-size-md)", height: "var(--orb-size-md)", borderRadius: "var(--radius-circle)",
+          background: "var(--gradient-orb-2)",
+          filter: "blur(var(--blur-orb))",
           animation: "orb-float-2 22s ease-in-out infinite",
         }} />
         {/* Center subtle glow */}
         <div style={{
           position: "absolute", top: "30%", left: "50%", transform: "translateX(-50%)",
-          width: "900px", height: "350px", borderRadius: "var(--radius-circle)",
-          background: "radial-gradient(ellipse, rgba(109,40,217,0.05) 0%, transparent 70%)",
+          width: "var(--orb-size-2xl)", height: "var(--orb-size-sm)", borderRadius: "var(--radius-circle)",
+          background: "var(--gradient-orb-3)",
           filter: "blur(100px)",
           animation: "orb-float-3 25s ease-in-out infinite",
         }} />
         {/* Top-center spotlight */}
         <div style={{
           position: "absolute", top: "-200px", left: "50%", transform: "translateX(-50%)",
-          width: "600px", height: "600px", borderRadius: "var(--radius-circle)",
-          background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 60%)",
-          filter: "blur(60px)",
+          width: "var(--orb-size-lg)", height: "var(--orb-size-lg)", borderRadius: "var(--radius-circle)",
+          background: "var(--gradient-orb-4)",
+          filter: "blur(var(--blur-lg))",
         }} />
       </div>
 
       {/* ── Navbar ── */}
-      <div style={{ position: "absolute", top: "20px", left: "20px", zIndex: 50 }}>
+      <div style={{ position: "absolute", top: "var(--space-5)", left: "var(--space-5)", zIndex: "var(--z-navbar)" }}>
         <LanguageSwitcher />
       </div>
-      <div style={{ position: "absolute", top: "20px", right: "20px", zIndex: 50 }}>
+      <div style={{ position: "absolute", top: "var(--space-5)", right: "var(--space-5)", zIndex: "var(--z-navbar)" }}>
         <HistoryProvider />
       </div>
 
@@ -87,7 +88,7 @@ export default function Home() {
         {/* Logo + Brand */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "center",
-          gap: "14px", marginBottom: "28px",
+          gap: "var(--space-3)", marginBottom: "var(--space-7)",
         }}>
           {/* Logo */}
           <div style={{
@@ -99,7 +100,7 @@ export default function Home() {
           </div>
           {/* Brand name */}
           <span style={{
-            fontSize: "1.8rem", fontWeight: 800, color: "#e2e8f0",
+            fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground)",
             letterSpacing: "-0.02em",
           }}>
             {tGlobal("productName")}
@@ -108,33 +109,33 @@ export default function Home() {
 
         {/* Main Headline — gradient text */}
         <h1 style={{
-          fontSize: "clamp(2rem, 5.5vw, 3.4rem)", fontWeight: 900, letterSpacing: "-1px",
-          background: "linear-gradient(135deg, #e0e7ff 0%, #c4b5fd 40%, #a78bfa 70%, #818cf8 100%)",
+          fontSize: "var(--text-display)", fontWeight: "var(--font-weight-black)", letterSpacing: "-1px",
+          background: "var(--gradient-headline)",
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          backgroundClip: "text", lineHeight: 1.35, margin: "0 0 16px",
-          paddingBottom: "10px",
+          backgroundClip: "text", lineHeight: 1.35, margin: "0 0 var(--space-4)",
+          paddingBottom: "var(--space-2)",
         }}>
           {tHome("headline")}
         </h1>
 
         {/* Subtitle */}
         <p style={{
-          fontSize: "1.05rem", color: "#64748b", fontWeight: 400,
-          maxWidth: "520px", margin: "0 auto", lineHeight: 1.8,
+          fontSize: "1.05rem", color: "var(--color-foreground-secondary)", fontWeight: "var(--font-weight-normal)",
+          maxWidth: "var(--container-md)", margin: "0 auto", lineHeight: 1.8,
         }}>
           {tGlobal("productTagline")}
         </p>
 
         {/* Sparkle badge */}
         <div style={{
-          display: "inline-flex", alignItems: "center", gap: "6px",
-          marginTop: "12px", padding: "6px 16px",
+          display: "inline-flex", alignItems: "center", gap: "var(--space-1)",
+          marginTop: "var(--space-3)", padding: "var(--space-1-5) var(--space-4)",
           borderRadius: "var(--radius-full)",
-          background: "rgba(124,58,237,0.08)",
-          border: "1px solid rgba(124,58,237,0.15)",
+          background: "var(--color-brand-surface)",
+          border: "1px solid var(--color-brand-soft)",
         }}>
-          <Sparkles size={14} color="#a78bfa" />
-          <span style={{ fontSize: "12px", fontWeight: 600, color: "#a78bfa" }}>
+          <Sparkles size={14} color="var(--color-brand-light)" />
+          <span style={{ fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)" }}>
             {tHome("aiBadge")}
           </span>
         </div>
@@ -143,6 +144,11 @@ export default function Home() {
       {/* ── Main App ── */}
       <section className="relative z-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <ContentGenerator />
+      </section>
+
+      {/* ── Output Showcase ── */}
+      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20 mb-20">
+        <OutputShowcase />
       </section>
 
       {/* ── CTA Section ── */}

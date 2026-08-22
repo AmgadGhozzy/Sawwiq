@@ -22,7 +22,7 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
         background: "var(--color-surface)",
         border: "1px solid var(--color-border)",
         borderRadius: "var(--radius-2xl)",
-        padding: "4px",
+        padding: "var(--space-1)",
         position: "relative",
       }}
     >
@@ -35,30 +35,32 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "8px",
-          padding: "8px 16px",
+          gap: "var(--space-2)",
+          padding: "var(--space-2) var(--space-3)",
           borderRadius: "var(--radius-2xl)",
           border: "none",
           background: "transparent",
-          color: isMarketing ? "#ffffff" : "var(--color-foreground-secondary)",
-          fontSize: "13px",
-          fontWeight: 600,
+          color: isMarketing ? "var(--color-foreground-inverse)" : "var(--color-foreground-secondary)",
+          fontSize: "var(--text-sm)",
+          fontWeight: "var(--font-weight-semibold)",
           cursor: disabled ? "not-allowed" : "pointer",
           position: "relative",
           zIndex: 1,
-          transition: "color 0.2s",
+          transition: "color var(--transition-fast)",
           fontFamily: "inherit",
+          overflow: "hidden",
+          minWidth: 0,
         }}
       >
-        <Briefcase size={14} />
-        <span>{t("marketing")}</span>
+        <Briefcase size={14} style={{ flexShrink: 0 }} />
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t("marketing")}</span>
         {isMarketing && (
           <motion.div
             layoutId="mode-indicator"
             style={{
               position: "absolute",
               inset: 0,
-              background: "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)",
+              background: "var(--color-brand-soft)",
               border: "none",
               borderRadius: "var(--radius-2xl)",
               zIndex: -1,
@@ -77,30 +79,32 @@ export function ModeSwitcher({ mode, onChange, disabled }: ModeSwitcherProps) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "8px",
-          padding: "8px 16px",
+          gap: "var(--space-2)",
+          padding: "var(--space-2) var(--space-3)",
           borderRadius: "var(--radius-2xl)",
           border: "none",
           background: "transparent",
-          color: !isMarketing ? "#ffffff" : "var(--color-foreground-secondary)",
-          fontSize: "13px",
-          fontWeight: 600,
+          color: !isMarketing ? "var(--color-foreground-inverse)" : "var(--color-foreground-secondary)",
+          fontSize: "var(--text-sm)",
+          fontWeight: "var(--font-weight-semibold)",
           cursor: disabled ? "not-allowed" : "pointer",
           position: "relative",
           zIndex: 1,
-          transition: "color 0.2s",
+          transition: "color var(--transition-fast)",
           fontFamily: "inherit",
+          overflow: "hidden",
+          minWidth: 0,
         }}
       >
-        <UserCheck size={14} />
-        <span>{t("creator")}</span>
+        <UserCheck size={13} style={{ flexShrink: 0 }} />
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t("creator")}</span>
         {!isMarketing && (
           <motion.div
             layoutId="mode-indicator"
             style={{
               position: "absolute",
               inset: 0,
-              background: "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)",
+              background: "var(--color-brand-soft)",
               border: "none",
               borderRadius: "var(--radius-2xl)",
               zIndex: -1,

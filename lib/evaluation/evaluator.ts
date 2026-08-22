@@ -263,9 +263,6 @@ export function evaluateDeterministic(
     checks,
     score,
     passed: checks.every((c) => c.passed),
-    details: checks
-      .filter((c) => !c.passed)
-      .map((c) => `❌ ${c.name}${c.detail ? `: ${c.detail}` : ""}`),
   };
 }
 

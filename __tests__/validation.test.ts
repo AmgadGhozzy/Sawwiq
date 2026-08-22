@@ -88,7 +88,7 @@ describe("Validation Schemas - Edge Cases", () => {
       assert.throws(() => generatedContentSchema.parse(output));
     });
 
-    test("fails when hashtags array is empty", () => {
+    test("allows empty hashtags array (platform-aware: X threads)", () => {
       const output = {
         title: "العنوان",
         hook: "الـ Hook",
@@ -96,7 +96,7 @@ describe("Validation Schemas - Edge Cases", () => {
         callToAction: "اطلب الآن",
         hashtags: [],
       };
-      assert.throws(() => generatedContentSchema.parse(output));
+      assert.doesNotThrow(() => generatedContentSchema.parse(output));
     });
 
     test("fails when hashtags array contains empty strings", () => {
@@ -110,15 +110,15 @@ describe("Validation Schemas - Edge Cases", () => {
       assert.throws(() => generatedContentSchema.parse(output));
     });
 
-    test("fails when hashtags array contains less than 5 items", () => {
+    test("allows fewer than 5 hashtags (platform-aware minimums)", () => {
       const output = {
         title: "العنوان",
         hook: "الـ Hook",
         body: "المحتوى",
         callToAction: "اطلب الآن",
-        hashtags: ["تقنية", "ساعة", "ذكية", "ممتازة"],
+        hashtags: ["تقنية", "ساعة"],
       };
-      assert.throws(() => generatedContentSchema.parse(output));
+      assert.doesNotThrow(() => generatedContentSchema.parse(output));
     });
 
     test("fails when hashtags array contains more than 8 items", () => {

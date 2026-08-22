@@ -15,8 +15,8 @@ describe("Prompt Engine - Full Matrix Testing (Edge Builder)", () => {
           rawInput: "تجربة محتوى تسويقي طويل",
         });
         assert.ok(prompt.length > 200, `Prompt for ${style} is too short`);
-        assert.ok(prompt.includes("قواعد عامة للكتابة التسويقية"), "Missing global rules");
-        assert.ok(prompt.includes("متطلبات المحتوى"), "Missing output contract");
+        assert.ok(prompt.includes("Write strictly in Arabic"), "Missing global rules");
+        assert.ok(prompt.includes("FIELD REQUIREMENTS"), "Missing output contract");
       }
     });
 
@@ -27,7 +27,7 @@ describe("Prompt Engine - Full Matrix Testing (Edge Builder)", () => {
         contentType: "interactive_post",
         rawInput: "تجربة محتوى تسويقي طويل",
       });
-      assert.ok(prompt.includes("قواعد اللهجة المصرية"));
+      assert.ok(prompt.includes("DIALECT: Egyptian Colloquial"));
     });
 
     test("verifies Gulf dialect contains Gulf-specific instructions", () => {
@@ -37,7 +37,7 @@ describe("Prompt Engine - Full Matrix Testing (Edge Builder)", () => {
         contentType: "ecommerce_product",
         rawInput: "تجربة محتوى تسويقي طويل",
       });
-      assert.ok(prompt.includes("قواعد الأسلوب الخليجي الفخم"));
+      assert.ok(prompt.includes("DIALECT: Premium Gulf"));
     });
   });
 
@@ -64,8 +64,8 @@ describe("Prompt Engine - Full Matrix Testing (Edge Builder)", () => {
           contentType: "sponsored_ad",
           rawInput: "تجربة محتوى تسويقي طويل",
         });
-        assert.ok(prompt.includes("قواعد المنصة المستهدفة"), `Missing platform rules for ${platform}`);
-        assert.ok(prompt.includes("STRICT RULE:"), `Missing STRICT RULE for ${platform}`);
+        assert.ok(prompt.includes("PLATFORM:"), `Missing platform rules for ${platform}`);
+        assert.ok(prompt.includes("PLATFORM RULES:"), `Missing platform rule text for ${platform}`);
       }
     });
   });
@@ -78,17 +78,16 @@ describe("Prompt Engine - Full Matrix Testing (Edge Builder)", () => {
         contentType: "real_estate",
         rawInput: "تجربة محتوى تسويقي طويل",
       });
-      assert.ok(prompt.includes("حدود الحقائق"));
-      assert.ok(prompt.includes("EXPLICIT"));
-      assert.ok(prompt.includes("SAFE_INFERENCE"));
-      assert.ok(prompt.includes("UNSUPPORTED"));
+      assert.ok(prompt.includes("<allowed>"));
+      assert.ok(prompt.includes("<forbidden>"));
+      assert.ok(prompt.includes("<creative_language>"));
     });
   });
 
   describe("User Prompt Builder", () => {
     test("formats user prompt properly", () => {
       const userPrompt = buildUserPrompt();
-      assert.strictEqual(userPrompt, "اكتب المحتوى التسويقي بناءً على معلومات المستخدم المقدمة في سياق المحادثة.");
+      assert.strictEqual(userPrompt, "Write the marketing content based on the provided context.");
     });
   });
 
@@ -100,10 +99,10 @@ describe("Prompt Engine - Full Matrix Testing (Edge Builder)", () => {
         contentType: "interactive_post",
         rawInput: "تجربة محتوى تسويقي طويل",
       });
-      assert.strictEqual(layers.length, 7); // Global, Platform, Dialect, ContentType, InputContext, FactBoundary, OutputContract
-      assert.strictEqual(layers[0].label, "Global Rules");
-      assert.strictEqual(layers[1].label, "Platform: instagram");
-      assert.strictEqual(layers[2].label, "Arabic Style: egyptian_colloquial");
+      assert.strictEqual(layers.length, 9); // SystemPersona, GlobalRules, Platform, AntiGenericness, Dialect, ContentType, FactBoundary, OutputContract, UserInput
+      assert.strictEqual(layers[0].tag, "system_persona");
+      assert.strictEqual(layers[1].tag, "global_rules");
+      assert.strictEqual(layers[2].tag, "platform_context");
     });
   });
 });

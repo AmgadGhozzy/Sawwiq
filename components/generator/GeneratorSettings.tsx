@@ -81,7 +81,7 @@ export default function GeneratorSettings({
   disabled,
 }: GeneratorSettingsProps) {
   const t = useTranslations("GeneratorSettings");
-  
+
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const registeredPlatforms = useMemo(() => getRegisteredPlatforms(), []);
@@ -161,20 +161,14 @@ export default function GeneratorSettings({
   return (
     <div style={{ display: "contents" }}>
       {/* 1. Mode Switcher (Order: 1) */}
-      <div style={{ order: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
-        <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-          {getTranslated("modeLabel", "نمط المحتوى")}
-        </label>
+      <div style={{ order: 1, display: "flex", flexDirection: "column", gap: "var(--space-1)", overflow: "hidden" }}>
         {onModeChange && (
           <ModeSwitcher mode={mode} onChange={onModeChange} disabled={disabled} />
         )}
       </div>
 
       {/* 2. Platform Selector (Order: 2) */}
-      <div style={{ order: 2, display: "flex", flexDirection: "column", gap: "6px" }}>
-        <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-          {getTranslated("platformLabel", "المنصة")}
-        </label>
+      <div style={{ order: 2, display: "flex", flexDirection: "column", gap: "var(--space-1)", overflow: "hidden" }}>
         <PlatformSelector
           platforms={registeredPlatforms}
           selected={currentPlatform}
@@ -186,7 +180,7 @@ export default function GeneratorSettings({
       {/* order 3 is reserved for GeneratorInput */}
 
       {/* 4. Quick Context Pills / Dropdowns (Order: 4) */}
-      <div style={{ order: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+      <div style={{ order: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-2)", overflow: "hidden", minWidth: 0 }}>
         <DropdownPill
           label={getTranslated("arabicStyleLabel", "اللهجة")}
           value={arabicStyle}
@@ -223,7 +217,7 @@ export default function GeneratorSettings({
             />
           </div>
         )}
-        
+
         {isCreatorMode && onIntentChange && (
           <div style={{ gridColumn: "span 2" }}>
             <DropdownPill
@@ -242,7 +236,7 @@ export default function GeneratorSettings({
 
       {/* 5. Creator Mode Deep Customization (Order: 5) */}
       {isCreatorMode && onPersonaChange && onStyleChange && onOriginalityChange && (
-        <div style={{ order: 5, marginTop: "2px" }}>
+        <div style={{ order: 5, marginTop: "var(--space-0-5)" }}>
           <button
             type="button"
             onClick={() => setAdvancedOpen(!advancedOpen)}
@@ -251,28 +245,28 @@ export default function GeneratorSettings({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "8px 10px",
+              padding: "var(--space-2) var(--space-2-5)",
               background: "transparent",
               border: "1px solid var(--color-border)",
               borderRadius: "var(--radius-md)",
               color: "var(--color-foreground)",
-              fontSize: "12px",
-              fontWeight: 600,
+              fontSize: "var(--text-sm)",
+              fontWeight: "var(--font-weight-semibold)",
               cursor: "pointer",
               transition: "all 0.2s",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
               <Settings2 size={14} color="var(--color-brand-primary)" />
               <span>{getTranslated("advancedSettings", "إعدادات متقدمة")}</span>
             </div>
-            <ChevronDown 
-              size={14} 
+            <ChevronDown
+              size={14}
               color="var(--color-foreground-secondary)"
-              style={{ transform: advancedOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} 
+              style={{ transform: advancedOpen ? "rotate(180deg)" : "none", transition: "var(--transition-normal)" }}
             />
           </button>
-          
+
           <AnimatePresence>
             {advancedOpen && (
               <motion.div
@@ -285,9 +279,9 @@ export default function GeneratorSettings({
                   selectedPersona={persona?.id || availablePersonas[0]?.id || "developer"}
                   onPersonaChange={(pId) => {
                     const p = availablePersonas.find((per) => per.id === pId);
-                    if (p) onPersonaChange({ id: p.id, name: p.name, interests: p.interests, characteristics: p.characteristics });
+                    if (p) onPersonaChange({ id: p.id, name: p.name });
                   }}
-                  
+
                   styles={availableStyles.map((s) => ({ value: s.id, label: getTranslated(`styles.${s.id}`, s.name) }))}
                   selectedStyle={styleConfig?.id || availableStyles[0]?.id || "mystery"}
                   onStyleChange={(sId) => {

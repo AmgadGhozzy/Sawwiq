@@ -14,14 +14,29 @@ export type InputDTO = z.infer<typeof generateInputSchema>;
 
 // We keep this local because it imports from @google/genai, 
 // and we don't want to bundle @google/genai in Next.js client code.
-export const GEMINI_RESPONSE_SCHEMA = {
-  type: Type.OBJECT,
-  properties: {
-    title: { type: Type.STRING },
-    hook: { type: Type.STRING },
-    body: { type: Type.STRING },
-    callToAction: { type: Type.STRING },
-    hashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
-  },
-  required: ["title", "hook", "body", "callToAction", "hashtags"],
-};
+export function getGeminiResponseSchema(contentType?: string) {
+  const isThread = contentType === "thread";
+
+  return {
+    type: Type.OBJECT,
+    properties: {
+      title: { type: Type.STRING },
+      hook: { type: Type.STRING },
+      body: isThread ? {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            post_number: { type: Type.INTEGER },
+            text: { type: Type.STRING },
+            char_count: { type: Type.INTEGER },
+          },
+          required: ["post_number", "text"],
+        }
+      } : { type: Type.STRING },
+      callToAction: { type: Type.STRING },
+      hashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+    },
+    required: ["title", "hook", "body", "callToAction", "hashtags"],
+  };
+}

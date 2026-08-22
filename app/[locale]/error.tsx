@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 export default function Error({
   error,
   reset,
@@ -7,6 +9,9 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("ErrorPage");
+  console.error(error);
+
   return (
     <div
       style={{
@@ -15,8 +20,8 @@ export default function Error({
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        background: "#09090b",
-        padding: "24px",
+        background: "var(--color-background)",
+        padding: "var(--space-6)",
       }}
     >
       <div
@@ -24,11 +29,11 @@ export default function Error({
           width: "64px",
           height: "64px",
           borderRadius: "var(--radius-circle)",
-          background: "rgba(239, 68, 68, 0.1)",
+          background: "var(--color-danger-surface)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: "24px",
+          marginBottom: "var(--space-6)",
         }}
       >
         <svg
@@ -36,7 +41,7 @@ export default function Error({
           height="32"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#ef4444"
+          stroke="var(--color-danger)"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -51,42 +56,42 @@ export default function Error({
           fontSize: "1.5rem",
           fontWeight: 700,
           color: "#f1f5f9",
-          marginBottom: "8px",
+          marginBottom: "var(--space-2)",
         }}
       >
-        حدث خطأ
+        {t("title")}
       </h2>
       <p
         style={{
           color: "#64748b",
-          marginBottom: "24px",
+          marginBottom: "var(--space-6)",
           textAlign: "center",
           maxWidth: "400px",
         }}
       >
-        عذراً، حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.
+        {t("description")}
       </p>
       <button
         onClick={reset}
         style={{
-          padding: "12px 24px",
+          padding: "var(--space-3) var(--space-6)",
           borderRadius: "var(--radius-md)",
-          background: "#7c3aed",
-          color: "white",
+          background: "var(--color-brand-primary)",
+          color: "var(--color-foreground-inverse)",
           border: "none",
-          fontSize: "14px",
-          fontWeight: 600,
+          fontSize: "var(--text-base)",
+          fontWeight: "var(--font-weight-semibold)",
           cursor: "pointer",
-          transition: "background 0.2s",
+          transition: "background var(--transition-fast)",
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = "#6d28d9";
+          e.currentTarget.style.background = "var(--color-brand-hover)";
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.background = "#7c3aed";
         }}
       >
-        إعادة المحاولة
+        {t("retry")}
       </button>
     </div>
   );

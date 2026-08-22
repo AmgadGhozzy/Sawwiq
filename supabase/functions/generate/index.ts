@@ -156,8 +156,8 @@ Deno.serve(async (req: Request) => {
 
     if (!outputParse.success) {
       return corsResponse(
-        JSON.stringify({ 
-          error: "OUTPUT_SCHEMA_INVALID", 
+        JSON.stringify({
+          error: "OUTPUT_SCHEMA_INVALID",
           message: "فشل التحقق من المخرجات المستلمة من الذكاء الاصطناعي.",
           details: outputParse.error.errors
         }),

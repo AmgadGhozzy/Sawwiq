@@ -16,10 +16,18 @@ interface HistoryCardProps {
 
 export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCardProps) {
   const t = useTranslations("History");
+  const tLabel = useTranslations("Labels");
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const { platform, contentType, arabicStyle, prompt, aiResponse, createdAt } = item;
+
+  const contentTypeLabel = tLabel.has(`contentTypes.${contentType}`)
+    ? tLabel(`contentTypes.${contentType}`)
+    : contentType.replace(/_/g, " ");
+  const arabicStyleLabel = tLabel.has(`arabicStyles.${arabicStyle}`)
+    ? tLabel(`arabicStyles.${arabicStyle}`)
+    : arabicStyle.replace(/_/g, " ");
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -72,7 +80,7 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
   };
 
   return (
-    <div style={{ marginBottom: isLast ? "0" : "12px" }}>
+    <div style={{ marginBottom: isLast ? "0" : "var(--space-3)" }}>
       <motion.div
         layout
         initial={{ opacity: 0, y: 8 }}
@@ -84,18 +92,18 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
           border: "1px solid var(--color-border)",
           overflow: "hidden",
           cursor: "pointer",
-          transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+          transition: "border-color var(--transition-fast), box-shadow var(--transition-fast)",
         }}
       >
-        <div style={{ padding: "16px" }}>
+        <div style={{ padding: "var(--space-4)" }}>
           {/* Header tags */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-3)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)", flexWrap: "wrap" }}>
               {/* Platform icon only */}
               <span style={{
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
-                width: "24px", height: "24px", borderRadius: "var(--radius-sm)",
-                background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
+                width: "var(--space-6)", height: "var(--space-6)", borderRadius: "var(--radius-sm)",
+                background: "var(--color-brand-surface)",
                 border: "1px solid var(--color-border)",
               }}>
                 <PlatformIcon platform={platform} />
@@ -103,48 +111,48 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
 
               {/* Content type */}
               <span style={{
-                padding: "3px 8px", borderRadius: "var(--radius-sm)",
+                padding: "var(--space-0-5) var(--space-2)", borderRadius: "var(--radius-sm)",
                 background: "var(--color-brand-surface)",
-                border: "1px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
-                fontSize: "11px", fontWeight: 600,
+                border: "1px solid var(--color-brand-soft)",
+                fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)",
                 color: "var(--color-brand-primary)",
               }}>
-                {contentType.replace(/_/g, " ")}
+                {contentTypeLabel}
               </span>
 
               {/* Dialect */}
               <span style={{
-                padding: "3px 8px", borderRadius: "var(--radius-sm)",
-                background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
+                padding: "var(--space-0-5) var(--space-2)", borderRadius: "var(--radius-sm)",
+                background: "var(--color-brand-surface)",
                 border: "1px solid var(--color-border)",
-                fontSize: "11px", color: "var(--color-foreground-secondary)",
+                fontSize: "var(--text-xs)", color: "var(--color-foreground-secondary)",
               }}>
-                {arabicStyle.replace(/_/g, " ")}
+                {arabicStyleLabel}
               </span>
             </div>
 
             {/* Date */}
-            <span style={{ fontSize: "11px", color: "var(--color-foreground-disabled)", whiteSpace: "nowrap" }}>
+            <span style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-disabled)", whiteSpace: "nowrap" }}>
               {formatDate(createdAt)}
             </span>
           </div>
 
           {/* Title */}
           <h4 style={{
-            fontSize: "14px", fontWeight: 700, color: "var(--color-foreground)",
-            margin: "0 0 8px", lineHeight: 1.5,
+            fontSize: "var(--text-base)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground)",
+            margin: "0 0 var(--space-2)", lineHeight: "var(--leading-normal)",
           }}>
             {aiResponse.title}
           </h4>
 
           {/* Hook preview */}
           <p style={{
-            fontSize: "13px", color: "var(--color-foreground-secondary)",
-            margin: "0 0 12px", lineHeight: 1.6,
+            fontSize: "var(--text-sm)", color: "var(--color-foreground-secondary)",
+            margin: "0 0 var(--space-3)", lineHeight: "var(--leading-relaxed)",
             display: "-webkit-box", WebkitLineClamp: expanded ? "unset" : 2,
             WebkitBoxOrient: "vertical", overflow: "hidden",
             borderInlineStart: "2px solid var(--color-brand-primary)",
-            paddingInlineStart: "10px",
+            paddingInlineStart: "var(--space-2-5)",
           }}>
             {aiResponse.hook}
           </p>
@@ -161,15 +169,15 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                 {/* Prompt */}
                 {prompt && (
                   <div style={{
-                    padding: "8px 12px", borderRadius: "var(--radius-sm)",
-                    background: "color-mix(in srgb, var(--color-foreground) 2%, transparent)",
+                    padding: "var(--space-2) var(--space-3)", borderRadius: "var(--radius-sm)",
+                    background: "var(--color-brand-surface)",
                     border: "1px solid var(--color-border)",
-                    marginBottom: "12px",
+                    marginBottom: "var(--space-3)",
                   }}>
-                    <span style={{ fontSize: "11px", color: "var(--color-foreground-disabled)", display: "block", marginBottom: "2px" }}>
+                    <span style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-disabled)", display: "block", marginBottom: "var(--space-0-5)" }}>
                       {locale === "en" ? "Prompt:" : "المدخلات:"}
                     </span>
-                    <p style={{ fontSize: "12px", color: "var(--color-foreground-secondary)", margin: 0 }}>
+                    <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-secondary)", margin: 0 }}>
                       {prompt}
                     </p>
                   </div>
@@ -177,8 +185,8 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
 
                 {/* Body */}
                 <div style={{
-                  fontSize: "13px", color: "var(--color-foreground)",
-                  lineHeight: 1.7, marginBottom: "12px",
+                  fontSize: "var(--text-sm)", color: "var(--color-foreground)",
+                  lineHeight: "var(--leading-relaxed)", marginBottom: "var(--space-3)",
                   whiteSpace: "pre-line",
                 }}>
                   {aiResponse.body}
@@ -188,26 +196,26 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                 <div style={{
                   borderRadius: "var(--radius-md)",
                   background: "var(--color-brand-surface)",
-                  border: "1px solid color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
-                  padding: "10px 12px",
+                  border: "1px solid var(--color-brand-soft)",
+                  padding: "var(--space-2-5) var(--space-3)",
                   textAlign: "center",
-                  marginBottom: "12px",
+                  marginBottom: "var(--space-3)",
                 }}>
-                  <p style={{ fontSize: "13px", fontWeight: 600, color: "var(--color-brand-primary)", margin: 0 }}>
+                  <p style={{ fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-primary)", margin: 0 }}>
                     {aiResponse.callToAction}
                   </p>
                 </div>
 
                 {/* Hashtags */}
                 {aiResponse.hashtags && aiResponse.hashtags.length > 0 && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "14px" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-1)", marginBottom: "var(--space-3)" }}>
                     {aiResponse.hashtags.map((tag: string) => (
                       <span key={tag} style={{
-                        padding: "3px 10px", borderRadius: "var(--radius-sm)",
-                        background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
+                        padding: "var(--space-0-5) var(--space-2-5)", borderRadius: "var(--radius-sm)",
+                        background: "var(--color-brand-surface)",
                         border: "1px solid var(--color-border)",
                         color: "var(--color-brand-primary)",
-                        fontSize: "11px", fontWeight: 500,
+                        fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-medium)",
                       }}>
                         #{tag}
                       </span>
@@ -223,9 +231,9 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            paddingTop: "12px",
+            paddingTop: "var(--space-3)",
             borderTop: "1px solid var(--color-border)",
-            gap: "8px",
+            gap: "var(--space-2)",
           }}>
             {/* Primary Action: Open in Generator */}
             {onOpen && (
@@ -238,20 +246,20 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "6px",
-                  padding: "6px 12px",
+                  gap: "var(--space-1)",
+                  padding: "var(--space-1-5) var(--space-3)",
                   borderRadius: "var(--radius-md)",
                   background: "var(--color-brand-soft)",
-                  border: "1px solid color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
+                  border: "1px solid var(--color-brand-soft)",
                   color: "var(--color-foreground)",
-                  fontSize: "12px",
-                  fontWeight: 600,
+                  fontSize: "var(--text-sm)",
+                  fontWeight: "var(--font-weight-semibold)",
                   cursor: "pointer",
-                  transition: "all 0.15s ease",
+                  transition: "var(--transition-fast)",
                   fontFamily: "inherit",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)";
+                  e.currentTarget.style.background = "var(--color-brand-surface)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "var(--color-brand-soft)";
@@ -269,20 +277,20 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "5px",
-                padding: "6px 10px",
+                gap: "var(--space-1-5)",
+                padding: "var(--space-1-5) var(--space-2-5)",
                 borderRadius: "var(--radius-md)",
-                background: copied ? "color-mix(in srgb, var(--color-success) 12%, transparent)" : "transparent",
+                background: copied ? "var(--color-success-surface)" : "transparent",
                 border: "1px solid var(--color-border)",
                 color: copied ? "var(--color-success)" : "var(--color-foreground-secondary)",
-                fontSize: "12px",
-                fontWeight: 500,
+                fontSize: "var(--text-sm)",
+                fontWeight: "var(--font-weight-medium)",
                 cursor: "pointer",
-                transition: "all 0.15s ease",
+                transition: "var(--transition-fast)",
                 fontFamily: "inherit",
               }}
               onMouseEnter={(e) => {
-                if (!copied) e.currentTarget.style.background = "color-mix(in srgb, var(--color-foreground) 4%, transparent)";
+                if (!copied) e.currentTarget.style.background = "var(--color-surface-elevated)";
               }}
               onMouseLeave={(e) => {
                 if (!copied) e.currentTarget.style.background = "transparent";

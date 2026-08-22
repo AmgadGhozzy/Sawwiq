@@ -38,11 +38,11 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
   }, [hashtags, onCopy]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
       {/* Row header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{
-          fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-disabled)",
+          fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-disabled)",
           textTransform: "uppercase", letterSpacing: "0.06em",
         }}>
           {t("title")}
@@ -51,13 +51,13 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
           onClick={copyAll}
           aria-label={t("copyAllAria")}
           style={{
-            display: "flex", alignItems: "center", gap: "4px",
-            fontSize: "11px", fontWeight: 600,
-            color: copiedAll ? "var(--color-success)" : "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
-            background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)", border: "1px solid var(--color-border)", cursor: "pointer",
-            padding: "4px 10px", borderRadius: "var(--radius-full)",
+            display: "flex", alignItems: "center", gap: "var(--space-1)",
+            fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)",
+            color: copiedAll ? "var(--color-success)" : "var(--color-brand-primary)",
+            background: "var(--color-brand-surface)", border: "1px solid var(--color-border)", cursor: "pointer",
+            padding: "var(--space-1) var(--space-2-5)", borderRadius: "var(--radius-full)",
             fontFamily: "inherit",
-            transition: "color 0.2s ease",
+            transition: "color var(--transition-fast)",
           }}
         >
           {copiedAll && <Check size={11} />}
@@ -66,7 +66,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
       </div>
 
       {/* Pill tags */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)" }}>
         {hashtags.map((tag, index) => (
           <motion.button
             key={tag}
@@ -77,21 +77,21 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
             title={t("clickToCopy")}
             style={{
               display: "inline-flex", alignItems: "center",
-              padding: "5px 14px", borderRadius: "var(--radius-full)",
+              padding: "var(--space-1-5) var(--space-3-5)", borderRadius: "var(--radius-full)",
               background: copiedIndex === index
-                ? "color-mix(in srgb, var(--color-success) 12%, transparent)"
-                : "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
+                ? "var(--color-success-surface)"
+                : "var(--color-brand-surface)",
               border: copiedIndex === index
-                ? "1px solid color-mix(in srgb, var(--color-success) 25%, transparent)"
-                : "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
-              color: copiedIndex === index ? "var(--color-success)" : "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
-              fontSize: "12px", fontWeight: 600,
+                ? "1px solid var(--color-success-border)"
+                : "1px solid var(--color-brand-soft)",
+              color: copiedIndex === index ? "var(--color-success)" : "var(--color-brand-primary)",
+              fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)",
               cursor: "pointer", fontFamily: "inherit",
-              transition: "all 0.2s ease",
+              transition: "var(--transition-normal)",
             }}
           >
             {copiedIndex === index ? (
-              <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+              <span style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                 <Check size={11} />
                 {t("copiedBadge")}
               </span>

@@ -41,7 +41,7 @@ const scrollToCTA = () => {
 export default function ContentGenerator() {
   const t = useTranslations("ContentGenerator");
   const tErrors = useTranslations("Errors");
-  
+
   const { items, setItems, selectedHistoryIndex, setSelectedHistoryIndex } = useHistoryContext();
 
   const [viewState, setViewState] = useState<ViewState>("empty");
@@ -49,12 +49,14 @@ export default function ContentGenerator() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [lastInput, setLastInput] = useState<GenerateInputDTO | null>(null);
   const [remainingGenerations, setRemainingGenerations] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const {
     control,
     handleSubmit,
     reset,
     getValues,
+    watch,
     formState: { errors, isValid },
   } = useForm<GenerateInputDTO>({
     resolver: zodResolver(generateInputSchema),
@@ -79,6 +81,18 @@ export default function ContentGenerator() {
     },
     mode: "onChange",
   });
+
+  const selectedMode = watch("mode");
+  const isCreatorMode = selectedMode === "creator" || selectedMode === "personal_creator";
+
+  // Detect mobile for sticky button
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   // Watch for history selection
   useEffect(() => {
@@ -233,8 +247,57 @@ export default function ContentGenerator() {
 
   return (
     <>
+      {/* ── Mobile Sticky Generate Bar ── */}
+      {isMobile && (
+        <div className="sticky-generate-bar">
+          {apiError && (
+            <div
+              style={{
+                marginBottom: "var(--space-2)",
+                padding: "var(--space-2) var(--space-3)",
+                borderRadius: "var(--radius-md)",
+                background: "var(--color-danger-surface)",
+                border: "1px solid var(--color-danger-border)",
+                color: "var(--color-danger)",
+                fontSize: "var(--text-sm)",
+                fontWeight: "var(--font-weight-medium)",
+              }}
+              role="alert"
+            >
+              {apiError}
+            </div>
+          )}
+          {isLocked ? (
+            <motion.button
+              type="button"
+              onClick={scrollToCTA}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
+                width: "100%", padding: "var(--space-3) var(--space-4)", borderRadius: "var(--radius-xl)", border: "none",
+                background: "var(--gradient-brand)",
+                color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
+                cursor: "pointer", fontFamily: "inherit",
+                boxShadow: "var(--shadow-brand)",
+              }}
+            >
+              <Sparkles size={16} />
+              {t("lockedButton")}
+            </motion.button>
+          ) : (
+            <form onSubmit={handleSubmit(doGenerate)} style={{ margin: 0 }}>
+              <GenerateButton
+                loading={viewState === "loading"}
+                disabled={!isValid || viewState === "loading"}
+              />
+            </form>
+          )}
+        </div>
+      )}
+
       <div
         className="flex flex-col lg:flex-row items-stretch gap-5 lg:gap-7"
+        style={{ paddingBottom: isMobile ? "calc(var(--space-8) + var(--space-4))" : undefined }}
       >
         {/* ────────────────── Settings Panel ────────────────── */}
         <div className="w-full lg:w-[380px] shrink-0 relative z-50">
@@ -243,9 +306,10 @@ export default function ContentGenerator() {
               initial={{ opacity: 0, x: 16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="generator-card"
               style={{
                 ...DARK_CARD,
-                maxHeight: "calc(100vh - 80px)",
+                maxHeight: isMobile ? "none" : "calc(100vh - 80px)",
                 display: "flex",
                 flexDirection: "column",
                 overflow: "hidden"
@@ -253,24 +317,34 @@ export default function ContentGenerator() {
             >
               {/* Card Header */}
               <div style={{
-                display: "flex", alignItems: "center", gap: "12px",
-                padding: "16px 20px",
-                borderBottom: "1px solid rgba(255,255,255,0.04)",
-                flexShrink: 0
+                display: "flex", alignItems: "center", gap: "var(--space-3)",
+                padding: "var(--space-4) var(--space-5)",
+                flexShrink: 0,
+                position: "relative"
               }}>
+                {/* Fading Divider */}
                 <div style={{
-                  width: "34px", height: "34px", borderRadius: "var(--radius-md)", flexShrink: 0,
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: "1px",
+                  background: "linear-gradient(90deg, transparent 0%, var(--color-border) 50%, transparent 100%)",
+                  opacity: 0.8
+                }} />
+                <div style={{
+                  width: "var(--space-8)", height: "var(--space-8)", borderRadius: "var(--radius-md)", flexShrink: 0,
                   background: "var(--gradient-brand)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   boxShadow: "var(--shadow-brand)",
                 }}>
-                  <Wand2 size={15} color="white" />
+                  <Wand2 size={15} color="var(--color-foreground-inverse)" />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: "13px", fontWeight: 700, color: "var(--color-foreground)", margin: 0 }}>
+                  <p style={{ fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground)", margin: 0 }}>
                     {t("settingsTitle")}
                   </p>
-                  <p style={{ fontSize: "11px", color: "var(--color-foreground-disabled)", margin: 0, marginTop: "2px" }}>
+                  <p style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-disabled)", margin: 0, marginTop: "var(--space-0-5)" }}>
                     {t("settingsSubtitle")}
                   </p>
                 </div>
@@ -280,11 +354,11 @@ export default function ContentGenerator() {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     style={{
-                      padding: "3px 10px", borderRadius: "var(--radius-full)",
-                      background: remainingGenerations > 0 ? "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)" : "color-mix(in srgb, var(--color-danger) 10%, transparent)",
-                      border: `1px solid ${remainingGenerations > 0 ? "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)" : "color-mix(in srgb, var(--color-danger) 20%, transparent)"}`,
+                      padding: "var(--space-0-5) var(--space-2-5)", borderRadius: "var(--radius-full)",
+                      background: remainingGenerations > 0 ? "var(--color-brand-surface)" : "var(--color-danger-surface)",
+                      border: `1px solid ${remainingGenerations > 0 ? "var(--color-brand-soft)" : "var(--color-danger-border)"}`,
                       color: remainingGenerations > 0 ? "var(--color-brand-primary)" : "var(--color-danger)",
-                      fontSize: "11px", fontWeight: 700, whiteSpace: "nowrap" as const,
+                      fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", whiteSpace: "nowrap" as const,
                     }}
                   >
                     {remainingGenerations > 0 ? t("creditsRemaining", { count: remainingGenerations }) : t("zeroCredits")}
@@ -295,54 +369,56 @@ export default function ContentGenerator() {
               {/* Form */}
               <form onSubmit={handleSubmit(doGenerate)} style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0, position: "relative" }}>
                 <div style={{
-                  padding: "16px",
-                  paddingBottom: "120px",
+                  padding: "var(--space-3)",
+                  paddingBottom: isMobile ? "var(--space-4)" : "calc(var(--space-24) + var(--space-6))",
                   overflowY: "auto",
+                  overflowX: "hidden",
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
                   flex: 1,
                   minHeight: 0
                 }}>
                   <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  <Controller
-                    name="rawInput"
-                    control={control}
-                    render={({ field }) => (
-                      <GeneratorInput
-                        value={field.value}
-                        onChange={field.onChange}
-                        ref={field.ref}
-                        error={errors.rawInput?.message}
-                        disabled={viewState === "loading" || isLocked}
-                      />
-                    )}
-                  />
+                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
+                    <Controller
+                      name="rawInput"
+                      control={control}
+                      render={({ field }) => (
+                        <GeneratorInput
+                          value={field.value}
+                          onChange={field.onChange}
+                          ref={field.ref}
+                          mode={watch("mode")}
+                          error={errors.rawInput?.message}
+                          disabled={viewState === "loading" || isLocked}
+                        />
+                      )}
+                    />
 
-                  <Controller
-                    name="mode"
-                    control={control}
-                    render={({ field: mf }) => (
-                      <Controller
-                        name="platform"
-                        control={control}
-                        render={({ field: pf }) => (
-                          <Controller
-                            name="format"
-                            control={control}
-                            render={({ field: ff }) => (
-                              <Controller
-                                name="contentType"
-                                control={control}
-                                render={({ field: cf }) => (
-                                  <Controller
-                                    name="arabicStyle"
-                                    control={control}
-                                    render={({ field: sf }) => (
-                                      <Controller
-                                        name="marketingObjective"
-                                        control={control}
-                                        render={({ field: of }) => (
+                    <Controller
+                      name="mode"
+                      control={control}
+                      render={({ field: mf }) => (
+                        <Controller
+                          name="platform"
+                          control={control}
+                          render={({ field: pf }) => (
+                            <Controller
+                              name="format"
+                              control={control}
+                              render={({ field: ff }) => (
+                                <Controller
+                                  name="contentType"
+                                  control={control}
+                                  render={({ field: cf }) => (
+                                    <Controller
+                                      name="arabicStyle"
+                                      control={control}
+                                      render={({ field: sf }) => (
+                                        <Controller
+                                          name="marketingObjective"
+                                          control={control}
+                                          render={({ field: of }) => (
                                             <Controller
                                               name="persona"
                                               control={control}
@@ -390,80 +466,82 @@ export default function ContentGenerator() {
                                                 />
                                               )}
                                             />
-                                        )}
-                                      />
-                                    )}
-                                  />
-                                )}
-                              />
-                            )}
-                          />
-                        )}
+                                          )}
+                                        />
+                                      )}
+                                    />
+                                  )}
+                                />
+                              )}
+                            />
+                          )}
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+
+                {/* Desktop: Floating Generate Button Container (hidden on mobile) */}
+                {!isMobile && (
+                  <div style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: "var(--space-4)",
+                    paddingTop: "var(--space-3)",
+                    zIndex: 20,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "var(--space-3)",
+                    background: "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--color-surface-elevated) 92%, var(--color-background)) 35%)",
+                    backdropFilter: "blur(8px)",
+                    borderTop: "1px solid var(--color-border)",
+                  }}>
+                    {apiError && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        style={{
+                          padding: "var(--space-2) var(--space-3)", borderRadius: "var(--radius-md)",
+                          background: "var(--color-danger-surface)", border: "1px solid var(--color-danger-border)",
+                          color: "var(--color-danger)", fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-medium)",
+                        }}
+                        role="alert"
+                      >
+                        {apiError}
+                      </motion.div>
+                    )}
+
+                    {isLocked ? (
+                      <motion.button
+                        type="button"
+                        onClick={scrollToCTA}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
+                        whileTap={{ scale: 0.97 }}
+                        style={{
+                          display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
+                          width: "100%", padding: "var(--space-3) var(--space-4)", borderRadius: "var(--radius-lg)", border: "none",
+                          background: "var(--gradient-brand)",
+                          color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
+                          cursor: "pointer", fontFamily: "inherit",
+                          boxShadow: "var(--shadow-brand)",
+                        }}
+                      >
+                        <Sparkles size={15} />
+                        {t("lockedButton")}
+                      </motion.button>
+                    ) : (
+                      <GenerateButton
+                        loading={viewState === "loading"}
+                        disabled={!isValid || viewState === "loading"}
                       />
                     )}
-                  />
-                </div>
-              </div>
-
-              {/* Fixed Bottom Sheet for Generate Button */}
-              <div style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: "16px",
-                background: "var(--color-surface)",
-                borderTopLeftRadius: "24px",
-                borderTopRightRadius: "24px",
-                boxShadow: "0 -8px 30px rgba(0, 0, 0, 0.12)",
-                zIndex: 20,
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px"
-              }}>
-                {apiError && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    style={{
-                      padding: "10px 14px", borderRadius: "var(--radius-md)",
-                      background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
-                      color: "var(--color-danger)", fontSize: "13px", fontWeight: 500,
-                    }}
-                    role="alert"
-                  >
-                    {apiError}
-                  </motion.div>
+                  </div>
                 )}
-
-                {isLocked ? (
-                  <motion.button
-                    type="button"
-                    onClick={scrollToCTA}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
-                    whileTap={{ scale: 0.97 }}
-                    style={{
-                      display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                      width: "100%", padding: "13px", borderRadius: "var(--radius-lg)", border: "none",
-                      background: "var(--gradient-brand)",
-                      color: "white", fontWeight: 700, fontSize: "14px",
-                      cursor: "pointer", fontFamily: "inherit",
-                      boxShadow: "var(--shadow-brand)",
-                    }}
-                  >
-                    <Sparkles size={15} />
-                    {t("lockedButton")}
-                  </motion.button>
-                ) : (
-                  <GenerateButton
-                    loading={viewState === "loading"}
-                    disabled={!isValid || viewState === "loading"}
-                  />
-                )}
-              </div>
-            </form>
+              </form>
             </motion.div>
           </div>
         </div>
@@ -490,7 +568,7 @@ export default function ContentGenerator() {
                   backdropFilter: "blur(50px) saturate(160%)",
                   WebkitBackdropFilter: "blur(50px) saturate(160%)",
                   boxShadow: "var(--shadow-elevated)",
-                  padding: "48px 32px", textAlign: "center", gap: "24px",
+                  padding: "var(--space-12) var(--space-8)", textAlign: "center", gap: "var(--space-6)",
                   position: "relative", overflow: "hidden",
                 }}
               >
@@ -499,36 +577,39 @@ export default function ContentGenerator() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
                   style={{
-                    width: "72px", height: "72px", borderRadius: "var(--radius-circle)",
+                    width: "var(--space-18)", height: "var(--space-18)", borderRadius: "var(--radius-circle)",
                     background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
                     border: "1px solid var(--color-border)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "0 0 0 12px var(--color-brand-surface), 0 12px 40px var(--color-brand-soft)",
+                    boxShadow: "0 0 0 var(--space-3) var(--color-brand-surface), 0 var(--space-3) var(--space-10) var(--color-brand-soft)",
                   }}
                 >
                   <Zap size={32} color="var(--color-brand-primary)" />
                 </motion.div>
 
                 <div style={{ maxWidth: "360px" }}>
-                  <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--color-foreground)", margin: "0 0 10px" }}>
-                    {t("emptyStateTitle")}
+                  <h3 style={{ fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground)", margin: "0 0 var(--space-2-5)" }}>
+                    {isCreatorMode ? t("emptyStateTitleCreator") : t("emptyStateTitle")}
                   </h3>
-                  <p style={{ color: "var(--color-foreground-disabled)", lineHeight: 1.75, fontSize: "14px", margin: 0 }}>
-                    {t("emptyStateSubtitle")}
+                  <p style={{ color: "var(--color-foreground-disabled)", lineHeight: "var(--leading-relaxed)", fontSize: "var(--text-base)", margin: 0 }}>
+                    {isCreatorMode ? t("emptyStateSubtitleCreator") : t("emptyStateSubtitle")}
                   </p>
                 </div>
 
-                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }}>
-                  {[t("emptyStateTags.impactfulTitles"), t("emptyStateTags.captivatingHooks"), t("emptyStateTags.smartHashtags"), t("emptyStateTags.effectiveCTAs")].map((tag, i) => (
+                <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap", justifyContent: "center" }}>
+                  {(isCreatorMode
+                    ? [t("emptyStateTagsCreator.insights"), t("emptyStateTagsCreator.storytelling"), t("emptyStateTagsCreator.voice"), t("emptyStateTagsCreator.discussion")]
+                    : [t("emptyStateTags.impactfulTitles"), t("emptyStateTags.captivatingHooks"), t("emptyStateTags.smartHashtags"), t("emptyStateTags.effectiveCTAs")]
+                  ).map((tag, i) => (
                     <motion.span
                       key={tag}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + i * 0.08 }}
                       style={{
-                        padding: "5px 14px", borderRadius: "var(--radius-full)",
+                        padding: "var(--space-1-5) var(--space-3-5)", borderRadius: "var(--radius-full)",
                         background: "var(--color-brand-surface)", border: "1px solid var(--color-brand-soft)",
-                        color: "var(--color-brand-primary)", fontSize: "12px", fontWeight: 600,
+                        color: "var(--color-brand-primary)", fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)",
                       }}
                     >
                       <span style={{
@@ -597,20 +678,20 @@ export default function ContentGenerator() {
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
                   borderRadius: "var(--radius-xl)",
-                  border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
+                  border: "1px solid var(--color-brand-soft)",
                   background: "var(--gradient-surface)",
-                  padding: "48px 32px", textAlign: "center", gap: "20px",
+                  padding: "var(--space-12) var(--space-8)", textAlign: "center", gap: "var(--space-5)",
                 }}
               >
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                   style={{
-                    width: "76px", height: "76px", borderRadius: "var(--radius-circle)",
+                    width: "var(--space-20)", height: "var(--space-20)", borderRadius: "var(--radius-circle)",
                     background: "var(--color-brand-surface)",
-                    border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
+                    border: "1px solid var(--color-brand-soft)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "0 0 0 16px var(--color-brand-surface), var(--shadow-glow)",
+                    boxShadow: "0 0 0 var(--space-4) var(--color-brand-surface), var(--shadow-glow)",
                   }}
                 >
                   <Lock size={30} color="var(--color-brand-primary)" />
@@ -618,12 +699,12 @@ export default function ContentGenerator() {
 
                 <div style={{ maxWidth: "380px" }}>
                   <h3 style={{
-                    fontSize: "1.5rem", fontWeight: 800, margin: "0 0 12px",
+                    fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-extrabold)", margin: "0 0 var(--space-3)",
                     color: "var(--color-foreground)",
                   }}>
                     {t("lockedStateTitle")}
                   </h3>
-                  <p style={{ color: "var(--color-foreground-tertiary)", lineHeight: 1.8, fontSize: "14px", margin: 0 }}>
+                  <p style={{ color: "var(--color-foreground-tertiary)", lineHeight: 1.8, fontSize: "var(--text-base)", margin: 0 }}>
                     {t("lockedStateSubtitle")}
                   </p>
                 </div>
@@ -634,10 +715,10 @@ export default function ContentGenerator() {
                   whileHover={{ y: -3, boxShadow: "var(--shadow-brand)" }}
                   whileTap={{ scale: 0.97 }}
                   style={{
-                    display: "flex", alignItems: "center", gap: "8px",
-                    padding: "14px 28px", borderRadius: "var(--radius-lg)", border: "none",
+                    display: "flex", alignItems: "center", gap: "var(--space-2)",
+                    padding: "var(--space-3-5) var(--space-7)", borderRadius: "var(--radius-lg)", border: "none",
                     background: "var(--gradient-brand)",
-                    color: "white", fontWeight: 700, fontSize: "15px",
+                    color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
                     cursor: "pointer", fontFamily: "inherit",
                     boxShadow: "var(--shadow-brand)",
                   }}

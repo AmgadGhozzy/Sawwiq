@@ -59,14 +59,14 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "6px",
+        gap: "var(--space-1)",
         width: "100%",
         position: "relative",
-        zIndex: isOpen ? 70 : 1,
+        zIndex: isOpen ? "var(--z-dropdown)" : "var(--z-base)",
       }}
       ref={dropdownRef}
     >
-      <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <label style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
         {label}
       </label>
       <div style={{ position: "relative" }}>
@@ -79,26 +79,28 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
             borderRadius: "var(--radius-md)",
             border: "1px solid var(--color-border)",
             background: "var(--color-surface)",
-            padding: "9px 12px",
-            paddingInlineEnd: "36px",
-            fontSize: "13px",
+            padding: "var(--space-2) var(--space-3)",
+            paddingInlineEnd: "var(--space-8)",
+            fontSize: "var(--text-sm)",
             color: "var(--color-foreground)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: "8px",
+            gap: "var(--space-2)",
             cursor: disabled ? "not-allowed" : "pointer",
             opacity: disabled ? 0.4 : 1,
             boxShadow: isOpen ? "0 0 0 3px var(--color-brand-surface)" : "var(--shadow-card)",
-            transition: "all 0.2s ease",
+            transition: "var(--transition-normal)",
             fontFamily: "inherit",
             boxSizing: "border-box",
             textAlign: "start",
+            overflow: "hidden",
+            minWidth: 0,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", overflow: "hidden" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", overflow: "hidden", flex: 1, minWidth: 0 }}>
             {renderIcon && renderIcon(selectedOption.value)}
-            <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1, minWidth: 0 }}>
               {selectedOption.label}
             </span>
           </div>
@@ -107,9 +109,9 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
             color="var(--color-foreground-secondary)"
             style={{
               position: "absolute",
-              insetInlineEnd: "12px",
+              insetInlineEnd: "var(--space-3)",
               transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.2s",
+              transition: "var(--transition-normal)",
             }}
           />
         </button>
@@ -123,7 +125,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
               transition={{ duration: 0.15, ease: "easeOut" }}
               style={{
                 position: "absolute",
-                ...(openUpward ? { bottom: "100%", marginBottom: "6px" } : { top: "100%", marginTop: "6px" }),
+                ...(openUpward ? { bottom: "100%", marginBottom: "var(--space-1)" } : { top: "100%", marginTop: "var(--space-1)" }),
                 right: 0,
                 left: 0,
                 background: "color-mix(in srgb, var(--color-background) 96%, transparent)",
@@ -131,10 +133,10 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
                 WebkitBackdropFilter: "blur(24px)",
                 border: "1px solid var(--color-border)",
                 borderRadius: "var(--radius-lg)",
-                padding: "6px",
-                zIndex: 80,
+                padding: "var(--space-1)",
+                zIndex: "var(--z-dropdown)",
                 boxShadow: "var(--shadow-elevated)",
-                maxHeight: "220px",
+                maxHeight: "var(--dropdown-max-h)",
                 overflowY: "auto",
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
@@ -152,18 +154,20 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
                   style={{
                     width: "100%",
                     textAlign: "start",
-                    padding: "8px 10px",
+                    padding: "var(--space-2) var(--space-3)",
                     borderRadius: "var(--radius-sm)",
                     background: value === opt.value ? "var(--color-brand-soft)" : "transparent",
                     color: value === opt.value ? "var(--color-brand-primary)" : "var(--color-foreground-secondary)",
                     border: "none",
                     cursor: "pointer",
-                    fontSize: "13px",
+                    fontSize: "var(--text-sm)",
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px",
+                    gap: "var(--space-2)",
                     fontFamily: "inherit",
-                    transition: "background 0.1s",
+                    transition: "background var(--transition-fast)",
+                    overflow: "hidden",
+                    boxSizing: "border-box",
                   }}
                   onMouseEnter={(e) => {
                     if (value !== opt.value) e.currentTarget.style.background = "var(--color-brand-surface)";
@@ -173,7 +177,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
                   }}
                 >
                   {renderIcon && renderIcon(opt.value)}
-                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1, minWidth: 0 }}>
                     {opt.label}
                   </span>
                 </button>

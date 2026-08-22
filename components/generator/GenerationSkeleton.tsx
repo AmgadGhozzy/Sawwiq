@@ -40,10 +40,10 @@ export default function GenerationSkeleton() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.3 }}
-        style={{ display: "flex", flexDirection: "column", gap: "24px" }}
+        style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}
       >
         {/* Rotating status message */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "8px 0" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)", padding: "var(--space-2) 0" }}>
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ repeat: Infinity, duration: 1.8, ease: "linear" }}
@@ -60,7 +60,7 @@ export default function GenerationSkeleton() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.2 }}
-              style={{ fontSize: "13px", fontWeight: 600, color: "var(--color-foreground-disabled)", margin: 0 }}
+              style={{ fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-foreground-disabled)", margin: 0 }}
             >
               {LOADING_MESSAGES[msgIdx]}
             </motion.p>
@@ -68,7 +68,7 @@ export default function GenerationSkeleton() {
         </div>
 
         {/* Title skeleton */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
           <Pulse width="60%" />
           <Pulse width="40%" delay={120} />
         </div>
@@ -76,15 +76,15 @@ export default function GenerationSkeleton() {
         {/* Hook skeleton */}
         <div style={{
           borderRadius: "var(--radius-lg)", background: "color-mix(in srgb, var(--color-brand-primary) 6%, transparent)",
-          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "16px",
-          display: "flex", flexDirection: "column", gap: "8px",
+          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "var(--space-4)",
+          display: "flex", flexDirection: "column", gap: "var(--space-2)",
         }}>
           <Pulse width="100%" delay={80} />
           <Pulse width="80%" delay={160} />
         </div>
 
         {/* Body skeleton */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
           {[100, 92, 96, 78, 70].map((w, i) => (
             <Pulse key={i} width={`${w}%`} delay={i * 60} />
           ))}
@@ -93,17 +93,17 @@ export default function GenerationSkeleton() {
         {/* CTA skeleton */}
         <div style={{
           borderRadius: "var(--radius-lg)", background: "var(--color-brand-surface)",
-          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "18px",
+          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 10%, transparent)", padding: "var(--space-4)",
           display: "flex", justifyContent: "center",
         }}>
           <Pulse width="50%" delay={200} />
         </div>
 
         {/* Hashtag pills skeleton */}
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
           {[72, 88, 64, 96, 56].map((w, i) => (
             <div key={i} style={{
-              height: "28px", width: `${w}px`, borderRadius: "var(--radius-full)",
+              height: "var(--control-h-sm)", width: `${w}px`, borderRadius: "var(--radius-full)",
               background: "var(--color-border)",
               animation: `pulse 1.8s ease-in-out ${i * 80}ms infinite`,
             }} />

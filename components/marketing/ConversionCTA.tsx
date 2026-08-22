@@ -58,10 +58,10 @@ export default function ConversionCTA() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="cta-glass-card"
+          className="cta-glass-card"
       style={{
         position: "relative",
-        maxWidth: "900px",
+        maxWidth: "var(--container-md)",
         margin: "0 auto",
         borderRadius: "var(--radius-3xl)",
         background: "var(--gradient-surface)",
@@ -69,36 +69,36 @@ export default function ConversionCTA() {
         WebkitBackdropFilter: "blur(60px) saturate(180%)",
         border: "1px solid var(--color-border)",
         boxShadow: "var(--shadow-elevated)",
-        padding: "56px 48px",
+        padding: "var(--space-14) var(--space-12)",
         textAlign: "center",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "24px",
+        gap: "var(--space-6)",
         overflow: "hidden",
-        transition: "box-shadow 0.4s ease, border-color 0.4s ease",
+        transition: "box-shadow var(--transition-normal), border-color var(--transition-normal)",
       }}
     >
       {/* Top glow orb */}
       <div aria-hidden="true" style={{
         position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)",
-        width: "500px", height: "280px", borderRadius: "var(--radius-circle)",
+        width: "var(--orb-size-xl)", height: "var(--orb-size-md)", borderRadius: "var(--radius-circle)",
         background: "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 15%, transparent) 0%, color-mix(in srgb, var(--color-brand-primary) 6%, transparent) 40%, transparent 70%)",
-        filter: "blur(80px)", pointerEvents: "none",
+        filter: "blur(var(--blur-orb))", pointerEvents: "none",
       }} />
 
       {/* Bottom-right ambient glow */}
       <div aria-hidden="true" style={{
         position: "absolute", bottom: "-60px", right: "-40px",
-        width: "350px", height: "250px", borderRadius: "var(--radius-circle)",
+        width: "var(--orb-size-md)", height: "var(--orb-size-sm)", borderRadius: "var(--radius-circle)",
         background: "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 10%, transparent) 0%, transparent 70%)",
-        filter: "blur(70px)", pointerEvents: "none",
+        filter: "blur(var(--blur-lg))", pointerEvents: "none",
       }} />
 
       {/* Glass inner highlight line */}
       <div aria-hidden="true" style={{
         position: "absolute", top: 0, left: "10%", right: "10%", height: "1px",
-        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+        background: "var(--gradient-divider)",
         pointerEvents: "none",
       }} />
 
@@ -110,13 +110,13 @@ export default function ConversionCTA() {
         transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
         style={{
           position: "relative", zIndex: 1,
-          width: "56px", height: "56px", borderRadius: "var(--radius-xl)",
-          background: "color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
+          width: "var(--space-14)", height: "var(--space-14)", borderRadius: "var(--radius-xl)",
+          background: "var(--color-brand-surface)",
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
-          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
+          border: "1px solid var(--color-brand-soft)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 0 40px color-mix(in srgb, var(--color-brand-primary) 20%, transparent), inset 0 1px 0 color-mix(in srgb, var(--color-foreground) 10%, transparent)",
+          boxShadow: "var(--shadow-brand-glow)",
         }}
       >
         <Rocket size={24} color="var(--color-brand-primary)" />
@@ -125,18 +125,18 @@ export default function ConversionCTA() {
       {/* ── Text ── */}
       <div style={{ maxWidth: "500px", position: "relative", zIndex: 1 }}>
         <h3 style={{
-          fontSize: "1.6rem", fontWeight: 800, margin: "0 0 14px",
+          fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", margin: "0 0 var(--space-3-5)",
           color: "var(--color-foreground)",
         }}>
           {t("title")}
         </h3>
-        <p style={{ color: "var(--color-foreground-secondary)", lineHeight: 1.85, fontSize: "14.5px", margin: 0 }}>
+        <p style={{ color: "var(--color-foreground-secondary)", lineHeight: 1.85, fontSize: "var(--text-base)", margin: 0 }}>
           {t("subtitle")}
         </p>
       </div>
 
       {/* ── Email form / Success state ── */}
-      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "440px", marginTop: "4px" }}>
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "440px", marginTop: "var(--space-1)" }}>
         <AnimatePresence mode="wait">
           {submitted ? (
             <motion.div
@@ -144,16 +144,16 @@ export default function ConversionCTA() {
               initial={{ opacity: 0, scale: 0.9, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}
+              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", alignItems: "center" }}
             >
               <div style={{
-                display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                padding: "14px 20px", borderRadius: "var(--radius-xl)",
-                background: "color-mix(in srgb, var(--color-success) 8%, transparent)",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
+                padding: "var(--space-3-5) var(--space-5)", borderRadius: "var(--radius-xl)",
+                background: "var(--color-success-surface)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
-                border: "1px solid color-mix(in srgb, var(--color-success) 20%, transparent)",
-                color: "var(--color-success)", fontSize: "14px", fontWeight: 600, width: "100%",
+                border: "1px solid var(--color-success-border)",
+                color: "var(--color-success)", fontSize: "var(--text-base)", fontWeight: "var(--font-weight-semibold)", width: "100%",
               }}>
                 <Check size={16} />
                 {successMessage}
@@ -164,13 +164,14 @@ export default function ConversionCTA() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   style={{
-                    display: "flex", alignItems: "center", gap: "6px",
-                    padding: "8px 16px", borderRadius: "var(--radius-lg)",
+                    display: "flex", alignItems: "center", gap: "var(--space-1)",
+                    padding: "var(--space-2) var(--space-4)",
+                    borderRadius: "var(--radius-lg)",
                     background: "var(--color-brand-surface)",
                     backdropFilter: "blur(12px)",
                     WebkitBackdropFilter: "blur(12px)",
-                    border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
-                    color: "var(--color-brand-primary)", fontSize: "12px", fontWeight: 600,
+                    border: "1px solid var(--color-brand-soft)",
+                    color: "var(--color-brand-primary)", fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)",
                   }}
                 >
                   <Gift size={13} />
@@ -183,7 +184,7 @@ export default function ConversionCTA() {
               <form onSubmit={handleSubmit} className="cta-form-layout">
                 <div style={{ position: "relative", flex: 1 }}>
                   <Mail size={15} color="var(--color-foreground-secondary)" style={{
-                    position: "absolute", marginInlineStart: "14px", insetInlineStart: 0, top: "50%", transform: "translateY(-50%)",
+                    position: "absolute", marginInlineStart: "var(--space-3-5)", insetInlineStart: 0, top: "50%", transform: "translateY(-50%)",
                     pointerEvents: "none",
                   }} />
                   <input
@@ -197,9 +198,9 @@ export default function ConversionCTA() {
                     disabled={loading}
                     style={{
                       width: "100%",
-                      padding: "14px 42px 14px 14px",
-                      paddingInlineStart: "42px",
-                      paddingInlineEnd: "14px",
+                      padding: "var(--space-3-5) var(--space-10) var(--space-3-5) var(--space-3-5)",
+                      paddingInlineStart: "var(--space-10)",
+                      paddingInlineEnd: "var(--space-3-5)",
                       borderRadius: "var(--radius-lg)",
                       border: focused
                         ? "1.5px solid var(--color-brand-primary)"
@@ -208,14 +209,14 @@ export default function ConversionCTA() {
                       backdropFilter: "blur(12px)",
                       WebkitBackdropFilter: "blur(12px)",
                       color: "var(--color-foreground)",
-                      fontSize: "14px",
+                      fontSize: "var(--text-base)",
                       outline: "none",
                       fontFamily: "inherit",
                       boxSizing: "border-box",
                       boxShadow: focused
                         ? "0 0 0 3px var(--color-brand-surface)"
                         : "none",
-                      transition: "all 0.25s ease",
+                      transition: "var(--transition-normal)",
                       opacity: loading ? 0.6 : 1,
                     }}
                   />
@@ -226,23 +227,23 @@ export default function ConversionCTA() {
                   whileHover={loading ? {} : { y: -2, boxShadow: "var(--shadow-brand)" }}
                   whileTap={loading ? {} : { scale: 0.97 }}
                   style={{
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
-                    padding: "14px 24px",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
+                    padding: "var(--space-3-5) var(--space-6)",
                     borderRadius: "var(--radius-lg)",
                     border: "none",
                     background: loading
                       ? "color-mix(in srgb, var(--color-brand-primary) 40%, transparent)"
                       : "var(--gradient-brand)",
-                    color: "white",
-                    fontWeight: 700,
-                    fontSize: "13.5px",
+                    color: "var(--color-foreground-inverse)",
+                    fontWeight: "var(--font-weight-bold)",
+                    fontSize: "var(--text-sm)",
                     cursor: loading ? "not-allowed" : "pointer",
                     fontFamily: "inherit",
                     letterSpacing: "0.01em",
                     boxShadow: "var(--shadow-brand)",
                     whiteSpace: "nowrap",
                     flexShrink: 0,
-                    transition: "all 0.25s ease",
+                    transition: "var(--transition-normal)",
                   }}
                 >
                   {loading ? (
@@ -258,8 +259,8 @@ export default function ConversionCTA() {
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   style={{
-                    margin: "8px 0 0", fontSize: "12px",
-                    color: "var(--color-danger)", fontWeight: 500, textAlign: "right", // Note: textAlign might need logical prop
+                    margin: "var(--space-2) 0 0", fontSize: "var(--text-sm)",
+                    color: "var(--color-danger)", fontWeight: "var(--font-weight-medium)", textAlign: "right", // Note: textAlign might need logical prop
                   }}
                   role="alert"
                 >
@@ -273,13 +274,13 @@ export default function ConversionCTA() {
 
       {/* ── Trust indicators ── */}
       <div style={{
-        display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap",
-        position: "relative", zIndex: 1, marginTop: "4px",
+        display: "flex", gap: "var(--space-5)", justifyContent: "center", flexWrap: "wrap",
+        position: "relative", zIndex: 1, marginTop: "var(--space-1)",
       }}>
         {[t("trustEarlyAccess"), t("trustFreeTemplates"), t("trustNoCommitment")].map((item) => (
           <span key={item} style={{
-            display: "flex", alignItems: "center", gap: "6px",
-            fontSize: "11px", fontWeight: 600, color: "var(--color-foreground-secondary)",
+            display: "flex", alignItems: "center", gap: "var(--space-1)",
+            fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-foreground-secondary)",
           }}>
             <div style={{
               width: "5px", height: "5px", borderRadius: "var(--radius-circle)",
@@ -295,22 +296,19 @@ export default function ConversionCTA() {
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .cta-glass-card:hover {
-          border-color: color-mix(in srgb, var(--color-brand-primary) 25%, transparent) !important;
-          box-shadow:
-            0 24px 80px -12px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 color-mix(in srgb, var(--color-foreground) 18%, transparent),
-            0 0 160px color-mix(in srgb, var(--color-brand-primary) 10%, transparent) !important;
+          border-color: var(--color-brand-soft) !important;
+          box-shadow: var(--shadow-brand-glow) !important;
         }
 
         .cta-form-layout {
           display: flex;
-          gap: 10px;
+          gap: var(--space-2-5);
           width: 100%;
         }
 
         html[dir='ltr'] .rtl-flip {
            transform: rotate(180deg);
-        }
+         }
 
         /* Mobile: stack form vertically, badges wrap naturally */
         @media (max-width: 640px) {
@@ -319,7 +317,7 @@ export default function ConversionCTA() {
           }
 
           .cta-badges-row {
-            gap: 8px !important;
+            gap: var(--space-2) !important;
           }
         }
       `}</style>
