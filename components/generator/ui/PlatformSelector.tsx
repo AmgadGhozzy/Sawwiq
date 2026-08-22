@@ -15,9 +15,12 @@ export function PlatformSelector({ platforms, selected, onChange, disabled }: Pl
     <div
       style={{
         display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         gap: "8px",
         overflowX: "auto",
         padding: "4px 2px",
+        width: "100%",
         scrollbarWidth: "none",
         msOverflowStyle: "none",
         WebkitOverflowScrolling: "touch",
@@ -45,9 +48,7 @@ export function PlatformSelector({ platforms, selected, onChange, disabled }: Pl
               background: isActive 
                 ? "color-mix(in srgb, var(--color-brand-primary) 32%, transparent)" 
                 : "var(--color-surface)",
-              border: isActive 
-                ? "1.5px solid var(--color-brand-primary)" 
-                : "1px solid var(--color-border)",
+              border: "none",
               boxShadow: isActive 
                 ? "0 0 16px color-mix(in srgb, var(--color-brand-primary) 28%, transparent)" 
                 : "var(--shadow-card)",
