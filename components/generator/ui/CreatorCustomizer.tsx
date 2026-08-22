@@ -63,19 +63,24 @@ export function CreatorCustomizer({
         />
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-        <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+        <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center" }}>
           {t("originalityLabel")}
         </span>
         <div style={{
-          display: "flex",
+          display: "inline-flex",
+          width: "fit-content",
+          maxWidth: "100%",
           background: "var(--color-surface)",
           borderRadius: "24px",
-          padding: "4px",
+          padding: "3px",
           border: "1px solid var(--color-border)",
           position: "relative",
           gap: "2px",
+          overflowX: "auto",
+          scrollbarWidth: "none",
         }}>
+          <style>{`div::-webkit-scrollbar { display: none; }`}</style>
           {originalityOptions.map((opt) => {
             const isActive = selectedOriginality === opt.value;
             return (
@@ -85,11 +90,10 @@ export function CreatorCustomizer({
                 disabled={disabled}
                 onClick={() => onOriginalityChange(opt.value)}
                 style={{
-                  flex: 1,
-                  display: "flex",
+                  display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  padding: "6px 8px",
+                  padding: "5px 10px",
                   borderRadius: "20px",
                   border: "none",
                   background: "transparent",
@@ -101,6 +105,7 @@ export function CreatorCustomizer({
                   fontFamily: "inherit",
                   position: "relative",
                   zIndex: 1,
+                  whiteSpace: "nowrap",
                 }}
               >
                 <span>{opt.label}</span>
