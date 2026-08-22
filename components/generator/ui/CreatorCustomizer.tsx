@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { DropdownPill } from "./ContextPills";
 
 interface Option {
   value: string;
@@ -23,37 +24,6 @@ interface CreatorCustomizerProps {
   disabled?: boolean;
 }
 
-function ChipGrid({ options, selected, onChange, disabled }: { options: Option[], selected: string, onChange: (val: string) => void, disabled?: boolean }) {
-  return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-      {options.map((opt) => {
-        const isActive = selected === opt.value;
-        return (
-          <button
-            key={opt.value}
-            type="button"
-            disabled={disabled}
-            onClick={() => onChange(opt.value)}
-            style={{
-              padding: "6px 12px",
-              borderRadius: "8px",
-              background: isActive ? "rgba(139, 92, 246, 0.15)" : "rgba(255, 255, 255, 0.02)",
-              border: isActive ? "1px solid rgba(139, 92, 246, 0.4)" : "1px solid rgba(255, 255, 255, 0.05)",
-              color: isActive ? "#a78bfa" : "rgba(255, 255, 255, 0.6)",
-              fontSize: "12px",
-              fontWeight: isActive ? 600 : 400,
-              cursor: disabled ? "not-allowed" : "pointer",
-              transition: "all 0.2s ease",
-            }}
-          >
-            {opt.label}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
 export function CreatorCustomizer({
   personas, selectedPersona, onPersonaChange,
   styles, selectedStyle, onStyleChange,
@@ -61,33 +31,36 @@ export function CreatorCustomizer({
   disabled
 }: CreatorCustomizerProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
+    <div
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "16px",
-        padding: "16px",
+        gap: "12px",
+        padding: "12px",
         background: "rgba(255, 255, 255, 0.01)",
-        borderRadius: "16px",
+        borderRadius: "12px",
         border: "1px solid rgba(255, 255, 255, 0.05)",
-        marginTop: "12px",
-        overflow: "hidden"
+        marginTop: "4px",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>شخصية الكاتب</span>
-        <ChipGrid options={personas} selected={selectedPersona} onChange={onPersonaChange} disabled={disabled} />
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+        <DropdownPill 
+          label="الشخصية" 
+          options={personas} 
+          value={selectedPersona} 
+          onChange={onPersonaChange} 
+          disabled={disabled} 
+        />
+        <DropdownPill 
+          label="الأسلوب" 
+          options={styles} 
+          value={selectedStyle} 
+          onChange={onStyleChange} 
+          disabled={disabled} 
+        />
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>أسلوب الطرح</span>
-        <ChipGrid options={styles} selected={selectedStyle} onChange={onStyleChange} disabled={disabled} />
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
         <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>مستوى الابتكار</span>
         <div style={{
           display: "flex",
@@ -123,6 +96,6 @@ export function CreatorCustomizer({
           })}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

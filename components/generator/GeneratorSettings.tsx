@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { Settings2, ChevronDown } from "lucide-react";
 
 import {
   ARABIC_STYLES,
@@ -80,6 +81,8 @@ export default function GeneratorSettings({
   disabled,
 }: GeneratorSettingsProps) {
   const t = useTranslations("GeneratorSettings");
+  
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const registeredPlatforms = useMemo(() => getRegisteredPlatforms(), []);
   const availablePersonas = useMemo(() => getAvailablePersonas(), []);
@@ -177,7 +180,7 @@ export default function GeneratorSettings({
       {/* order 3 is reserved for GeneratorInput */}
 
       {/* 4. Quick Context Pills (Order: 4) */}
-      <div style={{ order: 4, display: "flex", gap: "8px", flexWrap: "wrap" }} dir="rtl">
+      <div style={{ order: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }} dir="rtl">
         <DropdownPill
           label={getTranslated("arabicStyleLabel", "اللهجة")}
           value={arabicStyle}
@@ -190,7 +193,7 @@ export default function GeneratorSettings({
         />
 
         <DropdownPill
-          label={getTranslated("formatLabel", "صيغة المحتوى")}
+          label={getTranslated("formatLabel", "الصيغة")}
           value={currentFormatEntry?.id || availableFormats[0]?.id || "post"}
           onChange={handleFormatSelect}
           disabled={disabled}
@@ -201,60 +204,100 @@ export default function GeneratorSettings({
         />
 
         {!isCreatorMode && onMarketingObjectiveChange && (
-          <DropdownPill
-            label={getTranslated("objectiveLabel", "الهدف")}
-            value={marketingObjective || supportedObjectives[0] || "awareness"}
-            onChange={onMarketingObjectiveChange}
-            disabled={disabled}
-            options={supportedObjectives.map((obj) => ({
-              value: obj,
-              label: getTranslated(`objectives.${obj}`, obj),
-            }))}
-          />
+          <div style={{ gridColumn: "span 2" }}>
+            <DropdownPill
+              label={getTranslated("objectiveLabel", "الهدف التسويقي")}
+              value={marketingObjective || supportedObjectives[0] || "awareness"}
+              onChange={onMarketingObjectiveChange}
+              disabled={disabled}
+              options={supportedObjectives.map((obj) => ({
+                value: obj,
+                label: getTranslated(`objectives.${obj}`, obj),
+              }))}
+            />
+          </div>
         )}
         
         {isCreatorMode && onIntentChange && (
-          <DropdownPill
-            label={getTranslated("intentLabel", "الهدف")}
-            value={intent}
-            onChange={(val) => onIntentChange(val as CreatorIntent)}
-            disabled={disabled}
-            options={CREATOR_INTENTS.map((it) => ({
-              value: it,
-              label: getTranslated(`intents.${it}`, it),
-            }))}
-          />
+          <div style={{ gridColumn: "span 2" }}>
+            <DropdownPill
+              label={getTranslated("intentLabel", "الهدف من المنشور")}
+              value={intent}
+              onChange={(val) => onIntentChange(val as CreatorIntent)}
+              disabled={disabled}
+              options={CREATOR_INTENTS.map((it) => ({
+                value: it,
+                label: getTranslated(`intents.${it}`, it),
+              }))}
+            />
+          </div>
         )}
       </div>
 
       {/* 5. Creator Mode Deep Customization (Order: 5) */}
-      <AnimatePresence>
-        {isCreatorMode && onPersonaChange && onStyleChange && onOriginalityChange && (
-          <div style={{ order: 5 }} dir="rtl">
-            <CreatorCustomizer
-              personas={availablePersonas.map((p) => ({ value: p.id, label: getTranslated(`personas.${p.id}`, p.name) }))}
-              selectedPersona={persona?.id || availablePersonas[0]?.id || "developer"}
-              onPersonaChange={(pId) => {
-                const p = availablePersonas.find((per) => per.id === pId);
-                if (p) onPersonaChange({ id: p.id, name: p.name, interests: p.interests, characteristics: p.characteristics });
-              }}
-              
-              styles={availableStyles.map((s) => ({ value: s.id, label: getTranslated(`styles.${s.id}`, s.name) }))}
-              selectedStyle={styleConfig?.id || availableStyles[0]?.id || "mystery"}
-              onStyleChange={(sId) => {
-                const s = availableStyles.find((st) => st.id === sId);
-                if (s) onStyleChange({ id: s.id, name: s.name, characteristics: s.characteristics });
-              }}
-
-              originalityOptions={ORIGINALITY_LEVELS.map((o) => ({ value: o, label: getTranslated(`originalityLevels.${o}`, o) }))}
-              selectedOriginality={originality}
-              onOriginalityChange={(val) => onOriginalityChange(val as OriginalityLevel)}
-
-              disabled={disabled}
+      {isCreatorMode && onPersonaChange && onStyleChange && onOriginalityChange && (
+        <div style={{ order: 5, marginTop: "4px" }} dir="rtl">
+          <button
+            type="button"
+            onClick={() => setAdvancedOpen(!advancedOpen)}
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "8px 12px",
+              background: "transparent",
+              border: "none",
+              color: "rgba(255,255,255,0.7)",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <Settings2 size={14} style={{ opacity: 0.8 }} />
+              <span>إعدادات متقدمة</span>
+            </div>
+            <ChevronDown 
+              size={14} 
+              style={{ transform: advancedOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} 
             />
-          </div>
-        )}
-      </AnimatePresence>
+          </button>
+          
+          <AnimatePresence>
+            {advancedOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                style={{ overflow: "hidden" }}
+              >
+                <CreatorCustomizer
+                  personas={availablePersonas.map((p) => ({ value: p.id, label: getTranslated(`personas.${p.id}`, p.name) }))}
+                  selectedPersona={persona?.id || availablePersonas[0]?.id || "developer"}
+                  onPersonaChange={(pId) => {
+                    const p = availablePersonas.find((per) => per.id === pId);
+                    if (p) onPersonaChange({ id: p.id, name: p.name, interests: p.interests, characteristics: p.characteristics });
+                  }}
+                  
+                  styles={availableStyles.map((s) => ({ value: s.id, label: getTranslated(`styles.${s.id}`, s.name) }))}
+                  selectedStyle={styleConfig?.id || availableStyles[0]?.id || "mystery"}
+                  onStyleChange={(sId) => {
+                    const s = availableStyles.find((st) => st.id === sId);
+                    if (s) onStyleChange({ id: s.id, name: s.name, characteristics: s.characteristics });
+                  }}
+
+                  originalityOptions={ORIGINALITY_LEVELS.map((o) => ({ value: o, label: getTranslated(`originalityLevels.${o}`, o) }))}
+                  selectedOriginality={originality}
+                  onOriginalityChange={(val) => onOriginalityChange(val as OriginalityLevel)}
+
+                  disabled={disabled}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 }

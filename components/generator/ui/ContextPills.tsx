@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 interface Option {
   value: string;
@@ -35,30 +36,35 @@ export function DropdownPill({ label, value, options, onChange, disabled }: Drop
   if (!selectedOption) return null;
 
   return (
-    <div style={{ position: "relative" }} ref={dropdownRef}>
+    <div style={{ position: "relative", width: "100%" }} ref={dropdownRef}>
       <button
         type="button"
         disabled={disabled}
         onClick={() => setIsOpen(!isOpen)}
         style={{
+          width: "100%",
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
           gap: "6px",
-          padding: "6px 12px",
-          borderRadius: "99px",
+          padding: "8px 12px",
+          borderRadius: "10px",
           background: "rgba(255, 255, 255, 0.03)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
-          color: "rgba(255, 255, 255, 0.8)",
+          color: "#fff",
           fontSize: "12px",
-          fontWeight: 500,
           cursor: disabled ? "not-allowed" : "pointer",
           opacity: disabled ? 0.5 : 1,
           transition: "all 0.2s",
         }}
       >
-        <span>{label}:</span>
-        <span style={{ color: "#fff" }}>{selectedOption.label}</span>
-        <span style={{ fontSize: "10px", marginLeft: "4px", opacity: 0.6 }}>▾</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", overflow: "hidden" }}>
+          <span style={{ color: "rgba(255,255,255,0.5)", whiteSpace: "nowrap" }}>{label}:</span>
+          <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500 }}>
+            {selectedOption.label}
+          </span>
+        </div>
+        <ChevronDown size={14} style={{ opacity: 0.5, flexShrink: 0, transform: isOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
       </button>
 
       <AnimatePresence>
@@ -72,6 +78,7 @@ export function DropdownPill({ label, value, options, onChange, disabled }: Drop
               position: "absolute",
               top: "100%",
               right: 0,
+              left: 0,
               marginTop: "4px",
               background: "rgba(9, 9, 11, 0.95)",
               backdropFilter: "blur(12px)",
@@ -79,12 +86,13 @@ export function DropdownPill({ label, value, options, onChange, disabled }: Drop
               borderRadius: "12px",
               padding: "4px",
               zIndex: 50,
-              minWidth: "160px",
               boxShadow: "0 10px 40px -10px rgba(0,0,0,0.5)",
               maxHeight: "200px",
               overflowY: "auto",
+              scrollbarWidth: "none",
             }}
           >
+            <style>{`div::-webkit-scrollbar { display: none; }`}</style>
             {options.map((opt) => (
               <button
                 key={opt.value}

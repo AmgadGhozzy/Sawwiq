@@ -240,13 +240,20 @@ export default function ContentGenerator() {
               initial={{ opacity: 0, x: 16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              style={DARK_CARD}
+              style={{
+                ...DARK_CARD,
+                maxHeight: "calc(100vh - 80px)",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden"
+              }}
             >
               {/* Card Header */}
               <div style={{
                 display: "flex", alignItems: "center", gap: "12px",
-                padding: "18px 22px 16px",
+                padding: "16px 20px",
                 borderBottom: "1px solid rgba(255,255,255,0.04)",
+                flexShrink: 0
               }}>
                 <div style={{
                   width: "34px", height: "34px", borderRadius: "10px", flexShrink: 0,
@@ -283,8 +290,15 @@ export default function ContentGenerator() {
               </div>
 
               {/* Form */}
-              <div style={{ padding: "18px 22px 22px" }}>
-                <form onSubmit={handleSubmit(doGenerate)} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <div style={{
+                padding: "16px",
+                overflowY: "auto",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                flex: 1
+              }}>
+                <style>{`div::-webkit-scrollbar { display: none; }`}</style>
+                <form onSubmit={handleSubmit(doGenerate)} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   <Controller
                     name="rawInput"
                     control={control}
