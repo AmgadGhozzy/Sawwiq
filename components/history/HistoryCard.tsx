@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import { Copy, Check, ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { PlatformIcon } from "@/components/ui/PlatformIcon";
@@ -21,7 +21,8 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
 
   const { platform, contentType, arabicStyle, prompt, aiResponse, createdAt } = item;
 
-  const handleCopy = async () => {
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     const textToCopy = [
       aiResponse.title,
       "",
@@ -76,11 +77,13 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
         layout
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
+        onClick={() => setExpanded((v) => !v)}
         style={{
           borderRadius: "var(--radius-lg)",
           background: "var(--color-surface)",
           border: "1px solid var(--color-border)",
           overflow: "hidden",
+          cursor: "pointer",
           transition: "border-color 0.2s ease, box-shadow 0.2s ease",
         }}
       >
@@ -88,16 +91,14 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
           {/* Header tags */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
-              {/* Platform badge */}
+              {/* Platform icon only */}
               <span style={{
-                display: "inline-flex", alignItems: "center", gap: "5px",
-                padding: "3px 8px", borderRadius: "6px",
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                width: "24px", height: "24px", borderRadius: "6px",
                 background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)",
                 border: "1px solid var(--color-border)",
-                fontSize: "11px", fontWeight: 600, color: "var(--color-foreground)",
               }}>
                 <PlatformIcon platform={platform} />
-                <span style={{ textTransform: "capitalize" }}>{platform.replace("_", " ")}</span>
               </span>
 
               {/* Content type */}
@@ -217,7 +218,7 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             )}
           </AnimatePresence>
 
-          {/* Footer Actions — Sleek Linear/Raycast Style */}
+          {/* Footer Actions */}
           <div style={{
             display: "flex",
             alignItems: "center",
@@ -230,7 +231,10 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             {onOpen && (
               <button
                 type="button"
-                onClick={onOpen}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpen();
+                }}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -258,68 +262,35 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
               </button>
             )}
 
-            {/* Secondary Actions */}
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              {/* Copy button */}
-              <button
-                type="button"
-                onClick={handleCopy}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "5px",
-                  padding: "6px 10px",
-                  borderRadius: "var(--radius-md)",
-                  background: copied ? "color-mix(in srgb, var(--color-success) 12%, transparent)" : "transparent",
-                  border: "1px solid var(--color-border)",
-                  color: copied ? "var(--color-success)" : "var(--color-foreground-secondary)",
-                  fontSize: "12px",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  transition: "all 0.15s ease",
-                  fontFamily: "inherit",
-                }}
-                onMouseEnter={(e) => {
-                  if (!copied) e.currentTarget.style.background = "color-mix(in srgb, var(--color-foreground) 4%, transparent)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!copied) e.currentTarget.style.background = "transparent";
-                }}
-              >
-                {copied ? <Check size={13} /> : <Copy size={13} />}
-                <span>{copied ? t("copied") : t("copyContent")}</span>
-              </button>
-
-              {/* Expand/collapse button */}
-              <button
-                type="button"
-                onClick={() => setExpanded((v) => !v)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  padding: "6px 10px",
-                  borderRadius: "var(--radius-md)",
-                  background: "transparent",
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-foreground-secondary)",
-                  fontSize: "12px",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  transition: "all 0.15s ease",
-                  fontFamily: "inherit",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "color-mix(in srgb, var(--color-foreground) 4%, transparent)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!copied) e.currentTarget.style.background = "transparent";
-                }}
-              >
-                <span>{expanded ? t("collapse") : t("expand")}</span>
-                {expanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
-              </button>
-            </div>
+            {/* Copy button */}
+            <button
+              type="button"
+              onClick={handleCopy}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+                padding: "6px 10px",
+                borderRadius: "var(--radius-md)",
+                background: copied ? "color-mix(in srgb, var(--color-success) 12%, transparent)" : "transparent",
+                border: "1px solid var(--color-border)",
+                color: copied ? "var(--color-success)" : "var(--color-foreground-secondary)",
+                fontSize: "12px",
+                fontWeight: 500,
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                fontFamily: "inherit",
+              }}
+              onMouseEnter={(e) => {
+                if (!copied) e.currentTarget.style.background = "color-mix(in srgb, var(--color-foreground) 4%, transparent)";
+              }}
+              onMouseLeave={(e) => {
+                if (!copied) e.currentTarget.style.background = "transparent";
+              }}
+            >
+              {copied ? <Check size={13} /> : <Copy size={13} />}
+              <span>{copied ? t("copied") : t("copyContent")}</span>
+            </button>
           </div>
 
         </div>
