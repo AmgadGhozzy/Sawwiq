@@ -9,7 +9,14 @@
     "lint": "eslint",
     "test": "tsx --test __tests__/**/*.test.ts",
     "test:scenarios": "tsx scripts/test-scenarios.ts",
-    "benchmark": "tsx scripts/run-benchmark.ts"
+    "benchmark": "tsx scripts/run-benchmark.ts",
+    "benchmark:baseline": "tsx scripts/run-benchmark.ts --semantic --save-output --save-baseline",
+    "benchmark:candidate": "tsx scripts/run-benchmark.ts --semantic --compare-baseline --save-output",
+    "video:benchmark": "tsx scripts/run-video-benchmark.ts",
+    "video:benchmark:verbose": "tsx scripts/run-video-benchmark.ts --verbose",
+    "exp:003": "tsx scripts/EXP-003-video-structure.ts",
+    "exp:003:dry": "tsx scripts/EXP-003-video-structure.ts --dry-run",
+    "exp:004": "tsx scripts/EXP-004-creator-quality.ts"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^5.2.0",
@@ -17,13 +24,15 @@
     "@hookform/resolvers": "^5.9.1",
     "@supabase/supabase-js": "^2.112.3",
     "@vercel/analytics": "^2.0.1",
-    "framer-motion": "^13.1.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^13.1.1",
     "lucide-react": "^1.32.0",
     "next": "16.3.1",
     "next-intl": "^4.13.7",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.85.0",
+    "tailwind-merge": "^3.6.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

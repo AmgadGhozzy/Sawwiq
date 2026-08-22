@@ -1,11 +1,16 @@
 import { Type } from "@google/genai";
 import { z } from "zod";
-export {
-  generateInputSchema as inputSchema,
+import {
+  generateInputSchema,
   generatedContentSchema,
 } from "@/lib/validation/generation";
 
-export type InputDTO = z.infer<typeof inputSchema>;
+export {
+  generateInputSchema as inputSchema,
+  generatedContentSchema,
+};
+
+export type InputDTO = z.infer<typeof generateInputSchema>;
 
 // We keep this local because it imports from @google/genai, 
 // and we don't want to bundle @google/genai in Next.js client code.

@@ -23,7 +23,7 @@ Deno.serve(async (req: Request) => {
 
   try {
     // 2. Environment Variables
-    const geminiApiKey = Deno.env.get("GEMINI_API_KEY");
+    const geminiApiKey = Deno.env.get("VERTEX_AI_API_KEY");
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseServiceKey = Deno.env.get("SERVICE_ROLE_KEY") ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
@@ -96,7 +96,10 @@ Deno.serve(async (req: Request) => {
     }
 
     // 8. Gemini Generation (with timeout + retry)
-    const ai = new GoogleGenAI({ apiKey: geminiApiKey });
+    const ai = new GoogleGenAI({
+      vertexai: true,
+      apiKey: geminiApiKey,
+    });
     const systemPrompt = buildSystemPrompt(input);
 
     const GENERATION_TIMEOUT_MS = 30_000;
@@ -183,6 +186,17 @@ Deno.serve(async (req: Request) => {
     }
 
     // 9. Persist & Increment (Awaited + Atomic RPC)
+    const metadata = {
+      format: input.format,
+      mode: input.mode,
+      marketingObjective: input.marketingObjective,
+      persona: input.persona,
+      style: input.style,
+      intent: input.intent,
+      originality: input.originality,
+      ...(input.metadata || {}),
+    };
+
     const { data: rpcResult, error: rpcError } = await supabase.rpc("persist_generation", {
       p_session_id: session.id,
       p_request_id: requestId,
@@ -191,6 +205,7 @@ Deno.serve(async (req: Request) => {
       p_content_type: input.contentType,
       p_arabic_style: input.arabicStyle,
       p_ai_response: result,
+      p_metadata: metadata,
     });
 
     if (rpcError || !rpcResult) {

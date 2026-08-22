@@ -1,0 +1,182 @@
+[
+  {
+    "id": "vid_A01",
+    "group": "A_scene_count",
+    "name": "3-scene script — standard TikTok",
+    "category": "valid",
+    "description": "Well-formed 3-scene short video, all rules satisfied.",
+    "opts": { "expectedSceneCount": 3, "expectedTotalDuration": 15 },
+    "body": "[Scene 1 - 3s]\n[Visual] منتج بارز في المقدمة مع خلفية نظيفة\n[Audio] هل تبحث عن أفضل منتج؟ جربه الآن!\n[Scene 2 - 7s]\n[Visual] مميزات المنتج تُعرض بشكل تسلسلي\n[Audio] جودة عالية، سعر لا يُنافَس، وتوصيل سريع لباب منزلك\n[Scene 3 - 5s]\n[Visual] لوحة CTA مع رابط وخصم\n[Audio] اطلب الآن واحصل على خصم 20%!"
+  },
+  {
+    "id": "vid_A02",
+    "group": "A_scene_count",
+    "name": "5-scene script — extended format",
+    "category": "valid",
+    "description": "Well-formed 5-scene script with all required components.",
+    "opts": { "expectedSceneCount": 5, "expectedTotalDuration": 30 },
+    "body": "[Scene 1 - 3s]\n[Visual] Hook shot: وجه شخص مندهش\n[Audio] لن تصدق ما ستراه!\n[Scene 2 - 6s]\n[Visual] المشكلة: مخزن فوضوي\n[Audio] هل تعاني من الفوضى يومياً؟\n[Scene 3 - 7s]\n[Visual] الحل: المنتج يُنظّم كل شيء\n[Audio] اكتشف الحل الذي غيّر حياة آلاف الأشخاص\n[Scene 4 - 9s]\n[Visual] مقارنة قبل وبعد\n[Audio] قبل المنتج: 40 دقيقة ضائعة. بعد المنتج: 5 دقائق فقط!\n[Scene 5 - 5s]\n[Visual] CTA مع العرض والرابط\n[Audio] اطلب الآن والتوصيل مجاني!"
+  },
+  {
+    "id": "vid_A03",
+    "group": "A_scene_count",
+    "name": "7-scene script — more scenes than 5",
+    "category": "valid",
+    "description": "7 scenes, valid structure, tests scene count flexibility.",
+    "opts": {},
+    "body": "[Scene 1 - 2s]\n[Visual] Hook سريع\n[Audio] انتبه!\n[Scene 2 - 5s]\n[Visual] المشكلة\n[Audio] هذه المشكلة تُكلفك يومياً\n[Scene 3 - 5s]\n[Visual] الحل\n[Audio] الحل بين يديك\n[Scene 4 - 5s]\n[Visual] الميزة الأولى\n[Audio] سرعة لا تُصدَّق\n[Scene 5 - 5s]\n[Visual] الميزة الثانية\n[Audio] جودة مضمونة\n[Scene 6 - 5s]\n[Visual] شهادات العملاء\n[Audio] آلاف العملاء الراضين\n[Scene 7 - 3s]\n[Visual] CTA\n[Audio] اطلب الآن!"
+  },
+  {
+    "id": "vid_B01",
+    "group": "B_duration",
+    "name": "15-second script",
+    "category": "valid",
+    "description": "Total duration exactly 15s, 3 scenes.",
+    "opts": { "expectedTotalDuration": 15 },
+    "body": "[Scene 1 - 3s]\n[Visual] Hook سريع\n[Audio] لا تضيع وقتك!\n[Scene 2 - 7s]\n[Visual] عرض المنتج\n[Audio] المنتج الذي يوفر 3 ساعات أسبوعياً\n[Scene 3 - 5s]\n[Visual] CTA\n[Audio] احجز الآن!"
+  },
+  {
+    "id": "vid_B02",
+    "group": "B_duration",
+    "name": "30-second script",
+    "category": "valid",
+    "description": "Total duration exactly 30s, 4 scenes.",
+    "opts": { "expectedTotalDuration": 30 },
+    "body": "[Scene 1 - 3s]\n[Visual] Hook: مشهد مثير\n[Audio] هل تعلم أنك تخسر يومياً؟\n[Scene 2 - 9s]\n[Visual] المشكلة موضّحة بصريًا\n[Audio] الوقت الضائع يُكلفك أكثر مما تتخيل\n[Scene 3 - 12s]\n[Visual] الحل والمميزات\n[Audio] مع منتجنا ستوفر الوقت والجهد والمال\n[Scene 4 - 6s]\n[Visual] CTA واضح\n[Audio] سجّل الآن والخدمة مجانية لأول 30 يوم!"
+  },
+  {
+    "id": "vid_B03",
+    "group": "B_duration",
+    "name": "60-second script",
+    "category": "valid",
+    "description": "Total duration 60s, 6 scenes, longer format.",
+    "opts": { "expectedTotalDuration": 60 },
+    "body": "[Scene 1 - 3s]\n[Visual] Hook\n[Audio] اسمع هذا!\n[Scene 2 - 10s]\n[Visual] المشكلة\n[Audio] مشكلة تواجه الجميع\n[Scene 3 - 12s]\n[Visual] القصة\n[Audio] قصة حقيقية من عميل واجه نفس المشكلة\n[Scene 4 - 15s]\n[Visual] الحل التفصيلي\n[Audio] كيف حوّل منتجنا حياته\n[Scene 5 - 12s]\n[Visual] الميزات والسعر\n[Audio] مميزات لا تُعدّ بسعر لا يُنافس\n[Scene 6 - 8s]\n[Visual] CTA\n[Audio] لا تفوت الفرصة، اطلب الآن!"
+  },
+  {
+    "id": "vid_C01",
+    "group": "C_timing",
+    "name": "Scene 1 exactly 3s — boundary valid",
+    "category": "edge",
+    "description": "Scene 1 duration = exactly 3s. Must pass (not fail hook rule).",
+    "opts": {},
+    "body": "[Scene 1 - 3s]\n[Visual] Hook بالضبط 3 ثواني\n[Audio] ثلاث ثواني تكفي لتشدّك\n[Scene 2 - 7s]\n[Visual] المحتوى الرئيسي\n[Audio] هذا هو ما كنت تنتظره"
+  },
+  {
+    "id": "vid_C02",
+    "group": "C_timing",
+    "name": "Scene 1 exactly 1s — ultra-short hook",
+    "category": "edge",
+    "description": "Scene 1 = 1s. Structurally valid (≤3s), tests extreme edge.",
+    "opts": {},
+    "body": "[Scene 1 - 1s]\n[Visual] ثانية واحدة فقط\n[Audio] انتبه!\n[Scene 2 - 9s]\n[Visual] كل التفاصيل هنا\n[Audio] المنتج الذي غيّر كل شيء"
+  },
+  {
+    "id": "vid_C03",
+    "group": "C_timing",
+    "name": "Scene 1 = 5s — INVALID hook duration",
+    "category": "invalid",
+    "description": "Scene 1 = 5s, must trigger HOOK_DURATION, then repair to 3s.",
+    "opts": {},
+    "body": "[Scene 1 - 5s]\n[Visual] Hook طويل جدًا\n[Audio] ماذا لو أخبرتك أن لديك 5 ثواني لتفاجئني؟\n[Scene 2 - 5s]\n[Visual] المحتوى الرئيسي\n[Audio] إليك ما تبحث عنه"
+  },
+  {
+    "id": "vid_C04",
+    "group": "C_timing",
+    "name": "Scene 1 = 7s — INVALID, repair compensates Scene 2",
+    "category": "invalid",
+    "description": "Scene 1 = 7s triggers HOOK_DURATION, repair moves 4s to Scene 2.",
+    "opts": {},
+    "body": "[Scene 1 - 7s]\n[Visual] مشهد طويل\n[Audio] كان يا ما كان في يوم من الأيام، منتج غيّر كل شيء...\n[Scene 2 - 3s]\n[Visual] المنتج\n[Audio] إليك الحل"
+  },
+  {
+    "id": "vid_D01",
+    "group": "D_components",
+    "name": "Missing [Visual] in Scene 2 — INVALID",
+    "category": "invalid",
+    "description": "Scene 2 has no [Visual] line. Should trigger MISSING_VISUAL.",
+    "opts": {},
+    "body": "[Scene 1 - 3s]\n[Visual] Hook مرئي\n[Audio] انتبه لهذا!\n[Scene 2 - 7s]\n[Audio] المنتج الأفضل بلا منافس"
+  },
+  {
+    "id": "vid_D02",
+    "group": "D_components",
+    "name": "Missing [Audio] in Scene 1 — INVALID",
+    "category": "invalid",
+    "description": "Scene 1 has no [Audio] direction. Should trigger MISSING_AUDIO.",
+    "opts": {},
+    "body": "[Scene 1 - 2s]\n[Visual] صورة جذابة فقط بدون صوت\n[Scene 2 - 8s]\n[Visual] المنتج\n[Audio] الجودة تتكلم عن نفسها"
+  },
+  {
+    "id": "vid_D03",
+    "group": "D_components",
+    "name": "All scenes have Visual and Audio — VALID",
+    "category": "valid",
+    "description": "Confirms all scenes with complete directions pass.",
+    "opts": {},
+    "body": "[Scene 1 - 2s]\n[Visual] Hook بصري\n[Audio] صوت Hook\n[Scene 2 - 6s]\n[Visual] عرض المنتج\n[Audio] وصف المنتج\n[Scene 3 - 4s]\n[Visual] CTA بصري\n[Audio] دعوة للعمل"
+  },
+  {
+    "id": "vid_D04",
+    "group": "D_components",
+    "name": "Single scene only — VALID (minimal)",
+    "category": "edge",
+    "description": "Only 1 scene. Parser must handle this gracefully.",
+    "opts": {},
+    "body": "[Scene 1 - 3s]\n[Visual] كل شيء في مشهد واحد\n[Audio] منتج واحد يكفي"
+  },
+  {
+    "id": "vid_E01",
+    "group": "E_invalid",
+    "name": "Duplicate scene index (two Scene 2s) — INVALID",
+    "category": "invalid",
+    "description": "Scene 2 appears twice, should trigger DUPLICATE_SCENE.",
+    "opts": {},
+    "body": "[Scene 1 - 3s]\n[Visual] Hook\n[Audio] Hook audio\n[Scene 2 - 5s]\n[Visual] First scene 2\n[Audio] First audio 2\n[Scene 2 - 4s]\n[Visual] Duplicate scene 2\n[Audio] Duplicate audio 2"
+  },
+  {
+    "id": "vid_E02",
+    "group": "E_invalid",
+    "name": "Non-sequential scenes (1, 3, 4) — INVALID",
+    "category": "invalid",
+    "description": "Scene 2 missing from sequence. Should trigger SCENE_NUMBERING.",
+    "opts": {},
+    "body": "[Scene 1 - 3s]\n[Visual] Hook\n[Audio] Hook audio\n[Scene 3 - 5s]\n[Visual] Skipped scene 2\n[Audio] Audio 3\n[Scene 4 - 4s]\n[Visual] Scene 4\n[Audio] Audio 4"
+  },
+  {
+    "id": "vid_E03",
+    "group": "E_invalid",
+    "name": "No scene headers at all — UNPARSEABLE",
+    "category": "invalid",
+    "description": "Plain text with no [Scene X] headers. Must return parseable=false.",
+    "opts": {},
+    "body": "هذا محتوى تسويقي عادي بدون هيكل فيديو.\nالمنتج ممتاز والجودة عالية جدًا.\nتواصل معنا لمعرفة السعر."
+  },
+  {
+    "id": "vid_E04",
+    "group": "E_invalid",
+    "name": "Scene count mismatch (3 requested, 5 generated) — INVALID",
+    "category": "invalid",
+    "description": "User requested 3 scenes but LLM produced 5. SCENE_COUNT_MISMATCH.",
+    "opts": { "expectedSceneCount": 3 },
+    "body": "[Scene 1 - 2s]\n[Visual] Hook\n[Audio] Hook\n[Scene 2 - 5s]\n[Visual] V2\n[Audio] A2\n[Scene 3 - 5s]\n[Visual] V3\n[Audio] A3\n[Scene 4 - 4s]\n[Visual] V4\n[Audio] A4\n[Scene 5 - 4s]\n[Visual] CTA\n[Audio] CTA"
+  },
+  {
+    "id": "vid_F01",
+    "group": "F_ambiguous",
+    "name": "Em-dash separator variant — VALID",
+    "category": "edge",
+    "description": "Uses [Scene 1 — 3s] with em-dash. Parser must handle all dash types.",
+    "opts": {},
+    "body": "[Scene 1 — 3s]\n[Visual] Hook بعلامة em-dash\n[Audio] هل تعرف الفرق بين الشرطات؟\n[Scene 2 – 7s]\n[Visual] المحتوى مع en-dash\n[Audio] الجودة في التفاصيل"
+  },
+  {
+    "id": "vid_F02",
+    "group": "F_ambiguous",
+    "name": "Mixed language script (AR/EN) — VALID",
+    "category": "ambiguous",
+    "description": "Script with Arabic body and English technical terms. Should parse and validate.",
+    "opts": {},
+    "body": "[Scene 1 - 3s]\n[Visual] Product Hero Shot — خلفية بيضاء نظيفة\n[Audio] هل تبحث عن Best Quality؟\n[Scene 2 - 7s]\n[Visual] Feature Highlight — 5000mAh Battery\n[Audio] بطارية تدوم يوم كامل بدون شحن — 5000 ملي أمبير\n[Scene 3 - 5s]\n[Visual] Call to Action Button\n[Audio] اطلب الآن — Free Shipping!"
+  }
+]

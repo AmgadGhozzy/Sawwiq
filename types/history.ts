@@ -1,6 +1,8 @@
+import type { ContentMode, PersonaConfig, StyleConfig, CreatorIntent, OriginalityLevel } from "./content";
+
 // ---------------------------------------------------------------------------
 // Generation History Types
-// No `prompt` field — we don't expose user input to the client unnecessarily.
+// We expose the `prompt` and configuration fields so users can regenerate from history.
 // ---------------------------------------------------------------------------
 
 export interface GenerationHistoryItem {
@@ -8,6 +10,15 @@ export interface GenerationHistoryItem {
   platform: string;
   contentType: string;
   arabicStyle: string;
+  prompt: string;
+  format?: string;
+  mode?: ContentMode;
+  marketingObjective?: string;
+  persona?: PersonaConfig;
+  style?: StyleConfig;
+  intent?: CreatorIntent;
+  originality?: OriginalityLevel;
+  metadata?: Record<string, unknown>;
   aiResponse: {
     title: string;
     hook: string;
@@ -15,7 +26,7 @@ export interface GenerationHistoryItem {
     callToAction: string;
     hashtags: string[];
   };
-  createdAt: string; // ISO 8601 from DB — formatted by the frontend
+  createdAt: string; // ISO 8601 from DB - formatted by the frontend
 }
 
 export interface HistoryResponse {

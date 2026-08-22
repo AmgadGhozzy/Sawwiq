@@ -16,6 +16,7 @@
 // ---------------------------------------------------------------------------
 
 import { GoogleGenAI, Type } from "@google/genai";
+import { createVertexAIClient } from "../ai/googleClient";
 import { z } from "zod";
 import type { GeneratedContent, ArabicStyle, ContentType } from "@/types/content";
 
@@ -34,6 +35,17 @@ const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
   real_estate: "وصف عقار",
   short_video_script: "سكريبت فيديو",
   marketing_email: "إيميل تسويقي",
+  social_post: "منشور تفاعلي",
+  advertisement: "إعلان ممول",
+  product_description: "وصف منتج",
+  real_estate_listing: "وصف عقاري",
+  video_script: "سكريبت فيديو",
+  email: "رسالة تسويقية",
+  thread: "سلسلة تدوينات",
+  carousel_copy: "كاروسيل شرائح",
+  story_sequence: "سلسلة ستوري",
+  ugc_script: "فيديو UGC",
+  landing_page_copy: "نص صفحة هبوط",
 };
 import type {
   TestCaseExpectations,
@@ -388,13 +400,13 @@ export async function evaluateSemantic(
   arabicStyle: ArabicStyle,
   criteria: string[]
 ): Promise<SemanticScore | null> {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.VERTEX_AI_API_KEY;
   if (!apiKey) return null;
 
   const model = process.env.GEMINI_MODEL ?? "gemini-3.1-flash-lite";
 
   try {
-    const client = new GoogleGenAI({ apiKey });
+    const client = createVertexAIClient(apiKey);
 
     const judgePrompt = buildJudgePrompt(
       output,

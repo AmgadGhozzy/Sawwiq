@@ -72,11 +72,9 @@ export async function POST(
     // Defense-in-depth: strip session identity from body before forwarding.
     // The Edge Function reads session exclusively from x-session-token header,
     // but we remove these keys to prevent regression-based identity spoofing.
-    if (body && typeof body === "object") {
-      const sanitized = body as Record<string, unknown>;
-      delete sanitized.session_token;
-      delete sanitized.sessionToken;
-    }
+    const sanitized = (body && typeof body === "object" ? body : {}) as Record<string, unknown>;
+    delete sanitized.session_token;
+    delete sanitized.sessionToken;
 
     const sessionToken = request.cookies.get(sessionConfig.cookieName)?.value;
     if (!sessionToken) {
@@ -103,7 +101,7 @@ export async function POST(
           Authorization: `Bearer ${anonKey}`,
           apikey: anonKey,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(sanitized),
         signal: controller.signal,
       });
       clearTimeout(timeoutId);

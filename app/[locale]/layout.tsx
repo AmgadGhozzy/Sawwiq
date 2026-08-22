@@ -124,13 +124,14 @@ export default async function RootLayout({
   ];
 
   return (
-    <html lang={locale} dir={dir} className={fontClass}>
+    <html lang={locale} dir={dir} className={fontClass} suppressHydrationWarning>
       <head>
         {schemas.map((schema, i) => (
           <JsonLd key={i} data={schema} />
         ))}
       </head>
       <body
+        suppressHydrationWarning
         style={{
           minHeight: "100vh",
           fontFamily,

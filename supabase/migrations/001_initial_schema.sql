@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS generations (
     content_type TEXT        NOT NULL,
     arabic_style TEXT        NOT NULL,
     ai_response  JSONB       NOT NULL,
+    metadata     JSONB       DEFAULT '{}'::jsonb NOT NULL,
     created_at   TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 

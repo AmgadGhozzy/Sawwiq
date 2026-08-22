@@ -48,6 +48,7 @@ export interface Database {
           content_type: string;
           arabic_style: string;
           ai_response: Json;
+          metadata: Json;
           created_at: string;
         };
         Insert: {
@@ -59,6 +60,7 @@ export interface Database {
           content_type: string;
           arabic_style: string;
           ai_response: Json;
+          metadata?: Json | undefined;
           created_at?: string | undefined;
         };
         Update: {
@@ -70,6 +72,7 @@ export interface Database {
           content_type?: string | undefined;
           arabic_style?: string | undefined;
           ai_response?: Json | undefined;
+          metadata?: Json | undefined;
           created_at?: string | undefined;
         };
         Relationships: [];
@@ -113,6 +116,7 @@ export interface Database {
           p_content_type: string;
           p_arabic_style: string;
           p_ai_response: Json;
+          p_metadata?: Json;
         };
         Returns: Json;
       };

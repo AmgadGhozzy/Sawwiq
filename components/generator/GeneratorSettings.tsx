@@ -1,182 +1,257 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { AnimatePresence } from "framer-motion";
+
 import {
   ARABIC_STYLES,
-  CONTENT_TYPES,
-  PLATFORMS,
-  type ArabicStyle, type ContentType, type Platform,
+  type ArabicStyle,
+  type ContentMode,
+  type ContentType,
+  type ContentTypeV2,
+  type Platform,
+  type PlatformV2,
+  type PersonaConfig,
+  type StyleConfig,
+  type CreatorIntent,
+  type OriginalityLevel,
+  CREATOR_INTENTS,
+  ORIGINALITY_LEVELS,
 } from "@/types/content";
-import { PlatformIcon } from "@/components/ui/PlatformIcon";
+import {
+  getRegisteredPlatforms,
+  getFormatsForPlatform,
+  getFormat,
+  normalizePlatform,
+} from "@/lib/content/formats";
+import { getAvailablePersonas } from "@/lib/content/personas";
+import { getAvailableStyles } from "@/lib/content/styles";
+
+import { ModeSwitcher } from "./ui/ModeSwitcher";
+import { PlatformSelector } from "./ui/PlatformSelector";
+import { DropdownPill } from "./ui/ContextPills";
+import { CreatorCustomizer } from "./ui/CreatorCustomizer";
 
 interface GeneratorSettingsProps {
-  platform: Platform;
+  mode?: ContentMode;
+  platform: Platform | PlatformV2 | string;
+  format?: string;
+  contentType?: ContentType | ContentTypeV2 | string;
   arabicStyle: ArabicStyle;
-  contentType: ContentType;
-  onPlatformChange: (platform: Platform) => void;
+  marketingObjective?: string;
+  persona?: PersonaConfig;
+  styleConfig?: StyleConfig;
+  intent?: CreatorIntent;
+  originality?: OriginalityLevel;
+  onModeChange?: (mode: ContentMode) => void;
+  onPlatformChange: (platform: any) => void;
+  onFormatChange?: (formatId: string) => void;
+  onContentTypeChange?: (type: any) => void;
   onArabicStyleChange: (style: ArabicStyle) => void;
-  onContentTypeChange: (type: ContentType) => void;
+  onMarketingObjectiveChange?: (obj: string) => void;
+  onPersonaChange?: (persona: PersonaConfig) => void;
+  onStyleChange?: (style: StyleConfig) => void;
+  onIntentChange?: (intent: CreatorIntent) => void;
+  onOriginalityChange?: (orig: OriginalityLevel) => void;
   disabled?: boolean;
 }
-
-// ---------------------------------------------------------------------------
-// Custom Dropdown Component
-// ---------------------------------------------------------------------------
-
-function CustomDropdown<T extends string>({
-  label,
-  value,
-  options,
-  onChange,
-  disabled,
-  renderIcon,
-}: {
-  label: string;
-  value: T;
-  options: { value: T; label: string }[];
-  onChange: (v: T) => void;
-  disabled?: boolean;
-  renderIcon?: (val: T) => React.ReactNode;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const selectedOption = options.find((o) => o.value === value) || options[0];
-
-  useEffect(() => {
-    // If the provided value isn't valid, automatically select the first valid option
-    if (!options.find((o) => o.value === value) && options.length > 0) {
-      onChange(options[0].value);
-    }
-  }, [value, options, onChange]);
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }} ref={dropdownRef}>
-      <label style={{ fontSize: "11px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-        {label}
-      </label>
-      <div style={{ position: "relative" }}>
-        <button
-          type="button"
-          onClick={() => !disabled && setIsOpen(!isOpen)}
-          disabled={disabled}
-          style={{
-            width: "100%", borderRadius: "var(--radius-md)",
-            border: isOpen ? "1.5px solid var(--color-brand-primary)" : "1.5px solid var(--color-border)",
-            background: "var(--color-surface)",
-            padding: "9px 12px 9px 36px",
-            fontSize: "13px", color: "var(--color-foreground)",
-            display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px",
-            cursor: disabled ? "not-allowed" : "pointer",
-            opacity: disabled ? 0.4 : 1,
-            boxShadow: isOpen ? "0 0 0 3px var(--color-brand-surface)" : "var(--shadow-card)",
-            transition: "all 0.2s ease",
-            fontFamily: "inherit", boxSizing: "border-box", textAlign: "right", // Note: textAlign might need logical prop
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            {renderIcon && renderIcon(selectedOption.value)}
-            <span>{selectedOption.label}</span>
-          </div>
-          <ChevronDown size={14} color="var(--color-brand-primary)" style={{ position: "absolute", left: "12px", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }} />
-        </button>
-
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -5, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -5, scale: 0.95 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              style={{
-                position: "absolute", top: "100%", right: 0, left: 0, marginTop: "6px",
-                background: "color-mix(in srgb, var(--color-background) 90%, transparent)",
-                backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
-                border: "1px solid var(--color-border)",
-                borderRadius: "var(--radius-lg)",
-                padding: "6px", zIndex: 50,
-                boxShadow: "var(--shadow-elevated)",
-                maxHeight: "220px", overflowY: "auto",
-                scrollbarWidth: "none", msOverflowStyle: "none"
-              }}
-            >
-              <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-              {options.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => {
-                    onChange(opt.value);
-                    setIsOpen(false);
-                  }}
-                  style={{
-                    width: "100%", textAlign: "right",
-                    padding: "8px 10px", borderRadius: "var(--radius-sm)",
-                    background: value === opt.value ? "var(--color-brand-soft)" : "transparent",
-                    color: value === opt.value ? "var(--color-brand-primary)" : "var(--color-foreground-secondary)",
-                    border: "none", cursor: "pointer",
-                    fontSize: "13px", display: "flex", alignItems: "center", gap: "8px",
-                    fontFamily: "inherit", transition: "background 0.1s"
-                  }}
-                  onMouseEnter={(e) => {
-                    if (value !== opt.value) e.currentTarget.style.background = "var(--color-brand-surface)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (value !== opt.value) e.currentTarget.style.background = "transparent";
-                  }}
-                >
-                  {renderIcon && renderIcon(opt.value)}
-                  {opt.label}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-
-
 
 export default function GeneratorSettings({
-  platform, arabicStyle, contentType, onPlatformChange, onArabicStyleChange, onContentTypeChange, disabled,
+  mode = "marketing",
+  platform,
+  format,
+  arabicStyle,
+  marketingObjective,
+  persona,
+  styleConfig,
+  intent = "insight",
+  originality = "balanced",
+  onModeChange,
+  onPlatformChange,
+  onFormatChange,
+  onContentTypeChange,
+  onArabicStyleChange,
+  onMarketingObjectiveChange,
+  onPersonaChange,
+  onStyleChange,
+  onIntentChange,
+  onOriginalityChange,
+  disabled,
 }: GeneratorSettingsProps) {
   const t = useTranslations("GeneratorSettings");
 
+  const registeredPlatforms = useMemo(() => getRegisteredPlatforms(), []);
+  const availablePersonas = useMemo(() => getAvailablePersonas(), []);
+  const availableStyles = useMemo(() => getAvailableStyles(), []);
+
+  const currentPlatform = normalizePlatform(platform);
+
+  const availableFormats = useMemo(() => {
+    return getFormatsForPlatform(currentPlatform);
+  }, [currentPlatform]);
+
+  const currentFormatEntry = useMemo(() => {
+    if (format) {
+      const found = availableFormats.find((f) => f.id === format);
+      if (found) return found;
+    }
+    return availableFormats[0];
+  }, [availableFormats, format]);
+
+  const supportedObjectives = useMemo(() => {
+    return currentFormatEntry?.supportedObjectives || [
+      "awareness",
+      "engagement",
+      "sales",
+      "traffic",
+      "leads",
+      "messages",
+    ];
+  }, [currentFormatEntry]);
+
+  const handlePlatformSelect = (newPlatform: string) => {
+    onPlatformChange(newPlatform);
+    const newFormats = getFormatsForPlatform(newPlatform);
+    if (newFormats.length > 0) {
+      const defaultFormat = newFormats[0];
+      if (onFormatChange) onFormatChange(defaultFormat.id);
+      if (onContentTypeChange && defaultFormat.supportedContentTypes.length > 0) {
+        onContentTypeChange(defaultFormat.supportedContentTypes[0]);
+      }
+      if (onMarketingObjectiveChange) {
+        if (!defaultFormat.supportedObjectives.includes((marketingObjective as any) || "awareness")) {
+          onMarketingObjectiveChange(defaultFormat.supportedObjectives[0] || "awareness");
+        }
+      }
+    }
+  };
+
+  const handleFormatSelect = (newFormatId: string) => {
+    if (onFormatChange) onFormatChange(newFormatId);
+    const selectedFormat = getFormat(currentPlatform, newFormatId);
+    if (selectedFormat) {
+      if (onContentTypeChange && selectedFormat.supportedContentTypes.length > 0) {
+        onContentTypeChange(selectedFormat.supportedContentTypes[0]);
+      }
+      if (onMarketingObjectiveChange) {
+        if (!selectedFormat.supportedObjectives.includes((marketingObjective as any) || "awareness")) {
+          onMarketingObjectiveChange(selectedFormat.supportedObjectives[0] || "awareness");
+        }
+      }
+    }
+  };
+
+  const getTranslated = (path: string, fallback: string) => {
+    try {
+      return t(path);
+    } catch {
+      return fallback;
+    }
+  };
+
+  const isCreatorMode = mode === "creator" || mode === "personal_creator";
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-      <CustomDropdown
-        label={t("platformLabel")}
-        value={platform} onChange={onPlatformChange} disabled={disabled}
-        options={PLATFORMS.map((p) => ({ value: p, label: t(`platforms.${p}`) }))}
-        renderIcon={(val: string) => <PlatformIcon platform={val as Platform} />}
-      />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-        <CustomDropdown
-          label={t("contentTypeLabel")}
-          value={contentType} onChange={onContentTypeChange} disabled={disabled}
-          options={CONTENT_TYPES.map((type) => ({ value: type, label: t(`contentTypes.${type}`) }))}
-        />
-        <CustomDropdown
-          label={t("arabicStyleLabel")}
-          value={arabicStyle} onChange={onArabicStyleChange} disabled={disabled}
-          options={ARABIC_STYLES.map((s) => ({ value: s, label: t(`arabicStyles.${s}`) }))}
+    <div style={{ display: "contents" }} dir="rtl">
+      {/* 1. Mode Switcher (Order: 1) */}
+      <div style={{ order: 1, marginBottom: "4px" }} dir="rtl">
+        {onModeChange && (
+          <ModeSwitcher mode={mode} onChange={onModeChange} disabled={disabled} />
+        )}
+      </div>
+
+      {/* 2. Platform Selector (Order: 2) */}
+      <div style={{ order: 2 }} dir="rtl">
+        <PlatformSelector
+          platforms={registeredPlatforms}
+          selected={currentPlatform}
+          onChange={handlePlatformSelect}
+          disabled={disabled}
         />
       </div>
+
+      {/* order 3 is reserved for GeneratorInput */}
+
+      {/* 4. Quick Context Pills (Order: 4) */}
+      <div style={{ order: 4, display: "flex", gap: "8px", flexWrap: "wrap" }} dir="rtl">
+        <DropdownPill
+          label={getTranslated("arabicStyleLabel", "اللهجة")}
+          value={arabicStyle}
+          onChange={(val) => onArabicStyleChange(val as ArabicStyle)}
+          disabled={disabled}
+          options={ARABIC_STYLES.map((s) => ({
+            value: s,
+            label: getTranslated(`arabicStyles.${s}`, s),
+          }))}
+        />
+
+        <DropdownPill
+          label={getTranslated("formatLabel", "صيغة المحتوى")}
+          value={currentFormatEntry?.id || availableFormats[0]?.id || "post"}
+          onChange={handleFormatSelect}
+          disabled={disabled}
+          options={availableFormats.map((f) => ({
+            value: f.id,
+            label: getTranslated(`formats.${f.id}`, f.label),
+          }))}
+        />
+
+        {!isCreatorMode && onMarketingObjectiveChange && (
+          <DropdownPill
+            label={getTranslated("objectiveLabel", "الهدف")}
+            value={marketingObjective || supportedObjectives[0] || "awareness"}
+            onChange={onMarketingObjectiveChange}
+            disabled={disabled}
+            options={supportedObjectives.map((obj) => ({
+              value: obj,
+              label: getTranslated(`objectives.${obj}`, obj),
+            }))}
+          />
+        )}
+        
+        {isCreatorMode && onIntentChange && (
+          <DropdownPill
+            label={getTranslated("intentLabel", "الهدف")}
+            value={intent}
+            onChange={(val) => onIntentChange(val as CreatorIntent)}
+            disabled={disabled}
+            options={CREATOR_INTENTS.map((it) => ({
+              value: it,
+              label: getTranslated(`intents.${it}`, it),
+            }))}
+          />
+        )}
+      </div>
+
+      {/* 5. Creator Mode Deep Customization (Order: 5) */}
+      <AnimatePresence>
+        {isCreatorMode && onPersonaChange && onStyleChange && onOriginalityChange && (
+          <div style={{ order: 5 }} dir="rtl">
+            <CreatorCustomizer
+              personas={availablePersonas.map((p) => ({ value: p.id, label: getTranslated(`personas.${p.id}`, p.name) }))}
+              selectedPersona={persona?.id || availablePersonas[0]?.id || "developer"}
+              onPersonaChange={(pId) => {
+                const p = availablePersonas.find((per) => per.id === pId);
+                if (p) onPersonaChange({ id: p.id, name: p.name, interests: p.interests, characteristics: p.characteristics });
+              }}
+              
+              styles={availableStyles.map((s) => ({ value: s.id, label: getTranslated(`styles.${s.id}`, s.name) }))}
+              selectedStyle={styleConfig?.id || availableStyles[0]?.id || "mystery"}
+              onStyleChange={(sId) => {
+                const s = availableStyles.find((st) => st.id === sId);
+                if (s) onStyleChange({ id: s.id, name: s.name, characteristics: s.characteristics });
+              }}
+
+              originalityOptions={ORIGINALITY_LEVELS.map((o) => ({ value: o, label: getTranslated(`originality.${o}`, o) }))}
+              selectedOriginality={originality}
+              onOriginalityChange={(val) => onOriginalityChange(val as OriginalityLevel)}
+
+              disabled={disabled}
+            />
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,6 +9,8 @@ import { generateInputSchema, type GenerateInputDTO } from "@/lib/validation/gen
 import type { GeneratedContent, GenerateResponse } from "@/types/content";
 import { ERROR_CODES } from "@/types/content";
 import { useTranslations } from "next-intl";
+import { useHistoryContext } from "@/components/history/HistoryContext";
+import { normalizePlatform, getFormatsForPlatform } from "@/lib/content/formats";
 
 import GeneratorInput from "./GeneratorInput";
 import GeneratorSettings from "./GeneratorSettings";
@@ -39,6 +41,9 @@ const scrollToCTA = () => {
 export default function ContentGenerator() {
   const t = useTranslations("ContentGenerator");
   const tErrors = useTranslations("Errors");
+  
+  const { items, setItems, selectedHistoryIndex, setSelectedHistoryIndex } = useHistoryContext();
+
   const [viewState, setViewState] = useState<ViewState>("empty");
   const [result, setResult] = useState<GeneratedContent | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -53,13 +58,79 @@ export default function ContentGenerator() {
     formState: { errors, isValid },
   } = useForm<GenerateInputDTO>({
     resolver: zodResolver(generateInputSchema),
-    defaultValues: { platform: "facebook", contentType: "interactive_post", arabicStyle: "egyptian_colloquial", rawInput: "" },
+    defaultValues: {
+      mode: "marketing",
+      platform: "instagram",
+      format: "post",
+      contentType: "interactive_post",
+      arabicStyle: "egyptian_colloquial",
+      marketingObjective: "awareness",
+      intent: "insight",
+      originality: "balanced",
+      persona: {
+        id: "developer",
+        name: "المبرمج والتقني",
+      },
+      style: {
+        id: "mystery",
+        name: "الغموض والمفارقة",
+      },
+      rawInput: "",
+    },
     mode: "onChange",
   });
+
+  // Watch for history selection
+  useEffect(() => {
+    if (selectedHistoryIndex !== null && items[selectedHistoryIndex]) {
+      const historyItem = items[selectedHistoryIndex];
+      setResult({
+        title: historyItem.aiResponse.title,
+        hook: historyItem.aiResponse.hook,
+        body: historyItem.aiResponse.body,
+        callToAction: historyItem.aiResponse.callToAction,
+        hashtags: historyItem.aiResponse.hashtags,
+      });
+
+      // Normalize platform (e.g. x_twitter -> x)
+      const normPlatform = normalizePlatform(historyItem.platform);
+
+      // Determine the format: either stored in history, or inferred from contentType & platform
+      let format = historyItem.format;
+      if (!format) {
+        const platformFormats = getFormatsForPlatform(normPlatform);
+        const matchingFormat = platformFormats.find((f) =>
+          f.supportedContentTypes.includes(historyItem.contentType as any)
+        );
+        format = matchingFormat ? matchingFormat.id : platformFormats[0]?.id || "post";
+      }
+
+      // Update form values to match the history item
+      reset({
+        mode: (historyItem.mode as any) || "marketing",
+        platform: normPlatform as any,
+        format: format,
+        contentType: historyItem.contentType as any,
+        arabicStyle: historyItem.arabicStyle as any,
+        marketingObjective: historyItem.marketingObjective || "awareness",
+        persona: historyItem.persona || {
+          id: "developer",
+          name: "المبرمج والتقني",
+        },
+        style: historyItem.style || {
+          id: "mystery",
+          name: "الغموض والمفارقة",
+        },
+        rawInput: historyItem.prompt || "",
+      });
+      setViewState("result");
+    }
+  }, [selectedHistoryIndex, items, reset]);
 
   const doGenerate = useCallback(async (data: GenerateInputDTO) => {
     setLastInput(data);
     setViewState("loading");
+    setSelectedHistoryIndex(null); // Clear history selection when generating new
     setApiError(null);
     setResult(null);
 
@@ -84,6 +155,25 @@ export default function ContentGenerator() {
         return;
       }
 
+      const newItem = {
+        id: (resultData as any).meta?.requestId || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+        platform: data.platform as any,
+        contentType: data.contentType as any,
+        arabicStyle: data.arabicStyle as any,
+        prompt: data.rawInput,
+        format: data.format,
+        mode: data.mode as any,
+        marketingObjective: data.marketingObjective,
+        persona: data.persona,
+        style: data.style,
+        intent: data.intent as any,
+        originality: data.originality as any,
+        aiResponse: resultData.data,
+        createdAt: new Date().toISOString(),
+      };
+
+      setItems([newItem, ...items.filter((i) => i.id !== newItem.id)]);
+      setSelectedHistoryIndex(0);
       setResult(resultData.data);
       setRemainingGenerations(resultData.remainingGenerations);
       setViewState("result");
@@ -92,7 +182,7 @@ export default function ContentGenerator() {
       setViewState("empty");
       console.error("Submission error:", error);
     }
-  }, [tErrors]);
+  }, [items, setItems, setSelectedHistoryIndex, tErrors]);
 
   const handleRegenerate = useCallback(() => doGenerate(lastInput ?? getValues()), [doGenerate, lastInput, getValues]);
 
@@ -100,8 +190,41 @@ export default function ContentGenerator() {
     setResult(null);
     setApiError(null);
     setViewState("empty");
-    reset({ platform: "instagram", contentType: "sponsored_ad", arabicStyle: "white_arabic", rawInput: "" });
-  }, [reset]);
+    setSelectedHistoryIndex(null);
+    reset({
+      mode: "marketing",
+      platform: "instagram",
+      format: "post",
+      contentType: "interactive_post",
+      arabicStyle: "white_arabic",
+      marketingObjective: "awareness",
+      intent: "insight",
+      originality: "balanced",
+      persona: {
+        id: "developer",
+        name: "المبرمج والتقني",
+      },
+      style: {
+        id: "mystery",
+        name: "الغموض والمفارقة",
+      },
+      rawInput: "",
+    });
+  }, [reset, setSelectedHistoryIndex]);
+
+  const handleNextHistory = useCallback(() => {
+    const currentIndex = selectedHistoryIndex !== null ? selectedHistoryIndex : 0;
+    if (currentIndex < items.length - 1) {
+      setSelectedHistoryIndex(currentIndex + 1);
+    }
+  }, [selectedHistoryIndex, items.length, setSelectedHistoryIndex]);
+
+  const handlePrevHistory = useCallback(() => {
+    const currentIndex = selectedHistoryIndex !== null ? selectedHistoryIndex : 0;
+    if (currentIndex > 0) {
+      setSelectedHistoryIndex(currentIndex - 1);
+    }
+  }, [selectedHistoryIndex, setSelectedHistoryIndex]);
 
   const isLocked = viewState === "locked";
 
@@ -177,25 +300,81 @@ export default function ContentGenerator() {
                   />
 
                   <Controller
-                    name="platform"
+                    name="mode"
                     control={control}
-                    render={({ field: pf }) => (
+                    render={({ field: mf }) => (
                       <Controller
-                        name="arabicStyle"
+                        name="platform"
                         control={control}
-                        render={({ field: sf }) => (
+                        render={({ field: pf }) => (
                           <Controller
-                            name="contentType"
+                            name="format"
                             control={control}
-                            render={({ field: tf }) => (
-                              <GeneratorSettings
-                                platform={pf.value}
-                                arabicStyle={sf.value}
-                                contentType={tf.value}
-                                onPlatformChange={pf.onChange}
-                                onArabicStyleChange={sf.onChange}
-                                onContentTypeChange={tf.onChange}
-                                disabled={viewState === "loading" || isLocked}
+                            render={({ field: ff }) => (
+                              <Controller
+                                name="contentType"
+                                control={control}
+                                render={({ field: cf }) => (
+                                  <Controller
+                                    name="arabicStyle"
+                                    control={control}
+                                    render={({ field: sf }) => (
+                                      <Controller
+                                        name="marketingObjective"
+                                        control={control}
+                                        render={({ field: of }) => (
+                                            <Controller
+                                              name="persona"
+                                              control={control}
+                                              render={({ field: perf }) => (
+                                                <Controller
+                                                  name="style"
+                                                  control={control}
+                                                  render={({ field: stf }) => (
+                                                    <Controller
+                                                      name="intent"
+                                                      control={control}
+                                                      render={({ field: itf }) => (
+                                                        <Controller
+                                                          name="originality"
+                                                          control={control}
+                                                          render={({ field: ogf }) => (
+                                                            <GeneratorSettings
+                                                              mode={mf.value}
+                                                              platform={pf.value}
+                                                              format={ff.value}
+                                                              contentType={cf.value}
+                                                              arabicStyle={sf.value}
+                                                              marketingObjective={of.value}
+                                                              persona={perf.value}
+                                                              styleConfig={stf.value}
+                                                              intent={itf.value as any}
+                                                              originality={ogf.value as any}
+                                                              onModeChange={mf.onChange}
+                                                              onPlatformChange={pf.onChange}
+                                                              onFormatChange={ff.onChange}
+                                                              onContentTypeChange={cf.onChange}
+                                                              onArabicStyleChange={sf.onChange}
+                                                              onMarketingObjectiveChange={of.onChange}
+                                                              onPersonaChange={perf.onChange}
+                                                              onStyleChange={stf.onChange}
+                                                              onIntentChange={itf.onChange}
+                                                              onOriginalityChange={ogf.onChange}
+                                                              disabled={viewState === "loading" || isLocked}
+                                                            />
+                                                          )}
+                                                        />
+                                                      )}
+                                                    />
+                                                  )}
+                                                />
+                                              )}
+                                            />
+                                        )}
+                                      />
+                                    )}
+                                  />
+                                )}
                               />
                             )}
                           />
@@ -204,47 +383,49 @@ export default function ContentGenerator() {
                     )}
                   />
 
-                  {apiError && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      style={{
-                        padding: "10px 14px", borderRadius: "var(--radius-md)",
-                        background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
-                        color: "var(--color-danger)", fontSize: "13px", fontWeight: 500,
-                      }}
-                      role="alert"
-                    >
-                      {apiError}
-                    </motion.div>
-                  )}
+                  <div style={{ order: 10, display: "flex", flexDirection: "column", gap: "16px" }}>
+                    {apiError && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        style={{
+                          padding: "10px 14px", borderRadius: "var(--radius-md)",
+                          background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 15%, transparent)",
+                          color: "var(--color-danger)", fontSize: "13px", fontWeight: 500,
+                        }}
+                        role="alert"
+                      >
+                        {apiError}
+                      </motion.div>
+                    )}
 
-                  {isLocked ? (
-                    <motion.button
-                      type="button"
-                      onClick={scrollToCTA}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
-                      whileTap={{ scale: 0.97 }}
-                      style={{
-                        display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                        width: "100%", padding: "13px", borderRadius: "var(--radius-lg)", border: "none",
-                        background: "var(--gradient-brand)",
-                        color: "white", fontWeight: 700, fontSize: "14px",
-                        cursor: "pointer", fontFamily: "inherit",
-                        boxShadow: "var(--shadow-brand)",
-                      }}
-                    >
-                      <Sparkles size={15} />
-                      {t("lockedButton")}
-                    </motion.button>
-                  ) : (
-                    <GenerateButton
-                      loading={viewState === "loading"}
-                      disabled={!isValid || viewState === "loading"}
-                    />
-                  )}
+                    {isLocked ? (
+                      <motion.button
+                        type="button"
+                        onClick={scrollToCTA}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
+                        whileTap={{ scale: 0.97 }}
+                        style={{
+                          display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                          width: "100%", padding: "13px", borderRadius: "var(--radius-lg)", border: "none",
+                          background: "var(--gradient-brand)",
+                          color: "white", fontWeight: 700, fontSize: "14px",
+                          cursor: "pointer", fontFamily: "inherit",
+                          boxShadow: "var(--shadow-brand)",
+                        }}
+                      >
+                        <Sparkles size={15} />
+                        {t("lockedButton")}
+                      </motion.button>
+                    ) : (
+                      <GenerateButton
+                        loading={viewState === "loading"}
+                        disabled={!isValid || viewState === "loading"}
+                      />
+                    )}
+                  </div>
                 </form>
               </div>
             </motion.div>
@@ -333,7 +514,7 @@ export default function ContentGenerator() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.25 }}
-                style={{ ...DARK_CARD, padding: "28px" }}
+                style={{ ...DARK_CARD, padding: "28px", flex: 1, display: "flex", flexDirection: "column" }}
               >
                 <GenerationSkeleton />
               </motion.div>
@@ -347,12 +528,22 @@ export default function ContentGenerator() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.4 }}
+                style={{ flex: 1, display: "flex", flexDirection: "column" }}
               >
                 <GenerationResult
                   content={result}
                   loading={false}
                   onRegenerate={handleRegenerate}
                   onStartOver={handleStartOver}
+                  isHistoryView={selectedHistoryIndex !== null && selectedHistoryIndex > 0}
+                  onNextHistory={handleNextHistory}
+                  onPrevHistory={handlePrevHistory}
+                  hasNextHistory={
+                    (selectedHistoryIndex !== null ? selectedHistoryIndex : 0) < items.length - 1
+                  }
+                  hasPrevHistory={
+                    (selectedHistoryIndex !== null ? selectedHistoryIndex : 0) > 0
+                  }
                 />
               </motion.div>
             )}

@@ -3,14 +3,15 @@ import { getSupabaseAdmin } from "@/lib/supabase/server";
 import { sessionConfig } from "@/lib/config";
 import type { HistoryResponse, HistoryErrorResponse, GenerationHistoryItem } from "@/types/history";
 import type { Json } from "@/lib/supabase/types";
+import { normalizePlatform } from "@/lib/content/formats";
 
 // ---------------------------------------------------------------------------
 // GET /api/history?limit=20
 //
 // Security model:
-//   1. Session identity comes ONLY from the httpOnly cookie — never from
+//   1. Session identity comes ONLY from the httpOnly cookie - never from
 //      query params, headers, or body sent by the client.
-//   2. We do NOT return `prompt` — the UI doesn't need it.
+//   2. We DO return `prompt` so the UI can reconstruct the settings panel and regenerate.
 //   3. The `limit` query param is clamped server-side to [1, 50].
 //   4. Uses service-role client which bypasses RLS (RLS blocks anon access).
 // ---------------------------------------------------------------------------
@@ -57,7 +58,7 @@ export async function GET(
     const limit = clampLimit(request.nextUrl.searchParams.get("limit"));
     const supabase = getSupabaseAdmin();
 
-    // 2. Resolve session_id from token — server-side only
+    // 2. Resolve session_id from token - server-side only
     const { data: session, error: sessionError } = await supabase
       .from("sessions")
       .select("id")
@@ -71,10 +72,10 @@ export async function GET(
       );
     }
 
-    // 3. Fetch generations for THIS session only — no prompt in select
+    // 3. Fetch generations for THIS session only
     const { data: generations, error: genError } = await supabase
       .from("generations")
-      .select("id, platform, content_type, arabic_style, ai_response, created_at")
+      .select("id, platform, content_type, arabic_style, prompt, ai_response, metadata, created_at")
       .eq("session_id", session.id)
       .order("created_at", { ascending: false })
       .limit(limit);
@@ -87,9 +88,13 @@ export async function GET(
       );
     }
 
-    // 4. Map DB rows to response shape — sanitize ai_response
+    // 4. Map DB rows to response shape - sanitize ai_response and restore metadata
     const items: GenerationHistoryItem[] = (generations ?? []).map((row) => {
       const parsed = parseAiResponse(row.ai_response);
+      const meta = (row.metadata && typeof row.metadata === "object" && !Array.isArray(row.metadata))
+        ? (row.metadata as Record<string, any>)
+        : {};
+
       const aiResponse = parsed
         ? {
             title: String(parsed.title ?? ""),
@@ -102,11 +107,22 @@ export async function GET(
           }
         : { title: "", hook: "", body: "", callToAction: "", hashtags: [] as string[] };
 
+      const normalizedPlatform = normalizePlatform(row.platform);
+
       return {
         id: row.id,
-        platform: row.platform,
+        platform: normalizedPlatform,
         contentType: row.content_type,
         arabicStyle: row.arabic_style,
+        prompt: row.prompt,
+        format: meta.format,
+        mode: meta.mode,
+        marketingObjective: meta.marketingObjective,
+        persona: meta.persona,
+        style: meta.style,
+        intent: meta.intent,
+        originality: meta.originality,
+        metadata: meta,
         aiResponse,
         createdAt: row.created_at,
       };

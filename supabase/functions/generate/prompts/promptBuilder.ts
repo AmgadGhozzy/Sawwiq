@@ -14,43 +14,25 @@ function buildGlobalRulesLayer(): PromptLayer {
     content: `
 # قواعد عامة للكتابة التسويقية
 
-أنت كاتب محتوى تسويقي عربي محترف. مهمتك تحويل معلومات أولية إلى محتوى تسويقي عالي الجودة.
+أنت كاتب محتوى ومفكر عربي محترف. مهمتك تحويل معلومات وأفكار المستخدم إلى محتوى متقن وعالي الجودة.
 
 ## قواعد أساسية:
-1. اكتب بالعربية فقط — تجنب الكلمات الإنجليزية إلا إذا كانت أسماء علامات تجارية أو مصطلحات تقنية لا بديل عربي لها (مثل Sprints).
+1. اكتب بالعربية فقط — تجنب الكلمات الإنجليزية إلا إذا كانت أسماء علامات تجارية أو مصطلحات تقنية لا بديل عربي لها.
 2. لا تخترع أي معلومة واقعية لم يقدمها المستخدم — هذا ليس اقتراحًا، هذا قانون.
 3. إذا لم تُذكر معلومة (مثل السعر أو الموقع الدقيق)، لا تذكرها في المحتوى.
-4. ركّز على القيمة الحقيقية من منظور العميل.
+4. ركّز على القيمة الحقيقية والعمق الفكري.
 5. تجنب الحشو والجمل العامة التي لا تضيف معلومة.
 6. كل جملة يجب أن تخدم هدفًا واضحًا.
-7. حافظ على ذكر المميزات الهامة والأسماء الخاصة (مثل: أسانسير، Sprints) كما وردت بنفس لغتها الأصلية، ولا تقم بحذفها أو ترجمتها إذا كانت محورية.
+7. حافظ على ذكر المميزات الهامة والأسماء الخاصة كما وردت بلغتها الأصلية.
 
 ## ممنوع:
 - ترجمات حرفية أو أسلوب روبوتي
-- عبارات ذكاء اصطناعي نمطية
-- إيموجي مبالغ فيها
+- عبارات ذكاء اصطناعي نمطية ومستهلكة
+- إيموجي (لا تضع أي إيموجي على الإطلاق)
 - ادعاءات مبالغ فيها بدون دليل
 - إلحاح مصطنع
 - تكرار نفس بنية الجمل
-- عبارات مثل "أفضل منتج في العالم" أو "لا مثيل له" أو "فرصة لا تعوض" إلا إذا قدم المستخدم ما يدعم ذلك
-
-## أمثلة على الادعاءات غير المسموحة
-لا تحوّل: "مناسب للاستثمار"
-إلى: "يحقق عائدًا مضمونًا."
-
-لا تحوّل: "يحتوي على مميزات متعددة"
-إلى: "أفضل من المنتجات المنافسة."
-
-العلاقة أو النتيجة الجديدة تحتاج إلى دليل صريح في معلومات المستخدم.
-
-## الأسلوب:
-- ابدأ بالقيمة
-- ركّز على العميل لا على البائع
-- استخدم معلومات ملموسة من مدخلات المستخدم
-- قدّم الفوائد قبل الصفات
-- اخلق فضولًا
-- CTA واضح ومباشر
-- كن صادقًا
+- اختلاق سير ذاتية أو تجارب وهمية لم يذكرها المستخدم
 `.trim(),
   };
 }
@@ -61,6 +43,77 @@ function buildPlatformLayer(platform: string): PromptLayer | null {
   return {
     label: `Platform: ${platform}`,
     content: `## قواعد المنصة المستهدفة\n\nSTRICT RULE: ${rule}`,
+  };
+}
+
+function buildPersonaLayer(persona?: any): PromptLayer | null {
+  if (!persona) return null;
+  const identity = typeof persona === "string" ? persona : persona.name || persona.identity || persona.id;
+  if (!identity) return null;
+
+  const lines = [
+    `## منظور الكاتب وهويته (Creator Persona)`,
+    `- الهوية والاهتمام: ${identity}`,
+  ];
+  if (persona.interests && Array.isArray(persona.interests) && persona.interests.length > 0) {
+    lines.push(`- الاهتمامات: ${persona.interests.join("، ")}`);
+  }
+  if (persona.characteristics && Array.isArray(persona.characteristics) && persona.characteristics.length > 0) {
+    lines.push(`- السمات الفكرية: ${persona.characteristics.join("، ")}`);
+  }
+  if (persona.customInstructions) {
+    lines.push(`- توجيه تفضيلي: """${persona.customInstructions}"""`);
+  }
+  lines.push(
+    `قاعدة: استخدم الشخصية كعدسة لتأطير الموضوع وطريقة التفكير فقط. لا تختلق سيرة ذاتية أو خبرات شخصية لم يذكرها المستخدم.`
+  );
+  return {
+    label: `Persona: ${identity}`,
+    content: lines.join("\n"),
+  };
+}
+
+function buildStyleLayer(style?: any): PromptLayer | null {
+  if (!style) return null;
+  const name = typeof style === "string" ? style : style.name || style.id;
+  if (!name) return null;
+
+  const lines = [
+    `## أسلوب الصياغة (Content Style)`,
+    `- النمط: ${name}`,
+  ];
+  if (style.characteristics && Array.isArray(style.characteristics) && style.characteristics.length > 0) {
+    lines.push(`- الخصائص: ${style.characteristics.join("، ")}`);
+  }
+  if (style.customInstructions) {
+    lines.push(`- توجيه إضافي: """${style.customInstructions}"""`);
+  }
+  return {
+    label: `Style: ${name}`,
+    content: lines.join("\n"),
+  };
+}
+
+function buildCreatorIntentLayer(intent?: string): PromptLayer | null {
+  if (!intent) return null;
+  return {
+    label: `Creator Intent: ${intent}`,
+    content: `## هدف المحتوى\n- توجه المحتوى: ${intent}. ركز على توليد لحظة استبصار وفهم غير مألوف للموضوع.`,
+  };
+}
+
+function buildCreatorOriginalityLayer(originality?: string): PromptLayer | null {
+  if (!originality || originality === "safe") return null;
+  return {
+    label: `Originality: ${originality}`,
+    content: `## مستوى الابتكار والعمق\n- استخدم زوايا وتشبيهات غير تقليدية تثير دهشة القارئ وتتحدى التفكير السطحي.`,
+  };
+}
+
+function buildCreatorAntiGenericnessLayer(): PromptLayer {
+  return {
+    label: "Anti-Genericness Barrier",
+    content: `## مكافحة الابتذال\n- ممنوع استخدام العبارات الاستهلالية النمطية (في عالمنا اليوم، لا يخفى على أحد، دعونا نتفق).\n- ادخل في صلب الفكرة فوراً من الكلمة الأولى.\n- لا تستخدم أي إيموجي على الإطلاق.`,
   };
 }
 
@@ -83,6 +136,18 @@ function buildContentTypeLayer(type: string): PromptLayer | null {
 }
 
 const marketingObjectiveRules: Record<string, string> = {
+  // V2 Canonical Keys
+  sales: "الهدف: إقناع القارئ بالشراء أو التواصل للشراء.",
+  messages: "الهدف: تشجيع القارئ على إرسال رسالة أو استفسار.",
+  traffic: "الهدف: تحفيز القارئ على زيارة رابط أو صفحة.",
+  awareness: "الهدف: بناء حماس حول إطلاق منتج جديد أو رفع الوعي بالعلامة التجارية.",
+  community: "الهدف: بناء ثقة في العلامة التجارية أو المنتج والمجتمع.",
+  leads: "الهدف: جمع بيانات العملاء المحتملين.",
+  engagement: "الهدف: زيادة التفاعل والمشاركة من قبل الجمهور.",
+  app_installs: "الهدف: تشجيع المستخدم على تحميل التطبيق.",
+  retention: "الهدف: الحفاظ على العملاء الحاليين.",
+  education: "الهدف: تعليم وتثقيف الجمهور المستهدف.",
+  // V1 Legacy Aliases
   sell: "الهدف: إقناع القارئ بالشراء أو التواصل للشراء.",
   attract_messages: "الهدف: تشجيع القارئ على إرسال رسالة أو استفسار.",
   drive_traffic: "الهدف: تحفيز القارئ على زيارة رابط أو صفحة.",
@@ -161,14 +226,15 @@ function buildFactBoundaryLayer(): PromptLayer {
 function buildOutputContractLayer(contentType?: string): PromptLayer {
   let bodyInstruction = `
 body:
-Focus on BENEFITS, not just features. For Real Estate: sell the lifestyle, not just the walls. For Products: sell the convenience or status. Use emojis naturally but sparingly.`.trim();
+Focus on insight, impact, and substance. DO NOT use emojis.`.trim();
 
-  if (contentType === "short_video_script") {
+  if (contentType === "short_video_script" || contentType === "video_script") {
     bodyInstruction = `
 body:
 CRITICAL: The body MUST ONLY contain the structured scenes. 
 DO NOT write any introductory text, concluding paragraphs, or normal text outside the scenes. 
-You MUST use the exact format: [Scene X — Ns] followed by [Visual] and [Audio].`.trim();
+You MUST use the exact format: [Scene X — Ns] followed by [Visual] and [Audio].
+DO NOT use emojis.`.trim();
   }
 
   return {
@@ -177,32 +243,43 @@ You MUST use the exact format: [Scene X — Ns] followed by [Visual] and [Audio]
 ## متطلبات المحتوى
 
 أنتج الحقول المطلوبة وفق المخطط.
-لا تضف أي تعليمات برمجية للـ JSON، فقط التزم بالشروط الدلالية التالية:
+لا تضف أي تعليمات برمجية للـ JSON، والتزم بالشروط الدلالية التالية:
 
 title:
 عنوان جذاب وقصير يشد الانتباه فورًا.
 
 hook:
-MUST NOT be a generic yes/no question. It MUST use the PAS framework (Problem-Agitation) or evoke FOMO (Fear Of Missing Out) or Curiosity. Tap into the customer's lifestyle desires.
+افتتاحية قوية تأسر القارئ وتثير فضوله للتعمق دون ابتذال.
 
 ${bodyInstruction}
 
 callToAction:
-Must be strong and value-driven (e.g., 'احجز وحدتك الآن قبل زيادة الأسعار' instead of a boring 'تواصل معنا').
+خاتمة ذكية تدعو للتأمل أو النقاش أو اتخاذ قرار واضح.
 
 hashtags:
-5-8 هاشتاغات عربية مرتبطة بالموضوع (بدون #). الهاشتاغات بالعربية إلا إذا كان الهاشتاغ بالإنجليزية شائعًا ومعروفًا أكثر.
+5-8 هاشتاغات عربية مرتبطة بالموضوع (بدون # وبدون أي إيموجي).
 `.trim(),
   };
 }
 
 export function getPromptLayers(input: InputDTO): PromptLayer[] {
+  const isCreatorMode = (input as any).mode === "creator" || (input as any).mode === "personal_creator";
+  const persona = (input as any).persona || (input as any).metadata?.persona;
+  const style = (input as any).style || (input as any).styleConfig || (input as any).metadata?.style;
+  const intent = (input as any).intent || (input as any).creatorIntent || (input as any).metadata?.intent;
+  const originality = (input as any).originality || (input as any).metadata?.originality;
+
   const layers: (PromptLayer | null)[] = [
     buildGlobalRulesLayer(),
     buildPlatformLayer(input.platform),
+    isCreatorMode ? buildPersonaLayer(persona) : null,
+    isCreatorMode ? buildStyleLayer(style) : null,
+    isCreatorMode ? buildCreatorIntentLayer(intent) : null,
+    isCreatorMode ? buildCreatorOriginalityLayer(originality) : null,
+    isCreatorMode ? buildCreatorAntiGenericnessLayer() : null,
     buildArabicStyleLayer(input.arabicStyle),
     buildContentTypeLayer(input.contentType),
-    buildMarketingObjectiveLayer(input.marketingObjective),
+    isCreatorMode ? null : buildMarketingObjectiveLayer(input.marketingObjective),
     buildInputContextLayer(input.rawInput),
     buildFactBoundaryLayer(),
     buildOutputContractLayer(input.contentType),

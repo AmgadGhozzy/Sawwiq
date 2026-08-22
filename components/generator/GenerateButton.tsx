@@ -17,44 +17,45 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
       type="submit"
       disabled={disabled || loading}
       whileTap={!disabled && !loading ? { scale: 0.97 } : undefined}
-      whileHover={!disabled && !loading ? { y: -2, boxShadow: "var(--shadow-brand)" } : undefined}
+      whileHover={!disabled && !loading ? { y: -2, scale: 1.01 } : undefined}
       aria-busy={loading}
       animate={!isOff && !loading ? {
         boxShadow: [
-          "0 4px 20px var(--color-brand-soft), 0 1px 0 color-mix(in srgb, var(--color-foreground) 10%, transparent) inset, 0 0 5px transparent",
-          "0 4px 20px var(--color-brand-soft), 0 1px 0 color-mix(in srgb, var(--color-foreground) 10%, transparent) inset, 0 0 25px var(--color-brand-primary)",
-          "0 4px 20px var(--color-brand-soft), 0 1px 0 color-mix(in srgb, var(--color-foreground) 10%, transparent) inset, 0 0 5px transparent"
+          "0 0 20px rgba(139, 92, 246, 0.4)",
+          "0 0 40px rgba(217, 70, 239, 0.6)",
+          "0 0 20px rgba(139, 92, 246, 0.4)"
         ]
       } : undefined}
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      dir="rtl"
       style={{
         width: "100%",
         display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-        borderRadius: "var(--radius-lg)", border: "none",
-        padding: "14px 20px",
-        fontSize: "15px", fontWeight: 700, color: "white",
+        borderRadius: "16px", border: "none",
+        padding: "16px 24px",
+        fontSize: "16px", fontWeight: 800, color: "white",
         cursor: isOff || loading ? "not-allowed" : "pointer",
         opacity: isOff ? 0.45 : 1,
         fontFamily: "inherit",
         background: isOff
-          ? "var(--color-brand-soft)"
-          : "var(--gradient-brand)",
-        boxShadow: isOff ? "none" : "var(--shadow-brand)",
+          ? "rgba(255, 255, 255, 0.05)"
+          : "linear-gradient(to right, #7c3aed, #4f46e5, #c026d3)",
         transition: "opacity 0.2s ease",
         letterSpacing: "0.01em",
+        marginTop: "8px",
       }}
     >
       {loading ? (
         <motion.span
-          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+          style={{ display: "flex", alignItems: "center", gap: "10px" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
           <motion.span
             style={{
-              display: "inline-block", width: "15px", height: "15px",
+              display: "inline-block", width: "16px", height: "16px",
               borderRadius: "50%",
-              border: "2px solid color-mix(in srgb, var(--color-foreground) 25%, transparent)",
+              border: "2px solid rgba(255, 255, 255, 0.3)",
               borderTopColor: "white",
             }}
             animate={{ rotate: 360 }}
@@ -63,11 +64,8 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
           {t("loading")}
         </motion.span>
       ) : (
-        <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
-          </svg>
-          {t("generate")}
+        <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          توليد المحتوى السحري ✨
         </span>
       )}
     </motion.button>

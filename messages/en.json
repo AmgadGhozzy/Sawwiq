@@ -52,15 +52,62 @@
     "pasteTitle": "Paste from clipboard"
   },
   "GeneratorSettings": {
+    "modeLabel": "Content Mode",
+    "modes": {
+      "marketing": "Marketing & Ads",
+      "personal_creator": "Personal Creator & Insights",
+      "creator": "Personal Creator & Insights"
+    },
     "platformLabel": "Platform",
     "contentTypeLabel": "Content Type",
     "arabicStyleLabel": "Dialect",
+    "objectiveLabel": "Marketing Goal",
+    "formatLabel": "Format",
+    "personaLabel": "Creator Persona",
+    "styleLabel": "Content Style",
+    "intentLabel": "Content Intent",
+    "originalityLabel": "Originality Level",
+    "intents": {
+      "insight": "Counterintuitive Insight",
+      "story": "Real-world Story",
+      "opinion": "Direct Opinion",
+      "observation": "Smart Observation",
+      "lesson": "Practical Lesson",
+      "question": "Deep Question",
+      "contrarian": "Contrarian Take",
+      "reflection": "Quiet Reflection",
+      "explainer": "Clear Explainer",
+      "experiment": "Experiment & Takeaway"
+    },
+    "originalityLevels": {
+      "safe": "Clear & Direct",
+      "balanced": "Balanced",
+      "high": "Deep & Unconventional",
+      "experimental": "Experimental & Bold"
+    },
+    "personas": {
+      "developer": "Developer & Tech",
+      "psychology": "Human Behavior & Psychology",
+      "intellectual": "Deep Thinker & Analyst",
+      "science": "Science Explorer",
+      "creative": "Creative Storyteller"
+    },
+    "styles": {
+      "mystery": "Mystery & Paradox",
+      "storytelling": "Engaging Storytelling",
+      "contrarian": "Contrarian & Counterintuitive",
+      "intellectual": "Intellectual Deep-Dive",
+      "cinematic": "Cinematic Scene Pacing",
+      "minimalist": "Minimalist & Punchy"
+    },
     "platforms": {
-      "tiktok": "TikTok / Reels",
+      "tiktok": "TikTok",
       "instagram": "Instagram",
       "linkedin": "LinkedIn",
       "x_twitter": "X / Twitter",
-      "facebook": "Facebook"
+      "x": "X / Twitter",
+      "facebook": "Facebook",
+      "youtube": "YouTube"
     },
     "contentTypes": {
       "sponsored_ad": "Sponsored Ad",
@@ -68,7 +115,56 @@
       "ecommerce_product": "Product Description",
       "real_estate": "Real Estate Listing",
       "short_video_script": "Short Video Script",
-      "marketing_email": "Marketing Email"
+      "marketing_email": "Marketing Email",
+      "social_post": "Social Post",
+      "advertisement": "Advertisement",
+      "product_description": "Product Description",
+      "real_estate_listing": "Real Estate Listing",
+      "video_script": "Video Script",
+      "email": "Marketing Email",
+      "thread": "Thread",
+      "carousel_copy": "Carousel Copy",
+      "story_sequence": "Story Sequence",
+      "ugc_script": "UGC Video Script",
+      "landing_page_copy": "Landing Page Copy"
+    },
+    "formats": {
+      "post": "Standard Post",
+      "video": "Video",
+      "reel": "Reel",
+      "short": "Short",
+      "carousel": "Carousel",
+      "story": "Story",
+      "story_sequence": "Story Sequence",
+      "text_post": "Text Post",
+      "image_post": "Image Post",
+      "image": "Image Post",
+      "document": "Document (PDF)",
+      "poll": "Poll",
+      "article": "Article",
+      "thread": "Thread",
+      "video_post": "Video Post",
+      "community_post": "Community Post",
+      "spark_ad": "Spark Ad",
+      "ugc": "UGC Video"
+    },
+    "objectives": {
+      "awareness": "Brand Awareness",
+      "engagement": "Engagement & Shares",
+      "traffic": "Drive Traffic",
+      "leads": "Generate Leads",
+      "sales": "Direct Sales",
+      "messages": "Direct Messages",
+      "app_installs": "App Installs",
+      "retention": "Customer Retention",
+      "community": "Build Trust & Community",
+      "education": "Educate Audience",
+      "sell": "Sales",
+      "attract_messages": "Direct Messages",
+      "drive_traffic": "Drive Traffic",
+      "launch_product": "Product Launch",
+      "build_trust": "Build Trust",
+      "generate_leads": "Generate Leads"
     },
     "arabicStyles": {
       "saudi_marketing": "Saudi",
@@ -125,7 +221,8 @@
     "loading": "Loading...",
     "errorTitle": "Failed to load history",
     "errorSubtitle": "Check your connection and try again",
-    "retry": "Retry"
+    "retry": "Retry",
+    "openInGenerator": "Open in Generator"
   },
   "Errors": {
     "VALIDATION_ERROR": "Invalid input. Make sure to fill all required fields.",

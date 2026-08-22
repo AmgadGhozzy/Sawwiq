@@ -99,6 +99,18 @@ export interface TestCaseResult {
   deterministic: DeterministicScore;
   semantic?: SemanticScore;
   claimViolations: string[];
+  /** Provider, transport, or schema error unrelated to a factual claim. */
+  generationError?: string;
+  retryAttempts?: number;
+  /** Provider-reported usage for this generation, when available. */
+  tokenUsage?: {
+    promptTokens?: number;
+    completionTokens?: number;
+    totalTokens?: number;
+    thoughtsTokens?: number;
+  };
+  systemPromptEstimatedTokens?: number;
+  dynamicContextEstimatedTokens?: number;
   /** Structural gate → 0 if schema invalid; else 40% det + 60% sem. */
   combinedScore: number;
   latencyMs: number;
@@ -115,6 +127,11 @@ export interface BenchmarkReport {
   model: string;
   promptVersion: string;
   datasetVersion: string;
+  experimentId: string;
+  generationConfig: {
+    temperature: number;
+    topP: number;
+  };
   totalCases: number;
   passedCases: number;
   overallDeterministicScore: number;
@@ -123,6 +140,12 @@ export interface BenchmarkReport {
   results: TestCaseResult[];
   /** Per-dimension averages (only when semantic evaluation is run). */
   dimensionAverages?: Record<string, number>;
+  /** Prompt matrix measurements used to guard against instruction bloat. */
+  promptBudget?: PromptBudgetSummary;
+  /** Strict production decision, including the reasons behind a rejection. */
+  acceptance?: BenchmarkAcceptance;
+  runComplete?: boolean;
+  providerFailureCount?: number;
   categoryScores: Record<
     string,
     {
@@ -131,4 +154,25 @@ export interface BenchmarkReport {
       averageSemantic?: number;
     }
   >;
+  benchmarkGroups?: Record<string, {
+    total: number;
+    passed: number;
+    structuralPassRate: number;
+    semanticAverage?: number;
+  }>;
+}
+
+export interface PromptBudgetSummary {
+  maxGrowthPercent: number;
+  totalCharacters: number;
+  estimatedTokens: number;
+  violations: string[];
+  /** Estimated context split; exact total input tokens come from provider usage per case. */
+  averageSystemPromptTokens: number;
+  averageDynamicContextTokens: number;
+}
+
+export interface BenchmarkAcceptance {
+  passed: boolean;
+  reasons: string[];
 }

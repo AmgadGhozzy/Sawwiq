@@ -15,8 +15,13 @@ const PLATFORM_CONFIG: Record<string, { label: string; color: string; bg: string
   instagram: { label: "Instagram", color: "var(--color-instagram)", bg: "color-mix(in srgb, var(--color-instagram) 10%, transparent)", border: "color-mix(in srgb, var(--color-instagram) 20%, transparent)" },
   tiktok: { label: "TikTok", color: "var(--color-tiktok)", bg: "color-mix(in srgb, var(--color-tiktok) 8%, transparent)", border: "color-mix(in srgb, var(--color-tiktok) 18%, transparent)" },
   linkedin: { label: "LinkedIn", color: "var(--color-linkedin)", bg: "color-mix(in srgb, var(--color-linkedin) 10%, transparent)", border: "color-mix(in srgb, var(--color-linkedin) 20%, transparent)" },
+  x: { label: "X", color: "var(--color-x-twitter)", bg: "color-mix(in srgb, var(--color-x-twitter) 8%, transparent)", border: "color-mix(in srgb, var(--color-x-twitter) 18%, transparent)" },
   x_twitter: { label: "X", color: "var(--color-x-twitter)", bg: "color-mix(in srgb, var(--color-x-twitter) 8%, transparent)", border: "color-mix(in srgb, var(--color-x-twitter) 18%, transparent)" },
   facebook: { label: "Facebook", color: "var(--color-facebook)", bg: "color-mix(in srgb, var(--color-facebook) 10%, transparent)", border: "color-mix(in srgb, var(--color-facebook) 20%, transparent)" },
+  youtube: { label: "YouTube", color: "#FF0000", bg: "color-mix(in srgb, #FF0000 10%, transparent)", border: "color-mix(in srgb, #FF0000 20%, transparent)" },
+  threads: { label: "Threads", color: "var(--color-foreground)", bg: "color-mix(in srgb, var(--color-foreground) 8%, transparent)", border: "color-mix(in srgb, var(--color-foreground) 18%, transparent)" },
+  snapchat: { label: "Snapchat", color: "#FFFC00", bg: "color-mix(in srgb, #FFFC00 10%, transparent)", border: "color-mix(in srgb, #FFFC00 20%, transparent)" },
+  whatsapp: { label: "WhatsApp", color: "#25D366", bg: "color-mix(in srgb, #25D366 10%, transparent)", border: "color-mix(in srgb, #25D366 20%, transparent)" },
 };
 
 // ---------------------------------------------------------------------------
@@ -46,9 +51,10 @@ interface HistoryCardProps {
   item: GenerationHistoryItem;
   isLast: boolean;
   locale: string;
+  onOpen?: () => void;
 }
 
-export default function HistoryCard({ item, isLast, locale }: HistoryCardProps) {
+export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCardProps) {
   const t = useTranslations("History");
   const tSettings = useTranslations("GeneratorSettings");
   const [expanded, setExpanded] = useState(false);
@@ -86,8 +92,17 @@ export default function HistoryCard({ item, isLast, locale }: HistoryCardProps) 
   };
 
   let contentTypeLabel: string;
-  try { contentTypeLabel = tSettings(`contentTypes.${item.contentType}`); } 
-  catch { contentTypeLabel = item.contentType; }
+  try {
+    if ((item.mode === "creator" || item.mode === "personal_creator") && item.persona?.name) {
+      contentTypeLabel = item.persona.name;
+    } else if (item.format) {
+      contentTypeLabel = tSettings(`formats.${item.format}`, { fallback: item.format });
+    } else {
+      contentTypeLabel = tSettings(`contentTypes.${item.contentType}`, { fallback: item.contentType });
+    }
+  } catch {
+    contentTypeLabel = item.format || item.contentType;
+  }
 
   let arabicStyleLabel: string;
   try { arabicStyleLabel = tSettings(`arabicStyles.${item.arabicStyle}`); } 
@@ -264,6 +279,25 @@ export default function HistoryCard({ item, isLast, locale }: HistoryCardProps) 
 
           {/* Footer Actions */}
           <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+            {/* Open button */}
+            {onOpen && (
+              <button
+                onClick={onOpen}
+                aria-label={t("openInGenerator", { fallback: "Open" })}
+                style={{
+                  display: "flex", alignItems: "center", gap: "6px",
+                  padding: "6px 14px", borderRadius: "999px",
+                  background: "var(--color-brand-primary)",
+                  border: "1px solid var(--color-brand-primary)",
+                  color: "white",
+                  fontSize: "12px", fontWeight: 700,
+                  cursor: "pointer", transition: "all 0.2s ease", fontFamily: "inherit",
+                }}
+              >
+                {t("openInGenerator", { fallback: "Open" })}
+              </button>
+            )}
+
             {/* Copy button */}
             <button
               onClick={handleCopy}

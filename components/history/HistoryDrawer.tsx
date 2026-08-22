@@ -4,11 +4,11 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Clock, Sparkles } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import type { GenerationHistoryItem } from "@/types/history";
+import { useHistoryContext } from "./HistoryContext";
 import HistoryCard from "./HistoryCard";
 
 // ---------------------------------------------------------------------------
-// HistoryDrawer — slides in from the inline-end side
+// HistoryDrawer - slides in from the inline-end side
 // ---------------------------------------------------------------------------
 
 interface HistoryDrawerProps {
@@ -21,7 +21,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
   const locale = useLocale();
   const isRTL = locale === "ar";
 
-  const [items, setItems] = useState<GenerationHistoryItem[]>([]);
+  const { items, setItems, setSelectedHistoryIndex } = useHistoryContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
@@ -145,7 +145,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
 
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 {/* Count badge */}
-                {hasFetched && !error && items.length > 0 && (
+                {!error && items.length > 0 && (
                   <span
                     style={{
                       padding: "2px 8px", borderRadius: "999px",
@@ -292,6 +292,10 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                       item={item}
                       isLast={i === items.length - 1}
                       locale={locale}
+                      onOpen={() => {
+                        setSelectedHistoryIndex(i);
+                        onClose();
+                      }}
                     />
                   ))}
                 </div>

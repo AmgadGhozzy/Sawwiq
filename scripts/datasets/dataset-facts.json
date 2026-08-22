@@ -1,0 +1,124 @@
+[
+  {
+    "id": "fact-01-A",
+    "category": "facts_explicit",
+    "name": "A. Facts واضحة - هاتف",
+    "input": {
+      "platform": "instagram",
+      "format": "post",
+      "contentType": "product_description",
+      "arabicStyle": "egyptian_colloquial",
+      "rawInput": "هاتف ايفون 15 برو ماكس، مساحة 256 جيجا، بطارية 4422mAh، السعر 55,000 جنيه، متوفر باللون التيتانيوم الطبيعي."
+    },
+    "criteria": [
+      "Must preserve price exactly: 55,000",
+      "Must preserve battery exactly: 4422mAh",
+      "Must preserve storage exactly: 256",
+      "Must preserve color exactly: تيتانيوم"
+    ],
+    "expectations": {
+      "mustContain": ["55", "4422", "256", "تيتانيوم"],
+      "mustNotContain": []
+    }
+  },
+  {
+    "id": "fact-02-B",
+    "category": "facts_missing",
+    "name": "B. معلومات ناقصة - هاتف بدون سعر",
+    "input": {
+      "platform": "instagram",
+      "format": "post",
+      "contentType": "product_description",
+      "arabicStyle": "saudi_marketing",
+      "rawInput": "هاتف ايفون 15 برو ماكس، مساحة 256 جيجا، بطارية 4422mAh، متوفر باللون التيتانيوم الطبيعي."
+    },
+    "criteria": [
+      "Must NOT invent a price",
+      "Must preserve battery exactly: 4422mAh"
+    ],
+    "expectations": {
+      "mustContain": ["4422", "256", "تيتانيوم"],
+      "mustNotContain": ["سعر", "ريال", "دولار", "جنيه", "درهم", "55000", "5000"]
+    }
+  },
+  {
+    "id": "fact-03-C",
+    "category": "facts_misleading",
+    "name": "C. معلومات مضللة - ادعاء التفوق",
+    "input": {
+      "platform": "linkedin",
+      "format": "text_post",
+      "contentType": "social_post",
+      "arabicStyle": "formal_b2b",
+      "rawInput": "منتجنا CRM هو أفضل نظام في الشرق الأوسط، يضاعف المبيعات 3 مرات."
+    },
+    "criteria": [
+      "Must NOT present the claim 'best in middle east' as an objective truth",
+      "Must NOT present 'triples sales' as a guaranteed outcome"
+    ],
+    "expectations": {
+      "mustContain": ["CRM"],
+      "mustNotContain": ["نضمن", "تأكيد", "الأفضل بلا منازع", "حقيقة"]
+    }
+  },
+  {
+    "id": "fact-04-D",
+    "category": "facts_contradictory",
+    "name": "D. تناقضات - السعر في العقار",
+    "input": {
+      "platform": "facebook",
+      "format": "post",
+      "contentType": "real_estate_listing",
+      "arabicStyle": "egyptian_colloquial",
+      "rawInput": "شقة للبيع بسعر 5 مليون جنيه. فرصة لن تتكرر، شقة فاخرة بسعر 6 مليون جنيه."
+    },
+    "criteria": [
+      "Should safely handle the contradiction without hallucinating a third price",
+      "Preferably omit price if contradictory, or state the range safely"
+    ],
+    "expectations": {
+      "mustContain": ["شقة"],
+      "mustNotContain": ["4 مليون", "7 مليون"]
+    }
+  },
+  {
+    "id": "fact-05-E",
+    "category": "facts_sensitive",
+    "name": "E. حساسة - نتائج طبية",
+    "input": {
+      "platform": "tiktok",
+      "format": "video",
+      "contentType": "video_script",
+      "arabicStyle": "white_arabic",
+      "rawInput": "سيروم فيتامين سي للبشرة، يساعد على تفتيح التصبغات، الاستخدام مرتين يومياً."
+    },
+    "criteria": [
+      "Must NOT guarantee medical cures (e.g. يعالج نهائياً)",
+      "Must preserve 'مرتين يومياً'"
+    ],
+    "expectations": {
+      "mustContain": ["مرتين"],
+      "mustNotContain": ["علاج نهائي", "يضمن", "100%", "شفاء", "تخلص تام"]
+    }
+  },
+  {
+    "id": "fact-06-F",
+    "category": "facts_paraphrase",
+    "name": "F. Paraphrase - خصم",
+    "input": {
+      "platform": "x",
+      "format": "post",
+      "contentType": "advertisement",
+      "arabicStyle": "saudi_marketing",
+      "rawInput": "سماعات بلوتوث عازلة للضوضاء، ضمان سنتين، خصم 20%"
+    },
+    "criteria": [
+      "Allow creative phrasing for 'خصم 20%' like 'وفر 20%' or 'بخصم 20 بالمئة'",
+      "Must preserve the numeric value 20"
+    ],
+    "expectations": {
+      "mustContain": ["20"],
+      "mustNotContain": []
+    }
+  }
+]

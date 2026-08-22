@@ -73,13 +73,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
     }, [onChange, value]);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-        <label
-          htmlFor="raw-input"
-          style={{ fontSize: "12px", fontWeight: 700, color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}
-        >
-          {t("label")}
-        </label>
+      <div dir="rtl" style={{ display: "flex", flexDirection: "column", gap: "8px", order: 3, marginTop: "8px", marginBottom: "8px" }}>
         <div style={{ position: "relative" }}>
           <textarea
             ref={ref}
@@ -92,24 +86,29 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
             placeholder={placeholder}
             rows={5}
             style={{
-              width: "100%", borderRadius: "12px",
+              width: "100%", 
+              borderRadius: "16px",
               border: error
-                ? "1.5px solid color-mix(in srgb, var(--color-danger) 50%, transparent)"
+                ? "1.5px solid rgba(239, 68, 68, 0.5)"
                 : focused
-                  ? "1.5px solid var(--color-brand-primary)"
-                  : "1px solid var(--color-border)",
-              background: "var(--color-surface)",
-              padding: "12px 14px 44px 14px",
-              fontSize: "14px", lineHeight: 1.7,
-              color: "var(--color-foreground)",
-              resize: "none", minHeight: "140px", maxHeight: "400px",
+                  ? "1.5px solid rgba(139, 92, 246, 0.8)"
+                  : "1px solid rgba(255, 255, 255, 0.1)",
+              background: "rgba(255, 255, 255, 0.03)",
+              padding: "16px 16px 48px 16px",
+              fontSize: "14px", 
+              lineHeight: 1.8,
+              color: "#fff",
+              resize: "none", 
+              minHeight: "150px", 
+              maxHeight: "400px",
               outline: "none",
-              boxShadow: focused ? "0 0 0 3px var(--color-brand-surface)" : "none",
+              boxShadow: focused ? "0 0 20px rgba(139, 92, 246, 0.15)" : "none",
               transition: "all 0.2s ease",
               opacity: disabled ? 0.4 : 1,
               cursor: disabled ? "not-allowed" : "auto",
-              fontFamily: "inherit", boxSizing: "border-box",
-              caretColor: "var(--color-brand-primary)",
+              fontFamily: "inherit", 
+              boxSizing: "border-box",
+              caretColor: "#8b5cf6",
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
@@ -126,22 +125,21 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               aria-label={t("clearTitle")}
               style={{
                 position: "absolute",
-                bottom: "16px",
-                insetInlineStart: "10px",
+                bottom: "12px",
+                insetInlineStart: "12px",
                 display: "flex", alignItems: "center", gap: "6px",
-                padding: "8px 16px",
-                borderRadius: "999px",
-                background: "color-mix(in srgb, var(--color-danger) 10%, transparent)",
-                border: "1px solid color-mix(in srgb, var(--color-danger) 20%, transparent)",
-                color: "color-mix(in srgb, var(--color-danger) 80%, var(--color-foreground))",
+                padding: "6px 12px",
+                borderRadius: "99px",
+                background: "rgba(239, 68, 68, 0.1)",
+                border: "1px solid rgba(239, 68, 68, 0.2)",
+                color: "#f87171",
                 fontSize: "11px", fontWeight: 600,
                 cursor: disabled ? "not-allowed" : "pointer",
                 opacity: disabled ? 0.3 : 1,
                 transition: "all 0.2s ease",
-                fontFamily: "inherit",
               }}
             >
-              <Trash2 size={12} />
+              <Trash2 size={14} />
               {t("clearBtn")}
             </button>
           ) : (
@@ -153,28 +151,38 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               aria-label={t("pasteTitle")}
               style={{
                 position: "absolute",
-                bottom: "16px",
-                insetInlineStart: "10px",
+                bottom: "12px",
+                insetInlineStart: "12px",
                 display: "flex", alignItems: "center", gap: "6px",
-                padding: "8px 16px",
-                borderRadius: "999px",
-                background: "var(--color-brand-surface)",
-                border: "1px solid color-mix(in srgb, var(--color-brand-primary) 20%, transparent)",
-                color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))",
+                padding: "6px 12px",
+                borderRadius: "99px",
+                background: "rgba(139, 92, 246, 0.1)",
+                border: "1px solid rgba(139, 92, 246, 0.2)",
+                color: "#a78bfa",
                 fontSize: "11px", fontWeight: 600,
                 cursor: disabled ? "not-allowed" : "pointer",
                 opacity: disabled ? 0.3 : 1,
                 transition: "all 0.2s ease",
-                fontFamily: "inherit",
               }}
             >
-              <ClipboardPaste size={12} />
+              <ClipboardPaste size={14} />
               {t("pasteBtn")}
             </button>
           )}
+          {/* Character Counter */}
+          <div style={{
+            position: "absolute",
+            bottom: "12px",
+            insetInlineEnd: "16px",
+            fontSize: "11px",
+            color: "rgba(255, 255, 255, 0.4)",
+            fontWeight: 500
+          }}>
+            {value.length} حرف
+          </div>
         </div>
         {error && (
-          <p id="input-error" style={{ fontSize: "12px", color: "var(--color-danger)", fontWeight: 500, margin: 0 }} role="alert">
+          <p id="input-error" style={{ fontSize: "12px", color: "#f87171", fontWeight: 500, margin: 0 }} role="alert">
             {error}
           </p>
         )}

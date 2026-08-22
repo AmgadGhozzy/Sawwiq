@@ -52,15 +52,62 @@
     "pasteTitle": "لصق من الحافظة"
   },
   "GeneratorSettings": {
+    "modeLabel": "نمط المحتوى",
+    "modes": {
+      "marketing": "تسويقي وإعلاني",
+      "personal_creator": "صانع محتوى وفكر",
+      "creator": "صانع محتوى وفكر"
+    },
     "platformLabel": "المنصة",
     "contentTypeLabel": "نوع المحتوى",
     "arabicStyleLabel": "اللهجة",
+    "objectiveLabel": "الهدف التسويقي",
+    "formatLabel": "صيغة المحتوى",
+    "personaLabel": "شخصية الكاتب",
+    "styleLabel": "أسلوب الطرح",
+    "intentLabel": "الهدف من المنشور",
+    "originalityLabel": "مستوى الابتكار",
+    "intents": {
+      "insight": "رؤية غير بديهية",
+      "story": "سرد وتجربة واقعية",
+      "opinion": "رأي وموقف صريح",
+      "observation": "ملاحظة ذكية",
+      "lesson": "درس مستفاد",
+      "question": "تساؤل وإشكالية",
+      "contrarian": "تحدي الرأي السائد",
+      "reflection": "تأمل هادئ",
+      "explainer": "تفكيك وتبسيط",
+      "experiment": "تجربة واستنتاج"
+    },
+    "originalityLevels": {
+      "safe": "واضح ومباشر",
+      "balanced": "متوازن",
+      "high": "عميق وغير تقليدي",
+      "experimental": "تجريبي وجريء"
+    },
+    "personas": {
+      "developer": "المبرمج والتقني",
+      "psychology": "محلل السلوك البشري",
+      "intellectual": "المفكر والمحلل",
+      "science": "المستكشف العلمي",
+      "creative": "السارد الإبداعي"
+    },
+    "styles": {
+      "mystery": "الغموض والمفارقة",
+      "storytelling": "السرد القصصي المشوق",
+      "contrarian": "الرأي المعاكس وغير التقليدي",
+      "intellectual": "التحليل الفكري والمفاهيمي",
+      "cinematic": "المشهدية والسينمائية",
+      "minimalist": "الإيجاز المكثف والمباشر"
+    },
     "platforms": {
       "tiktok": "تيك توك",
       "instagram": "انستجرام",
       "linkedin": "لينكد إن",
       "x_twitter": "إكس / تويتر",
-      "facebook": "فيسبوك"
+      "x": "إكس / تويتر",
+      "facebook": "فيسبوك",
+      "youtube": "يوتيوب"
     },
     "contentTypes": {
       "sponsored_ad": "إعلان ممول",
@@ -68,7 +115,56 @@
       "ecommerce_product": "وصف منتج",
       "real_estate": "وصف عقاري",
       "short_video_script": "سكريبت فيديو",
-      "marketing_email": "رسالة تسويقية"
+      "marketing_email": "رسالة تسويقية",
+      "social_post": "منشور تفاعلي",
+      "advertisement": "إعلان ممول",
+      "product_description": "وصف منتج",
+      "real_estate_listing": "وصف عقاري",
+      "video_script": "سكريبت فيديو",
+      "email": "رسالة تسويقية",
+      "thread": "سلسلة تدوينات (ثريد)",
+      "carousel_copy": "كاروسيل شرائح",
+      "story_sequence": "سلسلة ستوري",
+      "ugc_script": "فيديو UGC تسويقي",
+      "landing_page_copy": "نص صفحة هبوط"
+    },
+    "formats": {
+      "post": "منشور قياسي",
+      "video": "فيديو",
+      "reel": "ريلز (Reel)",
+      "short": "شورتس (Short)",
+      "carousel": "كاروسيل شرائح",
+      "story": "ستوري (Story)",
+      "story_sequence": "سلسلة ستوري",
+      "text_post": "منشور نصي",
+      "image_post": "منشور صورة",
+      "image": "منشور صورة",
+      "document": "مستند PDF",
+      "poll": "استطلاع رأي",
+      "article": "مقال",
+      "thread": "سلسلة (Thread)",
+      "video_post": "منشور فيديو",
+      "community_post": "منشور مجتمع",
+      "spark_ad": "إعلان Spark Ad",
+      "ugc": "محتوى UGC"
+    },
+    "objectives": {
+      "awareness": "زيادة الوعي والانتشار",
+      "engagement": "زيادة التفاعل والمشاركات",
+      "traffic": "جلب زيارات للموقع",
+      "leads": "جمع عملاء محتملين (Leads)",
+      "sales": "زيادة المبيعات المباشرة",
+      "messages": "جذب رسائل واستفسارات",
+      "app_installs": "تحميل التطبيق",
+      "retention": "ولاء العملاء الحاليين",
+      "community": "بناء مجتمع وثقة",
+      "education": "تثقيف وتعليم الجمهور",
+      "sell": "زيادة المبيعات",
+      "attract_messages": "جذب رسائل واستفسارات",
+      "drive_traffic": "جلب زيارات للموقع",
+      "launch_product": "إطلاق منتج جديد",
+      "build_trust": "بناء ثقة ومجتمع",
+      "generate_leads": "جمع عملاء محتملين"
     },
     "arabicStyles": {
       "saudi_marketing": "سعودي تسويقي",
@@ -125,7 +221,8 @@
     "loading": "جارٍ التحميل...",
     "errorTitle": "تعذر تحميل السجل",
     "errorSubtitle": "تحقق من الاتصال وحاول مرة أخرى",
-    "retry": "إعادة المحاولة"
+    "retry": "إعادة المحاولة",
+    "openInGenerator": "فتح في الأداة"
   },
   "Errors": {
     "VALIDATION_ERROR": "البيانات المدخلة غير صحيحة. يرجى التأكد من ملء جميع الحقول المطلوبة.",

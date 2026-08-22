@@ -15,6 +15,7 @@ import { aiConfig } from "@/lib/config";
 // ---------------------------------------------------------------------------
 
 export const generateInputSchema = z.object({
+  mode: z.enum(["marketing", "creator", "personal_creator"]).optional(),
   platform: z.enum(PLATFORMS, {
     errorMap: () => ({ message: "المنصة غير صحيحة." }),
   }),
@@ -24,6 +25,40 @@ export const generateInputSchema = z.object({
   arabicStyle: z.enum(ARABIC_STYLES, {
     errorMap: () => ({ message: "أسلوب اللغة غير صحيح." }),
   }),
+  marketingObjective: z.string().optional(),
+  format: z.string().optional(),
+  intent: z.string().optional(),
+  originality: z.string().optional(),
+  persona: z
+    .object({
+      id: z.string().optional(),
+      name: z.string().optional(),
+      description: z.string().optional(),
+      interests: z.array(z.string()).optional(),
+      characteristics: z.array(z.string()).optional(),
+      customInstructions: z.string().optional(),
+    })
+    .optional(),
+  style: z
+    .object({
+      id: z.string().optional(),
+      name: z.string().optional(),
+      description: z.string().optional(),
+      characteristics: z.array(z.string()).optional(),
+      customInstructions: z.string().optional(),
+    })
+    .optional(),
+  metadata: z
+    .object({
+      brandName: z.string().optional(),
+      targetAudience: z.string().optional(),
+      marketingObjective: z.string().optional(),
+      persona: z.any().optional(),
+      style: z.any().optional(),
+      intent: z.string().optional(),
+      originality: z.string().optional(),
+    })
+    .optional(),
   rawInput: z
     .string()
     .trim()

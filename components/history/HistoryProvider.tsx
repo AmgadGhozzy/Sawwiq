@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useHistoryContext } from "./HistoryContext";
 import HistoryTrigger from "./HistoryTrigger";
 import HistoryDrawer from "./HistoryDrawer";
 
 // ---------------------------------------------------------------------------
-// HistoryProvider — ties HistoryTrigger and HistoryDrawer together
-// with shared open/close state. Placed in page.tsx.
+// HistoryProvider - ties HistoryTrigger and HistoryDrawer together
+// with shared open/close state from Context. Placed in page.tsx.
 // ---------------------------------------------------------------------------
 
 export default function HistoryProvider() {
-  const [open, setOpen] = useState(false);
+  const { isDrawerOpen, setIsDrawerOpen } = useHistoryContext();
 
   return (
     <>
-      <HistoryTrigger onClick={() => setOpen(true)} />
-      <HistoryDrawer open={open} onClose={() => setOpen(false)} />
+      <HistoryTrigger onClick={() => setIsDrawerOpen(true)} />
+      <HistoryDrawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
     </>
   );
 }

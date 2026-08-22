@@ -5,18 +5,21 @@ import HistoryProvider from "@/components/history/HistoryProvider";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { HistoryContextProvider } from "@/components/history/HistoryContext";
 import Footer from "@/components/contact/Footer";
+
 export default function Home() {
   const tGlobal = useTranslations("Global");
   const tHome = useTranslations("HomePage");
 
   return (
-    <main
-      className="relative min-h-screen overflow-x-hidden pb-24"
-      style={{
-        background: "#09090b",
-      }}
-    >
+    <HistoryContextProvider>
+      <main
+        className="relative min-h-screen overflow-x-hidden pb-24"
+        style={{
+          background: "#09090b",
+        }}
+      >
       <style>{`
         @keyframes orb-float-1 {
           0%, 100% { transform: translate(0, 0) scale(1); }
@@ -147,8 +150,9 @@ export default function Home() {
         <ConversionCTA />
       </section>
 
-      {/* ── Footer ── */}
+      {/*  Footer  */}
       <Footer />
     </main>
+    </HistoryContextProvider>
   );
 }

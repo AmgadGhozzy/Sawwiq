@@ -3,10 +3,10 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { GeneratedContent } from "@/types/content";
-import { RefreshCw, PenLine, Copy, Check, Quote } from "lucide-react";
+import { RefreshCw, PenLine, Copy, Check, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import HashtagList from "./HashtagList";
 import { getTracker } from "@/lib/analytics/tracker";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import type { Variants } from "framer-motion";
 
 interface GenerationResultProps {
@@ -14,6 +14,11 @@ interface GenerationResultProps {
   onRegenerate: () => void;
   onStartOver: () => void;
   loading: boolean;
+  isHistoryView?: boolean;
+  onNextHistory?: () => void;
+  onPrevHistory?: () => void;
+  hasNextHistory?: boolean;
+  hasPrevHistory?: boolean;
 }
 
 const containerVariants: Variants = {
@@ -32,8 +37,11 @@ const itemVariants: Variants = {
 
 export default function GenerationResult({
   content, onRegenerate, onStartOver, loading,
+  isHistoryView, onNextHistory, onPrevHistory, hasNextHistory, hasPrevHistory,
 }: GenerationResultProps) {
   const t = useTranslations("GenerationResult");
+  const locale = useLocale();
+  const isRTL = locale === "ar";
   const [copiedAll, setCopiedAll] = useState(false);
   const tracker = getTracker();
 
@@ -106,38 +114,81 @@ export default function GenerationResult({
           </div>
         </div>
 
-        {/* Copy all button */}
-        <motion.button
-          onClick={copyAll}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
-          style={{
-            display: "flex", alignItems: "center", gap: "6px",
-            padding: "6px 14px", borderRadius: "999px",
-            background: copiedAll
-              ? "color-mix(in srgb, var(--color-success) 10%, transparent)"
-              : "color-mix(in srgb, var(--color-foreground) 5%, transparent)",
-            border: `1px solid ${copiedAll
-              ? "color-mix(in srgb, var(--color-success) 30%, transparent)"
-              : "color-mix(in srgb, var(--color-foreground) 12%, transparent)"}`,
-            color: copiedAll ? "var(--color-success)" : "var(--color-foreground-secondary)",
-            fontSize: "12px", fontWeight: 600, cursor: "pointer",
-            transition: "all 0.2s ease", fontFamily: "inherit",
-          }}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {copiedAll ? (
-              <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} style={{ display: "flex" }}>
-                <Check size={12} />
-              </motion.span>
-            ) : (
-              <motion.span key="copy" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} style={{ display: "flex" }}>
-                <Copy size={12} />
-              </motion.span>
-            )}
-          </AnimatePresence>
-          {copiedAll ? t("copied") : t("copyAll")}
-        </motion.button>
+        {/* Actions right side */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", background: "color-mix(in srgb, var(--color-foreground) 4%, transparent)", borderRadius: "999px", padding: "2px", border: "1px solid color-mix(in srgb, var(--color-foreground) 10%, transparent)" }}>
+            <motion.button
+              onClick={onPrevHistory}
+              disabled={!hasPrevHistory}
+              whileHover={hasPrevHistory ? { scale: 1.1 } : {}}
+              whileTap={hasPrevHistory ? { scale: 0.9 } : {}}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center",
+                width: "26px", height: "26px", borderRadius: "50%", border: "none",
+                background: "transparent",
+                color: hasPrevHistory ? "var(--color-foreground)" : "var(--color-foreground-disabled)",
+                cursor: hasPrevHistory ? "pointer" : "not-allowed",
+                transition: "color 0.2s ease",
+              }}
+              aria-label="Previous"
+            >
+              {isRTL ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+            </motion.button>
+            
+            <div style={{ width: "1px", height: "12px", background: "color-mix(in srgb, var(--color-foreground) 12%, transparent)" }} />
+
+            <motion.button
+              onClick={onNextHistory}
+              disabled={!hasNextHistory}
+              whileHover={hasNextHistory ? { scale: 1.1 } : {}}
+              whileTap={hasNextHistory ? { scale: 0.9 } : {}}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center",
+                width: "26px", height: "26px", borderRadius: "50%", border: "none",
+                background: "transparent",
+                color: hasNextHistory ? "var(--color-foreground)" : "var(--color-foreground-disabled)",
+                cursor: hasNextHistory ? "pointer" : "not-allowed",
+                transition: "color 0.2s ease",
+              }}
+              aria-label="Next"
+            >
+              {isRTL ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
+            </motion.button>
+          </div>
+
+          {/* Copy all button */}
+          <motion.button
+            onClick={copyAll}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            style={{
+              display: "flex", alignItems: "center", gap: "6px",
+              padding: "6px 14px", borderRadius: "999px",
+              background: copiedAll
+                ? "color-mix(in srgb, var(--color-success) 10%, transparent)"
+                : "color-mix(in srgb, var(--color-foreground) 5%, transparent)",
+              border: `1px solid ${copiedAll
+                ? "color-mix(in srgb, var(--color-success) 30%, transparent)"
+                : "color-mix(in srgb, var(--color-foreground) 12%, transparent)"}`,
+              color: copiedAll ? "var(--color-success)" : "var(--color-foreground-secondary)",
+              fontSize: "12px", fontWeight: 600, cursor: "pointer",
+              transition: "all 0.2s ease", fontFamily: "inherit",
+            }}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {copiedAll ? (
+                <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} style={{ display: "flex" }}>
+                  <Check size={12} />
+                </motion.span>
+              ) : (
+                <motion.span key="copy" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} style={{ display: "flex" }}>
+                  <Copy size={12} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+            {copiedAll ? t("copied") : t("copyAll")}
+          </motion.button>
+        </div>
       </motion.div>
 
       {/* ── Content ── */}
@@ -243,27 +294,29 @@ export default function GenerationResult({
         }}
       >
           {/* Regenerate */}
-          <motion.button
-            onClick={() => { tracker.track("regeneration_requested"); onRegenerate(); }}
-            disabled={loading}
-            whileHover={!loading ? { scale: 1.02, boxShadow: "var(--shadow-brand)" } : undefined}
-            whileTap={!loading ? { scale: 0.96 } : undefined}
-            style={{
-              flex: 1,
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
-              borderRadius: "12px", border: "none",
-              background: "var(--gradient-brand)",
-              color: "white", fontWeight: 700, fontSize: "13px",
-              padding: "12px 16px",
-              cursor: loading ? "not-allowed" : "pointer",
-              opacity: loading ? 0.5 : 1,
-              boxShadow: "var(--shadow-brand)",
-              transition: "all 0.2s ease", fontFamily: "inherit",
-            }}
-          >
-            <RefreshCw size={14} />
-            {t("rewrite")}
-          </motion.button>
+          {!isHistoryView && (
+            <motion.button
+              onClick={() => { tracker.track("regeneration_requested"); onRegenerate(); }}
+              disabled={loading}
+              whileHover={!loading ? { scale: 1.02, boxShadow: "var(--shadow-brand)" } : undefined}
+              whileTap={!loading ? { scale: 0.96 } : undefined}
+              style={{
+                flex: 1,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
+                borderRadius: "12px", border: "none",
+                background: "var(--gradient-brand)",
+                color: "white", fontWeight: 700, fontSize: "13px",
+                padding: "12px 16px",
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.5 : 1,
+                boxShadow: "var(--shadow-brand)",
+                transition: "all 0.2s ease", fontFamily: "inherit",
+              }}
+            >
+              <RefreshCw size={14} />
+              {t("rewrite")}
+            </motion.button>
+          )}
 
           {/* Start over */}
           <motion.button
