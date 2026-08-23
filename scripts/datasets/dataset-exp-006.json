@@ -1,0 +1,38 @@
+{
+  "name": "EXP-006 Persona Perspective V2 Validation",
+  "version": "1.0",
+  "description": "An independent dataset to validate the structural enforcement of Persona Perspective V2 against V1. Contains 6 new topics, including a technical control topic.",
+  "personas": ["developer", "psychology", "intellectual", "creative"],
+  "topics": [
+    {
+      "id": "T-P07",
+      "name": "Remote Work",
+      "prompt": "تأثير العمل عن بعد على الإنتاجية والعزلة الاجتماعية."
+    },
+    {
+      "id": "T-P08",
+      "name": "Imposter Syndrome",
+      "prompt": "متلازمة المحتال (Imposter Syndrome) وكيفية التغلب عليها في بيئة العمل."
+    },
+    {
+      "id": "T-P09",
+      "name": "Negative Feedback",
+      "prompt": "تقديم النقد البناء لزميل عمل دون تدمير العلاقة."
+    },
+    {
+      "id": "T-P10",
+      "name": "AI replacing jobs",
+      "prompt": "هل الذكاء الاصطناعي سيلغي وظائفنا أم سيغير طبيعتها؟"
+    },
+    {
+      "id": "T-P11",
+      "name": "Daily Routine",
+      "prompt": "بناء روتين يومي يحافظ على التركيز ويمنع الاحتراق الوظيفي."
+    },
+    {
+      "id": "T-P12",
+      "name": "API Rate Limiting (Control)",
+      "prompt": "أهمية تقييد الطلبات (Rate Limiting) لحماية الخوادم من الانهيار."
+    }
+  ]
+}
