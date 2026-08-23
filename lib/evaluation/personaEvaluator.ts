@@ -1,4 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
+import { nextEvalModel } from "./modelPool";
 
 // ─── Persona fingerprints sent to the evaluator ───────────────────────────
 // These describe HOW each persona thinks, NOT what domain they talk about.
@@ -145,7 +146,7 @@ ${text}
 `.trim();
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite",
+    model: nextEvalModel(),
     contents: userPrompt,
     config: {
       systemInstruction: systemPrompt,

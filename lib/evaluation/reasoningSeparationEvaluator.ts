@@ -1,4 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
+import { nextEvalModel } from "./modelPool";
 import { PersonaId } from "./types";
 
 export interface ReasoningSeparationResult {
@@ -83,7 +84,7 @@ Analyze the cognitive separation between these two texts.
 `.trim();
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite",
+    model: nextEvalModel(),
     contents: userPrompt,
     config: {
       systemInstruction: systemPrompt,

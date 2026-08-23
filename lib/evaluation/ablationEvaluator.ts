@@ -1,4 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
+import { nextEvalModel } from "./modelPool";
 import { PersonaId } from "./types";
 import { evaluatePersona } from "./personaEvaluator";
 
@@ -130,7 +131,7 @@ STRICT RULES:
   `.trim();
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite",
+    model: nextEvalModel(),
     contents: text,
     config: {
       systemInstruction: systemPrompt,
@@ -184,7 +185,7 @@ Compare the two versions across the four structural dimensions.
 `.trim();
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite",
+    model: nextEvalModel(),
     contents: userPrompt,
     config: {
       systemInstruction: systemPrompt,
