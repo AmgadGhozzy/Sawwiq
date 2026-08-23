@@ -75,9 +75,12 @@ function buildPersonaLayer(persona?: any): PromptLayer | null {
   }
 
   // Inject perspective constraint (causal model) if available for this persona
-  const perspectiveConstraint = buildPerspectiveConstraint(personaId);
-  if (perspectiveConstraint) {
-    content += `\n${perspectiveConstraint}\n`;
+  const usePerspectiveConstraint = (persona as any)?.usePerspectiveConstraint !== false;
+  if (usePerspectiveConstraint) {
+    const perspectiveConstraint = buildPerspectiveConstraint(personaId);
+    if (perspectiveConstraint) {
+      content += `\n${perspectiveConstraint}\n`;
+    }
   }
 
   content += `\n<rule>Use this persona to frame the topic, structure the logic, and choose analogies. DO NOT invent personal anecdotes. DO NOT use explicit domain jargon just to sound like the persona.</rule>`;

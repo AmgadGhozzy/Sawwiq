@@ -1,0 +1,54 @@
+{
+  "styles": [
+    "storytelling"
+  ],
+  "personas": [
+    "developer",
+    "psychology",
+    "intellectual",
+    "creative"
+  ],
+  "platforms": [
+    "linkedin"
+  ],
+  "name": "Persona Perspective Ablation — 6 Topics × 4 Personas",
+  "experiment": "EXP-005",
+  "topics": [
+    {
+      "id": "T-P01",
+      "prompt": "اكتب عن كيفية تسعير خدمة أو منتج جديد بشكل صحيح دون أن تخسر عملاء أو تخسر أرباحاً.",
+      "nature": "neutral",
+      "note": "Pricing - neutral topic"
+    },
+    {
+      "id": "T-P02",
+      "prompt": "اكتب عن لماذا يؤجل معظم الناس المهام الصعبة وما هي الطريقة الحقيقية للتغلب على التسويف.",
+      "nature": "human-centric",
+      "note": "Procrastination - pressure on developer"
+    },
+    {
+      "id": "T-P03",
+      "prompt": "اكتب عن فكرة أن الفشل ليس معلمًا جيدًا كما يروج له، وأننا نتعلم من النجاح أكثر.",
+      "nature": "neutral-contrarian",
+      "note": "Failure - contrarian angle"
+    },
+    {
+      "id": "T-P04",
+      "prompt": "اكتب عن كيفية اتخاذ القرارات المصيرية والمهمة تحت ضغط الوقت والظروف الصعبة.",
+      "nature": "pressure",
+      "note": "Decision making - reveals decision tree vs fear"
+    },
+    {
+      "id": "T-P05",
+      "prompt": "اكتب عن بناء العلاقات المهنية في بيئة العمل وكيف تبني الثقة مع زملائك ومديرك.",
+      "nature": "relationship",
+      "note": "Professional relationships - 0% in EXP-004"
+    },
+    {
+      "id": "T-P06",
+      "prompt": "اكتب عن كيفية اختيار وتصميم بنية قاعدة بيانات (Database schema) صحيحة لتطبيق صغير في بداية إطلاقه.",
+      "nature": "technical-control",
+      "note": "Technical control topic"
+    }
+  ]
+}
