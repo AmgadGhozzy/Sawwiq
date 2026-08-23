@@ -1,6 +1,86 @@
 import { PersonaId } from "../../evaluation/types";
 
-export function buildPerspectiveConstraint(personaId: PersonaId): string {
+// ─── V1 Definitions ─────────────────────────────────────────────────────────
+
+const DEVELOPER_V1 = `<perspective_constraint>
+  <causal_model>
+    INPUT → SYSTEM/CONSTRAINTS → BOTTLENECK → MECHANISM → INTERVENTION → OUTCOME
+  </causal_model>
+  <reasoning_sequence>
+    1. Identify the observable problem (INPUT).
+    2. Map it to the system it belongs to — its rules, components, and constraints.
+    3. Locate the bottleneck or constraint that causes the problem.
+    4. Explain the causal mechanism: why does this constraint produce this problem?
+    5. Derive a structural intervention or rule that addresses the mechanism, not the symptom.
+    6. Write only the resulting content. The causal structure must be felt in the argument — do not state the model explicitly.
+  </reasoning_sequence>
+  <anti_patterns>
+    - Do not default to emotional or psychological interpretation when a mechanism-level explanation exists.
+    - Using technical vocabulary (pipeline, system, loop) is NOT the same as thinking in mechanisms. Vocabulary is irrelevant; causal structure is everything.
+    - Do not treat symptoms as root causes. Find the constraint.
+  </anti_patterns>
+</perspective_constraint>`;
+
+const PSYCHOLOGY_V1 = `<perspective_constraint>
+  <causal_model>
+    TRIGGER → MOTIVE → BEHAVIOR → INTERNAL REINFORCEMENT → AWARENESS → CHANGE
+  </causal_model>
+  <reasoning_sequence>
+    1. Identify the trigger: what external event or internal state initiates the behavior?
+    2. Uncover the motive: what hidden need, fear, or desire drives it (not just what it looks like)?
+    3. Describe the behavior: the observable action, with the gap between stated intent and actual action.
+    4. Explain the internal reinforcement: why does this behavior persist even when the person knows better?
+    5. Offer an awareness shift: not a tip or a rule, but a change in how the person perceives themselves.
+    6. Write only the resulting content. Evidence must come from behavioral pattern and observable gaps — not from vocabulary.
+  </reasoning_sequence>
+  <anti_patterns>
+    - Emotional vocabulary (fear, anxiety, dopamine) is NOT evidence of behavioral reasoning. The mechanism must be present.
+    - Do not end with a rule or actionable tip — the conclusion must offer a shift in self-perception.
+    - Do not confuse naming an emotion with explaining the mechanism behind it.
+  </anti_patterns>
+</perspective_constraint>`;
+
+const INTELLECTUAL_V1 = `<perspective_constraint>
+  <causal_model>
+    ASSUMPTION → COUNTER-ASSUMPTION → TENSION → PARADOX → SYNTHESIS
+  </causal_model>
+  <reasoning_sequence>
+    1. State the widely accepted assumption about the topic.
+    2. Introduce the counter-assumption — the evidence or logic that undermines it.
+    3. Articulate the tension: both cannot fully be true, yet neither can be fully dismissed.
+    4. Locate the paradox: the point at which the contradiction reveals something deeper about reality.
+    5. Offer a synthesis: not a compromise, but a redefinition that makes the paradox productive.
+    6. Write only the resulting content. The dialectical movement must structure the argument — do not announce the stages.
+  </reasoning_sequence>
+  <anti_patterns>
+    - Do not settle for a simple counter-argument. The goal is paradox, not refutation.
+    - Academic vocabulary is NOT dialectical thinking. The structure of the argument is what matters.
+    - Do not lose the reader in abstraction — the synthesis must reconnect to the concrete reality of the topic.
+  </anti_patterns>
+</perspective_constraint>`;
+
+const CREATIVE_V1 = `<perspective_constraint>
+  <causal_model>
+    OBSERVATION → UNEXPECTED CONNECTION → RECONTEXTUALIZATION → EMOTIONAL IMAGE → MEMORABLE RESOLUTION
+  </causal_model>
+  <reasoning_sequence>
+    1. Begin from an unexpected observation — a detail, a sensory moment, or a seemingly unrelated parallel.
+    2. Build the unexpected connection: how does this observation map onto the topic in a non-obvious way?
+    3. Recontextualize the topic through this lens — the reader should see it differently than before.
+    4. Anchor the reframing in a vivid emotional image that makes the abstract feel tangible.
+    5. Resolve with a closing that ties back to the opening observation, leaving a resonant echo.
+    6. Write only the resulting content. The associative leap must feel natural, not forced — surprise first, explanation second.
+  </reasoning_sequence>
+  <anti_patterns>
+    - Poetic vocabulary is NOT creative reasoning. The associative structure is what creates originality.
+    - Do not explain the metaphor — let it do the work.
+    - Creativity must serve the core message. If the image overshadows the idea, revise the image.
+  </anti_patterns>
+</perspective_constraint>`;
+
+// ─── V2 Builder ────────────────────────────────────────────────────────────
+
+function buildV2(personaId: PersonaId): string {
   let primaryModel = "";
   let causalModel = "";
   let requiredReasoning = "";
@@ -107,4 +187,18 @@ export function buildPerspectiveConstraint(personaId: PersonaId): string {
   </execution_rules>
 </reasoning_contract>
 `.trim();
+}
+
+export function buildPerspectiveConstraint(personaId: PersonaId, version: "v1" | "v2" = "v2"): string {
+  if (version === "v1") {
+    switch (personaId) {
+      case "developer": return DEVELOPER_V1;
+      case "psychology": return PSYCHOLOGY_V1;
+      case "intellectual": return INTELLECTUAL_V1;
+      case "creative": return CREATIVE_V1;
+      default: return "";
+    }
+  }
+  
+  return buildV2(personaId);
 }

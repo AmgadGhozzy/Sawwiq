@@ -77,7 +77,8 @@ function buildPersonaLayer(persona?: any): PromptLayer | null {
   // Inject perspective constraint (causal model) if available for this persona
   const usePerspectiveConstraint = (persona as any)?.usePerspectiveConstraint !== false;
   if (usePerspectiveConstraint) {
-    const perspectiveConstraint = buildPerspectiveConstraint(personaId);
+    const perspectiveVersion = (persona as any)?.perspectiveVersion || "v2";
+    const perspectiveConstraint = buildPerspectiveConstraint(personaId, perspectiveVersion);
     if (perspectiveConstraint) {
       content += `\n${perspectiveConstraint}\n`;
     }
