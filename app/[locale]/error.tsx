@@ -53,7 +53,7 @@ export default function Error({
       </div>
       <h2
         style={{
-          fontSize: "1.5rem",
+          fontSize: "var(--text-2xl)",
           fontWeight: 700,
           color: "#f1f5f9",
           marginBottom: "var(--space-2)",

@@ -116,7 +116,7 @@ export default function OutputShowcase() {
           gap: "var(--space-2)",
           background: "rgba(0,0,0,0.15)",
         }}>
-          <p style={{
+          <p className="platform-label" style={{
             fontSize: "var(--text-xs)",
             color: "var(--color-foreground-disabled)",
             fontWeight: "var(--font-weight-semibold)",
@@ -126,7 +126,8 @@ export default function OutputShowcase() {
           }}>
             المنصة
           </p>
-          {samples.map((s, i) => {
+          <div className="platforms-list" style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+            {samples.map((s, i) => {
             const sColor = PLATFORM_COLOR_VAR[s.platform] ?? "var(--color-brand-primary)";
             const sAlpha18 = `color-mix(in srgb, ${sColor} 18%, transparent)`;
             return (
@@ -149,8 +150,10 @@ export default function OutputShowcase() {
                   cursor: "pointer",
                   transition: "var(--transition-normal)",
                   textAlign: "start",
-                  width: "100%",
+                  width: "auto",
                   position: "relative",
+                  flexShrink: 0,
+                  whiteSpace: "nowrap",
                 }}
               >
                 {i === active && (
@@ -170,6 +173,7 @@ export default function OutputShowcase() {
               </button>
             );
           })}
+          </div>
         </div>
 
         {/* Right content pane */}
@@ -304,12 +308,23 @@ export default function OutputShowcase() {
           .showcase-panel {
             grid-template-columns: 1fr !important;
           }
+          .platform-label {
+            display: none !important;
+          }
           .showcase-panel > div:first-child {
-            flex-direction: row !important;
-            overflow-x: auto;
             border-inline-end: none !important;
             border-bottom: 1px solid var(--color-border) !important;
-            padding: var(--space-3) var(--space-4) !important;
+            padding: var(--space-4) !important;
+          }
+          .platforms-list::-webkit-scrollbar {
+            display: none;
+          }
+          .platforms-list {
+            flex-direction: row !important;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            gap: var(--space-2) !important;
           }
         }
       `}</style>

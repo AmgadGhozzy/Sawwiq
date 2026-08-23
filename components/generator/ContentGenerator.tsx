@@ -292,7 +292,7 @@ export default function ContentGenerator() {
                 background: "var(--gradient-brand)",
                 color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
                 cursor: "pointer", fontFamily: "inherit",
-                boxShadow: "var(--shadow-brand)",
+                boxShadow: "none",
               }}
             >
               <Sparkles size={16} />
@@ -533,15 +533,14 @@ export default function ContentGenerator() {
                     left: 0,
                     right: 0,
                     padding: "var(--space-4)",
-                    paddingTop: "var(--space-4)",
                     zIndex: 20,
                     display: "flex",
                     flexDirection: "column",
                     gap: "var(--space-3)",
-                    background: "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--color-surface-elevated) 95%, var(--color-background)) 40%)",
-                    backdropFilter: "blur(14px)",
-                    borderTop: "1px solid var(--color-border-subtle)",
+                    background: "var(--color-surface-elevated)",
+                    borderRadius: "var(--radius-3xl) var(--radius-3xl) 0 0",
                   }}>
+
                     {apiError && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
@@ -563,7 +562,7 @@ export default function ContentGenerator() {
                         onClick={scrollToCTA}
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
+                        whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.97 }}
                         style={{
                           display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
@@ -571,7 +570,7 @@ export default function ContentGenerator() {
                           background: "var(--gradient-brand)",
                           color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
                           cursor: "pointer", fontFamily: "inherit",
-                          boxShadow: "var(--shadow-brand)",
+                          boxShadow: "none",
                         }}
                       >
                         <Sparkles size={15} />

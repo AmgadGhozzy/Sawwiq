@@ -61,7 +61,7 @@ export default function ConversionCTA() {
           className="cta-glass-card"
       style={{
         position: "relative",
-        maxWidth: "var(--container-md)",
+        maxWidth: "600px",
         margin: "0 auto",
         borderRadius: "var(--radius-3xl)",
         background: "var(--gradient-surface)",
@@ -123,7 +123,7 @@ export default function ConversionCTA() {
       </motion.div>
 
       {/* ── Text ── */}
-      <div style={{ maxWidth: "500px", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: "580px", position: "relative", zIndex: 1 }}>
         <h3 style={{
           fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", margin: "0 0 var(--space-3-5)",
           color: "var(--color-foreground)",
@@ -136,7 +136,7 @@ export default function ConversionCTA() {
       </div>
 
       {/* ── Email form / Success state ── */}
-      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "440px", marginTop: "var(--space-1)" }}>
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "500px", marginTop: "var(--space-1)" }}>
         <AnimatePresence mode="wait">
           {submitted ? (
             <motion.div

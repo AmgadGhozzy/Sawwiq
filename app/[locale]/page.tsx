@@ -121,7 +121,7 @@ export default function Home() {
 
         {/* Subtitle */}
         <p style={{
-          fontSize: "1.05rem", color: "var(--color-foreground-secondary)", fontWeight: "var(--font-weight-normal)",
+          fontSize: "var(--text-lg)", color: "var(--color-foreground-secondary)", fontWeight: "var(--font-weight-normal)",
           maxWidth: "var(--container-md)", margin: "0 auto", lineHeight: 1.8,
         }}>
           {tGlobal("productTagline")}

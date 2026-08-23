@@ -20,13 +20,7 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
       whileTap={!disabled && !loading ? { scale: 0.97 } : undefined}
       whileHover={!disabled && !loading ? { y: -2, scale: 1.01 } : undefined}
       aria-busy={loading}
-      animate={!isOff && !loading ? {
-        boxShadow: [
-          "0 0 16px color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
-          "0 0 28px color-mix(in srgb, var(--color-brand-hover) 50%, transparent)",
-          "0 0 16px color-mix(in srgb, var(--color-brand-primary) 30%, transparent)"
-        ]
-      } : undefined}
+      animate={undefined}
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       style={{
         width: "100%",
@@ -40,7 +34,7 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
         background: isOff
           ? "color-mix(in srgb, var(--color-foreground) 5%, transparent)"
           : "var(--gradient-brand)",
-        boxShadow: "var(--shadow-brand)",
+        boxShadow: "none",
         transition: "var(--transition-normal)",
         letterSpacing: "0.01em",
       }}

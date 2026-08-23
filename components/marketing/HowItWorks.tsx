@@ -329,10 +329,10 @@ function Step2Mockup() {
             <div style={{ width: "1px", height: "12px", background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 50%, transparent)" : "rgba(255,255,255,0.1)" }} />
             <div style={{
               padding: "2px 10px",
-              borderRadius: "var(--radius-xs)",
+              borderRadius: "var(--radius-md)",
               background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)" : "rgba(255,255,255,0.04)",
               border: `1px solid ${i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)" : "rgba(255,255,255,0.06)"}`,
-              fontSize: "10px",
+              fontSize: "var(--text-2xs)",
               color: i === 1 ? "var(--color-brand-light)" : "var(--color-foreground-disabled)",
             }}>
               {label}
@@ -358,10 +358,10 @@ function Step3Mockup() {
         {[t("mockup.tag1"), t("mockup.tag2")].map((tag) => (
           <div key={tag} style={{
             padding: "2px 8px",
-            borderRadius: "var(--radius-xs)",
+            borderRadius: "var(--radius-md)",
             background: "var(--color-brand-surface)",
             border: "1px solid var(--color-brand-soft)",
-            fontSize: "10px",
+            fontSize: "var(--text-2xs)",
             color: "var(--color-brand-light)",
           }}>
             #{tag}
