@@ -1,6 +1,7 @@
 import { PLATFORM_RULES } from "./platforms";
 import { DIALECT_RULES } from "./dialects";
 import { CONTENT_TYPE_RULES } from "./contentTypes";
+import { buildPerspectiveConstraint } from "../personas/perspectiveConstraint";
 import type { InputDTO } from "../../../supabase/functions/generate/validation/schema";
 
 interface PromptLayer {
@@ -53,6 +54,9 @@ function buildPersonaLayer(persona?: any): PromptLayer | null {
   const identity = typeof persona === "string" ? persona : persona.name || persona.identity || persona.id;
   if (!identity) return null;
 
+  // Extract personaId for perspective constraint lookup
+  const personaId = typeof persona === "string" ? persona : (persona.id ?? "");
+
   let content = `<identity>${identity}</identity>\n`;
 
   const rp = persona.reasoningProfile;
@@ -70,6 +74,12 @@ function buildPersonaLayer(persona?: any): PromptLayer | null {
     content += `<characteristics>\n${persona.characteristics.map((c: string) => `- ${c}`).join('\n')}\n</characteristics>\n`;
   }
 
+  // Inject perspective constraint (causal model) if available for this persona
+  const perspectiveConstraint = buildPerspectiveConstraint(personaId);
+  if (perspectiveConstraint) {
+    content += `\n${perspectiveConstraint}\n`;
+  }
+
   content += `\n<rule>Use this persona to frame the topic, structure the logic, and choose analogies. DO NOT invent personal anecdotes. DO NOT use explicit domain jargon just to sound like the persona.</rule>`;
 
   return {
@@ -77,6 +87,7 @@ function buildPersonaLayer(persona?: any): PromptLayer | null {
     content: content.trim(),
   };
 }
+
 
 function buildStyleLayer(style?: any): PromptLayer | null {
   if (!style) return null;

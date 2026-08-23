@@ -1,4 +1,4 @@
-import { CONTENT_TYPE_RULES } from "../prompts/contentTypes.ts";
+import { getContentTypeRule } from "../prompts/contentTypes.ts";
 import type { InputDTO, GeneratedContent } from "./schema.ts";
 
 const CLAIM_PATTERNS: Record<string, string[]> = {
@@ -96,7 +96,7 @@ export function validateClaims(
   const userInput = input.rawInput;
 
   // ----- 1. Forbidden claims per content type -----
-  const rule = CONTENT_TYPE_RULES[input.contentType];
+  const rule = getContentTypeRule(input.contentType);
 
   if (rule && rule.forbiddenClaims) {
     for (const claimType of rule.forbiddenClaims) {

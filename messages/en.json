@@ -7,6 +7,36 @@
     "headline": "Marketing content that sells — in seconds",
     "aiBadge": "Powered by AI"
   },
+  "HowItWorks": {
+    "badge": "How It Works",
+    "title": "From your idea to signature content",
+    "subtitle": "You set the idea and the perspective. Sawwiq transforms them into publish-ready content.",
+    "step1": {
+      "number": "01",
+      "title": "Choose & Write",
+      "description": "Write down your idea, then choose the platform, dialect, and the persona you want your content to reflect."
+    },
+    "step2": {
+      "number": "02",
+      "title": "Define Your Perspective",
+      "description": "Persona isn't just different words. We use it to shape the thinking angle, the delivery style, and how the content is structured."
+    },
+    "step3": {
+      "number": "03",
+      "title": "Receive & Publish",
+      "description": "You get structured, ready-to-publish content, from the hook to the CTA and hashtags."
+    },
+    "mockup": {
+      "dialect": "Egyptian",
+      "persona": "Developer",
+      "oneIdea": "One idea",
+      "branch1": "Analytical",
+      "branch2": "Creative",
+      "branch3": "Persuasive",
+      "tag1": "Content",
+      "tag2": "Publishing"
+    }
+  },
   "Showcase": {
     "badge": "Real output samples",
     "title": "See the results before you sign up",
@@ -93,6 +123,8 @@
       "voice": "Your authentic voice",
       "discussion": "Discussion-sparking endings"
     },
+    "emptyStateHint": "Fill in your product details on the left to get started",
+    "emptyStateHintCreator": "Write your idea on the left to get started",
     "lockedStateTitle": "You're out of free generations 🎁",
     "lockedStateSubtitle": "Sign up now for instant bonus credits",
     "lockedStateButton": "Sign up free"

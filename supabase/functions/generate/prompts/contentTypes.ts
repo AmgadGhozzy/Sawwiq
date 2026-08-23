@@ -3,8 +3,7 @@ export interface ContentTypeRule {
     forbiddenClaims: string[];
 }
 
-export const CONTENT_TYPE_RULES: Record<string, ContentTypeRule> = {
-    // Canonical V2 Types
+const CONTENT_TYPE_RULES: Record<string, ContentTypeRule> = {
     social_post: {
         forbiddenClaims: ["medical_claim", "guarantee", "financial_return"],
         systemInstructions: `OBJECTIVE: Generate interactive and thought-provoking content.
@@ -42,6 +41,8 @@ Each scene MUST strictly follow this structure:
 [Visual] (Describe what the viewer sees, framing, action)
 [Audio] (Spoken dialogue, voiceover, sound effects)
 [Text] (On-screen text, if any)
+
+CRITICAL: The body MUST ONLY contain the structured scenes. DO NOT write any introductory text, concluding paragraphs, or normal text outside the scenes.
 
 PACING RULE: Audio text MUST match the visual time. Assume 2-3 words per second. Keep audio punchy and short.
 
@@ -98,59 +99,17 @@ TONE: Authentic, raw, and relatable. Not overly polished.
 - Sub-headlines: عناوين فرعية مقنعة تقود القارئ.
 - CTA: دعوة واضحة ومباشرة لاتخاذ القرار.`,
     },
-
-    // Legacy V1 Aliases (for backward compatibility)
-    sponsored_ad: {
-        forbiddenClaims: ["medical_claim", "guarantee"],
-        systemInstructions: `FRAMEWORK: Use PAS (Problem-Agitate-Solution).
-1. Problem: ابدأ بلمس مشكلة حقيقية وتلامس واقع العميل.
-2. Agitate: ضخم أثرها العاطفي والعملي.
-3. Solution: قدم المنتج/الخدمة كالحل المثالي والمباشر.`,
-    },
-
-    interactive_post: {
-        forbiddenClaims: ["medical_claim", "guarantee", "financial_return"],
-        systemInstructions: `OBJECTIVE: Generate interactive and thought-provoking content.
-- اطرح فكرة أو زاوية نظر ذكية ومثيرة للاهتمام.
-- شجع القارئ على التفكير وإبداء الرأي بشكل طبيعي.`,
-    },
-
-    ecommerce_product: {
-        forbiddenClaims: ["medical_claim", "guarantee"],
-        systemInstructions: `OBJECTIVE: Transform product features into tangible benefits.
-- ركز على تجربة المستخدم والشعور عند الاقتناء بدلاً من سرد المواصفات.
-- استخدم لغة حيوية تزيد من القيمة المدركة للمنتج.`,
-    },
-
-    real_estate: {
-        forbiddenClaims: ["medical_claim", "guarantee", "financial_return"],
-        systemInstructions: `OBJECTIVE: Sell a lifestyle, not just walls.
-- ركز على الموقع، المساحة، والخصوصية والراحة النفسية.
-- استخدم كلمات تثير الخيال وترسم صورة ذهنية جذابة للعيش في هذا العقار.`,
-    },
-
-    short_video_script: {
-        forbiddenClaims: ["medical_claim", "guarantee"],
-        systemInstructions: `FORMAT REQUIREMENT: The body MUST be a numbered sequence of scenes.
-Each scene MUST strictly follow this structure:
-[Scene X — Ns]
-[Visual] (Describe what the viewer sees, framing, action)
-[Audio] (Spoken dialogue, voiceover, sound effects)
-[Text] (On-screen text, if any)
-
-PACING RULE: Audio text MUST match the visual time. Assume 2-3 words per second. Keep audio punchy and short.
-
-SCENE STRUCTURE:
-1. HOOK (0-3s): Start immediately. NO greetings. Create tension, surprise, or state a clear benefit. Visual and audio must synchronize for maximum impact.
-2. VALUE (3-25s): Deliver 2-4 concrete points or story beats. Keep scenes visually distinct and fast-paced.
-3. CTA (Final 3-5s): One clear, value-driven action.`,
-    },
-
-    marketing_email: {
-        forbiddenClaims: ["medical_claim", "guarantee"],
-        systemInstructions: `OBJECTIVE: Write a high-converting marketing email.
-- Subject Line: ابدأ بعنوان يثير الفضول ويجبر المستلم على الفتح.
-- Body: اجعل الرسالة شخصية، مباشرة، وكانك تراسل صديقاً.
-- CTA: إجراء واحد واضح جداً ومقنع.`,
-    },
 };
+
+const CONTENT_TYPE_ALIASES: Record<string, string> = {
+    sponsored_ad: "advertisement",
+    interactive_post: "social_post",
+    ecommerce_product: "product_description",
+    real_estate: "real_estate_listing",
+    short_video_script: "video_script",
+    marketing_email: "email",
+};
+
+export function getContentTypeRule(contentType: string): ContentTypeRule | undefined {
+    return CONTENT_TYPE_RULES[contentType] ?? CONTENT_TYPE_RULES[CONTENT_TYPE_ALIASES[contentType]];
+}

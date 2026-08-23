@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
-import { Wand2, Zap, Lock, Sparkles } from "lucide-react";
+import { Wand2, Zap, Lock, Sparkles, ArrowLeft } from "lucide-react";
 import { generateInputSchema, type GenerateInputDTO } from "@/lib/validation/generation";
 import type { GeneratedContent, GenerateResponse } from "@/types/content";
 import { ERROR_CODES } from "@/types/content";
@@ -247,6 +247,20 @@ export default function ContentGenerator() {
 
   return (
     <>
+      <style>{`
+        @keyframes cg-ring-spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        @keyframes cg-icon-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 var(--color-brand-soft), var(--shadow-brand); }
+          50%       { box-shadow: 0 0 0 10px transparent, var(--shadow-brand); }
+        }
+        @keyframes cg-card-glow {
+          0%, 100% { opacity: 0.45; }
+          50%       { opacity: 0.9; }
+        }
+      `}</style>
       {/* ── Mobile Sticky Generate Bar ── */}
       {isMobile && (
         <div className="sticky-generate-bar">
@@ -312,53 +326,83 @@ export default function ContentGenerator() {
                 maxHeight: isMobile ? "none" : "calc(100vh - 80px)",
                 display: "flex",
                 flexDirection: "column",
-                overflow: "hidden"
+                overflow: "hidden",
+                position: "relative",
               }}
             >
+              {/* Top accent glow line */}
+              <div style={{
+                position: "absolute",
+                top: 0,
+                left: "20%",
+                right: "20%",
+                height: "2px",
+                background: "linear-gradient(90deg, transparent, var(--color-brand-primary), transparent)",
+                borderRadius: "var(--radius-full)",
+                animation: "cg-card-glow 3.5s ease-in-out infinite",
+                pointerEvents: "none",
+                zIndex: 1,
+              }} />
               {/* Card Header */}
               <div style={{
                 display: "flex", alignItems: "center", gap: "var(--space-3)",
                 padding: "var(--space-4) var(--space-5)",
                 flexShrink: 0,
-                position: "relative"
+                position: "relative",
               }}>
                 {/* Fading Divider */}
                 <div style={{
                   position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
+                  bottom: 0, left: 0, right: 0,
                   height: "1px",
                   background: "linear-gradient(90deg, transparent 0%, var(--color-border) 50%, transparent 100%)",
-                  opacity: 0.8
                 }} />
+
+                {/* Icon */}
                 <div style={{
-                  width: "var(--space-8)", height: "var(--space-8)", borderRadius: "var(--radius-md)", flexShrink: 0,
+                  width: "var(--space-9)", height: "var(--space-9)",
+                  borderRadius: "var(--radius-lg)", flexShrink: 0,
                   background: "var(--gradient-brand)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: "var(--shadow-brand)",
+                  boxShadow: "var(--shadow-brand), inset 0 1px 0 rgba(255,255,255,0.18)",
                 }}>
-                  <Wand2 size={15} color="var(--color-foreground-inverse)" />
+                  <Wand2 size={16} color="var(--color-foreground-inverse)" />
                 </div>
+
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground)", margin: 0 }}>
+                  <p style={{
+                    fontSize: "var(--text-base)",
+                    fontWeight: "var(--font-weight-bold)",
+                    color: "var(--color-foreground)",
+                    margin: 0,
+                    letterSpacing: "-0.01em",
+                  }}>
                     {t("settingsTitle")}
                   </p>
-                  <p style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-disabled)", margin: 0, marginTop: "var(--space-0-5)" }}>
+                  <p style={{
+                    fontSize: "var(--text-xs)",
+                    color: "var(--color-foreground-tertiary)",
+                    margin: 0,
+                    marginTop: "var(--space-0-5)",
+                  }}>
                     {t("settingsSubtitle")}
                   </p>
                 </div>
+
                 {/* Credits badge */}
                 {remainingGenerations !== null && (
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     style={{
-                      padding: "var(--space-0-5) var(--space-2-5)", borderRadius: "var(--radius-full)",
+                      padding: "var(--space-1) var(--space-3)",
+                      borderRadius: "var(--radius-full)",
                       background: remainingGenerations > 0 ? "var(--color-brand-surface)" : "var(--color-danger-surface)",
                       border: `1px solid ${remainingGenerations > 0 ? "var(--color-brand-soft)" : "var(--color-danger-border)"}`,
-                      color: remainingGenerations > 0 ? "var(--color-brand-primary)" : "var(--color-danger)",
-                      fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", whiteSpace: "nowrap" as const,
+                      color: remainingGenerations > 0 ? "var(--color-brand-light)" : "var(--color-danger)",
+                      fontSize: "var(--text-xs)",
+                      fontWeight: "var(--font-weight-bold)",
+                      whiteSpace: "nowrap" as const,
                     }}
                   >
                     {remainingGenerations > 0 ? t("creditsRemaining", { count: remainingGenerations }) : t("zeroCredits")}
@@ -489,14 +533,14 @@ export default function ContentGenerator() {
                     left: 0,
                     right: 0,
                     padding: "var(--space-4)",
-                    paddingTop: "var(--space-3)",
+                    paddingTop: "var(--space-4)",
                     zIndex: 20,
                     display: "flex",
                     flexDirection: "column",
                     gap: "var(--space-3)",
-                    background: "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--color-surface-elevated) 92%, var(--color-background)) 35%)",
-                    backdropFilter: "blur(8px)",
-                    borderTop: "1px solid var(--color-border)",
+                    background: "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--color-surface-elevated) 95%, var(--color-background)) 40%)",
+                    backdropFilter: "blur(14px)",
+                    borderTop: "1px solid var(--color-border-subtle)",
                   }}>
                     {apiError && (
                       <motion.div
@@ -558,7 +602,7 @@ export default function ContentGenerator() {
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 style={{
-                  minHeight: "0",
+                  minHeight: "480px",
                   flex: 1,
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
@@ -568,58 +612,144 @@ export default function ContentGenerator() {
                   backdropFilter: "blur(50px) saturate(160%)",
                   WebkitBackdropFilter: "blur(50px) saturate(160%)",
                   boxShadow: "var(--shadow-elevated)",
-                  padding: "var(--space-12) var(--space-8)", textAlign: "center", gap: "var(--space-6)",
-                  position: "relative", overflow: "hidden",
+                  padding: "var(--space-12) var(--space-8)",
+                  textAlign: "center",
+                  gap: "var(--space-7)",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
-                  style={{
-                    width: "var(--space-18)", height: "var(--space-18)", borderRadius: "var(--radius-circle)",
-                    background: "color-mix(in srgb, var(--color-foreground) 3%, transparent)",
-                    border: "1px solid var(--color-border)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "0 0 0 var(--space-3) var(--color-brand-surface), 0 var(--space-3) var(--space-10) var(--color-brand-soft)",
-                  }}
-                >
-                  <Zap size={32} color="var(--color-brand-primary)" />
-                </motion.div>
+                {/* Background radial glow */}
+                <div style={{
+                  position: "absolute",
+                  top: "50%", left: "50%",
+                  transform: "translate(-50%, -55%)",
+                  width: "340px", height: "340px",
+                  borderRadius: "var(--radius-circle)",
+                  background: "radial-gradient(circle, var(--color-brand-surface) 0%, transparent 68%)",
+                  pointerEvents: "none",
+                }} />
 
-                <div style={{ maxWidth: "360px" }}>
-                  <h3 style={{ fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground)", margin: "0 0 var(--space-2-5)" }}>
-                    {isCreatorMode ? t("emptyStateTitleCreator") : t("emptyStateTitle")}
-                  </h3>
-                  <p style={{ color: "var(--color-foreground-disabled)", lineHeight: "var(--leading-relaxed)", fontSize: "var(--text-base)", margin: 0 }}>
-                    {isCreatorMode ? t("emptyStateSubtitleCreator") : t("emptyStateSubtitle")}
-                  </p>
+                {/* Icon stack: outer spinning dashed ring + inner solid ring + icon */}
+                <div style={{ position: "relative", width: "100px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {/* Spinning dashed outer ring */}
+                  <div style={{
+                    position: "absolute",
+                    inset: 0,
+                    borderRadius: "var(--radius-circle)",
+                    border: "1.5px dashed var(--color-brand-soft)",
+                    animation: "cg-ring-spin 14s linear infinite",
+                  }} />
+                  {/* Static mid ring */}
+                  <div style={{
+                    position: "absolute",
+                    inset: "12px",
+                    borderRadius: "var(--radius-circle)",
+                    border: "1px solid var(--color-border)",
+                  }} />
+                  {/* Icon circle */}
+                  <motion.div
+                    initial={{ scale: 0.7, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.2, type: "spring", stiffness: 220, damping: 14 }}
+                    style={{
+                      width: "52px", height: "52px",
+                      borderRadius: "var(--radius-circle)",
+                      background: "var(--gradient-brand)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      boxShadow: "var(--shadow-brand), inset 0 1px 0 rgba(255,255,255,0.18)",
+                      animation: "cg-icon-pulse 3.5s ease-in-out infinite",
+                    }}
+                  >
+                    <Zap size={22} color="white" />
+                  </motion.div>
                 </div>
 
-                <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap", justifyContent: "center" }}>
+                {/* Text */}
+                <div style={{ maxWidth: "380px", position: "relative" }}>
+                  <motion.h3
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25 }}
+                    style={{
+                      fontSize: "var(--text-xl)",
+                      fontWeight: "var(--font-weight-extrabold)",
+                      color: "var(--color-foreground)",
+                      margin: "0 0 var(--space-3)",
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {isCreatorMode ? t("emptyStateTitleCreator") : t("emptyStateTitle")}
+                  </motion.h3>
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.32 }}
+                    style={{
+                      color: "var(--color-foreground-tertiary)",
+                      lineHeight: "var(--leading-relaxed)",
+                      fontSize: "var(--text-base)",
+                      margin: 0,
+                    }}
+                  >
+                    {isCreatorMode ? t("emptyStateSubtitleCreator") : t("emptyStateSubtitle")}
+                  </motion.p>
+                </div>
+
+                {/* Feature tags with dot indicator */}
+                <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap", justifyContent: "center", maxWidth: "420px" }}>
                   {(isCreatorMode
                     ? [t("emptyStateTagsCreator.insights"), t("emptyStateTagsCreator.storytelling"), t("emptyStateTagsCreator.voice"), t("emptyStateTagsCreator.discussion")]
                     : [t("emptyStateTags.impactfulTitles"), t("emptyStateTags.captivatingHooks"), t("emptyStateTags.smartHashtags"), t("emptyStateTags.effectiveCTAs")]
                   ).map((tag, i) => (
                     <motion.span
                       key={tag}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 + i * 0.08 }}
+                      initial={{ opacity: 0, y: 12, scale: 0.88 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ delay: 0.38 + i * 0.09, type: "spring", stiffness: 220 }}
                       style={{
-                        padding: "var(--space-1-5) var(--space-3-5)", borderRadius: "var(--radius-full)",
-                        background: "var(--color-brand-surface)", border: "1px solid var(--color-brand-soft)",
-                        color: "var(--color-brand-primary)", fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)",
+                        padding: "var(--space-1-5) var(--space-4)",
+                        borderRadius: "var(--radius-full)",
+                        background: "var(--color-brand-surface)",
+                        border: "1px solid var(--color-brand-soft)",
+                        color: "var(--color-brand-light)",
+                        fontSize: "var(--text-sm)",
+                        fontWeight: "var(--font-weight-semibold)",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "var(--space-1-5)",
                       }}
                     >
                       <span style={{
-                        color: "color-mix(in srgb, var(--color-brand-primary) 60%, var(--color-foreground))"
-                      }}>
-                        {tag}
-                      </span>
+                        width: "5px", height: "5px",
+                        borderRadius: "var(--radius-circle)",
+                        background: "var(--color-brand-primary)",
+                        flexShrink: 0,
+                        display: "inline-block",
+                      }} />
+                      {tag}
                     </motion.span>
                   ))}
                 </div>
+
+                {/* Hint text */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.72 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "var(--space-1-5)",
+                    color: "var(--color-foreground-disabled)",
+                    fontSize: "var(--text-xs)",
+                    fontWeight: "var(--font-weight-medium)",
+                  }}
+                >
+                  <ArrowLeft size={12} style={{ flexShrink: 0 }} />
+                  <span>{isCreatorMode ? t("emptyStateHintCreator") : t("emptyStateHint")}</span>
+                </motion.div>
               </motion.div>
             )}
 

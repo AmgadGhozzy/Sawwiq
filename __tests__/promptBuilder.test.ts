@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { buildSystemPrompt, buildUserPrompt, getPromptLayers } from "../supabase/functions/generate/prompts/promptBuilder.ts";
+import { buildSystemPrompt, USER_PROMPT, getPromptLayers } from "../supabase/functions/generate/prompts/promptBuilder.ts";
 import { ARABIC_STYLES, CONTENT_TYPES, PLATFORMS } from "../types/content";
 import type { InputDTO } from "../supabase/functions/generate/validation/schema.ts";
 
@@ -86,8 +86,112 @@ describe("Prompt Engine - Full Matrix Testing (Edge Builder)", () => {
 
   describe("User Prompt Builder", () => {
     test("formats user prompt properly", () => {
-      const userPrompt = buildUserPrompt();
-      assert.strictEqual(userPrompt, "Write the marketing content based on the provided context.");
+      assert.strictEqual(
+        USER_PROMPT,
+        "اكتب المحتوى التسويقي بناءً على معلومات المستخدم المقدمة في سياق المحادثة."
+      );
+    });
+  });
+
+  describe("Alias Equivalence", () => {
+    test("legacy content types resolve to identical prompts as canonical twins", () => {
+      const pairs: [InputDTO["contentType"], InputDTO["contentType"]][] = [
+        ["sponsored_ad", "advertisement"],
+        ["interactive_post", "social_post"],
+        ["ecommerce_product", "product_description"],
+        ["real_estate", "real_estate_listing"],
+        ["short_video_script", "video_script"],
+        ["marketing_email", "email"],
+      ];
+      for (const [legacy, canonical] of pairs) {
+        const legacyPrompt = buildSystemPrompt({
+          platform: "instagram",
+          arabicStyle: "white_arabic",
+          contentType: legacy,
+          rawInput: "تجربة محتوى تسويقي طويل",
+        });
+        const canonicalPrompt = buildSystemPrompt({
+          platform: "instagram",
+          arabicStyle: "white_arabic",
+          contentType: canonical,
+          rawInput: "تجربة محتوى تسويقي طويل",
+        });
+        assert.strictEqual(legacyPrompt, canonicalPrompt, `${legacy} !== ${canonical}`);
+      }
+    });
+
+    test("x_twitter resolves to the same rules as x", () => {
+      const build = (platform: InputDTO["platform"]) =>
+        buildSystemPrompt({
+          platform,
+          arabicStyle: "white_arabic",
+          contentType: "social_post",
+          rawInput: "تجربة محتوى تسويقي طويل",
+        }).replace("PLATFORM: x_twitter", "PLATFORM: x");
+      assert.strictEqual(build("x_twitter"), build("x"));
+    });
+  });
+
+  describe("Context Layer", () => {
+    test("injects brand and audience as a dedicated context layer", () => {
+      const layers = getPromptLayers({
+        platform: "instagram",
+        arabicStyle: "saudi_marketing",
+        contentType: "product_description",
+        metadata: { brandName: "عطر نجد", targetAudience: "محبو العود" },
+        rawInput: "دهن عود معتق طبيعي بثبات وفوحان مميزين",
+      });
+      const context = layers.find((l) => l.tag === "context");
+      assert.ok(context, "missing context layer");
+      assert.ok(context.content.includes("<brand_name>عطر نجد</brand_name>"));
+      assert.ok(context.content.includes("<target_audience>محبو العود</target_audience>"));
+    });
+
+    test("omits context layer when brand and audience are absent", () => {
+      const layers = getPromptLayers({
+        platform: "instagram",
+        arabicStyle: "saudi_marketing",
+        contentType: "product_description",
+        rawInput: "دهن عود معتق طبيعي بثبات وفوحان مميزين",
+      });
+      assert.strictEqual(layers.find((l) => l.tag === "context"), undefined);
+    });
+  });
+
+  describe("Type-Specific Fact Restrictions", () => {
+    test("injects forbidden claims of the content type into fact_boundary", () => {
+      const prompt = buildSystemPrompt({
+        platform: "instagram",
+        arabicStyle: "white_arabic",
+        contentType: "real_estate_listing",
+        rawInput: "فيلا مستقلة في دبي هيلز مع مسبح خاص",
+      });
+      assert.ok(prompt.includes("<type_restrictions>"));
+      assert.ok(prompt.includes("وعود بعوائد أو أرباح استثمارية"));
+    });
+
+    test("includes missing-fact behavior guidance", () => {
+      const prompt = buildSystemPrompt({
+        platform: "instagram",
+        arabicStyle: "white_arabic",
+        contentType: "email",
+        rawInput: "تجربة محتوى تسويقي طويل",
+      });
+      assert.ok(prompt.includes("<behavior>"));
+      assert.ok(prompt.includes("Never invent it."));
+    });
+  });
+
+  describe("Length Constraints", () => {
+    test("renders length constraint line when constraints provided", () => {
+      const prompt = buildSystemPrompt({
+        platform: "x",
+        arabicStyle: "white_arabic",
+        contentType: "social_post",
+        constraints: { maxLength: 280 },
+        rawInput: "تجربة محتوى تسويقي طويل",
+      });
+      assert.ok(prompt.includes("حد أقصى 280 حرف"));
     });
   });
 

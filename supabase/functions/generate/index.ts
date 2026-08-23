@@ -7,7 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 import { GoogleGenAI } from "@google/genai";
 import { getCorsHeaders, corsResponse } from "./utils/cors.ts";
 import { inputSchema, GEMINI_RESPONSE_SCHEMA, generatedContentSchema } from "./validation/schema.ts";
-import { buildSystemPrompt } from "./prompts/promptBuilder.ts";
+import { buildSystemPrompt, USER_PROMPT } from "./prompts/promptBuilder.ts";
 import { validateClaims } from "./validation/claimValidator.ts";
 import { repairVideoScriptTiming } from "./utils/repair.ts";
 
@@ -114,7 +114,7 @@ Deno.serve(async (req: Request) => {
 
         response = await ai.models.generateContent({
           model: "gemini-2.5-flash-lite",
-          contents: "اكتب المحتوى التسويقي بناءً على معلومات المستخدم المقدمة في سياق المحادثة.",
+          contents: USER_PROMPT,
           config: {
             systemInstruction: systemPrompt,
             responseMimeType: "application/json",

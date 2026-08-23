@@ -59,6 +59,12 @@ export const generateInputSchema = z.object({
       originality: z.string().optional(),
     })
     .optional(),
+  constraints: z
+    .object({
+      minLength: z.number().int().positive().optional(),
+      maxLength: z.number().int().positive().optional(),
+    })
+    .optional(),
   rawInput: z
     .string()
     .trim()

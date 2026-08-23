@@ -36,7 +36,7 @@ export function repairVideoScriptTiming(body: string): string {
   const newS2String = `[Scene 2 ${scene2[2]} ${newS2Duration}s]`;
 
   // Replace using precise offsets to avoid replacing unrelated text
-  let newBody =
+  const newBody =
     body.substring(0, scene1.index) +
     newS1String +
     body.substring(scene1.index! + scene1[0].length, scene2.index) +

@@ -1,6 +1,7 @@
 import ContentGenerator from "@/components/generator/ContentGenerator";
 import ConversionCTA from "@/components/marketing/ConversionCTA";
 import OutputShowcase from "@/components/marketing/OutputShowcase";
+import HowItWorks from "@/components/marketing/HowItWorks";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import HistoryProvider from "@/components/history/HistoryProvider";
 import { Sparkles } from "lucide-react";
@@ -149,6 +150,11 @@ export default function Home() {
       {/* ── Output Showcase ── */}
       <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20 mb-20">
         <OutputShowcase />
+      </section>
+
+      {/* ── How It Works ── */}
+      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20 mb-20">
+        <HowItWorks />
       </section>
 
       {/* ── CTA Section ── */}
