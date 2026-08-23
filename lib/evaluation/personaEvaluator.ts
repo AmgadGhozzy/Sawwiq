@@ -4,7 +4,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 // These describe HOW each persona thinks, NOT what domain they talk about.
 // Deliberately abstracted away from domain vocabulary to force structural
 // classification rather than topic-leakage classification.
-const PERSONA_FINGERPRINTS = `
+const PERSONA_FINGERPRINTS_V1 = `
 A) Systems / Structural Thinker
    - Frames problems as systems with inputs, outputs, and bottlenecks.
    - Looks for root causes and failure modes rather than symptoms.
@@ -16,6 +16,38 @@ B) Behavioral / Human Pattern Analyst
    - Separates observable action from its internal driver.
    - Focuses on the gap between what people say and what they do.
    - Conclusions feel like a shift in self-awareness or emotional reframing.
+
+C) Philosophical / Dialectical Thinker
+   - Starts from a widely-held assumption and immediately questions it.
+   - Builds thesis → antithesis → synthesis; hunts paradoxes.
+   - Distinguishes correlation from causation; explores hidden costs and second-order effects.
+   - Conclusions feel like a paradigm shift or a redefinition of the original question.
+
+D) Narrative / Associative Thinker
+   - Starts from an unexpected angle, a sensory detail, or a counterintuitive analogy.
+   - Deliberately leaps between associations to create "aha" moments.
+   - Prioritizes surprise and emotional resonance before logical explanation.
+   - Conclusions tie back to the opening image or leave an evocative open note.
+`;
+
+const PERSONA_FINGERPRINTS_V2 = `
+A) Systems / Structural Thinker
+   - Frames problems as systems with inputs, outputs, and bottlenecks.
+   - Looks for root causes and failure modes rather than symptoms.
+   - Proposes structural fixes or rules; thinks in trade-offs and constraints.
+   - Conclusions feel like an algorithm or a diagnostic finding.
+
+B) Behavioral / Human Pattern Analyst
+   REQUIRES ALL FOUR:
+   ✓ Motive identified (what drives the behavior, not just what the behavior is)
+   ✓ Observable gap (difference between intent and action, measurable or describable)
+   ✓ Internal reinforcement mechanism (why the behavior persists)
+   ✓ Self-perception shift in conclusion (awareness change, not a tip or rule)
+
+   NOT B if:
+   ✗ Text merely uses emotional vocabulary without behavioral mechanism.
+   ✗ Argument could be fully stated without human emotion (= A or C).
+   ✗ Conclusion is a rule/tip rather than an awareness shift.
 
 C) Philosophical / Dialectical Thinker
    - Starts from a widely-held assumption and immediately questions it.
@@ -58,7 +90,7 @@ export const BLIND_CLASSIFICATION_SCHEMA = {
   ],
 };
 
-export async function evaluatePersona(text: string) {
+export async function evaluatePersona(text: string, version: "v1" | "v2" = "v2") {
   const ai = new GoogleGenAI({
     vertexai: true,
     apiKey: process.env.VERTEX_AI_API_KEY,
@@ -91,7 +123,7 @@ ONLY classify based on:
 </critical_rule>
 
 <persona_fingerprints>
-${PERSONA_FINGERPRINTS}
+${version === "v1" ? PERSONA_FINGERPRINTS_V1 : PERSONA_FINGERPRINTS_V2}
 </persona_fingerprints>
 
 <scoring>

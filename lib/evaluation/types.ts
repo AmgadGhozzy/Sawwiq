@@ -55,6 +55,9 @@ export interface AblationEvaluation {
   predicted_persona: "A" | "B" | "C" | "D";
   confidence_score: number;
   is_correct: boolean;
+  // EXP-005 Weighted fields
+  weightedScore?: number;
+  isVocabularyOnly?: boolean;
 }
 
 export interface PairwiseResult {
@@ -114,6 +117,13 @@ export interface BenchmarkSummary {
   personaClassificationAccuracy: number;   // % of correct blind classifications
   ablationAccuracy: number;                // % still correct after vocabulary ablation
   avgPersonaSeparationScore: number;        // avg pairwise score
+
+  // EXP-005 Metrics
+  avgReasoningSeparation: number;
+  vocabularyOnlySwapRate: number;
+  minPersonaAccuracy: number;               // lowest accuracy among the 4 personas
+  avgAblationDelta?: number;                // average weighted ablation delta
+
   avgGenericnessScore: number;              // lower = better
   avgOpeningSpecificity: number;            // higher = better
   criticalFactFailures: number;             // must be 0
@@ -123,10 +133,14 @@ export interface BenchmarkSummary {
   gates: {
     personaClassification: boolean;    // actual ≥ 75%
     personaSeparation: boolean;        // avg ≥ 80
+    reasoningSeparation: boolean;      // avg ≥ 80
+    vocabularySwapRate: boolean;       // ≤ 15%
+    crossTopicConsistency: boolean;    // min per-persona ≥ 60%
+    ablationDelta: boolean;            // weighted delta ≥ 25
     genericnessScore: boolean;         // avg ≤ 60
     criticalFactFailures: boolean;     // = 0
     structuralCompliance: boolean;     // ≥ 98%
-    promptGrowth: boolean;             // ≤ 10%
+    promptGrowth: boolean;             // ≤ 5%
   };
   overallPass: boolean;
 }
