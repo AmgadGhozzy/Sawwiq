@@ -22,16 +22,31 @@ const ai = new GoogleGenAI({
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
+// ─── Model Rotation Pool ──────────────────────────────────────────────────────
+// On 429, we rotate to the next model instead of sleeping on the same one.
+// All models are cheap/fast and support structured JSON output.
+const MODEL_POOL = [
+  "gemini-2.5-flash-lite",
+  "gemini-3.1-flash-lite",
+];
+let modelIndex = 0;
+function nextModel(): string {
+  const model = MODEL_POOL[modelIndex % MODEL_POOL.length];
+  modelIndex++;
+  return model;
+}
+
 async function generateContent(input: InputDTO): Promise<string> {
   const systemInstruction = buildSystemPrompt(input);
   const userPrompt = buildUserPrompt();
   const responseSchema = GEMINI_RESPONSE_SCHEMA;
 
-  let retries = 3;
+  let retries = 10;
   while (retries > 0) {
+    const model = nextModel();
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-lite", // or pro? The user uses flash-lite for eval, but generation is often flash or pro.
+        model,
         contents: userPrompt,
         config: {
           systemInstruction,
@@ -43,7 +58,9 @@ async function generateContent(input: InputDTO): Promise<string> {
       return response.text!;
     } catch (e: any) {
       if (e?.status === 429 && retries > 1) {
-        await delay(10000);
+        const next = MODEL_POOL[modelIndex % MODEL_POOL.length];
+        console.log(`     [Rate Limit] 429 on ${model}. Next: ${next} (${retries} left)...`);
+        await delay(3000);
         retries--;
       } else {
         throw e;
@@ -126,12 +143,13 @@ async function runExp005() {
     await delay(2000);
 
     const retryEval = async <T>(fn: () => Promise<T>): Promise<T> => {
-      let retries = 3;
+      let retries = 10;
       while (retries > 0) {
         try { return await fn(); }
         catch (e: any) {
           if (e?.status === 429 && retries > 1) {
-            await delay(10000);
+            console.log(`     [Rate Limit] 429 hit. Waiting 20 seconds before retry (${retries} left)...`);
+            await delay(20000);
             retries--;
           } else throw e;
         }
@@ -201,12 +219,13 @@ async function runExp005() {
 
         console.log(`   Pairwise: ${case1.persona} vs ${case2.persona} on ${topicId}`);
         const retryEval = async <T>(fn: () => Promise<T>): Promise<T> => {
-          let retries = 3;
+          let retries = 10;
           while (retries > 0) {
             try { return await fn(); }
             catch (e: any) {
               if (e?.status === 429 && retries > 1) {
-                await delay(10000);
+                console.log(`     [Rate Limit] Pairwise 429 hit. Waiting 20 seconds before retry (${retries} left)...`);
+                await delay(20000);
                 retries--;
               } else throw e;
             }
