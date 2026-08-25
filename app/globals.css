@@ -27,6 +27,11 @@
   --color-danger-border: var(--color-danger-border);
   --color-info: var(--color-info);
 
+  /* Neutral Fills (theme-aware surfaces for chips, skeletons, inactive states) */
+  --color-fill-faint: var(--color-fill-faint);
+  --color-fill-subtle: var(--color-fill-subtle);
+  --color-fill-strong: var(--color-fill-strong);
+
   /* Brand Colors */
   --color-brand-primary: var(--color-brand-primary);
   --color-brand-hover: var(--color-brand-hover);
@@ -65,6 +70,7 @@
   --shadow-elevated: var(--shadow-elevated);
   --shadow-glow: var(--shadow-glow);
   --shadow-brand: var(--shadow-brand);
+  --shadow-brand-glow: var(--shadow-brand-glow);
   --shadow-whatsapp: var(--shadow-whatsapp);
   --shadow-danger: var(--shadow-danger);
 
@@ -102,6 +108,11 @@
   --font-weight-bold: var(--font-weight-bold);
   --font-weight-extrabold: var(--font-weight-extrabold);
   --font-weight-black: var(--font-weight-black);
+
+  --tracking-snug: var(--tracking-snug);
+  --tracking-tight: var(--tracking-tight);
+  --tracking-btn: var(--tracking-btn);
+  --tracking-caps: var(--tracking-caps);
 
   /* Line Heights */
   --leading-none: var(--leading-none);
@@ -192,8 +203,24 @@
     --color-danger-border: rgba(239, 68, 68, 0.15);
     --color-info: #3b82f6;
 
+    /* Neutral Fills */
+    --color-fill-faint: rgba(255, 255, 255, 0.02);
+    --color-fill-subtle: rgba(255, 255, 255, 0.04);
+    --color-fill-strong: rgba(255, 255, 255, 0.1);
+
+    /* Focus Ring */
+    --focus-ring: 0 0 0 3px var(--color-brand-surface);
+
+    /* Inset Highlight (glass/icon top edge) */
+    --highlight-inset: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+    /* Bars (sticky generate bar / result footer) */
+    --color-surface-bar: #0e0d18;
+
     /* Gradients */
     --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+  --color-surface-muted: hsl(210, 12%, 15%); /* dark muted gray */
+  --color-border-muted: hsl(210, 12%, 20%);
     --gradient-hero: radial-gradient(circle at top, rgba(124, 58, 237, 0.15), transparent 70%);
     --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.3), rgba(79, 70, 229, 0.08));
     --gradient-surface: linear-gradient(165deg, rgba(15,15,25,0.5) 0%, rgba(10,10,20,0.55) 50%, rgba(20,12,40,0.5) 100%);
@@ -236,8 +263,10 @@
     --shadow-elevated: 0 8px 32px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     --shadow-glow: 0 0 12px rgba(124, 58, 237, 0.3);
     --shadow-brand: 0 8px 24px -4px rgba(124, 58, 237, 0.4);
+    --shadow-brand-glow: 0 0 0 3px var(--color-brand-soft), var(--shadow-brand);
     --shadow-whatsapp: 0 4px 14px rgba(37,211,102,0.3);
     --shadow-danger: 0 4px 14px rgba(239, 68, 68, 0.25);
+    --shadow-sticky-bar: 0 -4px 20px rgba(0, 0, 0, 0.5);
 
     /* Spacing Values */
     --space-0-5: 2px;
@@ -296,6 +325,16 @@
     --font-weight-extrabold: 800;
     --font-weight-black: 900;
 
+    /* Letter Spacing — 0 for Arabic script: tracking detaches combining marks (tanween/shadda); tightened for Latin */
+    --tracking-snug: 0px;
+    --tracking-tight: 0px;
+    --tracking-btn: 0px;
+    --tracking-caps: 0px;
+    --ltr-tracking-snug: -0.02em;
+    --ltr-tracking-tight: -1px;
+    --ltr-tracking-btn: 0.01em;
+    --ltr-tracking-caps: 0.06em;
+
     /* Line Heights */
     --leading-none: 1;
     --leading-tight: 1.3;
@@ -334,6 +373,7 @@
     --blur-md: 12px;
     --blur-lg: 24px;
     --blur-xl: 50px;
+    --blur-2xl: 60px;
     --blur-orb: 80px;
 
     /* Z-Index */
@@ -385,6 +425,12 @@
     --color-danger-border: rgba(220, 38, 38, 0.2);
     --color-info: #2563eb;
 
+    --color-fill-faint: rgba(15, 23, 42, 0.02);
+    --color-fill-subtle: rgba(15, 23, 42, 0.04);
+    --color-fill-strong: rgba(15, 23, 42, 0.08);
+    --focus-ring: 0 0 0 3px var(--color-brand-surface);
+    --highlight-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
     --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
     --gradient-hero: radial-gradient(circle at top, rgba(124, 58, 237, 0.08), transparent 70%);
     --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.15), rgba(79, 70, 229, 0.05));
@@ -394,6 +440,7 @@
     --shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
     --shadow-glow: 0 0 12px rgba(124, 58, 237, 0.15);
     --shadow-brand: 0 8px 24px -4px rgba(124, 58, 237, 0.25);
+    --shadow-brand-glow: 0 0 0 3px var(--color-brand-soft), var(--shadow-brand);
     --shadow-whatsapp: 0 4px 14px rgba(37,211,102,0.15);
     --shadow-danger: 0 4px 14px rgba(220, 38, 38, 0.15);
   }
@@ -418,6 +465,11 @@
     --text-base: var(--ltr-text-base);
     --text-lg:   var(--ltr-text-lg);
     --text-xl:   var(--ltr-text-xl);
+
+    --tracking-snug: var(--ltr-tracking-snug);
+    --tracking-tight: var(--ltr-tracking-tight);
+    --tracking-btn: var(--ltr-tracking-btn);
+    --tracking-caps: var(--ltr-tracking-caps);
   }
 }
 
@@ -442,6 +494,17 @@
   50% { opacity: 1; }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ── Generator textarea ── */
 #raw-input::placeholder {
   color: var(--color-foreground-tertiary);
@@ -456,13 +519,13 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: var(--z-sticky-bar);
   padding: var(--space-3) var(--space-4);
   padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
-  background: var(--color-surface-elevated);
-  border-top: none;
+  background: var(--color-surface-bar);
+  border-top: 1px solid var(--color-border);
   border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
-  box-shadow: none;
+  box-shadow: var(--shadow-sticky-bar);
 }
 
 
@@ -472,3 +535,106 @@
   box-sizing: border-box;
 }
 
+
+/* ── Shared glass surface: gradient bg + blur + border + elevated shadow ──
+   Components add their own radius/padding inline; inline overrides win when a
+   variant needs a different background or border color. */
+.glass-card {
+  background: var(--gradient-surface);
+  backdrop-filter: blur(var(--blur-xl)) saturate(170%);
+  -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(170%);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-elevated);
+}
+
+/* ── ConversionCTA card & social proof pill ── */
+.cta-card {
+  padding: var(--space-14) var(--space-12);
+}
+
+.cta-social-pill-text {
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .cta-card {
+    padding: var(--space-8) var(--space-5);
+  }
+}
+
+/* Keep social proof on one line on small phones */
+@media (max-width: 480px) {
+  .cta-social-pill-text {
+    font-size: var(--text-2xs);
+  }
+}
+
+.opaque-result-container {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+/* ── GenerationResult header ── */
+.gr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3-5) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.gr-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.gr-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-6);
+  height: var(--space-6);
+  border-radius: var(--radius-circle);
+  border: none;
+  background: transparent;
+}
+
+@keyframes gr-dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-brand-soft); }
+  50% { box-shadow: 0 0 0 var(--space-1) transparent; }
+}
+
+.gr-status-dot {
+  animation: gr-dot-pulse 2.4s ease-in-out infinite;
+}
+
+/* ── GenerationResult footer actions (matches sticky-generate-bar style) ── */
+.gr-actions-footer {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-bar);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Mobile: stacked full-width like the sticky generate bar */
+@media (max-width: 640px) {
+  .gr-actions-footer {
+    flex-direction: column;
+  }
+}
+
+/* Mobile: keep everything compact in a single row */
+@media (max-width: 640px) {
+  .gr-header {
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-2);
+  }
+  .gr-actions {
+    gap: var(--space-1-5);
+  }
+}
