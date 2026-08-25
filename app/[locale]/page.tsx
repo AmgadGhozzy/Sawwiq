@@ -101,8 +101,8 @@ export default function Home() {
           </div>
           {/* Brand name */}
           <span style={{
-            fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground)",
-            letterSpacing: "-0.02em",
+            fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground)",
+            letterSpacing: "var(--tracking-snug)",
           }}>
             {tGlobal("productName")}
           </span>
@@ -110,11 +110,11 @@ export default function Home() {
 
         {/* Main Headline — gradient text */}
         <h1 style={{
-          fontSize: "var(--text-display)", fontWeight: "var(--font-weight-black)", letterSpacing: "-1px",
+          fontSize: "var(--text-display)", fontWeight: "var(--font-weight-bold)", letterSpacing: "var(--tracking-tight)",
           background: "var(--gradient-headline)",
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           backgroundClip: "text", lineHeight: 1.35, margin: "0 0 var(--space-4)",
-          paddingBottom: "var(--space-2)",
+          paddingBottom: "var(--space-3)",
         }}>
           {tHome("headline")}
         </h1>

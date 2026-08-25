@@ -55,7 +55,7 @@ export default function Error({
         style={{
           fontSize: "var(--text-2xl)",
           fontWeight: 700,
-          color: "#f1f5f9",
+          color: "var(--color-foreground)",
           marginBottom: "var(--space-2)",
         }}
       >
@@ -63,7 +63,7 @@ export default function Error({
       </h2>
       <p
         style={{
-          color: "#64748b",
+          color: "var(--color-foreground-tertiary)",
           marginBottom: "var(--space-6)",
           textAlign: "center",
           maxWidth: "400px",
@@ -88,7 +88,7 @@ export default function Error({
           e.currentTarget.style.background = "var(--color-brand-hover)";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = "#7c3aed";
+          e.currentTarget.style.background = "var(--color-brand-primary)";
         }}
       >
         {t("retry")}

@@ -22,7 +22,7 @@ export default function DesignSystemPreview() {
 
   return (
     <div style={{ padding: "var(--space-10)", maxWidth: "var(--container-xl)", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "var(--text-3xl)", fontWeight: "var(--font-weight-black)", marginBottom: "var(--space-2)", color: "var(--color-foreground)" }}>
+      <h1 style={{ fontSize: "var(--text-3xl)", fontWeight: "var(--font-weight-bold)", marginBottom: "var(--space-2)", color: "var(--color-foreground)" }}>
         Design System Preview
       </h1>
       <p style={{ color: "var(--color-foreground-secondary)", marginBottom: "var(--space-8)" }}>

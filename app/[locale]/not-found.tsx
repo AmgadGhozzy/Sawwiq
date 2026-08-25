@@ -19,7 +19,7 @@ export default async function NotFound() {
       <div
         style={{
           fontSize: "var(--text-hero-num)",
-          fontWeight: "var(--font-weight-black)",
+          fontWeight: "var(--font-weight-bold)",
           background: "var(--gradient-headline)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
