@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { Inter } from "next/font/google";
 import "../globals.css";
@@ -11,7 +11,15 @@ import JsonLd, {
   buildWebSiteSchema,
   buildSoftwareApplicationSchema,
 } from "@/components/seo/JsonLd";
+import ServiceWorkerRegistration from "@/components/pwa/ServiceWorkerRegistration";
 import { Analytics } from "@vercel/analytics/react";
+
+export const viewport: Viewport = {
+  themeColor: "#08080c",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://sawwiq.com";
@@ -49,6 +57,22 @@ export async function generateMetadata({
 
     // ── Meta Description ──
     description: tSeo("homeDescription"),
+
+    // ── Keywords ──
+    keywords: tSeo("keywords"),
+
+    // ── Brand & App ──
+    applicationName: t("productName"),
+    category: "technology",
+    manifest: "/manifest.webmanifest",
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "black-translucent",
+      title: t("productName"),
+    },
+    icons: {
+      apple: "/icons/apple-touch-icon.png",
+    },
 
     // ── Canonical + Hreflang ──
     alternates: {
@@ -144,6 +168,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <ServiceWorkerRegistration />
         <Analytics />
       </body>
     </html>
