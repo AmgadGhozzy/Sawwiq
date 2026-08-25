@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Rocket, ArrowLeft, Check, Mail, Loader2, Gift } from "lucide-react";
+import { ArrowLeft, Check, Mail, Loader2, Gift, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFingerprint } from "@/hooks/useFingerprint";
+import CtaButton from "@/components/ui/CtaButton";
 
 export default function ConversionCTA() {
   const t = useTranslations("ConversionCTA");
@@ -58,19 +59,15 @@ export default function ConversionCTA() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-          className="cta-glass-card"
-      style={{
-        position: "relative",
-        maxWidth: "600px",
-        margin: "0 auto",
-        borderRadius: "var(--radius-3xl)",
-        background: "var(--gradient-surface)",
-        backdropFilter: "blur(60px) saturate(180%)",
-        WebkitBackdropFilter: "blur(60px) saturate(180%)",
-        border: "1px solid var(--color-border)",
-        boxShadow: "var(--shadow-elevated)",
-        padding: "var(--space-14) var(--space-12)",
-        textAlign: "center",
+          className="cta-glass-card glass-card cta-card"
+          style={{
+            position: "relative",
+            maxWidth: "600px",
+            margin: "0 auto",
+            borderRadius: "var(--radius-3xl)",
+            backdropFilter: "blur(var(--blur-2xl)) saturate(180%)",
+            WebkitBackdropFilter: "blur(var(--blur-2xl)) saturate(180%)",
+            textAlign: "center",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -102,35 +99,41 @@ export default function ConversionCTA() {
         pointerEvents: "none",
       }} />
 
-      {/* ── Icon ── */}
+      {/* ── Social Proof Pill + Icon ── */}
       <motion.div
-        initial={{ scale: 0.8 }}
-        whileInView={{ scale: 1 }}
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+        transition={{ delay: 0.15 }}
         style={{
           position: "relative", zIndex: 1,
-          width: "var(--space-14)", height: "var(--space-14)", borderRadius: "var(--radius-xl)",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "var(--space-2)",
+          padding: "var(--space-1-5) var(--space-4)",
+          borderRadius: "var(--radius-full)",
           background: "var(--color-brand-surface)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
           border: "1px solid var(--color-brand-soft)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "var(--shadow-brand-glow)",
+          fontSize: "var(--text-xs)",
+          fontWeight: "var(--font-weight-semibold)",
+          color: "var(--color-brand-light)",
         }}
       >
-        <Rocket size={24} color="var(--color-brand-primary)" />
+        <Users size={13} color="var(--color-brand-light)" />
+        <span className="cta-social-pill-text">{t("socialProof")}</span>
       </motion.div>
 
       {/* ── Text ── */}
       <div style={{ maxWidth: "580px", position: "relative", zIndex: 1 }}>
-        <h3 style={{
-          fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", margin: "0 0 var(--space-3-5)",
+        <h2 style={{
+          fontSize: "var(--text-2xl)", fontWeight: "var(--font-weight-bold)", margin: "0 0 var(--space-3-5)",
           color: "var(--color-foreground)",
+          letterSpacing: "var(--tracking-tight)",
+          lineHeight: "var(--leading-snug)",
         }}>
           {t("title")}
-        </h3>
-        <p style={{ color: "var(--color-foreground-secondary)", lineHeight: 1.85, fontSize: "var(--text-base)", margin: 0 }}>
+        </h2>
+        <p style={{ color: "var(--color-foreground-secondary)", lineHeight: "var(--leading-relaxed)", fontSize: "var(--text-base)", margin: 0 }}>
           {t("subtitle")}
         </p>
       </div>
@@ -150,8 +153,8 @@ export default function ConversionCTA() {
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
                 padding: "var(--space-3-5) var(--space-5)", borderRadius: "var(--radius-xl)",
                 background: "var(--color-success-surface)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
+                backdropFilter: "blur(var(--blur-lg))",
+                WebkitBackdropFilter: "blur(var(--blur-lg))",
                 border: "1px solid var(--color-success-border)",
                 color: "var(--color-success)", fontSize: "var(--text-base)", fontWeight: "var(--font-weight-semibold)", width: "100%",
               }}>
@@ -168,8 +171,8 @@ export default function ConversionCTA() {
                     padding: "var(--space-2) var(--space-4)",
                     borderRadius: "var(--radius-lg)",
                     background: "var(--color-brand-surface)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
+                    backdropFilter: "blur(var(--blur-md))",
+                    WebkitBackdropFilter: "blur(var(--blur-md))",
                     border: "1px solid var(--color-brand-soft)",
                     color: "var(--color-brand-primary)", fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)",
                   }}
@@ -206,44 +209,30 @@ export default function ConversionCTA() {
                         ? "1.5px solid var(--color-brand-primary)"
                         : "1px solid var(--color-border)",
                       background: "var(--color-surface)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
+                      backdropFilter: "blur(var(--blur-md))",
+                      WebkitBackdropFilter: "blur(var(--blur-md))",
                       color: "var(--color-foreground)",
                       fontSize: "var(--text-base)",
                       outline: "none",
                       fontFamily: "inherit",
                       boxSizing: "border-box",
                       boxShadow: focused
-                        ? "0 0 0 3px var(--color-brand-surface)"
+                        ? "var(--focus-ring)"
                         : "none",
                       transition: "var(--transition-normal)",
                       opacity: loading ? 0.6 : 1,
                     }}
                   />
                 </div>
-                <motion.button
+                <CtaButton
                   type="submit"
                   disabled={loading}
-                  whileHover={loading ? {} : { y: -2, boxShadow: "var(--shadow-brand)" }}
-                  whileTap={loading ? {} : { scale: 0.97 }}
                   style={{
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
-                    padding: "var(--space-3-5) var(--space-6)",
-                    borderRadius: "var(--radius-lg)",
-                    border: "none",
-                    background: loading
-                      ? "color-mix(in srgb, var(--color-brand-primary) 40%, transparent)"
-                      : "var(--gradient-brand)",
-                    color: "var(--color-foreground-inverse)",
-                    fontWeight: "var(--font-weight-bold)",
-                    fontSize: "var(--text-sm)",
-                    cursor: loading ? "not-allowed" : "pointer",
-                    fontFamily: "inherit",
-                    letterSpacing: "0.01em",
-                    boxShadow: "var(--shadow-brand)",
                     whiteSpace: "nowrap",
                     flexShrink: 0,
-                    transition: "var(--transition-normal)",
+                    ...(loading
+                      ? { background: "color-mix(in srgb, var(--color-brand-primary) 40%, transparent)" }
+                      : {}),
                   }}
                 >
                   {loading ? (
@@ -251,7 +240,7 @@ export default function ConversionCTA() {
                   ) : (
                     <>{t("buttonText")}<ArrowLeft size={14} className="rtl-flip" /></>
                   )}
-                </motion.button>
+                </CtaButton>
               </form>
 
               {error && (
@@ -260,13 +249,22 @@ export default function ConversionCTA() {
                   animate={{ opacity: 1, y: 0 }}
                   style={{
                     margin: "var(--space-2) 0 0", fontSize: "var(--text-sm)",
-                    color: "var(--color-danger)", fontWeight: "var(--font-weight-medium)", textAlign: "right", // Note: textAlign might need logical prop
+                    color: "var(--color-danger)", fontWeight: "var(--font-weight-medium)", textAlign: "start",
                   }}
                   role="alert"
                 >
                   {error}
                 </motion.p>
               )}
+
+              <p style={{
+                fontSize: "var(--text-2xs)",
+                color: "var(--color-foreground-disabled)",
+                margin: "var(--space-2) 0 0",
+                textAlign: "center",
+              }}>
+                {t("privacyNote")}
+              </p>
             </motion.div>
           )}
         </AnimatePresence>

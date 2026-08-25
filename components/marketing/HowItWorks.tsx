@@ -65,7 +65,7 @@ export default function HowItWorks() {
           border: "1px solid var(--color-brand-soft)",
           marginBottom: "var(--space-5)",
         }}>
-          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "0.05em" }}>
+          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "var(--tracking-caps)" }}>
             {t("badge")}
           </span>
         </div>
@@ -74,7 +74,7 @@ export default function HowItWorks() {
           fontWeight: "var(--font-weight-bold)",
           color: "var(--color-foreground)",
           marginBottom: "var(--space-4)",
-          letterSpacing: "-0.03em",
+          letterSpacing: "var(--tracking-tight)",
           lineHeight: "var(--leading-tight)",
         }}>
           {t("title")}
@@ -110,7 +110,7 @@ export default function HowItWorks() {
           <div style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: "repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 6px, transparent 6px, transparent 14px)",
+            backgroundImage: "repeating-linear-gradient(90deg, var(--color-border) 0, var(--color-border) 6px, transparent 6px, transparent 14px)",
           }} />
           {/* Glowing progress */}
           <svg width="100%" height="2" style={{ position: "absolute", inset: 0 }} preserveAspectRatio="none">
@@ -193,14 +193,16 @@ function StepCard({
     <div style={{
       background: isMiddle
         ? "linear-gradient(160deg, color-mix(in srgb, var(--color-brand-primary) 7%, transparent) 0%, rgba(15,15,25,0.5) 100%)"
-        : "rgba(255,255,255,0.02)",
-      border: `1px solid ${isMiddle ? "color-mix(in srgb, var(--color-brand-primary) 20%, transparent)" : "rgba(255,255,255,0.05)"}`,
+        : "var(--color-fill-faint)",
+      border: `1px solid ${isMiddle ? "color-mix(in srgb, var(--color-brand-primary) 20%, transparent)" : "var(--color-border)"}`,
       borderRadius: "var(--radius-2xl)",
       padding: "var(--space-8)",
       position: "relative",
       overflow: "hidden",
       display: "flex",
       flexDirection: "column",
+      alignItems: "center",
+      textAlign: "center",
       gap: "var(--space-4)",
       width: "100%",
       transition: "border-color 0.25s ease, box-shadow 0.25s ease",
@@ -222,11 +224,11 @@ function StepCard({
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "40px",
-        height: "40px",
+        width: "var(--control-h-lg)",
+        height: "var(--control-h-lg)",
         borderRadius: "var(--radius-md)",
-        background: isMiddle ? "color-mix(in srgb, var(--color-brand-primary) 20%, transparent)" : "rgba(255,255,255,0.04)",
-        border: `1px solid ${isMiddle ? "color-mix(in srgb, var(--color-brand-primary) 35%, transparent)" : "rgba(255,255,255,0.07)"}`,
+        background: isMiddle ? "color-mix(in srgb, var(--color-brand-primary) 20%, transparent)" : "var(--color-fill-subtle)",
+        border: `1px solid ${isMiddle ? "color-mix(in srgb, var(--color-brand-primary) 35%, transparent)" : "var(--color-border)"}`,
         flexShrink: 0,
       }}>
         <span style={{
@@ -234,7 +236,6 @@ function StepCard({
           fontWeight: "var(--font-weight-bold)",
           color: isMiddle ? "var(--color-brand-light)" : "var(--color-foreground-tertiary)",
           fontVariantNumeric: "tabular-nums",
-          letterSpacing: "0.02em",
         }}>
           {number}
         </span>
@@ -264,11 +265,13 @@ function StepCard({
       <div style={{
         borderRadius: "var(--radius-lg)",
         background: "rgba(0,0,0,0.25)",
-        border: "1px solid rgba(255,255,255,0.04)",
+        border: "1px solid var(--color-border-subtle)",
         padding: "var(--space-4)",
         height: "90px",
+        width: "100%",
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
         marginTop: "auto",
       }}>
         {mockup}
@@ -282,7 +285,7 @@ function StepCard({
 function Step1Mockup() {
   const t = useTranslations("HowItWorks");
   return (
-    <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap", alignItems: "center" }}>
+    <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
       {[
         { label: "TikTok", active: true },
         { label: t("mockup.dialect"), active: false },
@@ -291,10 +294,10 @@ function Step1Mockup() {
         <div
           key={label}
           style={{
-            padding: "4px 12px",
+            padding: "var(--space-1) var(--space-3)",
             borderRadius: "var(--radius-full)",
-            background: active ? "var(--color-brand-surface)" : "rgba(255,255,255,0.04)",
-            border: `1px solid ${active ? "var(--color-brand-soft)" : "rgba(255,255,255,0.07)"}`,
+            background: active ? "var(--color-brand-surface)" : "var(--color-fill-subtle)",
+            border: `1px solid ${active ? "var(--color-brand-soft)" : "var(--color-border)"}`,
             fontSize: "var(--text-xs)",
             color: active ? "var(--color-brand-light)" : "var(--color-foreground-tertiary)",
             fontWeight: "var(--font-weight-medium)",
@@ -310,10 +313,10 @@ function Step1Mockup() {
 function Step2Mockup() {
   const t = useTranslations("HowItWorks");
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-2)", width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0, width: "100%" }}>
       {/* Source node */}
       <div style={{
-        padding: "3px 16px",
+        padding: "var(--space-1-5) var(--space-4)",
         borderRadius: "var(--radius-full)",
         background: "color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
         border: "1px solid color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
@@ -323,17 +326,20 @@ function Step2Mockup() {
         {t("mockup.oneIdea")}
       </div>
       {/* Branches */}
-      <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-3)", paddingTop: "2px" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-3)", paddingTop: "var(--space-1)" }}>
         {[t("mockup.branch1"), t("mockup.branch2"), t("mockup.branch3")].map((label, i) => (
-          <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
-            <div style={{ width: "1px", height: "12px", background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 50%, transparent)" : "rgba(255,255,255,0.1)" }} />
+          <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-1)" }}>
+            <div style={{ width: "1px", height: "12px", background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 50%, transparent)" : "var(--color-fill-strong)" }} />
             <div style={{
-              padding: "2px 10px",
+              padding: "var(--space-1-5) var(--space-3)",
               borderRadius: "var(--radius-md)",
-              background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)" : "rgba(255,255,255,0.04)",
-              border: `1px solid ${i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)" : "rgba(255,255,255,0.06)"}`,
+              background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)" : "var(--color-fill-subtle)",
+              border: `1px solid ${i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)" : "var(--color-border)"}`,
               fontSize: "var(--text-2xs)",
               color: i === 1 ? "var(--color-brand-light)" : "var(--color-foreground-disabled)",
+              textAlign: "center",
+              lineHeight: "1.4",
+              whiteSpace: "nowrap",
             }}>
               {label}
             </div>
@@ -349,15 +355,15 @@ function Step3Mockup() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", width: "100%" }}>
       {/* Title block */}
-      <div style={{ width: "65%", height: "10px", background: "rgba(255,255,255,0.12)", borderRadius: "var(--radius-xs)" }} />
+      <div style={{ width: "65%", height: "10px", background: "var(--color-fill-strong)", borderRadius: "var(--radius-xs)" }} />
       {/* Body lines */}
-      <div style={{ width: "100%", height: "7px", background: "rgba(255,255,255,0.06)", borderRadius: "var(--radius-xs)" }} />
-      <div style={{ width: "85%", height: "7px", background: "rgba(255,255,255,0.06)", borderRadius: "var(--radius-xs)" }} />
+      <div style={{ width: "100%", height: "7px", background: "var(--color-border)", borderRadius: "var(--radius-xs)" }} />
+      <div style={{ width: "85%", height: "7px", background: "var(--color-border)", borderRadius: "var(--radius-xs)" }} />
       {/* Hashtag pills */}
       <div style={{ display: "flex", gap: "var(--space-1-5)", marginTop: "var(--space-1)" }}>
         {[t("mockup.tag1"), t("mockup.tag2")].map((tag) => (
           <div key={tag} style={{
-            padding: "2px 8px",
+            padding: "var(--space-0-5) var(--space-2)",
             borderRadius: "var(--radius-md)",
             background: "var(--color-brand-surface)",
             border: "1px solid var(--color-brand-soft)",

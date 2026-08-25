@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Copy, Check } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PlatformIcon } from "@/components/ui/PlatformIcon";
+import CopyButton from "@/components/ui/CopyButton";
 
 type ShowcaseSample = {
   platform: string;
@@ -30,21 +31,11 @@ export default function OutputShowcase() {
   const t = useTranslations("Showcase");
   const samples = t.raw("samples") as ShowcaseSample[];
   const [active, setActive] = useState(0);
-  const [copied, setCopied] = useState(false);
   const sample = samples[active];
   const platformColor = PLATFORM_COLOR_VAR[sample.platform] ?? "var(--color-brand-primary)";
   // Opacity helpers using CSS color-mix (no raw hex needed)
   const platformAlpha12 = `color-mix(in srgb, ${platformColor} 12%, transparent)`;
-  const platformAlpha18 = `color-mix(in srgb, ${platformColor} 18%, transparent)`;
   const platformAlpha30 = `color-mix(in srgb, ${platformColor} 30%, transparent)`;
-
-  function handleCopy() {
-    const text = [sample.title, sample.hook, sample.body, sample.cta, sample.hashtags.map(h => `#${h}`).join(" ")].join("\n\n");
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }
 
   return (
     <motion.section
@@ -73,13 +64,13 @@ export default function OutputShowcase() {
           marginBottom: "var(--space-5)",
         }}>
           <Sparkles size={13} color="var(--color-brand-light)" />
-          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "0.04em" }}>
+          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "var(--tracking-caps)" }}>
             {t("badge")}
           </span>
         </div>
         <h2 style={{
-          fontSize: "var(--text-4xl)", fontWeight: "var(--font-weight-black)",
-          color: "var(--color-foreground)", letterSpacing: "-0.03em",
+          fontSize: "var(--text-4xl)", fontWeight: "var(--font-weight-bold)",
+          color: "var(--color-foreground)", letterSpacing: "var(--tracking-tight)",
           margin: "0 0 var(--space-4)", lineHeight: "var(--leading-tight)",
         }}>
           {t("title")}
@@ -96,16 +87,11 @@ export default function OutputShowcase() {
       <div style={{
         width: "100%",
         borderRadius: "var(--radius-2xl)",
-        border: "1px solid var(--color-border)",
-        background: "var(--gradient-surface)",
-        backdropFilter: "blur(40px) saturate(160%)",
-        WebkitBackdropFilter: "blur(40px) saturate(160%)",
-        boxShadow: "var(--shadow-elevated)",
         overflow: "hidden",
         display: "grid",
         gridTemplateColumns: "220px 1fr",
       }}
-      className="showcase-panel"
+      className="showcase-panel glass-card"
       >
         {/* Left sidebar — platform list */}
         <div style={{
@@ -114,17 +100,17 @@ export default function OutputShowcase() {
           display: "flex",
           flexDirection: "column",
           gap: "var(--space-2)",
-          background: "rgba(0,0,0,0.15)",
+          background: "color-mix(in srgb, var(--color-background) 45%, transparent)",
         }}>
           <p className="platform-label" style={{
             fontSize: "var(--text-xs)",
             color: "var(--color-foreground-disabled)",
             fontWeight: "var(--font-weight-semibold)",
-            letterSpacing: "0.07em",
+            letterSpacing: "var(--tracking-caps)",
             marginBottom: "var(--space-2)",
             paddingInlineStart: "var(--space-3)",
           }}>
-            المنصة
+            {t("platformTabLabel")}
           </p>
           <div className="platforms-list" style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
             {samples.map((s, i) => {
@@ -135,7 +121,7 @@ export default function OutputShowcase() {
                 key={s.platform}
                 role="tab"
                 aria-selected={i === active}
-                onClick={() => { setActive(i); setCopied(false); }}
+                onClick={() => { setActive(i); }}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -188,7 +174,7 @@ export default function OutputShowcase() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
               <div style={{
-                width: "8px", height: "8px", borderRadius: "50%",
+                width: "8px", height: "8px", borderRadius: "var(--radius-circle)",
                 background: platformColor,
                 boxShadow: `0 0 8px ${platformAlpha30}`,
               }} />
@@ -200,24 +186,12 @@ export default function OutputShowcase() {
                 {sample.contentType}
               </span>
             </div>
-            <button
-              onClick={handleCopy}
-              style={{
-                display: "inline-flex", alignItems: "center", gap: "var(--space-1-5)",
-                padding: "var(--space-1-5) var(--space-3)",
-                borderRadius: "var(--radius-md)",
-                border: "1px solid var(--color-border)",
-                background: copied ? "var(--color-success-surface)" : "rgba(255,255,255,0.03)",
-                color: copied ? "var(--color-success)" : "var(--color-foreground-tertiary)",
-                fontSize: "var(--text-xs)",
-                fontWeight: "var(--font-weight-medium)",
-                cursor: "pointer",
-                transition: "var(--transition-fast)",
-              }}
-            >
-              {copied ? <Check size={12} /> : <Copy size={12} />}
-              {copied ? "تم النسخ" : "نسخ"}
-            </button>
+            <CopyButton
+              variant="ghost"
+              getText={() => [sample.title, sample.hook, sample.body, sample.cta, sample.hashtags.map(h => `#${h}`).join(" ")].join("\n\n")}
+              label={t("copy")}
+              copiedLabel={t("copied")}
+            />
           </div>
 
           {/* Content */}
@@ -239,7 +213,7 @@ export default function OutputShowcase() {
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
                 <h3 style={{
                   fontSize: "var(--text-xl)",
-                  fontWeight: "var(--font-weight-extrabold)",
+                  fontWeight: "var(--font-weight-bold)",
                   color: "var(--color-foreground)",
                   margin: 0,
                   lineHeight: "var(--leading-snug)",
@@ -285,7 +259,7 @@ export default function OutputShowcase() {
               <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
                 {sample.hashtags.map((tag) => (
                   <span key={tag} style={{
-                    padding: "3px 10px",
+                    padding: "var(--space-0-5) var(--space-2-5)",
                     borderRadius: "var(--radius-full)",
                     background: platformAlpha12,
                     border: `1px solid ${platformAlpha30}`,
