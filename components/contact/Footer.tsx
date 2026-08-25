@@ -7,7 +7,7 @@ import Image from "next/image";
 import ContactDrawer from "./ContactDrawer";
 
 // ---------------------------------------------------------------------------
-// Footer — minimal premium footer with founder CTA that opens ContactDrawer
+// Footer — premium footer with founder CTA that opens ContactDrawer
 // ---------------------------------------------------------------------------
 
 const FOUNDER_NAME_AR = "أمجد غزي";
@@ -26,7 +26,7 @@ export default function Footer() {
       <footer
         style={{
           position: "relative",
-          maxWidth: "var(--container-md)",
+          maxWidth: "var(--container-lg)",
           margin: "0 auto",
           padding: "0 var(--space-6) var(--space-12)",
         }}
@@ -42,111 +42,114 @@ export default function Footer() {
         />
 
         <div
+          className="footer-layout"
           style={{
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "var(--space-5)",
-            textAlign: "center",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            gap: "var(--space-10)",
           }}
         >
-          {/* ── Logo + Brand ── */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--space-2)",
-            }}
-          >
-            <Image
-              src="/logo.png"
-              alt="Sawwiq"
-              width={26}
-              height={26}
-              className="object-contain"
-              style={{ opacity: 0.8 }}
-            />
-            <span
+          {/* Left — Logo + description */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div
               style={{
-                fontSize: "var(--text-md)",
-                fontWeight: "var(--font-weight-bold)",
-                color: "var(--color-foreground-secondary)",
-                letterSpacing: "var(--tracking-snug)",
+                display: "flex",
+                alignItems: "center",
+                gap: "var(--space-2)",
+                marginBottom: "var(--space-3)",
               }}
             >
-              {tGlobal("productName")}
-            </span>
+              <Image
+                src="/logo.png"
+                alt="Sawwiq"
+                width={24}
+                height={24}
+                className="object-contain"
+                style={{ opacity: 0.8 }}
+              />
+              <span
+                style={{
+                  fontSize: "var(--text-md)",
+                  fontWeight: "var(--font-weight-bold)",
+                  color: "var(--color-foreground-secondary)",
+                  letterSpacing: "var(--tracking-snug)",
+                }}
+              >
+                {tGlobal("productName")}
+              </span>
+            </div>
+
+            <p
+              style={{
+                fontSize: "var(--text-sm)",
+                color: "var(--color-foreground-disabled)",
+                margin: 0,
+                lineHeight: "var(--leading-relaxed)",
+                maxWidth: "300px",
+              }}
+            >
+              {t("footerDescription")}
+            </p>
           </div>
 
-          {/* ── Description ── */}
-          <p
-            style={{
-              fontSize: "var(--text-sm)",
-              color: "var(--color-foreground-disabled)",
-              margin: 0,
-              lineHeight: "var(--leading-relaxed)",
-              maxWidth: "320px",
-            }}
-          >
-            {t("footerDescription")}
-          </p>
+          {/* Right — Founder CTA + copyright */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: locale === "ar" ? "flex-start" : "flex-end",
+            gap: "var(--space-3)",
+            flexShrink: 0,
+          }}>
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="founder-cta-btn"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "var(--space-1)",
+                padding: "var(--space-2) var(--space-4-5)",
+                borderRadius: "var(--radius-full)",
+                background: "var(--color-accent-warm-surface)",
+                border: "1px solid var(--color-accent-warm-soft)",
+                color: "var(--color-accent-warm)",
+                fontSize: "var(--text-sm)",
+                fontWeight: "var(--font-weight-semibold)",
+                cursor: "pointer",
+                fontFamily: "inherit",
+                transition: "var(--transition-normal)",
+                letterSpacing: "var(--tracking-btn)",
+              }}
+            >
+              {t("footerCTA", { name: founderName })}
+              <ArrowUpRight size={14} style={{ opacity: 0.7 }} />
+            </button>
 
-          {/* ── Tagline ── */}
-          <p
-            style={{
-              fontSize: "var(--text-sm)",
-              color: "var(--color-foreground-tertiary)",
-              margin: 0,
-              fontStyle: "italic",
-              opacity: 0.7,
-            }}
-          >
-            {t("footerTagline")}
-          </p>
-
-          {/* ── Founder CTA ── */}
-          <button
-            onClick={() => setDrawerOpen(true)}
-            className="founder-cta-btn"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "var(--space-1)",
-              padding: "var(--space-2) var(--space-4-5)",
-              borderRadius: "var(--radius-full)",
-              background: "var(--color-brand-surface)",
-              border: "1px solid var(--color-brand-soft)",
-              color: "var(--color-brand-primary)",
-              fontSize: "var(--text-sm)",
-              fontWeight: "var(--font-weight-semibold)",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              transition: "var(--transition-normal)",
-              letterSpacing: "var(--tracking-btn)",
-            }}
-          >
-            {t("footerCTA", { name: founderName })}
-            <ArrowUpRight size={14} style={{ opacity: 0.7 }} />
-          </button>
-
-          {/* ── Copyright ── */}
-          <p
-            style={{
-              fontSize: "var(--text-xs)",
-              color: "var(--color-foreground-disabled)",
-              margin: "var(--space-2) 0 0",
-            }}
-          >
-            © {new Date().getFullYear()} {tGlobal("productName")} · {t("copyright")}
-          </p>
+            <p
+              style={{
+                fontSize: "var(--text-xs)",
+                color: "var(--color-foreground-disabled)",
+                margin: 0,
+              }}
+            >
+              © {new Date().getFullYear()} {tGlobal("productName")} · {t("copyright")}
+            </p>
+          </div>
         </div>
 
         <style>{`
           .founder-cta-btn:hover {
-            background: var(--color-brand-soft) !important;
-            border-color: var(--color-brand-soft) !important;
-            color: var(--color-brand-primary) !important;
-            box-shadow: var(--shadow-glow);
+            background: var(--color-accent-warm-soft) !important;
+            border-color: var(--color-accent-warm-soft) !important;
+            color: var(--color-accent-warm) !important;
+          }
+
+          @media (max-width: 640px) {
+            .footer-layout {
+              flex-direction: column !important;
+              align-items: center !important;
+              text-align: center;
+            }
           }
         `}</style>
       </footer>
