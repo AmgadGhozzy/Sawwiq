@@ -190,6 +190,8 @@ function buildV2(personaId: PersonaId): string {
 }
 
 export function buildPerspectiveConstraint(personaId: PersonaId, version: "v1" | "v2" = "v2"): string {
+  if (process.env.SAWWIQ_PERSPECTIVE_OFF === "1") return "";
+
   if (version === "v1") {
     switch (personaId) {
       case "developer": return DEVELOPER_V1;
@@ -199,6 +201,6 @@ export function buildPerspectiveConstraint(personaId: PersonaId, version: "v1" |
       default: return "";
     }
   }
-  
+
   return buildV2(personaId);
 }
