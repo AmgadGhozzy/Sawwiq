@@ -87,7 +87,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
             animate={{ x: "-50%", opacity: 1, y: 0, scale: 1 }}
             exit={{ x: "-50%", opacity: 0, y: 40, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            className="contact-drawer-panel"
+            className="contact-drawer-panel glass-card"
             style={{
               position: "fixed",
               bottom: "var(--space-6)",
@@ -96,10 +96,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
               zIndex: "var(--z-modal)",
               borderRadius: "var(--radius-2xl)",
               background: "color-mix(in srgb, var(--color-background) 85%, transparent)",
-              backdropFilter: "blur(60px) saturate(180%)",
-              WebkitBackdropFilter: "blur(60px) saturate(180%)",
-              border: "1px solid var(--color-border)",
-              boxShadow: "var(--shadow-elevated)",
+              backdropFilter: "blur(var(--blur-2xl)) saturate(180%)",
+              WebkitBackdropFilter: "blur(var(--blur-2xl)) saturate(180%)",
               outline: "none",
               overflow: "hidden",
             }}
@@ -184,8 +182,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     height: "var(--space-14)",
                     borderRadius: "var(--radius-xl)",
                     background: "var(--color-brand-surface)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
+                    backdropFilter: "blur(var(--blur-md))",
+                    WebkitBackdropFilter: "blur(var(--blur-md))",
                     border: "none",
                     display: "flex",
                     alignItems: "center",
@@ -207,7 +205,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 <h3
                   style={{
                     fontSize: "var(--text-lg)",
-                    fontWeight: "var(--font-weight-extrabold)",
+                    fontWeight: "var(--font-weight-bold)",
                     margin: "0 0 var(--space-1-5)",
                     color: "var(--color-foreground)",
                   }}
@@ -230,7 +228,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   style={{
                     fontSize: "var(--text-sm)",
                     color: "var(--color-foreground-tertiary)",
-                    lineHeight: 1.8,
+                    lineHeight: "var(--leading-relaxed)",
                     margin: 0,
                     maxWidth: "380px",
                     marginInline: "auto",

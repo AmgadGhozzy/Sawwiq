@@ -71,7 +71,7 @@ export default function Footer() {
                 fontSize: "var(--text-md)",
                 fontWeight: "var(--font-weight-bold)",
                 color: "var(--color-foreground-secondary)",
-                letterSpacing: "-0.01em",
+                letterSpacing: "var(--tracking-snug)",
               }}
             >
               {tGlobal("productName")}
@@ -84,7 +84,7 @@ export default function Footer() {
               fontSize: "var(--text-sm)",
               color: "var(--color-foreground-disabled)",
               margin: 0,
-              lineHeight: 1.7,
+              lineHeight: "var(--leading-relaxed)",
               maxWidth: "320px",
             }}
           >
@@ -122,7 +122,7 @@ export default function Footer() {
               cursor: "pointer",
               fontFamily: "inherit",
               transition: "var(--transition-normal)",
-              letterSpacing: "0.01em",
+              letterSpacing: "var(--tracking-btn)",
             }}
           >
             {t("footerCTA", { name: founderName })}
