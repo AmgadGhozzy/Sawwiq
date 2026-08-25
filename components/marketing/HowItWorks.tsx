@@ -56,8 +56,8 @@ export default function HowItWorks() {
         style={{ textAlign: "center", marginBottom: "var(--space-16)" }}
       >
         <h2 style={{
-          fontSize: "var(--text-4xl)",
-          fontWeight: "var(--font-weight-bold)",
+          fontSize: "var(--text-3xl)",
+          fontWeight: "var(--font-weight-semibold)",
           color: "var(--color-foreground)",
           marginBottom: "var(--space-4)",
           letterSpacing: "var(--tracking-tight)",

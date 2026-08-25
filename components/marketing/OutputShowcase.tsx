@@ -63,7 +63,7 @@ export default function OutputShowcase() {
           {t("badge")}
         </p>
         <h2 style={{
-          fontSize: "var(--text-4xl)", fontWeight: "var(--font-weight-bold)",
+          fontSize: "var(--text-4xl)", fontWeight: "var(--font-weight-medium)",
           color: "var(--color-foreground)", letterSpacing: "var(--tracking-tight)",
           margin: "0 0 var(--space-4)", lineHeight: "var(--leading-tight)",
         }}>

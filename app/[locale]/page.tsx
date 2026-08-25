@@ -55,11 +55,12 @@ export default function Home() {
 
         {/* Main Headline — gradient text */}
         <h1 style={{
-          fontSize: "var(--text-display)", fontWeight: "var(--font-weight-bold)", letterSpacing: "var(--tracking-tight)",
+          fontSize: "clamp(2.25rem, 6.5vw, 4rem)", fontWeight: "var(--font-weight-bold)", letterSpacing: "var(--tracking-tight)",
           background: "var(--gradient-headline)",
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          backgroundClip: "text", lineHeight: 1.35, margin: "0 0 var(--space-4)",
+          backgroundClip: "text", lineHeight: 1.2, margin: "0 0 var(--space-5)",
           paddingBottom: "var(--space-3)",
+          maxWidth: "800px", marginInline: "auto",
         }}>
           {tHome("headline")}
         </h1>
