@@ -1,0 +1,403 @@
+import * as fs from "fs";
+import * as path from "path";
+import { config } from "dotenv";
+config({ path: path.join(process.cwd(), ".env.local") });
+
+import { GoogleGenAI, Type } from "@google/genai";
+import { evaluatePersona } from "../lib/evaluation/personaEvaluator";
+import { evaluateReasoningSeparation } from "../lib/evaluation/reasoningSeparationEvaluator";
+import { evaluateAblationWeighted } from "../lib/evaluation/ablationEvaluator";
+
+const ai = new GoogleGenAI({
+  vertexai: true,
+  apiKey: process.env.VERTEX_AI_API_KEY,
+});
+
+async function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// ─── IR Schemas ─────────────────────────────────────────────────────────────
+
+const SCHEMAS: Record<string, any> = {
+  developer: {
+    type: Type.OBJECT,
+    properties: {
+      system_definition: { type: Type.STRING, description: "What is the mechanical/structural system here?" },
+      inputs_and_outputs: { type: Type.STRING, description: "What goes in and what should come out?" },
+      constraint_or_bottleneck: { type: Type.STRING, description: "Where is the structural friction or failure point?" },
+      causal_mechanism: { type: Type.STRING, description: "Why does this bottleneck produce the observed symptom?" },
+      structural_intervention: { type: Type.STRING, description: "What rule/process fixes the bottleneck?" },
+      observable_outcome: { type: Type.STRING, description: "What is the measurable result?" }
+    },
+    required: ["system_definition", "inputs_and_outputs", "constraint_or_bottleneck", "causal_mechanism", "structural_intervention", "observable_outcome"]
+  },
+  psychology: {
+    type: Type.OBJECT,
+    properties: {
+      external_trigger: { type: Type.STRING, description: "What event initiates this?" },
+      internal_motive: { type: Type.STRING, description: "What is the hidden emotional need/fear driving it?" },
+      observable_behavior: { type: Type.STRING, description: "What does the person do?" },
+      internal_reinforcement: { type: Type.STRING, description: "What is the short-term emotional payoff (e.g. relief) that sustains it?" },
+      awareness_shift: { type: Type.STRING, description: "What new self-perception is needed?" }
+    },
+    required: ["external_trigger", "internal_motive", "observable_behavior", "internal_reinforcement", "awareness_shift"]
+  },
+  intellectual: {
+    type: Type.OBJECT,
+    properties: {
+      common_assumption: { type: Type.STRING, description: "What is the naive/popular belief?" },
+      hidden_flaw: { type: Type.STRING, description: "What is the underlying contradiction or hidden cost?" },
+      causal_challenge: { type: Type.STRING, description: "How does the flaw systematically undermine the premise?" },
+      alternative_framing: { type: Type.STRING, description: "How should we frame the question instead?" },
+      reframed_synthesis: { type: Type.STRING, description: "What is the new deeper understanding? (Must NOT be an operational instruction)" }
+    },
+    required: ["common_assumption", "hidden_flaw", "causal_challenge", "alternative_framing", "reframed_synthesis"]
+  },
+  creative: {
+    type: Type.OBJECT,
+    properties: {
+      sensory_scene: { type: Type.STRING, description: "What concrete, ordinary physical observation starts this? (Must NOT be an internal emotion)" },
+      unexpected_association: { type: Type.STRING, description: "How does this scene map to the topic?" },
+      tension: { type: Type.STRING, description: "What is the friction between the literal scene and the metaphor?" },
+      transformed_meaning: { type: Type.STRING, description: "How does this change our understanding of the topic?" },
+      lingering_echo: { type: Type.STRING, description: "What sensory detail do we leave the reader with?" }
+    },
+    required: ["sensory_scene", "unexpected_association", "tension", "transformed_meaning", "lingering_echo"]
+  }
+};
+
+const FINAL_CONTENT_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    title: { type: Type.STRING },
+    hook: { type: Type.STRING },
+    body: { type: Type.STRING },
+    closing: { type: Type.STRING },
+    hashtags: { type: Type.ARRAY, items: { type: Type.STRING } }
+  },
+  required: ["title", "hook", "body", "closing", "hashtags"]
+};
+
+// ─── IR VALIDATION ──────────────────────────────────────────────────────────
+
+const IR_VALIDITY_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    is_valid: { type: Type.BOOLEAN, description: "True if the graph strictly adheres to the requested persona's cognitive model AND does not leak." },
+    reason: { type: Type.STRING, description: "Explanation of why it is valid or invalid." }
+  },
+  required: ["is_valid", "reason"]
+};
+
+async function validateIR(irJson: any, personaId: string): Promise<boolean> {
+  let antiIsomorphismRules = "";
+  if (personaId === "creative") {
+    antiIsomorphismRules = `
+Does the graph contain a causal mechanism that could plausibly be generated by psychology instead (e.g., dealing with internal feelings, motives, emotional reinforcement)?
+If yes -> invalid.
+Does it start with an emotion instead of a concrete physical scene? If yes -> invalid.`;
+  } else if (personaId === "intellectual") {
+    antiIsomorphismRules = `
+Does the graph merely identify a problem and propose a practical fix or operational instruction?
+If yes -> invalid.
+Does it change the question/premise itself and arrive at a deeper reframing?
+If no -> invalid.`;
+  } else if (personaId === "developer") {
+    antiIsomorphismRules = `
+Is the core cause actually a human motive, emotion, or psychological defense mechanism instead of a structural system bottleneck?
+If yes -> invalid.`;
+  } else if (personaId === "psychology") {
+    antiIsomorphismRules = `
+Does the graph describe a purely mechanical system constraint without emotional drivers or human motives?
+If yes -> invalid.
+Does the conclusion offer a practical checklist/rule instead of an internal self-awareness shift?
+If yes -> invalid.`;
+  }
+
+  const prompt = `
+You are a Strict IR (Intermediate Representation) Validator acting as an Anti-Collision Gate.
+Target Persona: ${personaId.toUpperCase()}
+
+Examine the following JSON Causal Graph representing a thought process.
+Does this graph genuinely embody the ${personaId} cognitive model?
+
+CRITICAL ANTI-ISOMORPHISM RULES:
+${antiIsomorphismRules}
+
+Graph:
+${JSON.stringify(irJson, null, 2)}
+`;
+
+  const response = await ai.models.generateContent({
+    model: "gemini-3.1-flash-lite",
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: IR_VALIDITY_SCHEMA as any,
+      temperature: 0.1
+    }
+  });
+  
+  const parsed = JSON.parse(response.text!);
+  return parsed.is_valid;
+}
+
+// ─── IR -> SURFACE FIDELITY EVALUATION ──────────────────────────────────────
+
+const IR_FIDELITY_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    nodes_preserved: { type: Type.NUMBER, description: "Number of structural nodes from the IR that were successfully translated into the text." },
+    causal_edges_preserved: { type: Type.NUMBER, description: "Number of logical/causal connections from the IR that survived in the text." },
+    structural_fidelity: { type: Type.NUMBER, description: "0.0 to 1.0 score of how well the text matches the IR structure." },
+    invented_mechanisms: { type: Type.NUMBER, description: "Number of NEW causal mechanisms or rationales the text invented that were NOT in the IR." },
+    details: { type: Type.STRING }
+  },
+  required: ["nodes_preserved", "causal_edges_preserved", "structural_fidelity", "invented_mechanisms", "details"]
+};
+
+async function evaluateIRSurfaceFidelity(irData: any, finalString: string) {
+  const prompt = `
+You are a Structural Fidelity Evaluator.
+Your job is to compare a generated Text against its original Causal Graph (IR).
+
+Causal Graph (IR):
+${JSON.stringify(irData, null, 2)}
+
+Generated Text:
+${finalString}
+
+Evaluate:
+1. Were the core nodes in the IR preserved in the text?
+2. Were the causal edges (the logical flow) preserved?
+3. Did the text invent completely new causal mechanisms or rationales that are missing from the IR?
+Provide exact numbers and a fidelity score (0.0 to 1.0).
+`;
+
+  const response = await ai.models.generateContent({
+    model: "gemini-3.1-flash-lite",
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: IR_FIDELITY_SCHEMA as any,
+      temperature: 0.1
+    }
+  });
+  
+  return JSON.parse(response.text!);
+}
+
+// ─── PIPELINE ───────────────────────────────────────────────────────────────
+
+const retryEval = async <T>(fn: () => Promise<T>): Promise<T> => {
+  let retries = 10;
+  while (retries > 0) {
+    try { return await fn(); }
+    catch (e: any) {
+      if (e?.status === 429 && retries > 1) {
+        console.log(`     [Rate Limit] 429 hit. Waiting 20s...`);
+        await delay(20000);
+        retries--;
+      } else throw e;
+    }
+  }
+  throw new Error("Max retries exceeded");
+};
+
+async function generateTwoStep(topic: string, personaId: string) {
+  const plannerSystemPrompt = `
+You are an elite Causal Graph Planner for a Content Strategy pipeline.
+Your task is to break down the topic into a structured Intermediate Representation (IR) JSON based strictly on the target cognitive model.
+
+Target Cognitive Model: ${personaId.toUpperCase()}
+Target Topic: ${topic}
+
+RULES:
+- Do not make the IR just a generic template. It MUST contain actual domain-specific cognitive decisions for this specific topic.
+- If the topic is emotional (e.g. Imposter Syndrome) and you are 'developer', treat it mechanically as a system constraint.
+- If you are 'creative', start with a physical observation, not an internal emotion.
+`;
+
+  let attempts = 0;
+  const maxAttempts = 3;
+  let irData: any = null;
+  let initial_ir_valid = false;
+  let final_ir_valid = false;
+
+  while (attempts < maxAttempts) {
+    attempts++;
+    const irResponse = await retryEval(() => ai.models.generateContent({
+      model: "gemini-3.1-flash-lite",
+      contents: plannerSystemPrompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: SCHEMAS[personaId] as any,
+        temperature: 0.3 + (attempts * 0.1)
+      }
+    }));
+    irData = JSON.parse(irResponse.text!);
+    
+    const isValid = await retryEval(() => validateIR(irData, personaId));
+    if (attempts === 1) initial_ir_valid = isValid;
+    if (isValid) {
+      final_ir_valid = true;
+      break;
+    } else {
+      console.log(`     [IR Validation Failed] Regenerating IR (attempt ${attempts}/${maxAttempts})...`);
+      await delay(2000);
+    }
+  }
+
+  // Step 2: Surface Generation
+  // Note: We deliberately DO NOT pass the target Persona to the surface generator!
+  const generatorSystemPrompt = `
+You are an Arabic Content Generator.
+Your task is to write a high-quality social media post (LinkedIn style) based EXACTLY on the provided Causal Graph.
+CRITICAL RULES:
+1. You MUST follow the causal sequence provided in the JSON graph.
+2. DO NOT invent your own causal structures, motives, or assumptions. Translate the provided graph into engaging, professional Arabic prose.
+3. Hide the structural nodes (do not use words like "system_definition" literally). Make it flow naturally.
+4. Language: Arabic, style: 'white_arabic' (الفصحى البيضاء).
+5. The 'closing' of the post MUST strictly match the final conclusion/synthesis node of the IR. DO NOT add a generic Call To Action unless it naturally matches the IR.
+`;
+
+  const contentResponse = await retryEval(() => ai.models.generateContent({
+    model: "gemini-3.1-flash-lite",
+    contents: `CAUSAL GRAPH (JSON):\n${JSON.stringify(irData, null, 2)}`,
+    config: {
+      systemInstruction: generatorSystemPrompt,
+      responseMimeType: "application/json",
+      responseSchema: FINAL_CONTENT_SCHEMA as any,
+      temperature: 0.7
+    }
+  }));
+
+  const contentData = JSON.parse(contentResponse.text!);
+  const finalString = `${contentData.title}\n\n${contentData.hook}\n\n${contentData.body}\n\n${contentData.closing}`;
+
+  return { irData, finalString, ir_attempts: attempts, initial_ir_valid, final_ir_valid };
+}
+
+// ─── RUN EXPERIMENT ─────────────────────────────────────────────────────────
+
+async function runExp008() {
+  const datasetPath = path.join(__dirname, "datasets", "dataset-exp-007.json"); 
+  const dataset = JSON.parse(fs.readFileSync(datasetPath, "utf-8"));
+
+  console.log(`🚀 Starting EXP-008: IR Rejection, Strict Anti-Isomorphism, and Pipeline Attribution`);
+
+  const results: any = {
+    metadata: { name: "EXP-008", timestamp: new Date().toISOString() },
+    cases: []
+  };
+  
+  const textsByTopic: Record<string, Record<string, string>> = {};
+  
+  for (const topic of dataset.topics) {
+    console.log(`\n📌 Topic: ${topic.name}`);
+    textsByTopic[topic.id] = {};
+
+    for (const personaId of dataset.personas) {
+      console.log(`   Generate -> ${personaId}...`);
+      
+      const { irData, finalString, ir_attempts, initial_ir_valid, final_ir_valid } = await generateTwoStep(topic.prompt, personaId);
+      textsByTopic[topic.id][personaId] = finalString;
+      
+      console.log(`     -> IR Validation: Initial=${initial_ir_valid}, Final=${final_ir_valid}, Attempts=${ir_attempts}`);
+      
+      await delay(2000);
+      console.log(`   Evaluating IR -> Surface Fidelity...`);
+      const fidelity = await retryEval(() => evaluateIRSurfaceFidelity(irData, finalString));
+      await delay(2000);
+
+      console.log(`   Evaluating Persona Accuracy (using V2 evaluator)...`);
+      const evalPersona = await retryEval(() => evaluatePersona(finalString, "v2"));
+      await delay(2000);
+
+      console.log(`   Evaluating Ablation...`);
+      const ablation = await retryEval(() => evaluateAblationWeighted(finalString, personaId as any));
+      await delay(2000);
+
+      const personaMapping: Record<string, string> = { "A": "developer", "B": "psychology", "C": "intellectual", "D": "creative" };
+      const predictedString = personaMapping[evalPersona.predicted_persona] || evalPersona.predicted_persona;
+      const isMatch = predictedString.toLowerCase() === personaId.toLowerCase();
+
+      const caseData = {
+        topic: topic.id,
+        persona: personaId,
+        ir_attempts,
+        initial_ir_valid,
+        final_ir_valid,
+        ir_json: irData,
+        raw_text: finalString,
+        fidelity,
+        predicted_persona: predictedString,
+        is_match: isMatch,
+        ablation: {
+           weightedScore: ablation.weightedScore,
+           isVocabularyOnly: ablation.isVocabularyOnly
+        }
+      };
+      
+      results.cases.push(caseData);
+      console.log(`     -> Structural Fidelity: ${fidelity.structural_fidelity} (Invented mechs: ${fidelity.invented_mechanisms})`);
+      console.log(`     -> Predicted: ${predictedString} (Confidence: ${evalPersona.confidence_score})`);
+      console.log(`     -> Ablation Delta: ${ablation.weightedScore}`);
+    }
+    
+    // Evaluate Reasoning Separation
+    const pairs = [
+      ["developer", "psychology"],
+      ["developer", "intellectual"],
+      ["developer", "creative"],
+      ["psychology", "intellectual"],
+      ["psychology", "creative"],
+      ["intellectual", "creative"],
+    ];
+
+    console.log(`   Evaluating Reasoning Separation for Topic ${topic.id}...`);
+    for (const [pA, pB] of pairs) {
+       const sep = await retryEval(() => evaluateReasoningSeparation(textsByTopic[topic.id][pA], pA as any, textsByTopic[topic.id][pB], pB as any));
+       await delay(2000);
+
+       results.cases.push({
+         type: "separation",
+         topic: topic.id,
+         pair: `${pA}_vs_${pB}`,
+         separation_score: sep.separation_score,
+       });
+       console.log(`     -> ${pA} vs ${pB}: separation_score = ${sep.separation_score}`);
+    }
+  }
+
+  // Aggregate
+  const vCases = results.cases.filter((c: any) => c.type !== "separation");
+  const sepCases = results.cases.filter((c: any) => c.type === "separation");
+
+  const collisionCount = vCases.filter((c: any) => !c.is_match).length;
+  const collisionRate = (collisionCount / vCases.length) * 100;
+  const avgAblationDelta = vCases.reduce((sum: number, c: any) => sum + c.ablation.weightedScore, 0) / vCases.length;
+  const avgSeparation = sepCases.reduce((sum: number, c: any) => sum + c.separation_score, 0) / sepCases.length;
+  const initialValidRate = (vCases.filter((c: any) => c.initial_ir_valid).length / vCases.length) * 100;
+  const finalValidRate = (vCases.filter((c: any) => c.final_ir_valid).length / vCases.length) * 100;
+  const avgFidelity = vCases.reduce((sum: number, c: any) => sum + c.fidelity.structural_fidelity, 0) / vCases.length;
+  
+  const summary = {
+    "Collision Rate (%)": collisionRate.toFixed(2),
+    "Ablation Delta": avgAblationDelta.toFixed(2),
+    "Avg Reasoning Separation": avgSeparation.toFixed(2),
+    "Initial IR Validity Rate (%)": initialValidRate.toFixed(2),
+    "Final IR Validity Rate (%)": finalValidRate.toFixed(2),
+    "IR->Surface Fidelity Score": avgFidelity.toFixed(2)
+  };
+  
+  results.summary = summary;
+  const reportPath = path.join(__dirname, "benchmark-reports", `exp-008-fidelity-${Date.now()}.json`);
+  fs.writeFileSync(reportPath, JSON.stringify(results, null, 2));
+
+  console.log(`\n✅ EXP-008 Complete. Report saved to: ${reportPath}`);
+  console.log(JSON.stringify(summary, null, 2));
+}
+
+runExp008().catch(console.error);

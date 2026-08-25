@@ -1,0 +1,31 @@
+{
+  "name": "EXP-010 Regression & Stress Test",
+  "version": "1.1",
+  "personas": ["developer", "psychology", "intellectual", "creative"],
+  "categories": ["Human", "Business", "Technical", "Adversarial"],
+  "topics": [
+    { "id": "T-H01", "category": "Human", "prompt": "متلازمة المحتال وكيفية التغلب عليها في بيئة العمل." },
+    { "id": "T-H02", "category": "Human", "prompt": "التعامل مع الرفض المهني." },
+    { "id": "T-H03", "category": "Human", "prompt": "تجنب الاحتراق الوظيفي في المشاريع الطويلة." },
+    { "id": "T-H04", "category": "Human", "prompt": "القيادة والتعاطف." },
+    { "id": "T-H05", "category": "Human", "prompt": "إدارة الخلافات الشخصية داخل فرق العمل." },
+
+    { "id": "T-B01", "category": "Business", "prompt": "تسعير المنتجات البرمجية." },
+    { "id": "T-B02", "category": "Business", "prompt": "استراتيجيات التفاوض مع العملاء." },
+    { "id": "T-B03", "category": "Business", "prompt": "الاحتفاظ بالعملاء." },
+    { "id": "T-B04", "category": "Business", "prompt": "كيفية اختيار الموظف المناسب." },
+    { "id": "T-B05", "category": "Business", "prompt": "التحول الرقمي للشركات التقليدية." },
+
+    { "id": "T-T01", "category": "Technical", "prompt": "تصميم واجهات برمجة التطبيقات." },
+    { "id": "T-T02", "category": "Technical", "prompt": "استراتيجيات التخزين المؤقت." },
+    { "id": "T-T03", "category": "Technical", "prompt": "هندسة الأنظمة الموزعة." },
+    { "id": "T-T04", "category": "Technical", "prompt": "الحد من معدل الطلبات." },
+    { "id": "T-T05", "category": "Technical", "prompt": "تصميم مخططات قواعد البيانات." },
+
+    { "id": "T-A01", "category": "Adversarial", "prompt": "الشعور بالوحدة بعد فقدان شخص عزيز.", "adversarial_targets": ["creative", "developer", "intellectual"] },
+    { "id": "T-A02", "category": "Adversarial", "prompt": "تحسين خوارزمية البحث الثنائي.", "adversarial_targets": ["psychology", "creative"] },
+    { "id": "T-A03", "category": "Adversarial", "prompt": "تطبيق خطة لخفض التكاليف التشغيلية بنسبة 20%.", "adversarial_targets": ["intellectual", "psychology"] },
+    { "id": "T-A04", "category": "Adversarial", "prompt": "الغضب الناجم عن فشل الكود في بيئة الإنتاج.", "adversarial_targets": ["developer"] },
+    { "id": "T-A05", "category": "Adversarial", "prompt": "كتابة قصيدة عن بنية البيانات.", "adversarial_targets": ["developer", "intellectual"] }
+  ]
+}

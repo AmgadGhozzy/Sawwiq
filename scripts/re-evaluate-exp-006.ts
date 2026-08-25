@@ -29,9 +29,10 @@ import { evaluateContractNodeCoverage } from "../lib/evaluation/contractNodeEval
 import { buildSystemPrompt, buildUserPrompt } from "../lib/content/prompt/compiler";
 import { GEMINI_RESPONSE_SCHEMA } from "../supabase/functions/generate/validation/schema";
 import { getPersona } from "../lib/content/personas/registry";
-import { PERSONA_LETTER_MAP, PersonaId } from "../lib/evaluation/types";
+import { PERSONA_LETTER_MAP } from "../lib/evaluation/types";
+import type { PersonaId } from "../lib/evaluation/types";
 import { GoogleGenAI } from "@google/genai";
-import { InputDTO } from "../types/content";
+import type { InputDTO } from "../types/content";
 
 // ─── Frozen configuration ─────────────────────────────────────────────────────
 
@@ -86,6 +87,19 @@ async function generateContent(input: InputDTO): Promise<string> {
     try {
       const systemInstruction = buildSystemPrompt(input as any);
       const userPrompt = buildUserPrompt();
+
+      const personaCfg = (input as any).metadata?.persona;
+      if (personaCfg) {
+        const expectedMarker =
+          personaCfg.perspectiveVersion === "v1"
+            ? "<perspective_constraint>"
+            : "<reasoning_contract>";
+        if (!systemInstruction.includes(expectedMarker)) {
+          throw new Error(
+            `INSTRUMENTATION FAILURE: expected ${expectedMarker} in the prompt but it is missing — aborting the entire run.`
+          );
+        }
+      }
       const response = await ai.models.generateContent({
         model: "gemini-3.1-flash-lite",
         contents: userPrompt,

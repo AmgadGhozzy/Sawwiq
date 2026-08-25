@@ -1,0 +1,27 @@
+{
+  "name": "EXP-007 Causal Isolation",
+  "version": "1.0",
+  "personas": [
+    "developer",
+    "psychology",
+    "intellectual",
+    "creative"
+  ],
+  "topics": [
+    {
+      "id": "T-P08",
+      "name": "Imposter Syndrome",
+      "prompt": "متلازمة المحتال (Imposter Syndrome) وكيفية التغلب عليها في بيئة العمل."
+    },
+    {
+      "id": "T-P09",
+      "name": "Negative Feedback",
+      "prompt": "تقديم النقد البناء لزميل عمل دون تدمير العلاقة."
+    },
+    {
+      "id": "T-P13",
+      "name": "Professional Relationships",
+      "prompt": "العلاقات المهنية - بناء شبكة علاقات وتجاوز سطحية المجاملات."
+    }
+  ]
+}

@@ -10,14 +10,14 @@ import { evaluateFingerprintSeparation } from "../lib/evaluation/fingerprintEval
 import { evaluateGenericness } from "../lib/evaluation/genericnessEvaluator";
 import { evaluateAblatedPersona } from "../lib/evaluation/ablationEvaluator";
 import { buildSystemPrompt, buildUserPrompt } from "../lib/content/prompt/compiler";
-import { getGeminiResponseSchema } from "../supabase/functions/generate/validation/schema";
+import { GEMINI_RESPONSE_SCHEMA } from "../supabase/functions/generate/validation/schema";
 import type { InputDTO } from "../supabase/functions/generate/validation/schema";
 
-import {
+import { PERSONA_LETTER_MAP } from "../lib/evaluation/types";
+import type {
   PersonaId,
   StyleId,
   PlatformId,
-  PERSONA_LETTER_MAP,
   BenchmarkCaseResult,
   BenchmarkReport,
   PairwiseResult,
@@ -92,7 +92,7 @@ async function runBenchmark() {
     await delay(3000);
 
     // Generate content with retry
-    const responseSchema = getGeminiResponseSchema(contentType);
+    const responseSchema = GEMINI_RESPONSE_SCHEMA;
     let generatedRaw = "";
     let retries = 3;
 

@@ -12,7 +12,7 @@ import { buildSystemPrompt, buildUserPrompt } from "../lib/content/prompt/compil
 import { GEMINI_RESPONSE_SCHEMA } from "../supabase/functions/generate/validation/schema";
 import { getPersona } from "../lib/content/personas/registry";
 import { GoogleGenAI } from "@google/genai";
-import { InputDTO } from "../types/content";
+import type { InputDTO } from "../types/content";
 
 const ai = new GoogleGenAI({
   vertexai: true,
@@ -35,6 +35,19 @@ function extractFullText(jsonString: string): string {
 async function generateContent(input: InputDTO): Promise<string> {
   const systemInstruction = buildSystemPrompt(input as any);
   const userPrompt = buildUserPrompt();
+
+  const personaCfg = (input as any).metadata?.persona;
+  if (personaCfg) {
+    const expectedMarker =
+      personaCfg.perspectiveVersion === "v1"
+        ? "<perspective_constraint>"
+        : "<reasoning_contract>";
+    if (!systemInstruction.includes(expectedMarker)) {
+      throw new Error(
+        `INSTRUMENTATION FAILURE: expected ${expectedMarker} in the prompt but it is missing — aborting the entire experiment.`
+      );
+    }
+  }
 
   let retries = 10;
   while (retries > 0) {

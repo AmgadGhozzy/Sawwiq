@@ -21,7 +21,7 @@ import { evaluateDeterministic, evaluateSemantic, computeCombinedScore } from ".
 import { analyzeBenchmark } from "../lib/evaluation/benchmarkAnalysis";
 import { estimatePromptTokens, measurePromptBudget } from "../lib/evaluation/promptBudget";
 import { buildGroupScores } from "../lib/evaluation/benchmarkGroups";
-import { buildSystemPrompt, buildUserPrompt } from "../supabase/functions/generate/prompts/promptBuilder";
+import { buildSystemPrompt, USER_PROMPT } from "../supabase/functions/generate/prompts/promptBuilder";
 
 const cliArgs = process.argv.slice(2);
 const hasFlag = (flag: string, environmentFlag: string) =>
@@ -110,7 +110,7 @@ async function runFullBenchmark() {
         generatedContent = generationResult.content;
         const systemPrompt = buildSystemPrompt(inputPayload);
         systemPromptEstimatedTokens = estimatePromptTokens(systemPrompt.length);
-        dynamicContextEstimatedTokens = estimatePromptTokens(inputPayload.rawInput.length + buildUserPrompt().length);
+        dynamicContextEstimatedTokens = estimatePromptTokens(inputPayload.rawInput.length + USER_PROMPT.length);
         tokenUsage = generationResult.metadata.tokenUsage;
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err);
