@@ -99,7 +99,7 @@ export default function ConversionCTA() {
         pointerEvents: "none",
       }} />
 
-      {/* ── Social Proof Pill + Icon ── */}
+      {/* ── Social Proof ── */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -110,16 +110,12 @@ export default function ConversionCTA() {
           display: "inline-flex",
           alignItems: "center",
           gap: "var(--space-2)",
-          padding: "var(--space-1-5) var(--space-4)",
-          borderRadius: "var(--radius-full)",
-          background: "var(--color-brand-surface)",
-          border: "1px solid var(--color-brand-soft)",
           fontSize: "var(--text-xs)",
-          fontWeight: "var(--font-weight-semibold)",
-          color: "var(--color-brand-light)",
+          fontWeight: "var(--font-weight-medium)",
+          color: "var(--color-foreground-tertiary)",
         }}
       >
-        <Users size={13} color="var(--color-brand-light)" />
+        <Users size={13} />
         <span className="cta-social-pill-text">{t("socialProof")}</span>
       </motion.div>
 

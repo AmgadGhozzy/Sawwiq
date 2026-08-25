@@ -4,7 +4,6 @@ import OutputShowcase from "@/components/marketing/OutputShowcase";
 import HowItWorks from "@/components/marketing/HowItWorks";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import HistoryProvider from "@/components/history/HistoryProvider";
-import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { HistoryContextProvider } from "@/components/history/HistoryContext";
@@ -72,20 +71,6 @@ export default function Home() {
         }}>
           {tGlobal("productTagline")}
         </p>
-
-        {/* Sparkle badge */}
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: "var(--space-1)",
-          marginTop: "var(--space-3)", padding: "var(--space-1-5) var(--space-4)",
-          borderRadius: "var(--radius-full)",
-          background: "var(--color-brand-surface)",
-          border: "1px solid var(--color-brand-soft)",
-        }}>
-          <Sparkles size={14} color="var(--color-brand-light)" />
-          <span style={{ fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)" }}>
-            {tHome("aiBadge")}
-          </span>
-        </div>
       </header>
 
       {/* ── Main App ── */}
@@ -94,17 +79,17 @@ export default function Home() {
       </section>
 
       {/* ── Output Showcase ── */}
-      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20 mb-20">
+      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-24 mb-16">
         <OutputShowcase />
       </section>
 
       {/* ── How It Works ── */}
-      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20 mb-20">
+      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-28 mb-20">
         <HowItWorks />
       </section>
 
       {/* ── CTA Section ── */}
-      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-20 mb-20">
+      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-16 mb-20">
         <ConversionCTA />
       </section>
 

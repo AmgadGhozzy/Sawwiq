@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PlatformIcon } from "@/components/ui/PlatformIcon";
 import CopyButton from "@/components/ui/CopyButton";
@@ -56,18 +55,13 @@ export default function OutputShowcase() {
     >
       {/* ── Header ── */}
       <div style={{ textAlign: "center" }}>
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: "var(--space-2)",
-          padding: "var(--space-1-5) var(--space-4)", borderRadius: "var(--radius-full)",
-          background: "var(--color-brand-surface)",
-          border: "1px solid var(--color-brand-soft)",
-          marginBottom: "var(--space-5)",
+        <p style={{
+          fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)",
+          color: "var(--color-accent-warm)", letterSpacing: "var(--tracking-caps)",
+          textTransform: "uppercase", marginBottom: "var(--space-3)",
         }}>
-          <Sparkles size={13} color="var(--color-brand-light)" />
-          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "var(--tracking-caps)" }}>
-            {t("badge")}
-          </span>
-        </div>
+          {t("badge")}
+        </p>
         <h2 style={{
           fontSize: "var(--text-4xl)", fontWeight: "var(--font-weight-bold)",
           color: "var(--color-foreground)", letterSpacing: "var(--tracking-tight)",

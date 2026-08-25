@@ -55,20 +55,6 @@ export default function HowItWorks() {
         transition={{ duration: 0.5 }}
         style={{ textAlign: "center", marginBottom: "var(--space-16)" }}
       >
-        <div style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "var(--space-2)",
-          padding: "var(--space-1-5) var(--space-4)",
-          borderRadius: "var(--radius-full)",
-          background: "var(--color-brand-surface)",
-          border: "1px solid var(--color-brand-soft)",
-          marginBottom: "var(--space-5)",
-        }}>
-          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "var(--tracking-caps)" }}>
-            {t("badge")}
-          </span>
-        </div>
         <h2 style={{
           fontSize: "var(--text-4xl)",
           fontWeight: "var(--font-weight-bold)",
