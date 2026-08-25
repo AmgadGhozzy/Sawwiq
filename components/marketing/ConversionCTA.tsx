@@ -55,10 +55,10 @@ export default function ConversionCTA() {
   return (
     <motion.div
       id="waitlist-cta"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.97 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
           className="cta-glass-card glass-card cta-card"
           style={{
             position: "relative",

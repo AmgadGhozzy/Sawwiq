@@ -57,8 +57,8 @@ export default function CtaButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      whileHover={!disabled && !muted ? { y: -2 } : undefined}
-      whileTap={!disabled ? { scale: 0.97 } : undefined}
+      whileHover={!disabled && !muted ? { y: -1, boxShadow: "0 0 20px rgba(245,158,11,0.25), 0 8px 24px -4px rgba(124,58,237,0.4)" } : undefined}
+      whileTap={!disabled ? { scale: 0.98 } : undefined}
       className={className}
       style={{
         ...baseStyle,
