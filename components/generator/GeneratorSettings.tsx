@@ -203,6 +203,7 @@ export default function GeneratorSettings({
           }))}
         />
 
+        {/* Marketing Mode: Objective (span 2) */}
         {!isCreatorMode && onMarketingObjectiveChange && (
           <div style={{ gridColumn: "span 2" }}>
             <DropdownPill
@@ -218,24 +219,45 @@ export default function GeneratorSettings({
           </div>
         )}
 
-        {isCreatorMode && onIntentChange && (
-          <div style={{ gridColumn: "span 2" }}>
-            <DropdownPill
-              label={getTranslated("intentLabel", "الهدف من المنشور")}
-              value={intent}
-              onChange={(val) => onIntentChange(val as CreatorIntent)}
-              disabled={disabled}
-              options={CREATOR_INTENTS.map((it) => ({
-                value: it,
-                label: getTranslated(`intents.${it}`, it),
-              }))}
-            />
-          </div>
+        {/* Creator Mode: Persona & Intent side-by-side */}
+        {isCreatorMode && (
+          <>
+            {onPersonaChange && (
+              <DropdownPill
+                label={getTranslated("personaLabel", "شخصية الكاتب")}
+                value={persona?.id || availablePersonas.find((p) => p.id === "creative")?.id || availablePersonas[0]?.id || "creative"}
+                onChange={(pId) => {
+                  const p = availablePersonas.find((per) => per.id === pId);
+                  if (p) onPersonaChange({ id: p.id, name: p.name });
+                }}
+                disabled={disabled}
+                options={availablePersonas.map((p) => ({
+                  value: p.id,
+                  label: getTranslated(`personas.${p.id}`, p.name),
+                }))}
+              />
+            )}
+
+            {onIntentChange && (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <DropdownPill
+                  label={getTranslated("intentLabel", "الهدف من المنشور")}
+                  value={intent || "opinion"}
+                  onChange={(val) => onIntentChange(val as CreatorIntent)}
+                  disabled={disabled}
+                  options={CREATOR_INTENTS.map((it) => ({
+                    value: it,
+                    label: getTranslated(`intents.${it}`, it),
+                  }))}
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
 
       {/* 5. Creator Mode Deep Customization (Order: 5) */}
-      {isCreatorMode && onPersonaChange && onStyleChange && onOriginalityChange && (
+      {isCreatorMode && onStyleChange && onOriginalityChange && (
         <div style={{ order: 5, marginTop: "var(--space-0-5)" }}>
           <button
             type="button"
@@ -256,14 +278,40 @@ export default function GeneratorSettings({
               transition: "all 0.2s",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-              <Settings2 size={14} color="var(--color-brand-primary)" />
-              <span>{getTranslated("advancedSettings", "إعدادات متقدمة")}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", flex: 1, minWidth: 0, overflow: "hidden", marginInlineEnd: "var(--space-2)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)", flexShrink: 0 }}>
+                <Settings2 size={14} color="var(--color-brand-primary)" />
+                <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)" }}>
+                  {getTranslated("advancedSettings", "إعدادات متقدمة")}
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "var(--space-1)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  fontSize: "var(--text-2xs)",
+                  color: "var(--color-foreground-secondary)",
+                  background: "var(--color-brand-surface)",
+                  padding: "var(--space-0-5) var(--space-2)",
+                  borderRadius: "var(--radius-full)",
+                  border: "1px solid var(--color-brand-soft)",
+                  minWidth: 0,
+                }}
+              >
+                                <span style={{ fontSize: "var(--text-2xs)", color: "var(--color-foreground-secondary)", marginRight: "var(--space-1)" }}>أسلوب الطرح</span>
+                <span style={{ opacity: 0.4, margin: "0 var(--space-1)" }}>&bull;</span>
+                <span style={{ fontSize: "var(--text-2xs)", color: "var(--color-foreground-secondary)", marginRight: "var(--space-1)" }}>مستوي الابتكار</span>
+              </div>
             </div>
             <ChevronDown
               size={14}
               color="var(--color-foreground-secondary)"
-              style={{ transform: advancedOpen ? "rotate(180deg)" : "none", transition: "var(--transition-normal)" }}
+              style={{ transform: advancedOpen ? "rotate(180deg)" : "none", transition: "var(--transition-normal)", flexShrink: 0 }}
             />
           </button>
 
@@ -275,15 +323,8 @@ export default function GeneratorSettings({
                 exit={{ height: 0, opacity: 0, overflow: "hidden" }}
               >
                 <CreatorCustomizer
-                  personas={availablePersonas.map((p) => ({ value: p.id, label: getTranslated(`personas.${p.id}`, p.name) }))}
-                  selectedPersona={persona?.id || availablePersonas[0]?.id || "developer"}
-                  onPersonaChange={(pId) => {
-                    const p = availablePersonas.find((per) => per.id === pId);
-                    if (p) onPersonaChange({ id: p.id, name: p.name });
-                  }}
-
                   styles={availableStyles.map((s) => ({ value: s.id, label: getTranslated(`styles.${s.id}`, s.name) }))}
-                  selectedStyle={styleConfig?.id || availableStyles[0]?.id || "mystery"}
+                  selectedStyle={styleConfig?.id || availableStyles.find((s) => s.id === "storytelling")?.id || availableStyles[0]?.id || "storytelling"}
                   onStyleChange={(sId) => {
                     const s = availableStyles.find((st) => st.id === sId);
                     if (s) onStyleChange({ id: s.id, name: s.name, characteristics: s.characteristics });

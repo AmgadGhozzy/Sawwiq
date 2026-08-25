@@ -16,12 +16,23 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
   function GeneratorInput({ value, onChange, error, disabled, mode = "marketing" }, ref) {
     const t = useTranslations("GeneratorInput");
 
+    const isCreator = mode === "personal_creator" || mode === "creator";
+    const quickList = (isCreator
+      ? (t.raw("quickCreatorPrompts") as Array<{ label: string; text: string }>)
+      : (t.raw("quickPrompts") as Array<{ label: string; text: string }>)) || [];
+
     const [placeholder, setPlaceholder] = useState("");
+    const [pasteError, setPasteError] = useState(false);
+    const [focused, setFocused] = useState(false);
+
+    const showQuickChips = !value && !focused && !disabled && quickList.length > 0;
 
     useEffect(() => {
+      if (showQuickChips) return;
+
       const marketingExamples = t.raw("placeholders") as string[];
       const creatorExamples = (t.raw("creatorPlaceholders") as string[]) || marketingExamples;
-      const PLACEHOLDER_EXAMPLES = (mode === "personal_creator" || mode === "creator") ? creatorExamples : marketingExamples;
+      const PLACEHOLDER_EXAMPLES = isCreator ? creatorExamples : marketingExamples;
       if (!PLACEHOLDER_EXAMPLES || PLACEHOLDER_EXAMPLES.length === 0) return;
 
       let currentIndex = 0;
@@ -60,9 +71,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
       timeout = setTimeout(type, 300);
 
       return () => clearTimeout(timeout);
-    }, [t, mode]);
-
-    const [focused, setFocused] = useState(false);
+    }, [t, mode, showQuickChips]);
 
     const handleClear = useCallback(() => {
       onChange("");
@@ -74,6 +83,8 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
         if (text) onChange(value + text);
       } catch (err) {
         console.error("Failed to read clipboard:", err);
+        setPasteError(true);
+        setTimeout(() => setPasteError(false), 3000);
       }
     }, [onChange, value]);
 
@@ -100,7 +111,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
                   : "1px solid var(--color-border)",
               background: "var(--color-surface)",
               padding: "var(--space-3) var(--space-4) var(--control-h-xl)",
-              fontSize: "var(--text-base)",
+              fontSize: "var(--text-sm)",
               lineHeight: "var(--leading-relaxed)",
               color: "var(--color-foreground)",
               resize: "none",
@@ -132,7 +143,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               aria-label={t("clearTitle")}
               style={{
                 position: "absolute",
-                bottom: "var(--space-3)",
+                bottom: "var(--space-4)",
                 insetInlineStart: "var(--space-2)",
                 display: "flex",
                 alignItems: "center",
@@ -164,7 +175,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
               aria-label={t("pasteTitle")}
               style={{
                 position: "absolute",
-                bottom: "var(--space-3)",
+                bottom: "var(--space-4)",
                 insetInlineStart: "var(--space-2)",
                 display: "flex",
                 alignItems: "center",
@@ -189,11 +200,68 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
             </button>
           )}
 
+          {/* Quick Inspiration Chips — floating inside the textarea when empty */}
+          {showQuickChips && (
+            <div style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "var(--space-2)",
+              padding: "var(--space-7) var(--space-4) var(--space-1)",
+              pointerEvents: "none",
+              zIndex: 1,
+            }}>
+              <span style={{ fontSize: "var(--text-2xs)", color: "var(--color-foreground-disabled)", fontWeight: "var(--font-weight-medium)" }}>
+                {t("quickPromptLabel")}
+              </span>
+              <div style={{ display: "flex", gap: "var(--space-1-5)", flexWrap: "wrap", justifyContent: "center" }}>
+                {quickList.map((item, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => onChange(item.text)}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      padding: "var(--space-1) var(--space-2-5)",
+                      borderRadius: "var(--radius-full)",
+                      background: "var(--color-surface)",
+                      border: "1px solid var(--color-border)",
+                      color: "var(--color-foreground-secondary)",
+                      fontSize: "var(--text-xs)",
+                      fontWeight: "var(--font-weight-medium)",
+                      cursor: "pointer",
+                      whiteSpace: "nowrap",
+                      transition: "all var(--transition-fast)",
+                      fontFamily: "inherit",
+                      pointerEvents: "auto",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "var(--color-brand-soft)";
+                      e.currentTarget.style.color = "var(--color-brand-primary)";
+                      e.currentTarget.style.background = "var(--color-brand-surface)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "var(--color-border)";
+                      e.currentTarget.style.color = "var(--color-foreground-secondary)";
+                      e.currentTarget.style.background = "var(--color-surface)";
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Character Counter */}
           <div
             style={{
               position: "absolute",
-              bottom: "var(--space-3)",
+              bottom: "var(--space-4)",
               insetInlineEnd: "var(--space-3)",
               fontSize: "var(--text-xs)",
               color: "var(--color-foreground-disabled)",
@@ -208,6 +276,12 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
         {error && (
           <p id="input-error" style={{ fontSize: "var(--text-sm)", color: "var(--color-danger)", fontWeight: "var(--font-weight-medium)", margin: 0 }} role="alert">
             {error}
+          </p>
+        )}
+
+        {pasteError && !error && (
+          <p style={{ fontSize: "var(--text-sm)", color: "var(--color-danger)", fontWeight: "var(--font-weight-medium)", margin: 0 }} role="alert">
+            {t("pasteFailed")}
           </p>
         )}
       </div>

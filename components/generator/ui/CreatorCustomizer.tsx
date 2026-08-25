@@ -10,10 +10,6 @@ interface Option {
 }
 
 interface CreatorCustomizerProps {
-  personas: Option[];
-  selectedPersona: string;
-  onPersonaChange: (val: string) => void;
-  
   styles: Option[];
   selectedStyle: string;
   onStyleChange: (val: string) => void;
@@ -26,7 +22,6 @@ interface CreatorCustomizerProps {
 }
 
 export function CreatorCustomizer({
-  personas, selectedPersona, onPersonaChange,
   styles, selectedStyle, onStyleChange,
   originalityOptions, selectedOriginality, onOriginalityChange,
   disabled
@@ -38,7 +33,7 @@ export function CreatorCustomizer({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--space-2)",
+        gap: "var(--space-2-5)",
         padding: "var(--space-3)",
         background: "var(--color-surface)",
         borderRadius: "var(--radius-md)",
@@ -46,14 +41,7 @@ export function CreatorCustomizer({
         marginTop: "var(--space-1)",
       }}
     >
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-2)" }}>
-        <DropdownPill 
-          label={t("personaLabel")} 
-          options={personas} 
-          value={selectedPersona} 
-          onChange={onPersonaChange} 
-          disabled={disabled} 
-        />
+      <div>
         <DropdownPill 
           label={t("styleLabel")} 
           options={styles} 
@@ -64,7 +52,7 @@ export function CreatorCustomizer({
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-        <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+        <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "var(--tracking-caps)" }}>
           {t("originalityLabel")}
         </span>
         <div style={{

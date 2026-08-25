@@ -95,8 +95,8 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
           style={{
             ...menuStyle,
             background: "color-mix(in srgb, var(--color-background) 96%, transparent)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
+            backdropFilter: "blur(var(--blur-lg))",
+            WebkitBackdropFilter: "blur(var(--blur-lg))",
             border: "1px solid var(--color-border)",
             borderRadius: "var(--radius-lg)",
             padding: "var(--space-1)",
@@ -123,7 +123,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
                 color: value === opt.value ? "var(--color-brand-primary)" : "var(--color-foreground-secondary)",
                 border: "none",
                 cursor: "pointer",
-                fontSize: "var(--text-sm)",
+                fontSize: "var(--text-xs)",
                 display: "flex",
                 alignItems: "center",
                 gap: "var(--space-2)",
@@ -161,7 +161,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
         position: "relative",
       }}
     >
-      <label style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <label style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-secondary)", textTransform: "uppercase", letterSpacing: "var(--tracking-caps)" }}>
         {label}
       </label>
       <div style={{ position: "relative" }}>
@@ -177,7 +177,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
             background: "var(--color-surface)",
             padding: "var(--space-2) var(--space-3)",
             paddingInlineEnd: "var(--space-8)",
-            fontSize: "var(--text-sm)",
+            fontSize: "var(--text-xs)",
             color: "var(--color-foreground)",
             display: "flex",
             alignItems: "center",
@@ -185,7 +185,7 @@ export function DropdownPill({ label, value, options, onChange, disabled, render
             gap: "var(--space-2)",
             cursor: disabled ? "not-allowed" : "pointer",
             opacity: disabled ? 0.4 : 1,
-            boxShadow: isOpen ? "0 0 0 3px var(--color-brand-surface)" : "var(--shadow-card)",
+            boxShadow: isOpen ? "var(--focus-ring)" : "var(--shadow-card)",
             transition: "var(--transition-normal)",
             fontFamily: "inherit",
             boxSizing: "border-box",

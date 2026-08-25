@@ -8,9 +8,10 @@ import { Wand2, Zap, Lock, Sparkles, ArrowLeft } from "lucide-react";
 import { generateInputSchema, type GenerateInputDTO } from "@/lib/validation/generation";
 import type { GeneratedContent, GenerateResponse } from "@/types/content";
 import { ERROR_CODES } from "@/types/content";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useHistoryContext } from "@/components/history/HistoryContext";
 import { normalizePlatform, getFormatsForPlatform } from "@/lib/content/formats";
+import CtaButton from "@/components/ui/CtaButton";
 
 import GeneratorInput from "./GeneratorInput";
 import GeneratorSettings from "./GeneratorSettings";
@@ -19,15 +20,6 @@ import GenerationSkeleton from "./GenerationSkeleton";
 import GenerationResult from "./GenerationResult";
 
 type ViewState = "empty" | "loading" | "result" | "locked";
-
-const DARK_CARD: React.CSSProperties = {
-  background: "var(--gradient-surface)",
-  backdropFilter: "blur(50px) saturate(170%)",
-  WebkitBackdropFilter: "blur(50px) saturate(170%)",
-  border: "1px solid var(--color-border)",
-  boxShadow: "var(--shadow-elevated)",
-  borderRadius: "var(--radius-xl)",
-};
 
 const scrollToCTA = () => {
   const el = document.getElementById("waitlist-cta");
@@ -39,6 +31,7 @@ const scrollToCTA = () => {
 };
 
 export default function ContentGenerator() {
+  const locale = useLocale();
   const t = useTranslations("ContentGenerator");
   const tErrors = useTranslations("Errors");
 
@@ -62,20 +55,20 @@ export default function ContentGenerator() {
     resolver: zodResolver(generateInputSchema),
     defaultValues: {
       mode: "marketing",
-      platform: "instagram",
+      platform: "facebook",
       format: "post",
       contentType: "interactive_post",
       arabicStyle: "egyptian_colloquial",
-      marketingObjective: "awareness",
-      intent: "insight",
+      marketingObjective: "engagement",
+      intent: "opinion",
       originality: "balanced",
       persona: {
-        id: "developer",
-        name: "المبرمج والتقني",
+        id: "creative",
+        name: "السارد الإبداعي",
       },
       style: {
-        id: "mystery",
-        name: "الغموض والمفارقة",
+        id: "storytelling",
+        name: "السرد القصصي المشوق",
       },
       rawInput: "",
     },
@@ -282,22 +275,10 @@ export default function ContentGenerator() {
             </div>
           )}
           {isLocked ? (
-            <motion.button
-              type="button"
-              onClick={scrollToCTA}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
-                width: "100%", padding: "var(--space-3) var(--space-4)", borderRadius: "var(--radius-xl)", border: "none",
-                background: "var(--gradient-brand)",
-                color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
-                cursor: "pointer", fontFamily: "inherit",
-                boxShadow: "none",
-              }}
-            >
+            <CtaButton type="button" onClick={scrollToCTA} fullWidth>
               <Sparkles size={16} />
               {t("lockedButton")}
-            </motion.button>
+            </CtaButton>
           ) : (
             <form onSubmit={handleSubmit(doGenerate)} style={{ margin: 0 }}>
               <GenerateButton
@@ -320,9 +301,9 @@ export default function ContentGenerator() {
               initial={{ opacity: 0, x: 16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              className="generator-card"
+              className="generator-card glass-card"
               style={{
-                ...DARK_CARD,
+                borderRadius: "var(--radius-xl)",
                 maxHeight: isMobile ? "none" : "calc(100vh - 80px)",
                 display: "flex",
                 flexDirection: "column",
@@ -364,7 +345,7 @@ export default function ContentGenerator() {
                   borderRadius: "var(--radius-lg)", flexShrink: 0,
                   background: "var(--gradient-brand)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: "var(--shadow-brand), inset 0 1px 0 rgba(255,255,255,0.18)",
+                  boxShadow: "var(--shadow-brand), var(--highlight-inset)",
                 }}>
                   <Wand2 size={16} color="var(--color-foreground-inverse)" />
                 </div>
@@ -375,7 +356,7 @@ export default function ContentGenerator() {
                     fontWeight: "var(--font-weight-bold)",
                     color: "var(--color-foreground)",
                     margin: 0,
-                    letterSpacing: "-0.01em",
+                    letterSpacing: "var(--tracking-snug)",
                   }}>
                     {t("settingsTitle")}
                   </p>
@@ -557,25 +538,10 @@ export default function ContentGenerator() {
                     )}
 
                     {isLocked ? (
-                      <motion.button
-                        type="button"
-                        onClick={scrollToCTA}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.97 }}
-                        style={{
-                          display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
-                          width: "100%", padding: "var(--space-3) var(--space-4)", borderRadius: "var(--radius-lg)", border: "none",
-                          background: "var(--gradient-brand)",
-                          color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
-                          cursor: "pointer", fontFamily: "inherit",
-                          boxShadow: "none",
-                        }}
-                      >
+                      <CtaButton type="button" onClick={scrollToCTA} fullWidth>
                         <Sparkles size={15} />
                         {t("lockedButton")}
-                      </motion.button>
+                      </CtaButton>
                     ) : (
                       <GenerateButton
                         loading={viewState === "loading"}
@@ -600,17 +566,13 @@ export default function ContentGenerator() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
+                className="glass-card"
                 style={{
                   minHeight: "480px",
                   flex: 1,
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
                   borderRadius: "var(--radius-xl)",
-                  border: "1px solid var(--color-border)",
-                  background: "var(--gradient-surface)",
-                  backdropFilter: "blur(50px) saturate(160%)",
-                  WebkitBackdropFilter: "blur(50px) saturate(160%)",
-                  boxShadow: "var(--shadow-elevated)",
                   padding: "var(--space-12) var(--space-8)",
                   textAlign: "center",
                   gap: "var(--space-7)",
@@ -656,7 +618,7 @@ export default function ContentGenerator() {
                       borderRadius: "var(--radius-circle)",
                       background: "var(--gradient-brand)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      boxShadow: "var(--shadow-brand), inset 0 1px 0 rgba(255,255,255,0.18)",
+                      boxShadow: "var(--shadow-brand), var(--highlight-inset)",
                       animation: "cg-icon-pulse 3.5s ease-in-out infinite",
                     }}
                   >
@@ -672,10 +634,10 @@ export default function ContentGenerator() {
                     transition={{ delay: 0.25 }}
                     style={{
                       fontSize: "var(--text-xl)",
-                      fontWeight: "var(--font-weight-extrabold)",
+                      fontWeight: "var(--font-weight-bold)",
                       color: "var(--color-foreground)",
                       margin: "0 0 var(--space-3)",
-                      letterSpacing: "-0.02em",
+                      letterSpacing: "var(--tracking-snug)",
                       lineHeight: 1.3,
                     }}
                   >
@@ -746,7 +708,7 @@ export default function ContentGenerator() {
                     fontWeight: "var(--font-weight-medium)",
                   }}
                 >
-                  <ArrowLeft size={12} style={{ flexShrink: 0 }} />
+                  <ArrowLeft size={12} style={{ flexShrink: 0, transform: locale === "ar" ? "scaleX(-1)" : undefined }} />
                   <span>{isCreatorMode ? t("emptyStateHintCreator") : t("emptyStateHint")}</span>
                 </motion.div>
               </motion.div>
@@ -760,7 +722,8 @@ export default function ContentGenerator() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.25 }}
-                style={{ ...DARK_CARD, padding: "28px", flex: 1, display: "flex", flexDirection: "column" }}
+                className="glass-card"
+                style={{ borderRadius: "var(--radius-xl)", padding: "var(--space-7)", flex: 1, display: "flex", flexDirection: "column" }}
               >
                 <GenerationSkeleton />
               </motion.div>
@@ -802,13 +765,13 @@ export default function ContentGenerator() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
+                className="glass-card"
                 style={{
                   minHeight: "520px",
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
                   borderRadius: "var(--radius-xl)",
                   border: "1px solid var(--color-brand-soft)",
-                  background: "var(--gradient-surface)",
                   padding: "var(--space-12) var(--space-8)", textAlign: "center", gap: "var(--space-5)",
                 }}
               >
@@ -828,33 +791,20 @@ export default function ContentGenerator() {
 
                 <div style={{ maxWidth: "380px" }}>
                   <h3 style={{
-                    fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-extrabold)", margin: "0 0 var(--space-3)",
+                    fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-bold)", margin: "0 0 var(--space-3)",
                     color: "var(--color-foreground)",
                   }}>
                     {t("lockedStateTitle")}
                   </h3>
-                  <p style={{ color: "var(--color-foreground-tertiary)", lineHeight: 1.8, fontSize: "var(--text-base)", margin: 0 }}>
+                  <p style={{ color: "var(--color-foreground-tertiary)", lineHeight: "var(--leading-relaxed)", fontSize: "var(--text-base)", margin: 0 }}>
                     {t("lockedStateSubtitle")}
                   </p>
                 </div>
 
-                <motion.button
-                  type="button"
-                  onClick={scrollToCTA}
-                  whileHover={{ y: -3, boxShadow: "var(--shadow-brand)" }}
-                  whileTap={{ scale: 0.97 }}
-                  style={{
-                    display: "flex", alignItems: "center", gap: "var(--space-2)",
-                    padding: "var(--space-3-5) var(--space-7)", borderRadius: "var(--radius-lg)", border: "none",
-                    background: "var(--gradient-brand)",
-                    color: "var(--color-foreground-inverse)", fontWeight: "var(--font-weight-bold)", fontSize: "var(--text-base)",
-                    cursor: "pointer", fontFamily: "inherit",
-                    boxShadow: "var(--shadow-brand)",
-                  }}
-                >
+                <CtaButton type="button" onClick={scrollToCTA}>
                   <Sparkles size={16} />
                   {t("lockedStateButton")}
-                </motion.button>
+                </CtaButton>
               </motion.div>
             )}
           </AnimatePresence>

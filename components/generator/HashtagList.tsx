@@ -8,6 +8,7 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
+import CopyButton from "@/components/ui/CopyButton";
 
 interface HashtagListProps {
   hashtags: string[];
@@ -17,7 +18,6 @@ interface HashtagListProps {
 export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
   const t = useTranslations("HashtagList");
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
-  const [copiedAll, setCopiedAll] = useState(false);
 
   const copyTag = useCallback(
     async (tag: string, index: number) => {
@@ -29,40 +29,23 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
     [onCopy]
   );
 
-  const copyAll = useCallback(async () => {
-    const text = hashtags.map((tag) => `#${tag}`).join(" ");
-    await navigator.clipboard.writeText(text);
-    setCopiedAll(true);
-    onCopy?.();
-    setTimeout(() => setCopiedAll(false), 2000);
-  }, [hashtags, onCopy]);
-
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
       {/* Row header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{
           fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground-disabled)",
-          textTransform: "uppercase", letterSpacing: "0.06em",
+          textTransform: "uppercase", letterSpacing: "var(--tracking-caps)",
         }}>
           {t("title")}
         </span>
-        <button
-          onClick={copyAll}
-          aria-label={t("copyAllAria")}
-          style={{
-            display: "flex", alignItems: "center", gap: "var(--space-1)",
-            fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)",
-            color: copiedAll ? "var(--color-success)" : "var(--color-brand-primary)",
-            background: "var(--color-brand-surface)", border: "1px solid var(--color-border)", cursor: "pointer",
-            padding: "var(--space-1) var(--space-2-5)", borderRadius: "var(--radius-full)",
-            fontFamily: "inherit",
-            transition: "color var(--transition-fast)",
-          }}
-        >
-          {copiedAll && <Check size={11} />}
-          {copiedAll ? t("copied") : t("copyAll")}
-        </button>
+        <CopyButton
+          variant="pill"
+          getText={() => hashtags.map((tag) => `#${tag}`).join(" ")}
+          label={t("copyAll")}
+          copiedLabel={t("copied")}
+          onCopied={onCopy}
+        />
       </div>
 
       {/* Pill tags */}
@@ -92,7 +75,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
           >
             {copiedIndex === index ? (
               <span style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-                <Check size={11} />
+                <Check size={12} />
                 {t("copiedBadge")}
               </span>
             ) : (
