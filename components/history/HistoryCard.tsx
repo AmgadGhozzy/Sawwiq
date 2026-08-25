@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { PlatformIcon } from "@/components/ui/PlatformIcon";
+import CopyButton from "@/components/ui/CopyButton";
 import type { GenerationHistoryItem } from "@/types/history";
 
 interface HistoryCardProps {
@@ -18,7 +19,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
   const t = useTranslations("History");
   const tLabel = useTranslations("Labels");
   const [expanded, setExpanded] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   const { platform, contentType, arabicStyle, prompt, aiResponse, createdAt } = item;
 
@@ -29,36 +29,17 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
     ? tLabel(`arabicStyles.${arabicStyle}`)
     : arabicStyle.replace(/_/g, " ");
 
-  const handleCopy = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const textToCopy = [
-      aiResponse.title,
-      "",
-      aiResponse.hook,
-      "",
-      aiResponse.body,
-      "",
-      aiResponse.callToAction,
-      "",
-      (aiResponse.hashtags || []).map((h: string) => `#${h}`).join(" "),
-    ].join("\n");
-
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Fallback
-      const el = document.createElement("textarea");
-      el.value = textToCopy;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
+  const fullText = [
+    aiResponse.title,
+    "",
+    aiResponse.hook,
+    "",
+    aiResponse.body,
+    "",
+    aiResponse.callToAction,
+    "",
+    (aiResponse.hashtags || []).map((h: string) => `#${h}`).join(" "),
+  ].join("\n");
 
   const formatDate = (dateStr: string) => {
     try {
@@ -271,34 +252,13 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             )}
 
             {/* Copy button */}
-            <button
-              type="button"
-              onClick={handleCopy}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "var(--space-1-5)",
-                padding: "var(--space-1-5) var(--space-2-5)",
-                borderRadius: "var(--radius-md)",
-                background: copied ? "var(--color-success-surface)" : "transparent",
-                border: "1px solid var(--color-border)",
-                color: copied ? "var(--color-success)" : "var(--color-foreground-secondary)",
-                fontSize: "var(--text-sm)",
-                fontWeight: "var(--font-weight-medium)",
-                cursor: "pointer",
-                transition: "var(--transition-fast)",
-                fontFamily: "inherit",
-              }}
-              onMouseEnter={(e) => {
-                if (!copied) e.currentTarget.style.background = "var(--color-surface-elevated)";
-              }}
-              onMouseLeave={(e) => {
-                if (!copied) e.currentTarget.style.background = "transparent";
-              }}
-            >
-              {copied ? <Check size={13} /> : <Copy size={13} />}
-              <span>{copied ? t("copied") : t("copyContent")}</span>
-            </button>
+            <CopyButton
+              variant="ghost"
+              stopPropagation
+              getText={() => fullText}
+              label={t("copyContent")}
+              copiedLabel={t("copied")}
+            />
           </div>
 
         </div>

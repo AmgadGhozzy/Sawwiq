@@ -117,7 +117,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
             <div
               style={{
                 display: "flex", alignItems: "center", justifyContent: "space-between",
-                padding: "18px 20px 14px",
+                padding: "var(--space-4-5) var(--space-5) var(--space-3-5)",
                 borderBottom: "1px solid var(--color-border)",
                 flexShrink: 0,
               }}
@@ -148,11 +148,11 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 {!error && items.length > 0 && (
                   <span
                     style={{
-                      padding: "2px 8px", borderRadius: "var(--radius-full)",
+                      padding: "var(--space-0-5) var(--space-2)", borderRadius: "var(--radius-full)",
                       background: "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
                       border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                       color: "var(--color-brand-primary)",
-                      fontSize: "var(--text-xs)", fontWeight: 700,
+                      fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-bold)",
                     }}
                   >
                     {items.length}
@@ -177,11 +177,11 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
               </div>
             </div>
 
-            {/* ── Content area (scrollable) ── */}
+              {/* ── Content area (scrollable) ── */}
             <div
               style={{
                 flex: 1, overflowY: "auto", overflowX: "hidden",
-                padding: "20px 16px 32px",
+                padding: "var(--space-5) var(--space-4) var(--space-8)",
               }}
             >
               {/* Loading */}
@@ -229,17 +229,17 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   <p style={{ fontSize: "var(--text-base)", fontWeight: "var(--font-weight-bold)", color: "var(--color-danger)", margin: 0 }}>
                     {t("errorTitle")}
                   </p>
-                  <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-tertiary)", margin: 0, lineHeight: 1.6 }}>
+                  <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-tertiary)", margin: 0, lineHeight: "var(--leading-normal)" }}>
                     {t("errorSubtitle")}
                   </p>
                   <button
                     onClick={fetchHistory}
                     style={{
-                      padding: "8px 18px", borderRadius: "var(--radius-md)",
+                      padding: "var(--space-2) var(--space-4-5)", borderRadius: "var(--radius-md)",
                       background: "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
                       border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
                       color: "var(--color-brand-primary)",
-                      fontSize: "var(--text-sm)", fontWeight: 700, cursor: "pointer",
+                      fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-bold)", cursor: "pointer",
                       fontFamily: "inherit", marginTop: "var(--space-1)",
                     }}
                   >
@@ -254,7 +254,7 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   style={{
                     display: "flex", flexDirection: "column", alignItems: "center",
                     justifyContent: "center", minHeight: "300px", gap: "var(--space-5)",
-                    textAlign: "center", padding: "32px 24px",
+                    textAlign: "center", padding: "var(--space-8) var(--space-6)",
                   }}
                 >
                   <motion.div
@@ -273,10 +273,10 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   </motion.div>
 
                   <div>
-                    <h4 style={{ fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground)", margin: "0 0 var(--space-2)" }}>
+                    <h4 style={{ fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground)", margin: "0 0 var(--space-2)" }}>
                       {t("emptyTitle")}
                     </h4>
-                    <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-disabled)", lineHeight: 1.7, margin: 0 }}>
+                    <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-disabled)", lineHeight: "var(--leading-relaxed)", margin: 0 }}>
                       {t("emptySubtitle")}
                     </p>
                   </div>

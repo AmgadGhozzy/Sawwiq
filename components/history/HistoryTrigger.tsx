@@ -56,7 +56,7 @@ export default function HistoryTrigger({ onClick }: HistoryTriggerProps) {
             background: "var(--color-brand-primary)",
             color: "white",
             fontSize: "var(--text-2xs)",
-            fontWeight: "var(--font-weight-extrabold)",
+            fontWeight: "var(--font-weight-bold)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
