@@ -111,11 +111,7 @@ export function computeWeightedAblationScore(signals: WeightedAblationSignals): 
 // ─── Text Ablation ───────────────────────────────────────────────────────────
 
 export async function ablateText(text: string, persona: PersonaId): Promise<string> {
-  const ai = new GoogleGenAI({
-    vertexai: true,
-    apiKey: process.env.VERTEX_AI_API_KEY,
-  });
-
+  const { callAI, MODEL } = require("../../scripts/lib/aiClient");
   const instructions = ABLATION_INSTRUCTIONS[persona] ??
     "Remove or replace any highly specific domain jargon with plain everyday Arabic.";
 
@@ -130,8 +126,8 @@ STRICT RULES:
 4. Output ONLY the ablated Arabic text. Do not add any commentary.
   `.trim();
 
-  const response = await ai.models.generateContent({
-    model: nextEvalModel(),
+  const response = await callAI({
+    model: MODEL.LITE,
     contents: text,
     config: {
       systemInstruction: systemPrompt,
@@ -139,7 +135,7 @@ STRICT RULES:
     },
   });
 
-  return response.text!.trim();
+  return response.trim();
 }
 
 // ─── 4-Signal Comparison ─────────────────────────────────────────────────────
@@ -148,10 +144,7 @@ export async function compareFullVsAblated(
   fullText: string,
   ablatedText: string,
 ): Promise<WeightedAblationSignals> {
-  const ai = new GoogleGenAI({
-    vertexai: true,
-    apiKey: process.env.VERTEX_AI_API_KEY,
-  });
+  const { callAIJson, MODEL } = require("../../scripts/lib/aiClient");
 
   const systemPrompt = `
 <role>
@@ -184,8 +177,8 @@ ${ablatedText}
 Compare the two versions across the four structural dimensions.
 `.trim();
 
-  const response = await ai.models.generateContent({
-    model: nextEvalModel(),
+  const response = await callAIJson({
+    model: MODEL.EVALUATION,
     contents: userPrompt,
     config: {
       systemInstruction: systemPrompt,
@@ -195,7 +188,7 @@ Compare the two versions across the four structural dimensions.
     },
   });
 
-  return JSON.parse(response.text!);
+  return response as WeightedAblationSignals;
 }
 
 // ─── Backward-Compatible Entry Point ─────────────────────────────────────────

@@ -91,11 +91,9 @@ export const BLIND_CLASSIFICATION_SCHEMA = {
   ],
 };
 
-export async function evaluatePersona(text: string, version: "v1" | "v2" = "v2") {
-  const ai = new GoogleGenAI({
-    vertexai: true,
-    apiKey: process.env.VERTEX_AI_API_KEY,
-  });
+export async function evaluatePersona(text: string, version: "v1" | "v2" = "v2", configOverrides?: Record<string, any>) {
+  // We use require to avoid circular imports or path issues since this is in lib/
+  const { callAIJson, MODEL } = require("../../scripts/lib/aiClient");
 
   const systemPrompt = `
 <system_role>
@@ -145,16 +143,16 @@ ${text}
 </text_to_evaluate>
 `.trim();
 
-  const response = await ai.models.generateContent({
-    model: nextEvalModel(),
+  const response = await callAIJson({
+    model: MODEL.EVALUATION,
     contents: userPrompt,
     config: {
       systemInstruction: systemPrompt,
       responseMimeType: "application/json",
       responseSchema: BLIND_CLASSIFICATION_SCHEMA,
-      temperature: 0.1,
+      temperature: configOverrides?.temperature ?? 0.1,
     },
   });
 
-  return JSON.parse(response.text!);
+  return response;
 }
