@@ -30,12 +30,12 @@ export function buildOrganizationSchema(locale: string) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: isAr ? "سوّق" : "Sawwiq",
+    name: isAr ? "سَوِّق" : "Sawwiq",
     url: `${BASE_URL}/${locale}`,
     logo: `${BASE_URL}/logo.png`,
     description: isAr
-      ? "ولّد بوستات وإعلانات وسكريبتات فيديو جاهزة للنشر بأي لهجة عربية أو بالإنجليزي — في ثوانٍ. مجاني، بدون بطاقة ائتمان."
-      : "Generate scroll-stopping posts, ads, and video scripts in any Arabic dialect or English — free, in seconds. No credit card required.",
+      ? "منصة سَوِّق لتوليد بوستات إعلانية، سكريبتات فيديو، ومحتوى تسويقي بجميع اللهجات العربية وأطر الإقناع العالمية."
+      : "AI-powered marketing content generator for high-converting ads, viral video scripts, and social posts across Arabic dialects and English.",
     sameAs: [],
   };
 }
@@ -48,12 +48,12 @@ export function buildWebSiteSchema(locale: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: isAr ? "سوّق" : "Sawwiq",
+    name: isAr ? "سَوِّق" : "Sawwiq",
     url: `${BASE_URL}/${locale}`,
     inLanguage: locale,
     description: isAr
       ? "ولّد بوستات وإعلانات وسكريبتات فيديو جاهزة للنشر بأي لهجة عربية أو بالإنجليزي — في ثوانٍ. مجاني، بدون بطاقة ائتمان."
-      : "Generate scroll-stopping posts, ads, and video scripts in any Arabic dialect or English — free, in seconds. No credit card required.",
+      : "Generate high-converting social posts, ad copy, and viral video scripts across Arabic dialects and English — free, in seconds.",
   };
 }
 
@@ -68,10 +68,27 @@ export function buildSoftwareApplicationSchema(locale: string) {
     name: isAr ? "سَوِّق" : "Sawwiq",
     url: `${BASE_URL}/${locale}`,
     applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
+    applicationSubCategory: "Marketing & Copywriting",
+    operatingSystem: "All",
+    screenshot: `${BASE_URL}/og-image.png`,
     description: isAr
-      ? "منصة ذكية لتوليد محتوى تسويقي بالذكاء الاصطناعي — عناوين، افتتاحيات، هاشتاغات، ودعوات عمل."
-      : "AI-powered platform for generating marketing content — headlines, hooks, hashtags, and CTAs.",
+      ? "منصة ذكية متخصصة في توليد نصوص تسويقية عالية التحويل — عناوين جاذبة، افتتاحيات توقف التمرير، أطر إقناع مثبتة، ودعوات واضحة لاتخاذ إجراء."
+      : "AI-powered conversion copywriting platform — crafting scroll-stopping hooks, high-converting ad copy, and native dialect marketing assets.",
+    featureList: isAr
+      ? [
+          "توليد محتوى تسويقي وإعلاني بجميع اللهجات العربية",
+          "تطبيق أطر الإقناع والتسويق العالمية (AIDA و PAS)",
+          "تخصيص شخصيات كتابة وصناع محتوى متعددة",
+          "هندسة افتتاحيات (Hooks) ودعوات لاتخاذ إجراء (CTAs)",
+          "توليد هاشتاغات ذكية متوافقة مع خوارزميات المنصات"
+        ]
+      : [
+          "Multi-dialect Arabic & English AI marketing copy",
+          "Persuasion copywriting frameworks (AIDA, PAS, StoryBrand)",
+          "Tailored creator personas and signature voices",
+          "Scroll-stopping hook and conversion CTA engineering",
+          "Platform-optimized character limits and algorithmic hashtags"
+        ],
     offers: {
       "@type": "Offer",
       price: "0",
