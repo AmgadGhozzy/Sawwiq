@@ -643,3 +643,78 @@
     gap: var(--space-1-5);
   }
 }
+
+/* ── Shared keyframes ── */
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── RTL utilities ── */
+html[dir='ltr'] .rtl-flip {
+  transform: rotate(180deg);
+}
+
+/* ── CTA form layout ── */
+.cta-form-layout {
+  display: flex;
+  gap: var(--space-2-5);
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .cta-form-layout {
+    flex-direction: column;
+  }
+}
+
+/* ── Showcase panel mobile ── */
+@media (max-width: 640px) {
+  .showcase-panel {
+    grid-template-columns: 1fr !important;
+  }
+  .platform-label {
+    display: none !important;
+  }
+  .showcase-panel > div:first-child {
+    border-inline-end: none !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    padding: var(--space-4) !important;
+  }
+  .platforms-list::-webkit-scrollbar {
+    display: none;
+  }
+  .platforms-list {
+    flex-direction: row !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: var(--space-2) !important;
+  }
+}
+
+/* ── Generator scrollbar hide ── */
+div::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── HowItWorks responsive ── */
+@media (min-width: 768px) {
+  .md-connector { display: block !important; }
+}
+@media (max-width: 767px) {
+  .how-it-works-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── ContentGenerator animations ── */
+@keyframes cg-ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes cg-icon-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-brand-soft), var(--shadow-brand); }
+  50%       { box-shadow: 0 0 0 10px transparent, var(--shadow-brand); }
+}
+@keyframes cg-card-glow {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.9; }
+}

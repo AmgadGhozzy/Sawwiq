@@ -240,20 +240,6 @@ export default function ContentGenerator() {
 
   return (
     <>
-      <style>{`
-        @keyframes cg-ring-spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-        @keyframes cg-icon-pulse {
-          0%, 100% { box-shadow: 0 0 0 0 var(--color-brand-soft), var(--shadow-brand); }
-          50%       { box-shadow: 0 0 0 10px transparent, var(--shadow-brand); }
-        }
-        @keyframes cg-card-glow {
-          0%, 100% { opacity: 0.45; }
-          50%       { opacity: 0.9; }
-        }
-      `}</style>
       {/* ── Mobile Sticky Generate Bar ── */}
       {isMobile && (
         <div className="sticky-generate-bar">
@@ -403,7 +389,6 @@ export default function ContentGenerator() {
                   flex: 1,
                   minHeight: 0
                 }}>
-                  <style>{`div::-webkit-scrollbar { display: none; }`}</style>
                   <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
                     <Controller
                       name="rawInput"

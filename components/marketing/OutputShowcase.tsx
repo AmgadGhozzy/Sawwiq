@@ -271,31 +271,6 @@ export default function OutputShowcase() {
       </div>
 
       {/* Responsive override */}
-      <style>{`
-        @media (max-width: 640px) {
-          .showcase-panel {
-            grid-template-columns: 1fr !important;
-          }
-          .platform-label {
-            display: none !important;
-          }
-          .showcase-panel > div:first-child {
-            border-inline-end: none !important;
-            border-bottom: 1px solid var(--color-border) !important;
-            padding: var(--space-4) !important;
-          }
-          .platforms-list::-webkit-scrollbar {
-            display: none;
-          }
-          .platforms-list {
-            flex-direction: row !important;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            gap: var(--space-2) !important;
-          }
-        }
-      `}</style>
     </motion.section>
   );
 }

@@ -267,25 +267,6 @@ export default function ConversionCTA() {
         ))}
       </div>
 
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .cta-form-layout {
-          display: flex;
-          gap: var(--space-2-5);
-          width: 100%;
-        }
-
-        html[dir='ltr'] .rtl-flip {
-           transform: rotate(180deg);
-         }
-
-        @media (max-width: 640px) {
-          .cta-form-layout {
-            flex-direction: column;
-          }
-        }
-      `}</style>
     </motion.div>
   );
 }

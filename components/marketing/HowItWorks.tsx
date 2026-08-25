@@ -147,16 +147,6 @@ export default function HowItWorks() {
       </div>
 
       {/* Responsive styles injected inline */}
-      <style>{`
-        @media (min-width: 768px) {
-          .md-connector { display: block !important; }
-        }
-        @media (max-width: 767px) {
-          .how-it-works-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
