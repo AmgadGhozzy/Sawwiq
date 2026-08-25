@@ -110,10 +110,10 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 top: "-60px",
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: "var(--orb-size-md)",
-                height: "var(--orb-size-xs)",
+                width: "550px",
+                height: "200px",
                 borderRadius: "var(--radius-circle)",
-                background: "var(--gradient-orb-3)",
+                background: "radial-gradient(ellipse, rgba(109,40,217,0.05) 0%, transparent 70%)",
                 filter: "blur(var(--blur-lg))",
                 pointerEvents: "none",
               }}

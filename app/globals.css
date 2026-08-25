@@ -227,10 +227,6 @@
     --gradient-headline: linear-gradient(135deg, #e0e7ff 0%, #c4b5fd 40%, #a78bfa 70%, #818cf8 100%);
     --gradient-divider: linear-gradient(90deg, transparent, rgba(124,58,237,0.3) 25%, rgba(124,58,237,0.2) 75%, transparent);
     --gradient-whatsapp: linear-gradient(135deg, #25d366, #128c7e);
-    --gradient-orb-1: radial-gradient(circle, rgba(124,58,237,0.18) 0%, rgba(79,70,229,0.08) 40%, transparent 70%);
-    --gradient-orb-2: radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(139,92,246,0.06) 50%, transparent 70%);
-    --gradient-orb-3: radial-gradient(ellipse, rgba(109,40,217,0.05) 0%, transparent 70%);
-    --gradient-orb-4: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 60%);
 
     /* Platforms (Static) */
     --color-platform-instagram: #E1306C;
@@ -363,18 +359,11 @@
     --textarea-max-h: 360px;
     --dropdown-max-h: 220px;
 
-    --orb-size-sm: 350px;
-    --orb-size-md: 550px;
-    --orb-size-lg: 600px;
-    --orb-size-xl: 700px;
-    --orb-size-2xl: 900px;
-
     --blur-sm: 4px;
     --blur-md: 12px;
     --blur-lg: 24px;
     --blur-xl: 50px;
     --blur-2xl: 60px;
-    --blur-orb: 80px;
 
     /* Z-Index */
     --z-base: 1;
@@ -487,11 +476,6 @@
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
 }
 
 @keyframes slideUp {

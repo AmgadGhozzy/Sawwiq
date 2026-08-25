@@ -79,15 +79,15 @@ export default function ConversionCTA() {
       {/* Top glow orb */}
       <div aria-hidden="true" style={{
         position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)",
-        width: "var(--orb-size-xl)", height: "var(--orb-size-md)", borderRadius: "var(--radius-circle)",
+        width: "700px", height: "550px", borderRadius: "var(--radius-circle)",
         background: "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 15%, transparent) 0%, color-mix(in srgb, var(--color-brand-primary) 6%, transparent) 40%, transparent 70%)",
-        filter: "blur(var(--blur-orb))", pointerEvents: "none",
+        filter: "blur(80px)", pointerEvents: "none",
       }} />
 
       {/* Bottom-right ambient glow */}
       <div aria-hidden="true" style={{
         position: "absolute", bottom: "-60px", right: "-40px",
-        width: "var(--orb-size-md)", height: "var(--orb-size-sm)", borderRadius: "var(--radius-circle)",
+        width: "550px", height: "350px", borderRadius: "var(--radius-circle)",
         background: "radial-gradient(ellipse, color-mix(in srgb, var(--color-brand-primary) 10%, transparent) 0%, transparent 70%)",
         filter: "blur(var(--blur-lg))", pointerEvents: "none",
       }} />
