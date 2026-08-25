@@ -1,7 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { buildSystemPrompt, buildUserPrompt, getPromptLayers } from "../lib/content/prompt/compiler";
-import { getPersona } from "../lib/content/personas";
 
 const marketingInput = {
   mode: "marketing",
@@ -23,7 +22,7 @@ const creatorInput = {
     interests: ["البرمجة", "علم النفس المعرفي"],
     characteristics: ["تحليلي", "مستبصر"],
   },
-  styleConfig: { id: "mystery" },
+  style: { name: "mystery" },
 };
 
 describe("Prompt Compiler - Layer Architecture", () => {
@@ -53,16 +52,72 @@ describe("Prompt Compiler - Layer Architecture", () => {
     assert.ok(tags.includes("persona"), "Missing persona layer in creator mode");
     assert.ok(tags.includes("style"), "Missing style layer in creator mode");
 
-    const personaName = getPersona("developer")?.name;
-    assert.ok(personaName, "developer persona missing from registry");
     assert.ok(
       prompt.includes("<identity>developer</identity>"),
       "Persona layer must reference the persona id"
     );
-    assert.ok(prompt.includes("النمط: mystery"), "Style layer must reference styleConfig.id");
+    assert.ok(prompt.includes("النمط: mystery"), "Style layer must reference style name");
+  });
+
+  test("persona layer DOES NOT carry perspective constraint by default (rejected in EXP-005)", () => {
+    const prompt = buildSystemPrompt(creatorInput as never);
+    assert.ok(!prompt.includes("<reasoning_contract>"), "v2 reasoning contract must NOT be injected by default");
+  });
+
+  test("usePerspectiveConstraint=true explicitly enables injection", () => {
+    const input = {
+      ...creatorInput,
+      persona: { ...creatorInput.persona, usePerspectiveConstraint: true },
+    };
+    const prompt = buildSystemPrompt(input as never);
+    assert.ok(prompt.includes("<reasoning_contract>"), "constraint must be injected when explicitly requested");
+    assert.ok(prompt.includes("<identity>developer</identity>"), "persona layer itself must remain");
+  });
+
+  test("unknown persona id gets no constraint but keeps the layer", () => {
+    const input = { ...creatorInput, persona: { id: "unknown_persona" } };
+    const prompt = buildSystemPrompt(input as never);
+    assert.ok(!prompt.includes("<reasoning_contract>"));
+    assert.ok(prompt.includes("<identity>unknown_persona</identity>"));
+  });
+
+  test("SAWWIQ_PERSPECTIVE_OFF=1 disables injection globally", () => {
+    const previous = process.env.SAWWIQ_PERSPECTIVE_OFF;
+    process.env.SAWWIQ_PERSPECTIVE_OFF = "1";
+    try {
+      const prompt = buildSystemPrompt(creatorInput as never);
+      assert.ok(!prompt.includes("<reasoning_contract>"), "env toggle must remove constraint");
+      assert.ok(!prompt.includes("<perspective_constraint>"), "env toggle must also remove v1 blocks");
+    } finally {
+      if (previous === undefined) delete process.env.SAWWIQ_PERSPECTIVE_OFF;
+      else process.env.SAWWIQ_PERSPECTIVE_OFF = previous;
+    }
+  });
+
+  test("string persona and string style inputs are normalized", () => {
+    const input = {
+      mode: "personal_creator",
+      platform: "linkedin",
+      contentType: "social_post",
+      arabicStyle: "white_arabic",
+      rawInput: "موضوع",
+      metadata: { persona: "psychology", style: "storytelling", intent: "education" },
+    };
+    const tags = getPromptLayers(input as never).map((l) => l.tag);
+    assert.ok(tags.includes("persona"), "string persona must produce a persona layer");
+    assert.ok(tags.includes("style"), "string style must produce a style layer");
+    assert.ok(tags.includes("intent"), "metadata.intent must be hoisted");
+
+    const prompt = buildSystemPrompt(input as never);
+    assert.ok(prompt.includes("<identity>psychology</identity>"));
+    assert.ok(prompt.includes("النمط: storytelling"));
+    assert.ok(!prompt.includes("<reasoning_contract>"), "string persona defaults to OFF");
   });
 
   test("user prompt delegates topic delivery to the conversation context", () => {
-    assert.strictEqual(buildUserPrompt(), "Write the marketing content based on the provided context.");
+    assert.strictEqual(
+      buildUserPrompt(),
+      "اكتب المحتوى التسويقي بناءً على معلومات المستخدم المقدمة في سياق المحادثة."
+    );
   });
 });
