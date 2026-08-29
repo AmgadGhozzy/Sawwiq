@@ -43,3 +43,6 @@ remote_schema.sql
 
 # benchmark reports
 scripts/benchmark-reports/
+
+# supabase cli local state
+supabase/.temp/

@@ -1,4 +1,4 @@
-import { GenerationConfig, NormalizedGenerationConfig, ConfigSnapshot, ContentConstraints } from "@/types/content";
+import { GenerationConfig, NormalizedGenerationConfig } from "@/types/content";
 import { getFormat } from "./formats";
 import { extractFacts } from "./facts/extractor";
 import { normalizePersona } from "./personas";
@@ -63,12 +63,4 @@ export function normalizeGenerationConfig(input: GenerationConfig): NormalizedGe
   normalized.normalizedStyle = normalizeStyle(input.styleConfig);
 
   return normalized;
-}
-
-export function createConfigSnapshot(config: NormalizedGenerationConfig): ConfigSnapshot {
-  return {
-    configVersion: "2.0.0",
-    timestamp: new Date().toISOString(),
-    config,
-  };
 }
