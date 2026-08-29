@@ -16,7 +16,7 @@ import {
   CONTENT_FIELD_DESCRIPTIONS,
 } from "@/lib/validation/generation";
 import { normalizeGenerationConfig } from "@/lib/content/normalizer";
-import { compilePrompt, buildUserPrompt } from "@/lib/content/prompt/compiler";
+import { buildSystemPrompt, buildUserPrompt } from "@/lib/content/prompt/compiler";
 import { aiConfig } from "@/lib/config";
 import { validateClaims } from "../../supabase/functions/generate/validation/claimValidator";
 import { type InputDTO } from "../../supabase/functions/generate/validation/schema";
@@ -87,9 +87,6 @@ export class GeminiProvider implements AIProvider {
     const config = resolveConfig(input);
     const normalizedConfig = normalizeGenerationConfig(config);
 
-    const systemPrompt = compilePrompt(normalizedConfig);
-    const userPrompt = buildUserPrompt();
-
     const inputDto: InputDTO = {
       platform: normalizedConfig.platform as any,
       arabicStyle: (normalizedConfig.language.dialect === "saudi" ? "saudi_marketing" : normalizedConfig.language.dialect === "gulf" ? "gulf_premium" : normalizedConfig.language.dialect === "egyptian" ? "egyptian_colloquial" : normalizedConfig.language.dialect === "msa" ? "formal_b2b" : "white_arabic") as any,
@@ -97,6 +94,9 @@ export class GeminiProvider implements AIProvider {
       marketingObjective: normalizedConfig.objective,
       rawInput: normalizedConfig.content.topic,
     };
+
+    const systemPrompt = buildSystemPrompt(inputDto);
+    const userPrompt = buildUserPrompt();
 
     const response = await this.client.models.generateContent({
       model: this.modelName,
