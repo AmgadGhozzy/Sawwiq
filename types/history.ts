@@ -14,6 +14,7 @@ export interface GenerationHistoryItem {
   format?: string;
   mode?: ContentMode;
   marketingObjective?: string;
+  keyMessage?: string;
   persona?: PersonaConfig;
   style?: StyleConfig;
   intent?: CreatorIntent;

@@ -49,10 +49,31 @@ export const CONTENT_TYPES_V2 = [
 export type ContentTypeV2 = (typeof CONTENT_TYPES_V2)[number];
 
 // ---------------------------------------------------------------------------
-// Content Mode (V2)
+// Content Mode (V2) - UI Concept
 // ---------------------------------------------------------------------------
 export type ContentMode = "marketing" | "creator" | "personal_creator";
 export type GenerationMode = ContentMode;
+
+// ---------------------------------------------------------------------------
+// Engine Routing (V2) - Internal Architecture
+// ---------------------------------------------------------------------------
+export type GenerationPurpose = "thought" | "marketing";
+
+export type CopyFramework = 
+  | "benefit_led"
+  | "pas"
+  | "feature_benefit"
+  | "auto";
+
+export type MarketingToneId = 
+  | "premium"
+  | "friendly"
+  | "professional"
+  | "energetic"
+  | "conversational"
+  | "minimal"
+  | "bold"
+  | "playful";
 
 // ---------------------------------------------------------------------------
 // Creator Domain (V2)
