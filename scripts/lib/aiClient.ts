@@ -1,5 +1,8 @@
 /**
- * Rotating AI Client for Sawwiq Experiments
+ * Vertex AI Client for Sawwiq Experiments
+ *
+ * Endpoint: Vertex AI Standard Mode (via GCP Service Account)
+ * Quota: 1000 RPM (Tier 1)
  */
 import { GoogleGenAI } from "@google/genai";
 import { config } from "dotenv";
@@ -10,88 +13,96 @@ config({ path: path.join(process.cwd(), ".env.local") });
 export const MODEL = {
   GENERATION: "gemini-2.5-flash-lite",
   EVALUATION: "gemini-2.5-flash-lite",
-  LITE: "gemini-2.5-flash-lite",
+  LITE:       "gemini-2.5-flash-lite",
 } as const;
 
 export type ModelAlias = typeof MODEL[keyof typeof MODEL];
 
-// ─── Key Pool ────────────────────────────────────────────────────────────────
-// Reads VERTEX_AI_API_KEY, VERTEX_AI_API_KEY_2, VERTEX_AI_API_KEY_3, ...
-// Rotates across all available keys so a 429 on one key falls back immediately.
-function buildKeyPool(): Array<{ label: string; client: GoogleGenAI }> {
-  const pool: Array<{ label: string; client: GoogleGenAI }> = [];
+// ─── Client Init ─────────────────────────────────────────────────────────────
+// Node.js environment automatically picks up GOOGLE_APPLICATION_CREDENTIALS
+const ai = new GoogleGenAI({
+  vertexai: true,
+  project: 'gen-lang-client-0841388254',
+  location: 'us-central1'
+});
 
-  // Primary key
-  const primary = process.env.VERTEX_AI_API_KEY;
-  if (!primary) throw new Error("VERTEX_AI_API_KEY is not configured");
-  pool.push({ label: "KEY_1", client: new GoogleGenAI({ vertexai: true, apiKey: primary }) });
+// ─── Rate Limiter (1000ms Mutex) ─────────────────────────────────────────────
+let lastRequestTime = 0;
+let requestMutex = Promise.resolve();
+const BASE_DELAY_MS = 1000;
 
-  // Additional keys: VERTEX_AI_API_KEY_2, _3, _4 ...
-  for (let i = 2; i <= 10; i++) {
-    const key = process.env[`VERTEX_AI_API_KEY_${i}`];
-    if (!key) break;
-    pool.push({ label: `KEY_${i}`, client: new GoogleGenAI({ vertexai: true, apiKey: key }) });
+async function enforceRateLimit() {
+  await requestMutex;
+  let unlock: () => void;
+  requestMutex = new Promise(resolve => unlock = resolve);
+  
+  const now = Date.now();
+  const waitTime = Math.max(0, BASE_DELAY_MS - (now - lastRequestTime));
+  if (waitTime > 0) {
+    await new Promise(r => setTimeout(r, waitTime));
   }
-
-  console.log(`   🔑 Key pool: ${pool.map(p => p.label).join(", ")}`);
-  return pool;
+  lastRequestTime = Date.now();
+  unlock!();
 }
 
-const KEY_POOL = buildKeyPool();
-
-// ─── Rotating Call ───────────────────────────────────────────────────────────
-
+// ─── Types ───────────────────────────────────────────────────────────────────
 export interface AICallParams {
   model: ModelAlias;
   contents: string;
   config?: Record<string, any>;
 }
 
+// ─── Core Call ───────────────────────────────────────────────────────────────
 export async function callAI(params: AICallParams): Promise<string> {
   const MAX_GLOBAL_RETRIES = 5;
-  let lastError: any = new Error("All keys exhausted after max retries");
+  let lastError: any = new Error("Max retries exceeded");
 
   for (let attempt = 1; attempt <= MAX_GLOBAL_RETRIES; attempt++) {
-    const shuffled = [...KEY_POOL].sort(() => Math.random() - 0.5);
+    try {
+      await enforceRateLimit();
 
-    for (const { label, client } of shuffled) {
-      try {
-        const response = await client.models.generateContent({
-          model: params.model,
-          contents: params.contents,
-          config: params.config as any,
-        });
-        if (!response.text) throw new Error("Empty response from model");
-        return response.text;
-      } catch (err: any) {
-        lastError = err;
-        const status: number = err?.status ?? err?.error?.code ?? 0;
+      const response = await ai.models.generateContent({
+        model:    params.model,
+        contents: params.contents,
+        config:   params.config as any,
+      });
 
-        const isRetriable =
-          status === 429 || status === 404 || status === 503 ||
-          err.code === 'UND_ERR_CONNECT_TIMEOUT' ||
-          err.code === 'ECONNRESET' ||
-          err.cause?.code === 'ECONNRESET' ||
-          err.message?.includes('fetch failed') ||
-          err.message?.includes('read ECONNRESET');
+      if (!response.text) throw new Error("Empty response from model");
+      return response.text;
 
-        if (isRetriable) {
-          console.log(`     [${status || err.code || 'NETWORK'}] ${label} failed. Trying next key...`);
-          continue;
-        }
+    } catch (err: any) {
+      lastError = err;
 
-        throw err;
+      const status: number = err?.status ?? err?.error?.code ?? 0;
+      const msg: string    = err?.message ?? "";
+
+      const isRetriable =
+        status === 429 ||
+        status === 503 ||
+        err.code === "UND_ERR_CONNECT_TIMEOUT" ||
+        err.code === "ECONNRESET" ||
+        err.cause?.code === "ECONNRESET" ||
+        msg.includes("fetch failed") ||
+        msg.includes("read ECONNRESET") ||
+        msg.includes("RESOURCE_EXHAUSTED");
+
+      if (isRetriable) {
+        const waitMs = Math.min(5_000 * Math.pow(1.6, attempt - 1) + Math.random() * 2_000, 30_000);
+        const remaining = MAX_GLOBAL_RETRIES - attempt;
+        console.log(`     [Rate Limit / Net] Attempt ${attempt} failed. Waiting ${(waitMs / 1000).toFixed(1)}s (${remaining} left)...`);
+        await new Promise(res => setTimeout(res, waitMs));
+        continue;
       }
-    }
 
-    const waitSec = 12 * attempt;
-    console.log(`     [Rate Limit] All keys exhausted. Waiting ${waitSec}s before retry (${MAX_GLOBAL_RETRIES - attempt} left)...`);
-    await new Promise(res => setTimeout(res, waitSec * 1000));
+      // Non-retriable (400, 401, 404, etc.) — fail fast
+      throw err;
+    }
   }
 
   throw lastError;
 }
 
+// ─── JSON variant ─────────────────────────────────────────────────────────────
 export async function callAIJson<T = any>(params: AICallParams): Promise<T> {
   const text = await callAI(params);
   try {
@@ -100,4 +111,3 @@ export async function callAIJson<T = any>(params: AICallParams): Promise<T> {
     throw new Error(`Model returned invalid JSON:\n${text.slice(0, 300)}`);
   }
 }
-

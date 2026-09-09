@@ -3,7 +3,7 @@ import { createVertexAIClient } from "./googleClient";
 import type { GenerationInput, GenerationConfig } from "@/types/content";
 import type { AIProvider, GenerationResult } from "./types";
 import { normalizeGenerationConfig } from "@/lib/content/normalizer";
-import { compilePrompt, buildUserPrompt } from "@/lib/content/prompt/compiler";
+import { buildSystemPrompt, buildUserPrompt } from "@/lib/content/prompt/compiler";
 import { extractFacts } from "@/lib/content/facts/extractor";
 import { validateClaims } from "../../supabase/functions/generate/validation/claimValidator";
 import { generatedContentSchema, type InputDTO } from "../../supabase/functions/generate/validation/schema";
@@ -31,8 +31,10 @@ function resolveConfig(input: GenerationInput | GenerationConfig): GenerationCon
   }
   const v1 = input as GenerationInput;
   return {
-    platform: (v1.platform === "x_twitter" ? "x" : v1.platform) as any,
-    format: v1.contentType === "short_video_script" ? "video" : "post",
+    platform: (v1.platform === "x_twitter" ? "x" : (v1.platform || "x")) as any,
+    format: v1.contentType === "short_video_script" || v1.contentType === "video_script" 
+      ? (v1.platform === "tiktok" ? "video" : "video_post") 
+      : (v1.platform === "tiktok" ? "video" : "post"),
     content: {
       type: (v1.contentType === "short_video_script" ? "video_script" : v1.contentType === "sponsored_ad" ? "advertisement" : v1.contentType === "ecommerce_product" ? "product_description" : v1.contentType === "real_estate" ? "real_estate_listing" : v1.contentType === "marketing_email" ? "email" : "social_post") as any,
       topic: v1.rawInput,
@@ -67,9 +69,6 @@ export class ProductionGenerationAdapter implements AIProvider {
     const normalizedConfig = normalizeGenerationConfig(config);
     const factLedger = extractFacts(normalizedConfig);
 
-    const systemPrompt = compilePrompt(normalizedConfig, factLedger);
-    const userPrompt = buildUserPrompt();
-
     const inputDto: InputDTO = {
       platform: normalizedConfig.platform as any,
       arabicStyle: (normalizedConfig.language.dialect === "saudi" ? "saudi_marketing" : normalizedConfig.language.dialect === "gulf" ? "gulf_premium" : normalizedConfig.language.dialect === "egyptian" ? "egyptian_colloquial" : normalizedConfig.language.dialect === "msa" ? "formal_b2b" : "white_arabic") as any,
@@ -77,6 +76,9 @@ export class ProductionGenerationAdapter implements AIProvider {
       marketingObjective: normalizedConfig.objective,
       rawInput: normalizedConfig.content.topic,
     };
+
+    const systemPrompt = buildSystemPrompt(inputDto);
+    const userPrompt = buildUserPrompt();
 
     const response = await this.client.models.generateContent({
       model: this.modelName,
