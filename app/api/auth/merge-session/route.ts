@@ -13,39 +13,46 @@ export async function mergeSessionAndAwardBonus(userId: string, sessionToken: st
   const tracker = getTracker();
   const signupBonus = Number(process.env.SIGNUP_BONUS_CREDITS ?? "0");
 
-  // ── 1. Session ownership check ─────────────────────────────────────────────
+  // ── 1. Session ownership claim (atomic via DB transaction) ─────────────────
+  // claim_and_merge_session uses SELECT … FOR UPDATE inside a single PG
+  // transaction so that concurrent callers are serialised at the DB level.
+  // No two UPDATE statements that can race — one RPC call, one winner.
   if (sessionToken) {
-    const { data: session } = await supabase
-      .from("sessions")
-      .select("id, user_id")
-      .eq("session_token", sessionToken)
-      .single();
+    const { data: claimData, error: claimErr } = await supabase.rpc(
+      "claim_and_merge_session",
+      { p_user_id: userId, p_session_token: sessionToken }
+    );
 
-    if (session) {
-      // Reject if the session is already owned by a DIFFERENT user.
-      if (session.user_id && session.user_id !== userId) {
-        return { success: false as const, error: "SESSION_ALREADY_LINKED", status: 409 };
-      }
-
-      if (!session.user_id) {
-        // Atomically claim the session
-        await supabase
-          .from("sessions")
-          .update({ user_id: userId })
-          .eq("id", session.id)
-          .is("user_id", null); // WHERE user_id IS NULL (prevents race)
-
-        // Move all anonymous generations to this user
-        await supabase
-          .from("generations")
-          .update({ user_id: userId })
-          .eq("session_id", session.id)
-          .is("user_id", null);
-      }
+    if (claimErr) {
+      console.error("[merge-session] claim_and_merge_session RPC error:", claimErr);
+      return { success: false as const, error: "SESSION_MERGE_FAILED", status: 500 };
     }
+
+    const claim = claimData as unknown as {
+      success: boolean;
+      merged?: boolean;
+      reason?: string;
+      error?: string;
+    };
+
+    if (!claim.success) {
+      // SESSION_ALREADY_LINKED: this session belongs to a different user
+      return { success: false as const, error: claim.error ?? "SESSION_MERGE_FAILED", status: 409 };
+    }
+    // claim.success = true covers: merged=true, ALREADY_OWNED, SESSION_NOT_FOUND — all idempotent OK
   }
 
   // ── 2. Award signup bonus (idempotent) ────────────────────────────────────
+  // If bonus is 0 (or negative), skip the RPC — award_credits rejects
+  // p_amount <= 0 with INVALID_AMOUNT which would cause a false failure.
+  if (signupBonus <= 0) {
+    const { data: balData } = await supabase.rpc("get_credit_balance", {
+      p_user_id: userId,
+    });
+    const bal = balData as unknown as { balance: number } | null;
+    return { success: true as const, balance: bal?.balance ?? 0 };
+  }
+
   const idempotencyKey = `signup_bonus:${userId}`;
   const { data: creditRes, error: creditErr } = await supabase.rpc("award_credits", {
     p_user_id: userId,
@@ -66,7 +73,8 @@ export async function mergeSessionAndAwardBonus(userId: string, sessionToken: st
     error?: string;
   };
 
-  if (creditData?.success && !creditData.duplicate && signupBonus > 0) {
+  // Track only on first-time award (not duplicate idempotent calls)
+  if (creditData?.success && !creditData.duplicate) {
     tracker.track("credit_bonus_received", { amount: signupBonus, reason: "signup_bonus" });
   }
 
