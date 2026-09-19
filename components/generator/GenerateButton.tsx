@@ -1,42 +1,37 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Sparkles, RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/shadcn/button";
 
 interface GenerateButtonProps {
   loading: boolean;
   disabled: boolean;
+  hasResult?: boolean;
 }
 
-export default function GenerateButton({ loading, disabled }: GenerateButtonProps) {
+export default function GenerateButton({ loading, disabled, hasResult }: GenerateButtonProps) {
   const t = useTranslations("GenerateButton");
   const isOff = disabled && !loading;
 
+  // ponytail: hasResult uses a distinct brand-tinted gradient, kept as an inline override on primary.
+  const isOffStyle = isOff ? { opacity: "var(--opacity-subtle)" } : {};
+
   return (
-    <motion.button
+    <Button
       type="submit"
       disabled={disabled || loading}
-      whileTap={!disabled && !loading ? { scale: 0.97 } : undefined}
-      whileHover={!disabled && !loading ? { y: -2, scale: 1.01 } : undefined}
       aria-busy={loading}
-      animate={undefined}
-      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      className="h-auto w-full rounded-xl px-4 py-4 text-lg font-extrabold disabled:opacity-100"
       style={{
-        width: "100%",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
-        borderRadius: "var(--radius-xl)", border: "none",
-        padding: "var(--space-3) var(--space-5)",
-        fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-extrabold)", color: "var(--color-foreground-inverse)",
-        cursor: isOff || loading ? "not-allowed" : "pointer",
-        opacity: isOff ? 0.45 : 1,
-        fontFamily: "inherit",
-        background: isOff
-          ? "color-mix(in srgb, var(--color-foreground) 5%, transparent)"
+        borderRadius: "var(--radius-xl)",
+        fontSize: "var(--text-lg)",
+        fontWeight: "var(--font-weight-extrabold)",
+        background: hasResult
+          ? "linear-gradient(135deg, var(--color-brand-hover) 0%, var(--color-brand-primary) 50%, var(--color-brand-hover) 100%)"
           : "var(--gradient-brand)",
-        boxShadow: "none",
-        transition: "var(--transition-normal)",
-        letterSpacing: "0.01em",
+        ...isOffStyle,
       }}
     >
       {loading ? (
@@ -47,7 +42,7 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
         >
           <motion.span
             style={{
-              display: "inline-block", width: "16px", height: "16px",
+              display: "inline-block", width: "var(--space-4)", height: "var(--space-4)",
               borderRadius: "var(--radius-circle)",
               border: "2px solid color-mix(in srgb, var(--color-foreground-inverse) 30%, transparent)",
               borderTopColor: "var(--color-foreground-inverse)",
@@ -57,12 +52,17 @@ export default function GenerateButton({ loading, disabled }: GenerateButtonProp
           />
           {t("loading")}
         </motion.span>
+      ) : hasResult ? (
+        <span style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+          <RefreshCw size={16} />
+          <span>{t("regenerate")}</span>
+        </span>
       ) : (
         <span style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
           <span>{t("generate")}</span>
           <Sparkles size={18} />
         </span>
       )}
-    </motion.button>
+    </Button>
   );
 }
