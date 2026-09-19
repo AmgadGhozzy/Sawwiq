@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PlatformIcon } from "@/components/ui/PlatformIcon";
 import CopyButton from "@/components/ui/CopyButton";
@@ -36,12 +37,27 @@ export default function OutputShowcase() {
   const platformAlpha12 = `color-mix(in srgb, ${platformColor} 12%, transparent)`;
   const platformAlpha30 = `color-mix(in srgb, ${platformColor} 30%, transparent)`;
 
+  // Roving tabindex refs for arrow-key tab navigation (direction-aware)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const focusTab = (i: number) => {
+    const n = (i + samples.length) % samples.length;
+    setActive(n);
+    tabRefs.current[n]?.focus();
+  };
+  const onTabKeyDown = (e: React.KeyboardEvent, i: number) => {
+    const rtl = document.documentElement.dir === "rtl";
+    if (e.key === "ArrowRight") { e.preventDefault(); focusTab(i + (rtl ? -1 : 1)); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); focusTab(i + (rtl ? 1 : -1)); }
+    else if (e.key === "Home") { e.preventDefault(); focusTab(0); }
+    else if (e.key === "End") { e.preventDefault(); focusTab(samples.length - 1); }
+  };
+
   return (
     <motion.section
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       aria-label={t("title")}
       style={{
         position: "relative",
@@ -53,17 +69,21 @@ export default function OutputShowcase() {
         gap: "var(--space-10)",
       }}
     >
-      {/* ── Header ── */}
       <div style={{ textAlign: "center" }}>
-        <p style={{
-          fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)",
-          color: "var(--color-accent-warm)", letterSpacing: "var(--tracking-caps)",
-          textTransform: "uppercase", marginBottom: "var(--space-3)",
+        <div style={{
+          display: "inline-flex", alignItems: "center", gap: "var(--space-2)",
+          padding: "var(--space-1-5) var(--space-4)", borderRadius: "var(--radius-full)",
+          background: "var(--color-brand-surface)",
+          border: "1px solid var(--color-brand-soft)",
+          marginBottom: "var(--space-5)",
         }}>
-          {t("badge")}
-        </p>
+          <Sparkles size={13} color="var(--color-brand-light)" />
+          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "var(--tracking-caps)" }}>
+            {t("badge")}
+          </span>
+        </div>
         <h2 style={{
-          fontSize: "var(--text-4xl)", fontWeight: "var(--font-weight-medium)",
+          fontSize: "var(--text-4xl)", fontWeight: "var(--font-weight-bold)",
           color: "var(--color-foreground)", letterSpacing: "var(--tracking-tight)",
           margin: "0 0 var(--space-4)", lineHeight: "var(--leading-tight)",
         }}>
@@ -77,9 +97,11 @@ export default function OutputShowcase() {
         </p>
       </div>
 
-      {/* ── Main showcase panel ── */}
       <div style={{
         width: "100%",
+        maxWidth: "100%",
+        minWidth: 0,
+        boxSizing: "border-box",
         borderRadius: "var(--radius-2xl)",
         overflow: "hidden",
         display: "grid",
@@ -95,6 +117,9 @@ export default function OutputShowcase() {
           flexDirection: "column",
           gap: "var(--space-2)",
           background: "color-mix(in srgb, var(--color-background) 45%, transparent)",
+          minWidth: 0,
+          maxWidth: "100%",
+          boxSizing: "border-box",
         }}>
           <p className="platform-label" style={{
             fontSize: "var(--text-xs)",
@@ -106,15 +131,19 @@ export default function OutputShowcase() {
           }}>
             {t("platformTabLabel")}
           </p>
-          <div className="platforms-list" style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+          <div role="tablist" aria-label={t("platformTabLabel")} className="platforms-list" style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", minWidth: 0, maxWidth: "100%" }}>
             {samples.map((s, i) => {
             const sColor = PLATFORM_COLOR_VAR[s.platform] ?? "var(--color-brand-primary)";
             const sAlpha18 = `color-mix(in srgb, ${sColor} 18%, transparent)`;
             return (
               <button
                 key={s.platform}
+                ref={(el) => { tabRefs.current[i] = el; }}
                 role="tab"
                 aria-selected={i === active}
+                aria-controls="showcase-tabpanel"
+                tabIndex={i === active ? 0 : -1}
+                onKeyDown={(e) => onTabKeyDown(e, i)}
                 onClick={() => { setActive(i); }}
                 style={{
                   display: "flex",
@@ -157,25 +186,32 @@ export default function OutputShowcase() {
         </div>
 
         {/* Right content pane */}
-        <div style={{ position: "relative", minHeight: "380px" }}>
-          {/* Top bar */}
-          <div style={{
+        <div style={{ position: "relative", minHeight: "380px", minWidth: 0, maxWidth: "100%", boxSizing: "border-box" }}>
+          <div className="showcase-topbar" style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            gap: "var(--space-2)",
+            flexWrap: "wrap",
             padding: "var(--space-4) var(--space-7)",
             borderBottom: "1px solid var(--color-border)",
+            boxSizing: "border-box",
+            maxWidth: "100%",
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", minWidth: 0, flex: "1 1 auto" }}>
               <div style={{
                 width: "8px", height: "8px", borderRadius: "var(--radius-circle)",
                 background: platformColor,
                 boxShadow: `0 0 8px ${platformAlpha30}`,
+                flexShrink: 0,
               }} />
               <span style={{
                 fontSize: "var(--text-xs)",
                 color: "var(--color-foreground-secondary)",
                 fontWeight: "var(--font-weight-medium)",
+                minWidth: 0,
+                overflowWrap: "anywhere",
+                wordBreak: "break-word",
               }}>
                 {sample.contentType}
               </span>
@@ -188,29 +224,38 @@ export default function OutputShowcase() {
             />
           </div>
 
-          {/* Content */}
           <AnimatePresence mode="wait">
             <motion.article
               key={sample.platform}
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 12 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              id="showcase-tabpanel"
+              role="tabpanel"
+              className="showcase-article"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
               style={{
                 padding: "var(--space-7)",
                 display: "flex",
                 flexDirection: "column",
                 gap: "var(--space-5)",
+                minWidth: 0,
+                maxWidth: "100%",
+                boxSizing: "border-box",
+                overflowWrap: "anywhere",
+                wordBreak: "break-word",
               }}
             >
-              {/* Title + Hook */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", minWidth: 0, maxWidth: "100%" }}>
                 <h3 style={{
                   fontSize: "var(--text-xl)",
                   fontWeight: "var(--font-weight-bold)",
                   color: "var(--color-foreground)",
                   margin: 0,
                   lineHeight: "var(--leading-snug)",
+                  overflowWrap: "anywhere",
+                  wordBreak: "break-word",
+                  maxWidth: "100%",
                 }}>
                   {sample.title}
                 </h3>
@@ -220,24 +265,28 @@ export default function OutputShowcase() {
                   color: platformColor,
                   margin: 0,
                   lineHeight: "var(--leading-normal)",
-                  opacity: 0.9,
+                  opacity: "var(--opacity-faint)",
+                  overflowWrap: "anywhere",
+                  wordBreak: "break-word",
+                  maxWidth: "100%",
                 }}>
                   {sample.hook}
                 </p>
               </div>
 
-              {/* Body */}
               <p style={{
                 fontSize: "var(--text-sm)",
                 color: "var(--color-foreground-secondary)",
                 lineHeight: "var(--leading-loose)",
                 margin: 0,
                 whiteSpace: "pre-line",
+                overflowWrap: "anywhere",
+                wordBreak: "break-word",
+                maxWidth: "100%",
               }}>
                 {sample.body}
               </p>
 
-              {/* CTA */}
               <p style={{
                 fontSize: "var(--text-sm)",
                 color: "var(--color-foreground-disabled)",
@@ -245,15 +294,17 @@ export default function OutputShowcase() {
                 margin: 0,
                 paddingTop: "var(--space-2)",
                 borderTop: "1px dashed var(--color-border)",
+                overflowWrap: "anywhere",
+                wordBreak: "break-word",
+                maxWidth: "100%",
               }}>
                 {sample.cta}
               </p>
 
-              {/* Hashtags */}
               <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
                 {sample.hashtags.map((tag) => (
                   <span key={tag} style={{
-                    padding: "var(--space-0-5) var(--space-2-5)",
+                    padding: "var(--space-1) var(--space-2-5)",
                     borderRadius: "var(--radius-full)",
                     background: platformAlpha12,
                     border: `1px solid ${platformAlpha30}`,
@@ -271,6 +322,46 @@ export default function OutputShowcase() {
       </div>
 
       {/* Responsive override */}
+      <style>{`
+        @media (max-width: 640px) {
+          .showcase-panel {
+            grid-template-columns: minmax(0, 1fr) !important;
+            max-width: 100%;
+          }
+          .showcase-panel > div {
+            min-width: 0 !important;
+            max-width: 100% !important;
+          }
+          .platform-label {
+            display: none !important;
+          }
+          .showcase-panel > div:first-child {
+            border-inline-end: none !important;
+            border-bottom: 1px solid var(--color-border) !important;
+            padding: var(--space-4) !important;
+          }
+          .platforms-list::-webkit-scrollbar {
+            display: none;
+          }
+          .platforms-list {
+            flex-direction: row !important;
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-width: 100%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            gap: var(--space-2) !important;
+            padding-bottom: var(--space-1);
+          }
+          .showcase-topbar {
+            padding: var(--space-3) var(--space-4) !important;
+          }
+          .showcase-article {
+            padding: var(--space-5) var(--space-4) !important;
+            gap: var(--space-4) !important;
+          }
+        }
+      `}</style>
     </motion.section>
   );
 }

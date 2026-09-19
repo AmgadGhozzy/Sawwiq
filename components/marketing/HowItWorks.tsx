@@ -9,7 +9,7 @@ const fadeUpVariants: Variants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.15, duration: 0.5, ease: "easeOut" as const },
+    transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" as const },
   }),
 };
 
@@ -46,18 +46,31 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section ref={sectionRef} style={{ padding: "var(--space-16) 0", position: "relative" }}>
-      {/* Header */}
+    <section ref={sectionRef} style={{ padding: "var(--space-12) 0", position: "relative" }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        style={{ textAlign: "center", marginBottom: "var(--space-16)" }}
+        transition={{ duration: 0.4 }}
+        style={{ textAlign: "center", marginBottom: "var(--space-10)" }}
       >
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "var(--space-2)",
+          padding: "var(--space-1-5) var(--space-4)",
+          borderRadius: "var(--radius-full)",
+          background: "var(--color-brand-surface)",
+          border: "1px solid var(--color-brand-soft)",
+          marginBottom: "var(--space-5)",
+        }}>
+          <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--font-weight-semibold)", color: "var(--color-brand-light)", letterSpacing: "var(--tracking-caps)" }}>
+            {t("badge")}
+          </span>
+        </div>
         <h2 style={{
-          fontSize: "var(--text-3xl)",
-          fontWeight: "var(--font-weight-semibold)",
+          fontSize: "var(--text-4xl)",
+          fontWeight: "var(--font-weight-bold)",
           color: "var(--color-foreground)",
           marginBottom: "var(--space-4)",
           letterSpacing: "var(--tracking-tight)",
@@ -76,7 +89,6 @@ export default function HowItWorks() {
         </p>
       </motion.div>
 
-      {/* Steps + Connector */}
       <div style={{ position: "relative" }}>
         {/* Desktop connector line — sits between the row of cards */}
         <div
@@ -92,13 +104,11 @@ export default function HowItWorks() {
           }}
           className="md-connector"
         >
-          {/* Track */}
           <div style={{
             position: "absolute",
             inset: 0,
             backgroundImage: "repeating-linear-gradient(90deg, var(--color-border) 0, var(--color-border) 6px, transparent 6px, transparent 14px)",
           }} />
-          {/* Glowing progress */}
           <svg width="100%" height="2" style={{ position: "absolute", inset: 0 }} preserveAspectRatio="none">
             <motion.line
               x1="0" y1="1" x2="100%" y2="1"
@@ -118,7 +128,6 @@ export default function HowItWorks() {
           </svg>
         </div>
 
-        {/* Grid */}
         <div
           style={{
             display: "grid",
@@ -147,6 +156,16 @@ export default function HowItWorks() {
       </div>
 
       {/* Responsive styles injected inline */}
+      <style>{`
+        @media (min-width: 768px) {
+          .md-connector { display: block !important; }
+        }
+        @media (max-width: 767px) {
+          .how-it-works-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -168,7 +187,7 @@ function StepCard({
   return (
     <div style={{
       background: isMiddle
-        ? "linear-gradient(160deg, color-mix(in srgb, var(--color-brand-primary) 7%, transparent) 0%, rgba(15,15,25,0.5) 100%)"
+        ? "linear-gradient(160deg, color-mix(in srgb, var(--color-brand-primary) 7%, transparent) 0%, var(--color-surface) 100%)"
         : "var(--color-fill-faint)",
       border: `1px solid ${isMiddle ? "color-mix(in srgb, var(--color-brand-primary) 20%, transparent)" : "var(--color-border)"}`,
       borderRadius: "var(--radius-2xl)",
@@ -181,7 +200,7 @@ function StepCard({
       textAlign: "center",
       gap: "var(--space-4)",
       width: "100%",
-      transition: "border-color 0.25s ease, box-shadow 0.25s ease",
+      transition: "var(--transition-normal)",
     }}>
       {/* Subtle top shimmer for middle card */}
       {isMiddle && (
@@ -195,7 +214,6 @@ function StepCard({
         }} />
       )}
 
-      {/* Step number badge */}
       <div style={{
         display: "inline-flex",
         alignItems: "center",
@@ -217,7 +235,6 @@ function StepCard({
         </span>
       </div>
 
-      {/* Text */}
       <div style={{ flex: 1 }}>
         <h3 style={{
           fontSize: "var(--text-xl)",
@@ -237,18 +254,19 @@ function StepCard({
         </p>
       </div>
 
-      {/* Micro-mockup */}
       <div style={{
-        borderRadius: "var(--radius-lg)",
-        background: "rgba(0,0,0,0.25)",
+        borderRadius: "var(--radius-xl)",
+        background: "rgba(0, 0, 0, 0.28)",
         border: "1px solid var(--color-border-subtle)",
-        padding: "var(--space-4)",
-        height: "90px",
+        padding: "var(--space-3) var(--space-3)",
+        height: "105px",
         width: "100%",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         marginTop: "auto",
+        boxSizing: "border-box",
       }}>
         {mockup}
       </div>
@@ -261,27 +279,60 @@ function StepCard({
 function Step1Mockup() {
   const t = useTranslations("HowItWorks");
   return (
-    <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
-      {[
-        { label: "TikTok", active: true },
-        { label: t("mockup.dialect"), active: false },
-        { label: t("mockup.persona"), active: false },
-      ].map(({ label, active }) => (
-        <div
-          key={label}
-          style={{
-            padding: "var(--space-1) var(--space-3)",
-            borderRadius: "var(--radius-full)",
-            background: active ? "var(--color-brand-surface)" : "var(--color-fill-subtle)",
-            border: `1px solid ${active ? "var(--color-brand-soft)" : "var(--color-border)"}`,
-            fontSize: "var(--text-xs)",
-            color: active ? "var(--color-brand-light)" : "var(--color-foreground-tertiary)",
-            fontWeight: "var(--font-weight-medium)",
-          }}
-        >
-          {label}
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", width: "100%", alignItems: "center" }}>
+      {/* Top Row: Platform & Dialect */}
+      <div style={{ display: "flex", gap: "var(--space-1-5)", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{
+          display: "inline-flex", alignItems: "center", gap: "var(--space-1)",
+          padding: "var(--space-1) var(--space-2-5)",
+          borderRadius: "var(--radius-full)",
+          background: "var(--color-brand-surface)",
+          border: "1px solid var(--color-brand-soft)",
+          fontSize: "var(--text-xs)",
+          color: "var(--color-brand-light)",
+          fontWeight: "var(--font-weight-semibold)",
+        }}>
+          <span style={{ width: "6px", height: "6px", borderRadius: "var(--radius-circle)", background: "var(--color-brand-light)" }} />
+          {t("mockup.platform")}
         </div>
-      ))}
+        <div style={{
+          padding: "var(--space-1) var(--space-2-5)",
+          borderRadius: "var(--radius-full)",
+          background: "var(--color-fill-subtle)",
+          border: "1px solid var(--color-border)",
+          fontSize: "var(--text-2xs)",
+          color: "var(--color-foreground-secondary)",
+          fontWeight: "var(--font-weight-medium)",
+        }}>
+          {t("mockup.dialect")}
+        </div>
+      </div>
+
+      {/* Bottom Row: Realistic Objectives ("تفاعل ومشاركات" & "مبيعات مباشرة") */}
+      <div style={{ display: "flex", gap: "var(--space-1-5)", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{
+          padding: "var(--space-1) var(--space-2-5)",
+          borderRadius: "var(--radius-full)",
+          background: "color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
+          border: "1px solid color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
+          fontSize: "var(--text-2xs)",
+          color: "var(--color-brand-light)",
+          fontWeight: "var(--font-weight-medium)",
+        }}>
+          {t("mockup.engagementObjective")}
+        </div>
+        <div style={{
+          padding: "var(--space-1) var(--space-2-5)",
+          borderRadius: "var(--radius-full)",
+          background: "var(--color-fill-subtle)",
+          border: "1px solid var(--color-border)",
+          fontSize: "var(--text-2xs)",
+          color: "var(--color-foreground-disabled)",
+          fontWeight: "var(--font-weight-medium)",
+        }}>
+          {t("mockup.salesObjective")}
+        </div>
+      </div>
     </div>
   );
 }
@@ -289,32 +340,33 @@ function Step1Mockup() {
 function Step2Mockup() {
   const t = useTranslations("HowItWorks");
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0, width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
       {/* Source node */}
       <div style={{
-        padding: "var(--space-1-5) var(--space-4)",
+        padding: "var(--space-1) var(--space-3)",
         borderRadius: "var(--radius-full)",
-        background: "color-mix(in srgb, var(--color-brand-primary) 15%, transparent)",
-        border: "1px solid color-mix(in srgb, var(--color-brand-primary) 30%, transparent)",
+        background: "color-mix(in srgb, var(--color-brand-primary) 18%, transparent)",
+        border: "1px solid color-mix(in srgb, var(--color-brand-primary) 35%, transparent)",
         fontSize: "var(--text-xs)",
+        fontWeight: "var(--font-weight-semibold)",
         color: "var(--color-brand-light)",
       }}>
         {t("mockup.oneIdea")}
       </div>
-      {/* Branches */}
-      <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-3)", paddingTop: "var(--space-1)" }}>
+      {/* Branches with vertical connector */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-1-5)", paddingTop: "var(--space-1)" }}>
         {[t("mockup.branch1"), t("mockup.branch2"), t("mockup.branch3")].map((label, i) => (
-          <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-1)" }}>
-            <div style={{ width: "1px", height: "12px", background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 50%, transparent)" : "var(--color-fill-strong)" }} />
+          <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-0-5)" }}>
+            <div style={{ width: "1px", height: "8px", background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 50%, transparent)" : "var(--color-fill-strong)" }} />
             <div style={{
-              padding: "var(--space-1-5) var(--space-3)",
+              padding: "var(--space-1) var(--space-2)",
               borderRadius: "var(--radius-md)",
-              background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)" : "var(--color-fill-subtle)",
-              border: `1px solid ${i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 25%, transparent)" : "var(--color-border)"}`,
+              background: i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 14%, transparent)" : "var(--color-fill-subtle)",
+              border: `1px solid ${i === 1 ? "color-mix(in srgb, var(--color-brand-primary) 28%, transparent)" : "var(--color-border)"}`,
               fontSize: "var(--text-2xs)",
               color: i === 1 ? "var(--color-brand-light)" : "var(--color-foreground-disabled)",
               textAlign: "center",
-              lineHeight: "1.4",
+              lineHeight: "var(--leading-tight)",
               whiteSpace: "nowrap",
             }}>
               {label}
@@ -329,22 +381,23 @@ function Step2Mockup() {
 function Step3Mockup() {
   const t = useTranslations("HowItWorks");
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1-5)", width: "100%", paddingInline: "var(--space-2)" }}>
       {/* Title block */}
-      <div style={{ width: "65%", height: "10px", background: "var(--color-fill-strong)", borderRadius: "var(--radius-xs)" }} />
+      <div style={{ width: "65%", height: "8px", background: "var(--color-fill-strong)", borderRadius: "var(--radius-full)" }} />
       {/* Body lines */}
-      <div style={{ width: "100%", height: "7px", background: "var(--color-border)", borderRadius: "var(--radius-xs)" }} />
-      <div style={{ width: "85%", height: "7px", background: "var(--color-border)", borderRadius: "var(--radius-xs)" }} />
+      <div style={{ width: "100%", height: "6px", background: "var(--color-border)", borderRadius: "var(--radius-full)" }} />
+      <div style={{ width: "85%", height: "6px", background: "var(--color-border)", borderRadius: "var(--radius-full)" }} />
       {/* Hashtag pills */}
       <div style={{ display: "flex", gap: "var(--space-1-5)", marginTop: "var(--space-1)" }}>
         {[t("mockup.tag1"), t("mockup.tag2")].map((tag) => (
           <div key={tag} style={{
             padding: "var(--space-0-5) var(--space-2)",
-            borderRadius: "var(--radius-md)",
+            borderRadius: "var(--radius-full)",
             background: "var(--color-brand-surface)",
             border: "1px solid var(--color-brand-soft)",
             fontSize: "var(--text-2xs)",
             color: "var(--color-brand-light)",
+            fontWeight: "var(--font-weight-medium)",
           }}>
             #{tag}
           </div>
