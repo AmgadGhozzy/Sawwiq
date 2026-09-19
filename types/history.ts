@@ -19,6 +19,8 @@ export interface GenerationHistoryItem {
   style?: StyleConfig;
   intent?: CreatorIntent;
   originality?: OriginalityLevel;
+  tone?: string;
+  language?: "ar" | "en" | "bilingual";
   metadata?: Record<string, unknown>;
   aiResponse: {
     title: string;
