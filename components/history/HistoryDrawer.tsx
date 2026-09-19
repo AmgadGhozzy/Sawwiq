@@ -1,11 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
 import { X, Clock, Sparkles } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useHistoryContext } from "./HistoryContext";
 import HistoryCard from "./HistoryCard";
+import IconButton from "@/components/ui/IconButton";
+import Button from "@/components/ui/Button";
+import { Sheet, SheetContent, SheetTitle } from "@/components/shadcn/sheet";
+import { ScrollArea } from "@/components/shadcn/scroll-area";
+import { Skeleton } from "@/components/shadcn/skeleton";
 
 // ---------------------------------------------------------------------------
 // HistoryDrawer - slides in from the inline-end side
@@ -21,99 +26,35 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
   const locale = useLocale();
   const isRTL = locale === "ar";
 
-  const { items, setItems, setSelectedHistoryIndex } = useHistoryContext();
+  const { items, setSelectedHistoryIndex, refreshHistory } = useHistoryContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
-  const drawerRef = useRef<HTMLDivElement>(null);
 
-  // ── Fetch history when drawer opens ──
+  // ── Fetch history when drawer opens (Radix owns overlay/ESC/scroll-lock/focus) ──
   const fetchHistory = useCallback(async () => {
     setLoading(true);
     setError(false);
-    try {
-      const res = await fetch("/api/history?limit=20");
-      if (!res.ok) { setError(true); return; }
-      const json = await res.json();
-      if (json.success) { setItems(json.data); } else { setError(true); }
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-      setHasFetched(true);
-    }
-  }, []);
+    const ok = await refreshHistory();
+    if (!ok) setError(true);
+    setLoading(false);
+    setHasFetched(true);
+  }, [refreshHistory]);
 
   useEffect(() => {
     if (open) fetchHistory();
   }, [open, fetchHistory]);
 
-  // ── Keyboard: ESC to close ──
-  useEffect(() => {
-    if (!open) return;
-    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, [open, onClose]);
-
-  // ── Lock body scroll ──
-  useEffect(() => {
-    if (open) { document.body.style.overflow = "hidden"; }
-    return () => { document.body.style.overflow = ""; };
-  }, [open]);
-
-  // ── Focus trap ──
-  useEffect(() => {
-    if (open && drawerRef.current) drawerRef.current.focus();
-  }, [open]);
-
-  const slideFrom = isRTL ? { x: "-100%" } : { x: "100%" };
-  const slideTo = { x: "0%" };
-
   return (
-    <AnimatePresence>
-      {open && (
-        <>
-          {/* ── Backdrop ── */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={onClose}
-            aria-hidden="true"
-            style={{
-              position: "fixed", inset: 0, zIndex: "var(--z-backdrop)",
-              background: "var(--color-overlay)",
-              backdropFilter: "blur(var(--blur-sm))",
-              WebkitBackdropFilter: "blur(var(--blur-sm))",
-            }}
-          />
-
-          {/* ── Drawer ── */}
-          <motion.div
-            ref={drawerRef}
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t("title")}
-            initial={{ ...slideFrom, opacity: 0.8 }}
-            animate={{ ...slideTo, opacity: 1 }}
-            exit={{ ...slideFrom, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 340, damping: 32 }}
-            style={{
-              position: "fixed", top: 0, bottom: 0,
-              [isRTL ? "left" : "right"]: 0,
-              width: "min(var(--drawer-w), 90vw)",
-              zIndex: "var(--z-modal)",
-              display: "flex", flexDirection: "column",
-              background: "var(--color-background)",
-              borderInlineStart: "1px solid var(--color-border)",
-              boxShadow: "var(--shadow-elevated)",
-              outline: "none",
-            }}
-          >
-            {/* ── Header ── */}
+    <Sheet open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <SheetContent
+        side={isRTL ? "left" : "right"}
+        showCloseButton={false}
+        aria-label={t("title")}
+        className="w-[min(var(--drawer-w),90vw)] border-s border-l-0 border-r-0 border-border bg-background p-0 shadow-elevated sm:max-w-none gap-0"
+      >
+        {/* Screen-reader title for Radix (visual header below is unchanged) */}
+        <SheetTitle className="sr-only">{t("title")}</SheetTitle>
             <div
               style={{
                 display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -144,7 +85,6 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
               </div>
 
               <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                {/* Count badge */}
                 {!error && items.length > 0 && (
                   <span
                     style={{
@@ -159,55 +99,26 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   </span>
                 )}
 
-                {/* Close button */}
-                <button
+                <IconButton
                   onClick={onClose}
                   aria-label={t("close")}
-                  style={{
-                    width: "var(--space-8)", height: "var(--space-8)", borderRadius: "var(--radius-md)",
-                    background: "var(--color-brand-surface)",
-                    border: "1px solid var(--color-border)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    cursor: "pointer", color: "var(--color-foreground-secondary)",
-                    transition: "var(--transition-normal)", fontFamily: "inherit",
-                  }}
-                >
-                  <X size={15} />
-                </button>
+                  variant="brandSoft"
+                  size="sm"
+                  icon={<X size={15} />}
+                />
               </div>
             </div>
 
-              {/* ── Content area (scrollable) ── */}
-            <div
-              style={{
-                flex: 1, overflowY: "auto", overflowX: "hidden",
-                padding: "var(--space-5) var(--space-4) var(--space-8)",
-              }}
-            >
-              {/* Loading */}
+              <ScrollArea className="flex-1 min-h-0">
+              <div style={{ padding: "var(--space-5) var(--space-4) var(--space-8)" }}>
               {loading && (
-                <div
-                  style={{
-                    display: "flex", flexDirection: "column", alignItems: "center",
-                    justifyContent: "center", minHeight: "300px", gap: "var(--space-4)",
-                  }}
-                >
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                    style={{
-                      width: "var(--space-9)", height: "var(--space-9)", borderRadius: "var(--radius-circle)",
-                      border: "2px solid var(--color-brand-soft)",
-                      borderTopColor: "var(--color-brand-primary)",
-                    }}
-                  />
-                  <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-tertiary)", margin: 0 }}>
-                    {t("loading")}
-                  </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
+                  {[0, 1, 2].map((i) => (
+                    <Skeleton key={i} className="h-24 rounded-lg" />
+                  ))}
                 </div>
               )}
 
-              {/* Error */}
               {!loading && error && (
                 <div
                   style={{
@@ -232,23 +143,17 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-tertiary)", margin: 0, lineHeight: "var(--leading-normal)" }}>
                     {t("errorSubtitle")}
                   </p>
-                  <button
+                  <Button
                     onClick={fetchHistory}
-                    style={{
-                      padding: "var(--space-2) var(--space-4-5)", borderRadius: "var(--radius-md)",
-                      background: "color-mix(in srgb, var(--color-brand-primary) 12%, transparent)",
-                      border: "1px solid color-mix(in srgb, var(--color-brand-primary) 25%, transparent)",
-                      color: "var(--color-brand-primary)",
-                      fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-bold)", cursor: "pointer",
-                      fontFamily: "inherit", marginTop: "var(--space-1)",
-                    }}
+                    variant="brandSoft"
+                    size="sm"
+                    style={{ marginTop: "var(--space-1)", paddingInline: "var(--space-4-5)", paddingBlock: "var(--space-2)" }}
                   >
                     {t("retry")}
-                  </button>
+                  </Button>
                 </div>
               )}
 
-              {/* Empty state */}
               {!loading && !error && hasFetched && items.length === 0 && (
                 <div
                   style={{
@@ -283,7 +188,6 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                 </div>
               )}
 
-              {/* Timeline items */}
               {!loading && !error && items.length > 0 && (
                 <div>
                   {items.map((item, i) => (
@@ -300,10 +204,9 @@ export default function HistoryDrawer({ open, onClose }: HistoryDrawerProps) {
                   ))}
                 </div>
               )}
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+              </div>
+            </ScrollArea>
+      </SheetContent>
+    </Sheet>
   );
 }

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { PlatformIcon } from "@/components/ui/PlatformIcon";
 import CopyButton from "@/components/ui/CopyButton";
+import Button from "@/components/ui/Button";
 import type { GenerationHistoryItem } from "@/types/history";
 
 interface HistoryCardProps {
@@ -50,10 +51,10 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
       const diffHours = Math.floor(diffMins / 60);
       const diffDays = Math.floor(diffHours / 24);
 
-      if (diffMins < 1) return locale === "en" ? "Just now" : "الآن";
-      if (diffMins < 60) return locale === "en" ? `${diffMins}m ago` : `منذ ${diffMins} دقيقة`;
-      if (diffHours < 24) return locale === "en" ? `${diffHours}h ago` : `منذ ${diffHours} ساعة`;
-      if (diffDays < 7) return locale === "en" ? `${diffDays}d ago` : `منذ ${diffDays} يوم`;
+      if (diffMins < 1) return t("justNow");
+      if (diffMins < 60) return t("minutesAgo", { count: diffMins });
+      if (diffHours < 24) return t("hoursAgo", { count: diffHours });
+      if (diffDays < 7) return t("daysAgo", { count: diffDays });
       return date.toLocaleDateString(locale === "en" ? "en-US" : "ar-EG", { month: "short", day: "numeric" });
     } catch {
       return "";
@@ -77,10 +78,8 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
         }}
       >
         <div style={{ padding: "var(--space-4)" }}>
-          {/* Header tags */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-3)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)", flexWrap: "wrap" }}>
-              {/* Platform icon only */}
               <span style={{
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
                 width: "var(--space-6)", height: "var(--space-6)", borderRadius: "var(--radius-sm)",
@@ -90,7 +89,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                 <PlatformIcon platform={platform} />
               </span>
 
-              {/* Content type */}
               <span style={{
                 padding: "var(--space-0-5) var(--space-2)", borderRadius: "var(--radius-sm)",
                 background: "var(--color-brand-surface)",
@@ -101,7 +99,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                 {contentTypeLabel}
               </span>
 
-              {/* Dialect */}
               <span style={{
                 padding: "var(--space-0-5) var(--space-2)", borderRadius: "var(--radius-sm)",
                 background: "var(--color-brand-surface)",
@@ -112,13 +109,11 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
               </span>
             </div>
 
-            {/* Date */}
             <span style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-disabled)", whiteSpace: "nowrap" }}>
               {formatDate(createdAt)}
             </span>
           </div>
 
-          {/* Title */}
           <h4 style={{
             fontSize: "var(--text-base)", fontWeight: "var(--font-weight-bold)", color: "var(--color-foreground)",
             margin: "0 0 var(--space-2)", lineHeight: "var(--leading-normal)",
@@ -126,7 +121,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             {aiResponse.title}
           </h4>
 
-          {/* Hook preview */}
           <p style={{
             fontSize: "var(--text-sm)", color: "var(--color-foreground-secondary)",
             margin: "0 0 var(--space-3)", lineHeight: "var(--leading-relaxed)",
@@ -138,7 +132,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             {aiResponse.hook}
           </p>
 
-          {/* Expanded full content */}
           <AnimatePresence>
             {expanded && (
               <motion.div
@@ -147,7 +140,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                 exit={{ opacity: 0, height: 0 }}
                 style={{ overflow: "hidden" }}
               >
-                {/* Prompt */}
                 {prompt && (
                   <div style={{
                     padding: "var(--space-2) var(--space-3)", borderRadius: "var(--radius-sm)",
@@ -156,7 +148,7 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                     marginBottom: "var(--space-3)",
                   }}>
                     <span style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-disabled)", display: "block", marginBottom: "var(--space-0-5)" }}>
-                      {locale === "en" ? "Prompt:" : "المدخلات:"}
+                      {t("promptLabel")}
                     </span>
                     <p style={{ fontSize: "var(--text-sm)", color: "var(--color-foreground-secondary)", margin: 0 }}>
                       {prompt}
@@ -164,7 +156,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                   </div>
                 )}
 
-                {/* Body */}
                 <div style={{
                   fontSize: "var(--text-sm)", color: "var(--color-foreground)",
                   lineHeight: "var(--leading-relaxed)", marginBottom: "var(--space-3)",
@@ -173,7 +164,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                   {aiResponse.body}
                 </div>
 
-                {/* CTA */}
                 <div style={{
                   borderRadius: "var(--radius-md)",
                   background: "var(--color-brand-surface)",
@@ -187,7 +177,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
                   </p>
                 </div>
 
-                {/* Hashtags */}
                 {aiResponse.hashtags && aiResponse.hashtags.length > 0 && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-1)", marginBottom: "var(--space-3)" }}>
                     {aiResponse.hashtags.map((tag: string) => (
@@ -207,7 +196,6 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             )}
           </AnimatePresence>
 
-          {/* Footer Actions */}
           <div style={{
             display: "flex",
             alignItems: "center",
@@ -216,42 +204,22 @@ export default function HistoryCard({ item, isLast, locale, onOpen }: HistoryCar
             borderTop: "1px solid var(--color-border)",
             gap: "var(--space-2)",
           }}>
-            {/* Primary Action: Open in Generator */}
             {onOpen && (
-              <button
+              <Button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   onOpen();
                 }}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "var(--space-1)",
-                  padding: "var(--space-1-5) var(--space-3)",
-                  borderRadius: "var(--radius-md)",
-                  background: "var(--color-brand-soft)",
-                  border: "1px solid var(--color-brand-soft)",
-                  color: "var(--color-foreground)",
-                  fontSize: "var(--text-sm)",
-                  fontWeight: "var(--font-weight-semibold)",
-                  cursor: "pointer",
-                  transition: "var(--transition-fast)",
-                  fontFamily: "inherit",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "var(--color-brand-surface)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "var(--color-brand-soft)";
-                }}
+                variant="brandSoft"
+                size="sm"
+                style={{ gap: "var(--space-1)" }}
               >
                 <ExternalLink size={13} color="var(--color-brand-primary)" />
                 <span>{t("openInGenerator")}</span>
-              </button>
+              </Button>
             )}
 
-            {/* Copy button */}
             <CopyButton
               variant="ghost"
               stopPropagation
