@@ -272,19 +272,18 @@ BEGIN
     RETURN jsonb_build_object('success', true, 'merged', false, 'reason', 'SESSION_NOT_FOUND');
   END IF;
 
-  -- Idempotent: this user already owns the session.
-  IF v_owner_id = p_user_id THEN
-    RETURN jsonb_build_object('success', true, 'merged', false, 'reason', 'ALREADY_OWNED');
-  END IF;
-
   -- Another user has already claimed this session.
-  IF v_owner_id IS NOT NULL THEN
+  IF v_owner_id IS NOT NULL AND v_owner_id <> p_user_id THEN
     RETURN jsonb_build_object('success', false, 'error', 'SESSION_ALREADY_LINKED');
   END IF;
 
-  -- Claim the session.
+  -- Claim (or re-confirm) the session and ensure the anonymous rate limit is
+  -- bypassed. Running this UPDATE even for ALREADY_OWNED sessions is intentional:
+  -- it self-heals sessions that were claimed before max_limit was applied
+  -- (e.g. user hit the free limit, then signed in).
   UPDATE sessions
-     SET user_id = p_user_id
+     SET user_id   = p_user_id,
+         max_limit = 2147483647
    WHERE id = v_session_id;
 
   -- Migrate all still-anonymous generations within the same transaction.
@@ -293,6 +292,10 @@ BEGIN
      SET user_id = p_user_id
    WHERE session_id = v_session_id
      AND user_id IS NULL;
+
+  IF v_owner_id = p_user_id THEN
+    RETURN jsonb_build_object('success', true, 'merged', false, 'reason', 'ALREADY_OWNED');
+  END IF;
 
   RETURN jsonb_build_object('success', true, 'merged', true);
 END;
