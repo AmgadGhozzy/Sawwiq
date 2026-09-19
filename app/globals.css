@@ -1,11 +1,14 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @theme {
   /* Semantic Colors */
   --color-background: var(--color-background);
   --color-surface: var(--color-surface);
   --color-surface-elevated: var(--color-surface-elevated);
+  --color-surface-hover: var(--color-surface-hover);
   --color-surface-translucent: var(--color-surface-translucent);
+  --color-surface-bar: var(--color-surface-bar);
   --color-overlay: var(--color-overlay);
   --color-border: var(--color-border);
   --color-border-subtle: var(--color-border-subtle);
@@ -38,12 +41,6 @@
   --color-brand-soft: var(--color-brand-soft);
   --color-brand-surface: var(--color-brand-surface);
   --color-brand-light: var(--color-brand-light);
-
-  /* Warm Accent */
-  --color-accent-warm: var(--color-accent-warm);
-  --color-accent-warm-soft: var(--color-accent-warm-soft);
-  --color-accent-warm-surface: var(--color-accent-warm-surface);
-  --color-accent-warm-light: var(--color-accent-warm-light);
 
   /* Platforms Colors */
   --color-instagram: var(--color-platform-instagram);
@@ -79,6 +76,25 @@
   --shadow-brand-glow: var(--shadow-brand-glow);
   --shadow-whatsapp: var(--shadow-whatsapp);
   --shadow-danger: var(--shadow-danger);
+  --shadow-sticky-bar: var(--shadow-sticky-bar);
+
+  /* Shadcn UI semantic aliases (mapped onto our tokens — no new values) */
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-foreground);
+  --color-popover: var(--color-surface-elevated);
+  --color-popover-foreground: var(--color-foreground);
+  --color-primary: var(--color-brand-primary);
+  --color-primary-foreground: var(--color-foreground-inverse);
+  --color-secondary: var(--color-surface-hover);
+  --color-secondary-foreground: var(--color-foreground);
+  --color-muted: var(--color-fill-subtle);
+  --color-muted-foreground: var(--color-foreground-secondary);
+  --color-accent: var(--color-surface-hover);
+  --color-accent-foreground: var(--color-foreground);
+  --color-destructive: var(--color-danger);
+  --color-destructive-foreground: var(--color-foreground-inverse);
+  --color-input: var(--color-border);
+  --color-ring: var(--color-border-focus);
 
   /* Typography Sizes */
   --text-2xs: var(--text-2xs);
@@ -155,9 +171,64 @@
   --transition-normal: var(--transition-normal);
   --transition-slow: var(--transition-slow);
 
+  /* Opacity */
+  --opacity-subtle: var(--opacity-subtle);
+  --opacity-muted: var(--opacity-muted);
+  --opacity-faint: var(--opacity-faint);
+
   /* Font Family */
   --font-sans: var(--font-ibm-plex-sans-arabic), "IBM Plex Sans Arabic", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-inter: var(--font-inter), "Inter", sans-serif;
+  --font-outfit: var(--font-outfit), "Outfit", "Inter", sans-serif;
+}
+
+/*
+ * ── Opacity-variant utilities ──
+ * Tailwind v4 + Turbopack bug: multiple /NN opacity modifiers on --color-*
+ * tokens cause the compiler to emit an invalid wildcard rule `var(--color-*)`
+ * that Lightning CSS rejects. Explicit @utility definitions bypass the
+ * broken automatic candidate generation while keeping the same API shape.
+ */
+
+@utility bg-background-80 {
+  background-color: color-mix(in srgb, var(--color-background) 80%, transparent);
+}
+
+@utility bg-primary-90 {
+  background-color: color-mix(in srgb, var(--color-primary) 90%, transparent);
+}
+
+@utility bg-destructive-90 {
+  background-color: color-mix(in srgb, var(--color-destructive) 90%, transparent);
+}
+@utility bg-destructive-60 {
+  background-color: color-mix(in srgb, var(--color-destructive) 60%, transparent);
+}
+
+@utility bg-input-30 {
+  background-color: color-mix(in srgb, var(--color-input) 30%, transparent);
+}
+@utility bg-input-50 {
+  background-color: color-mix(in srgb, var(--color-input) 50%, transparent);
+}
+
+@utility bg-secondary-80 {
+  background-color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+}
+
+@utility bg-accent-50 {
+  background-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+}
+
+@utility ring-ring-50 {
+  --tw-ring-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
+}
+
+@utility ring-destructive-20 {
+  --tw-ring-color: color-mix(in srgb, var(--color-destructive) 20%, transparent);
+}
+@utility ring-destructive-40 {
+  --tw-ring-color: color-mix(in srgb, var(--color-destructive) 40%, transparent);
 }
 
 @layer base {
@@ -172,12 +243,13 @@
 
 @layer base {
   /* DARK MODE (DEFAULT IDENTITY) */
-  :root, .dark {
+  :root {
     /* Backgrounds */
     --color-background: #09090b;
-    --color-surface: rgba(15, 15, 25, 0.5);
-    --color-surface-elevated: rgba(20, 12, 40, 0.5);
-    --color-surface-translucent: color-mix(in srgb, rgba(20, 12, 40, 0.5) 88%, #09090b);
+    --color-surface: rgba(24, 24, 27, 0.55);
+    --color-surface-elevated: #131316;
+    --color-surface-hover: rgba(39, 39, 42, 0.7);
+    --color-surface-translucent: color-mix(in srgb, #131316 88%, #09090b);
     --color-overlay: rgba(0, 0, 0, 0.6);
     
     /* Text */
@@ -190,20 +262,14 @@
     /* Borders */
     --color-border: rgba(255, 255, 255, 0.06);
     --color-border-subtle: rgba(255, 255, 255, 0.03);
-    --color-border-focus: #7c3aed;
+    --color-border-focus: #5e6ad2;
 
     /* Brand */
-    --color-brand-primary: #7c3aed;
+    --color-brand-primary: #5e6ad2;
     --color-brand-hover: #4f46e5;
-    --color-brand-soft: rgba(124, 58, 237, 0.15);
-    --color-brand-surface: rgba(124, 58, 237, 0.08);
-    --color-brand-light: #a78bfa;
-
-    /* Warm Accent — for key CTAs and highlights */
-    --color-accent-warm: #f59e0b;
-    --color-accent-warm-soft: rgba(245, 158, 11, 0.15);
-    --color-accent-warm-surface: rgba(245, 158, 11, 0.08);
-    --color-accent-warm-light: #fbbf24;
+    --color-brand-soft: rgba(94, 106, 210, 0.16);
+    --color-brand-surface: rgba(94, 106, 210, 0.08);
+    --color-brand-light: #9ea2f2;
 
     /* Semantics / Status */
     --color-success: #4ade80;
@@ -230,15 +296,12 @@
     --color-surface-bar: #0e0d18;
 
     /* Gradients */
-    --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
-  --color-surface-muted: hsl(210, 12%, 15%); /* dark muted gray */
-  --color-border-muted: hsl(210, 12%, 20%);
-    --gradient-hero: radial-gradient(circle at top, rgba(124, 58, 237, 0.12), transparent 70%);
-    --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.25), rgba(79, 70, 229, 0.06));
-    --gradient-surface: linear-gradient(165deg, rgba(18,16,28,0.55) 0%, rgba(12,10,22,0.6) 50%, rgba(22,16,38,0.5) 100%);
-    --gradient-headline: linear-gradient(135deg, #e0e7ff 0%, #c4b5fd 30%, #ddd6fe 55%, #fbbf24 100%);
-    --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    --gradient-divider: linear-gradient(90deg, transparent, rgba(124,58,237,0.25) 25%, rgba(245,158,11,0.15) 50%, rgba(124,58,237,0.25) 75%, transparent);
+    --gradient-brand: linear-gradient(135deg, #5e6ad2 0%, #4f46e5 100%);
+    --gradient-hero-spotlight: radial-gradient(ellipse, rgba(94,106,210,0.12) 0%, transparent 70%);
+    --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.3), rgba(79, 70, 229, 0.08));
+    --gradient-surface: linear-gradient(165deg, rgba(24,24,27,0.55) 0%, rgba(19,19,22,0.6) 50%, #131316 100%);
+    --gradient-headline: linear-gradient(135deg, #fafafa 0%, #d6d8f5 45%, #9ea2f2 100%);
+    --gradient-divider: linear-gradient(90deg, transparent, rgba(124,58,237,0.3) 25%, rgba(124,58,237,0.2) 75%, transparent);
     --gradient-whatsapp: linear-gradient(135deg, #25d366, #128c7e);
 
     /* Platforms (Static) */
@@ -270,8 +333,8 @@
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
     --shadow-elevated: 0 8px 32px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    --shadow-glow: 0 0 12px rgba(124, 58, 237, 0.3);
-    --shadow-brand: 0 8px 24px -4px rgba(124, 58, 237, 0.4);
+    --shadow-glow: 0 0 12px rgba(94, 106, 210, 0.3);
+    --shadow-brand: 0 8px 24px -4px rgba(94, 106, 210, 0.4);
     --shadow-brand-glow: 0 0 0 3px var(--color-brand-soft), var(--shadow-brand);
     --shadow-whatsapp: 0 4px 14px rgba(37,211,102,0.3);
     --shadow-danger: 0 4px 14px rgba(239, 68, 68, 0.25);
@@ -372,11 +435,20 @@
     --textarea-max-h: 360px;
     --dropdown-max-h: 220px;
 
+    --orb-size-xs: 250px;
+    --orb-size-sm: 350px;
+    --orb-size-md: 550px;
+    --orb-size-lg: 600px;
+    --orb-size-xl: 700px;
+    --orb-size-2xl: 900px;
+
     --blur-sm: 4px;
     --blur-md: 12px;
     --blur-lg: 24px;
     --blur-xl: 50px;
     --blur-2xl: 60px;
+    --blur-3xl: 100px;
+    --blur-orb: 80px;
 
     /* Z-Index */
     --z-base: 1;
@@ -392,6 +464,11 @@
     --transition-fast: all 0.15s ease;
     --transition-normal: all 0.25s ease;
     --transition-slow: all 0.4s ease;
+
+    /* Opacity */
+    --opacity-subtle: 0.4;
+    --opacity-muted: 0.7;
+    --opacity-faint: 0.9;
   }
 
   /* LIGHT MODE (SEMANTIC COPY) */
@@ -399,7 +476,9 @@
     --color-background: #ffffff;
     --color-surface: #f8fafc;
     --color-surface-elevated: #ffffff;
+    --color-surface-hover: #f1f5f9;
     --color-surface-translucent: rgba(255, 255, 255, 0.9);
+    --color-surface-bar: #ffffff;
     --color-overlay: rgba(15, 23, 42, 0.4);
     
     --color-foreground: #0f172a;
@@ -410,19 +489,13 @@
 
     --color-border: #e2e8f0;
     --color-border-subtle: #f1f5f9;
-    --color-border-focus: #7c3aed;
+    --color-border-focus: #5e6ad2;
 
-    --color-brand-primary: #7c3aed;
-    --color-brand-hover: #6d28d9;
-    --color-brand-soft: rgba(124, 58, 237, 0.1);
-    --color-brand-surface: rgba(124, 58, 237, 0.04);
-    --color-brand-light: #7c3aed;
-
-    /* Warm Accent — light mode */
-    --color-accent-warm: #d97706;
-    --color-accent-warm-soft: rgba(217, 119, 6, 0.1);
-    --color-accent-warm-surface: rgba(217, 119, 6, 0.04);
-    --color-accent-warm-light: #b45309;
+    --color-brand-primary: #5e6ad2;
+    --color-brand-hover: #4f46e5;
+    --color-brand-soft: rgba(94, 106, 210, 0.12);
+    --color-brand-surface: rgba(94, 106, 210, 0.05);
+    --color-brand-light: #4f46e5;
 
     --color-success: #16a34a;
     --color-success-surface: rgba(22, 163, 74, 0.08);
@@ -439,20 +512,22 @@
     --focus-ring: 0 0 0 3px var(--color-brand-surface);
     --highlight-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 
-    --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
-    --gradient-warm: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-    --gradient-hero: radial-gradient(circle at top, rgba(124, 58, 237, 0.06), transparent 70%);
-    --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.12), rgba(79, 70, 229, 0.03));
-    --gradient-surface: linear-gradient(165deg, #ffffff 0%, #fafaf9 50%, #f5f5f4 100%);
-    --gradient-headline: linear-gradient(135deg, #1e1b4b 0%, #4338ca 35%, #7c3aed 65%, #d97706 100%);
+    --gradient-brand: linear-gradient(135deg, #5e6ad2 0%, #4f46e5 100%);
+    --gradient-hero-spotlight: radial-gradient(ellipse, rgba(94,106,210,0.10) 0%, transparent 70%);
+    --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.15), rgba(79, 70, 229, 0.05));
+    --gradient-surface: linear-gradient(165deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+    --gradient-headline: linear-gradient(135deg, #4c1d95 0%, #6d28d9 45%, #7c3aed 100%);
+    --gradient-divider: linear-gradient(90deg, transparent, rgba(124,58,237,0.3) 25%, rgba(124,58,237,0.2) 75%, transparent);
+    --gradient-whatsapp: linear-gradient(135deg, #25d366, #128c7e);
 
     --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     --shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    --shadow-glow: 0 0 12px rgba(124, 58, 237, 0.15);
-    --shadow-brand: 0 8px 24px -4px rgba(124, 58, 237, 0.25);
+    --shadow-glow: 0 0 12px rgba(94, 106, 210, 0.15);
+    --shadow-brand: 0 8px 24px -4px rgba(94, 106, 210, 0.25);
     --shadow-brand-glow: 0 0 0 3px var(--color-brand-soft), var(--shadow-brand);
     --shadow-whatsapp: 0 4px 14px rgba(37,211,102,0.15);
     --shadow-danger: 0 4px 14px rgba(220, 38, 38, 0.15);
+    --shadow-sticky-bar: 0 -4px 20px rgba(15, 23, 42, 0.08);
   }
 }
 
@@ -470,6 +545,7 @@
   /* When page is LTR (English), apply smaller font sizes
      so English Inter aligns visually with Arabic IBM Plex */
   [dir="ltr"] {
+    --font-sans: var(--font-inter), "Inter", sans-serif;
     --text-xs:   var(--ltr-text-xs);
     --text-sm:   var(--ltr-text-sm);
     --text-base: var(--ltr-text-base);
@@ -499,6 +575,11 @@
   100% { background-position: 200% 0; }
 }
 
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -511,10 +592,10 @@
 }
 
 /* ── Generator textarea ── */
-#raw-input::placeholder {
+.raw-input::placeholder {
   color: var(--color-foreground-tertiary);
 }
-#raw-input::-webkit-scrollbar {
+.raw-input::-webkit-scrollbar {
   display: none;
 }
 
@@ -546,10 +627,17 @@
    variant needs a different background or border color. */
 .glass-card {
   background: var(--gradient-surface);
-  backdrop-filter: blur(var(--blur-xl)) saturate(170%);
-  -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(170%);
+  backdrop-filter: blur(var(--blur-2xl)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--blur-2xl)) saturate(180%);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-elevated);
+}
+
+/* ── Generator settings card — hover glow like CTA card ── */
+.generator-card:hover {
+  border-color: var(--color-brand-soft);
+  box-shadow: var(--shadow-brand-glow);
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 /* ── ConversionCTA card & social proof pill ── */
@@ -644,77 +732,18 @@
   }
 }
 
-/* ── Shared keyframes ── */
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── RTL utilities ── */
-html[dir='ltr'] .rtl-flip {
-  transform: rotate(180deg);
-}
-
-/* ── CTA form layout ── */
-.cta-form-layout {
-  display: flex;
-  gap: var(--space-2-5);
-  width: 100%;
-}
-
-@media (max-width: 640px) {
-  .cta-form-layout {
-    flex-direction: column;
+/* ── Accessibility: honor reduced-motion ──
+   Single principled !important: kills ambient/entrance animation for users
+   who request reduced motion. Status spinners keep one iteration. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-/* ── Showcase panel mobile ── */
-@media (max-width: 640px) {
-  .showcase-panel {
-    grid-template-columns: 1fr !important;
-  }
-  .platform-label {
-    display: none !important;
-  }
-  .showcase-panel > div:first-child {
-    border-inline-end: none !important;
-    border-bottom: 1px solid var(--color-border) !important;
-    padding: var(--space-4) !important;
-  }
-  .platforms-list::-webkit-scrollbar {
-    display: none;
-  }
-  .platforms-list {
-    flex-direction: row !important;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    gap: var(--space-2) !important;
-  }
-}
 
-/* ── Generator scrollbar hide ── */
-div::-webkit-scrollbar {
-  display: none;
-}
 
-/* ── HowItWorks responsive ── */
-@media (min-width: 768px) {
-  .md-connector { display: block !important; }
-}
-@media (max-width: 767px) {
-  .how-it-works-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ── ContentGenerator animations ── */
-@keyframes cg-ring-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-@keyframes cg-icon-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--color-brand-soft), var(--shadow-brand); }
-  50%       { box-shadow: 0 0 0 10px transparent, var(--shadow-brand); }
-}
-@keyframes cg-card-glow {
-  0%, 100% { opacity: 0.45; }
-  50%       { opacity: 0.9; }
-}
