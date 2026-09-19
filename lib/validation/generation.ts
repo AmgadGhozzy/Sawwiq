@@ -1,9 +1,9 @@
 // ---------------------------------------------------------------------------
-// Validation Schemas — Zod schemas for input and output validation
+// Validation Schemas - Zod schemas for input and output validation
 //
 // The output schema is the SINGLE SOURCE OF TRUTH for the content contract.
 // The Gemini provider derives its responseSchema from the shared field
-// descriptions exported here — never define them independently.
+// descriptions exported here - never define them independently.
 // ---------------------------------------------------------------------------
 
 import { z } from "zod";
@@ -16,13 +16,13 @@ import { aiConfig } from "@/lib/config";
 
 const baseGenerateInputSchema = z.object({
   platform: z.enum(PLATFORMS, {
-    errorMap: () => ({ message: "المنصة غير صحيحة." }),
+    errorMap: () => ({ message: "المنصة غير صالحة." }),
   }),
   contentType: z.enum(CONTENT_TYPES, {
-    errorMap: () => ({ message: "نوع المحتوى غير صحيح." }),
+    errorMap: () => ({ message: "نوع المحتوى غير صالح." }),
   }),
   arabicStyle: z.enum(ARABIC_STYLES, {
-    errorMap: () => ({ message: "أسلوب اللغة غير صحيح." }),
+    errorMap: () => ({ message: "اللهجة العربية غير صالحة." }),
   }),
   marketingObjective: z.string().optional(),
   format: z.string().optional(),
@@ -39,10 +39,10 @@ const baseGenerateInputSchema = z.object({
   rawInput: z
     .string()
     .trim()
-    .min(10, "المحتوى قصير جدًا. اكتب على الأقل 10 أحرف.")
+    .min(10, "المدخلات قصيرة جداً. يرجى كتابة 10 حروف على الأقل.")
     .max(
       aiConfig.maxInputLength,
-      `المحتوى طويل جدًا. الحد الأقصى ${aiConfig.maxInputLength} حرف.`
+      `المدخلات طويلة جداً. الحد الأقصى هو ${aiConfig.maxInputLength} حرف.`
     ),
 });
 
@@ -52,6 +52,7 @@ export const generateInputSchema = z.discriminatedUnion("mode", [
     tone: z.string().optional(),
     copyFramework: z.string().optional(),
     keyMessage: z.string().optional(),
+    language: z.enum(["ar", "en", "bilingual"]).optional(),
   }),
   baseGenerateInputSchema.extend({
     mode: z.literal("creator"),
@@ -72,18 +73,18 @@ export const generateInputSchema = z.discriminatedUnion("mode", [
 export type GenerateInputDTO = z.infer<typeof generateInputSchema>;
 
 // ---------------------------------------------------------------------------
-// Content Field Descriptions — shared between Zod and Gemini schemas
+// Content Field Descriptions - shared between Zod and Gemini schemas
 //
 // If you add a field here, add it to generatedContentSchema below AND
 // handle its type in the Gemini schema derivation in gemini.ts.
 // ---------------------------------------------------------------------------
 
 export const CONTENT_FIELD_DESCRIPTIONS = {
-  title: "عنوان جذاب وقصير",
-  hook: "جملة افتتاحية تشد الانتباه",
-  body: "المحتوى الرئيسي",
-  callToAction: "دعوة واضحة للعمل",
-  hashtags: "هاشتاغات مرتبطة بالموضوع",
+  title: "عنوان ملفت للنظر",
+  hook: "جملة افتتاحية لشد الانتباه",
+  body: "المحتوى الأساسي",
+  callToAction: "جملة الحث على اتخاذ إجراء",
+  hashtags: "الهاشتاجات (مصفوفة نصوص)",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -96,18 +97,18 @@ export const CONTENT_FIELD_DESCRIPTIONS = {
 
 export const generatedContentSchema = z.object({
   title: z.string().min(1, "العنوان مطلوب."),
-  hook: z.string().min(1, "الـ Hook مطلوب."),
+  hook: z.string().min(1, "نص Hook مطلوب."),
   body: z.string().min(1, "المحتوى مطلوب."),
-  callToAction: z.string().min(1, "دعوة العمل مطلوبة."),
+  callToAction: z.string().min(1, "جملة الحث مطلوبة."),
   hashtags: z
     .array(z.string().min(1))
-    .max(8, "الحد الأقصى 8 هاشتاغات.")
+    .max(8, "الحد الأقصى 8 هاشتاجات.")
     .refine(
       (tags) => tags.every((tag) => !tag.includes("#")),
-      "الهاشتاغات يجب ألا تحتوي على #"
+      "الهاشتاجات يجب ألا تبدأ برمز #"
     )
     .refine(
       (tags) => new Set(tags.map((t) => t.trim())).size === tags.length,
-      "الهاشتاغات يجب ألا تكون مكررة"
+      "الهاشتاجات يجب أن تكون فريدة"
     ),
 });
