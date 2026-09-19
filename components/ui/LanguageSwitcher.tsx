@@ -3,6 +3,7 @@
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { Globe } from "lucide-react";
+import IconButton from "@/components/ui/IconButton";
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
@@ -15,36 +16,12 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <button
+    <IconButton
       onClick={handleSwitch}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "var(--control-h-lg)",
-        height: "var(--control-h-lg)",
-        borderRadius: "var(--radius-circle)",
-        background: "var(--color-surface)",
-        border: "1px solid var(--color-border)",
-        cursor: "pointer",
-        color: "var(--color-foreground-secondary)",
-        transition: "var(--transition-normal)",
-        boxShadow: "var(--shadow-sm)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = "var(--color-surface-elevated)";
-        e.currentTarget.style.color = "var(--color-foreground)";
-        e.currentTarget.style.transform = "scale(1.05)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = "var(--color-surface)";
-        e.currentTarget.style.color = "var(--color-foreground-secondary)";
-        e.currentTarget.style.transform = "scale(1)";
-      }}
-      title={locale === "ar" ? "English" : "العربية"}
       aria-label={locale === "ar" ? "English" : "العربية"}
-    >
-      <Globe size={18} />
-    </button>
+      title={locale === "ar" ? "English" : "العربية"}
+      size="lg"
+      icon={<Globe size={18} />}
+    />
   );
 }

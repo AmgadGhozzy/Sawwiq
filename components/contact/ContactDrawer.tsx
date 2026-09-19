@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowUpRight, Mail, MessageCircle } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
+import IconButton from "@/components/ui/IconButton";
 
 // ---------------------------------------------------------------------------
 // ContactDrawer — glassmorphism bottom-sheet / centered floating panel
@@ -27,7 +28,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const founderName = isRTL ? FOUNDER_NAME_AR : FOUNDER_NAME_EN;
 
-  // ── Keyboard: ESC to close ──
+  // Escape closes
   useEffect(() => {
     if (!open) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -37,7 +38,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
     return () => document.removeEventListener("keydown", handleKey);
   }, [open, onClose]);
 
-  // ── Lock body scroll ──
+  // Lock body scroll
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -47,7 +48,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
     };
   }, [open]);
 
-  // ── Focus panel when opened ──
+  // Focus panel on open
   useEffect(() => {
     if (open && panelRef.current) {
       panelRef.current.focus();
@@ -58,7 +59,6 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
     <AnimatePresence>
       {open && (
         <>
-          {/* ── Backdrop ── */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -76,7 +76,6 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
             }}
           />
 
-          {/* ── Floating Panel ── */}
           <motion.div
             ref={panelRef}
             tabIndex={-1}
@@ -110,10 +109,10 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 top: "-60px",
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: "550px",
-                height: "200px",
+                width: "var(--orb-size-md)",
+                height: "var(--orb-size-xs)",
                 borderRadius: "var(--radius-circle)",
-                background: "radial-gradient(ellipse, rgba(109,40,217,0.05) 0%, transparent 70%)",
+                background: "var(--gradient-hero-spotlight)",
                 filter: "blur(var(--blur-lg))",
                 pointerEvents: "none",
               }}
@@ -133,33 +132,20 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
               }}
             />
 
-            {/* ── Close button ── */}
-            <button
+            <IconButton
               onClick={onClose}
               aria-label={t("close")}
+              variant="brandSoft"
+              size="sm"
+              icon={<X size={15} />}
               style={{
                 position: "absolute",
                 top: "var(--space-4)",
                 [isRTL ? "left" : "right"]: "var(--space-4)",
-                width: "var(--space-8)",
-                height: "var(--space-8)",
-                borderRadius: "var(--radius-md)",
-                background: "var(--color-brand-surface)",
-                border: "1px solid var(--color-border)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                color: "var(--color-foreground-secondary)",
-                transition: "var(--transition-normal)",
-                fontFamily: "inherit",
                 zIndex: 2,
               }}
-            >
-              <X size={15} />
-            </button>
+            />
 
-            {/* ── Content ── */}
             <div
               style={{
                 position: "relative",
@@ -184,7 +170,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     background: "var(--color-brand-surface)",
                     backdropFilter: "blur(var(--blur-md))",
                     WebkitBackdropFilter: "blur(var(--blur-md))",
-                    border: "none",
+                    border: "1px solid var(--color-brand-soft)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -239,7 +225,6 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                 </p>
               </div>
 
-              {/* ── Contact Buttons ── */}
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
                 {/* WhatsApp — Primary CTA */}
                 <motion.a
@@ -274,7 +259,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                       boxShadow: "var(--shadow-whatsapp)",
                     }}
                   >
-                    <MessageCircle size={18} color="white" />
+                    <MessageCircle size={18} color="var(--color-foreground-inverse)" />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p
@@ -300,14 +285,14 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   <ArrowUpRight
                     size={16}
                     color="var(--color-whatsapp)"
-                    style={{ flexShrink: 0, opacity: 0.7 }}
+                    style={{ flexShrink: 0, opacity: "var(--opacity-muted)" }}
                   />
                 </motion.a>
 
                 {/* Email — Secondary CTA */}
                 <motion.a
                   href={`mailto:${EMAIL}`}
-                  whileHover={{ y: -2, boxShadow: "var(--shadow-brand)" }}
+                  whileHover={{ y: -2, boxShadow: "0 4px 18px color-mix(in srgb, var(--color-brand-primary) 30%, transparent)" }}
                   whileTap={{ scale: 0.98 }}
                   style={{
                     display: "flex",
@@ -315,8 +300,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     gap: "var(--space-3)",
                     padding: "var(--space-3-5) var(--space-4-5)",
                     borderRadius: "var(--radius-lg)",
-                    background: "var(--color-brand-surface)",
-                    border: "1px solid var(--color-brand-soft)",
+                    background: "linear-gradient(135deg, color-mix(in srgb, var(--color-brand-primary) 18%, transparent), color-mix(in srgb, var(--color-brand-hover) 8%, transparent))",
+                    border: "1px solid color-mix(in srgb, var(--color-brand-light) 25%, transparent)",
                     textDecoration: "none",
                     cursor: "pointer",
                     transition: "var(--transition-normal)",
@@ -335,7 +320,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                       flexShrink: 0,
                     }}
                   >
-                    <Mail size={18} color="white" />
+                    <Mail size={18} color="var(--color-foreground-inverse)" />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p
@@ -351,7 +336,7 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                     <p
                       style={{
                         fontSize: "var(--text-xs)",
-                        color: "var(--color-foreground-tertiary)",
+                        color: "var(--color-foreground-secondary)",
                         margin: "var(--space-0-5) 0 0",
                       }}
                     >
@@ -360,8 +345,8 @@ export default function ContactDrawer({ open, onClose }: ContactDrawerProps) {
                   </div>
                   <ArrowUpRight
                     size={16}
-                    color="var(--color-brand-primary)"
-                    style={{ flexShrink: 0, opacity: 0.7 }}
+                    color="var(--color-brand-light)"
+                    style={{ flexShrink: 0, opacity: "var(--opacity-faint)" }}
                   />
                 </motion.a>
               </div>
