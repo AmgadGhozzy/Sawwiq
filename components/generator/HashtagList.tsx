@@ -60,7 +60,7 @@ export default function HashtagList({ hashtags, onCopy }: HashtagListProps) {
             title={t("clickToCopy")}
             style={{
               display: "inline-flex", alignItems: "center",
-              padding: "var(--space-1-5) var(--space-3-5)", borderRadius: "var(--radius-full)",
+              padding: "var(--space-1-5) var(--space-4)", borderRadius: "var(--radius-full)",
               background: copiedIndex === index
                 ? "var(--color-success-surface)"
                 : "var(--color-brand-surface)",

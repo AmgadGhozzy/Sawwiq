@@ -1,19 +1,20 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import type { GeneratedContent } from "@/types/content";
-import { RefreshCw, PenLine, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { PenLine, Quote, ChevronLeft, ChevronRight, Edit2, RotateCcw } from "lucide-react";
 import HashtagList from "./HashtagList";
 import CopyButton from "@/components/ui/CopyButton";
-import CtaButton from "@/components/ui/CtaButton";
+import Button from "@/components/ui/Button";
+import PostEditor from "./PostEditor";
 import { getTracker } from "@/lib/analytics/tracker";
 import { useTranslations, useLocale } from "next-intl";
 import type { Variants } from "framer-motion";
 
 interface GenerationResultProps {
   content: GeneratedContent;
-  onRegenerate: () => void;
+  onRegenerate?: () => void; // kept for parent compat but unused here
   onStartOver: () => void;
   loading: boolean;
   isHistoryView?: boolean;
@@ -38,13 +39,16 @@ const itemVariants: Variants = {
 };
 
 export default function GenerationResult({
-  content, onRegenerate, onStartOver, loading,
+  content, onStartOver, loading,
   isHistoryView, onNextHistory, onPrevHistory, hasNextHistory, hasPrevHistory,
 }: GenerationResultProps) {
   const t = useTranslations("GenerationResult");
   const locale = useLocale();
   const isRTL = locale === "ar";
   const tracker = getTracker();
+
+  const [editedContent, setEditedContent] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleSectionCopy = useCallback(() => {
     tracker.track("section_copied");
@@ -57,6 +61,8 @@ export default function GenerationResult({
     content.callToAction, "",
     content.hashtags.map((tag) => `#${tag}`).join(" "),
   ].join("\n");
+
+  const copyContent = editedContent ?? fullContent;
 
   const handleCopyAll = useCallback(() => {
     tracker.track("content_copied");
@@ -76,12 +82,10 @@ export default function GenerationResult({
         boxShadow: "var(--shadow-card)",
       }}
     >
-      {/* ── Header ── */}
       <motion.div variants={itemVariants} className="gr-header">
-        {/* Status pill */}
         <div style={{
           display: "inline-flex", alignItems: "center", gap: "var(--space-1-5)",
-          padding: "var(--space-1-5) var(--space-3)",
+          padding: "var(--space-1-5) var(--space-4)",
           borderRadius: "var(--radius-full)",
           background: "var(--color-brand-surface)",
           border: "1px solid var(--color-brand-soft)",
@@ -100,11 +104,10 @@ export default function GenerationResult({
             fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-bold)",
             color: "var(--color-brand-primary)", whiteSpace: "nowrap",
           }}>
-            {t("readyContent")}
+            {editedContent ? t("edited") : t("readyContent")}
           </span>
         </div>
 
-        {/* Actions */}
         <div className="gr-actions">
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-0-5)", background: "var(--color-brand-surface)", borderRadius: "var(--radius-full)", padding: "var(--space-1)", border: "1px solid var(--color-border)" }}>
             <motion.button
@@ -142,10 +145,29 @@ export default function GenerationResult({
             </motion.button>
           </div>
 
-          {/* Copy all button */}
+          <motion.button
+            onClick={() => setIsEditing(true)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              display: "flex", alignItems: "center", gap: "var(--space-1-5)",
+              padding: "var(--space-1-5) var(--space-4)",
+              borderRadius: "var(--radius-full)",
+              background: "transparent",
+              border: "1px solid var(--color-border)",
+              color: "var(--color-foreground)",
+              fontWeight: "var(--font-weight-bold)",
+              cursor: "pointer",
+              fontSize: "var(--text-sm)",
+            }}
+          >
+            <Edit2 size={14} />
+            {t("edit")}
+          </motion.button>
+
           <CopyButton
             variant="pill"
-            getText={() => fullContent}
+            getText={() => copyContent}
             label={t("copyAll")}
             copiedLabel={t("copied")}
             onCopied={handleCopyAll}
@@ -156,7 +178,6 @@ export default function GenerationResult({
       {/* ── Content ── */}
       <div style={{ padding: "var(--space-6) var(--space-5)", display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
 
-        {/* Title */}
         <motion.h2
           variants={itemVariants}
           style={{
@@ -169,7 +190,6 @@ export default function GenerationResult({
           {content.title}
         </motion.h2>
 
-        {/* Divider */}
         <motion.div variants={itemVariants} style={{
           height: "1px",
           background: "var(--gradient-divider)",
@@ -177,7 +197,6 @@ export default function GenerationResult({
           marginBlock: "calc(var(--space-1) * -1)",
         }} />
 
-        {/* Hook */}
         <motion.div
           variants={itemVariants}
           style={{
@@ -201,7 +220,6 @@ export default function GenerationResult({
           </p>
         </motion.div>
 
-        {/* Body */}
         <motion.p
           variants={itemVariants}
           style={{
@@ -213,7 +231,6 @@ export default function GenerationResult({
           {content.body}
         </motion.p>
 
-        {/* CTA */}
         <motion.div
           variants={itemVariants}
           style={{
@@ -251,41 +268,45 @@ export default function GenerationResult({
           borderTopRightRadius: "var(--radius-xl)",
         }}
       >
-        {/* Regenerate */}
-        {!isHistoryView && (
-          <CtaButton
-            onClick={() => { tracker.track("regeneration_requested"); onRegenerate(); }}
+        {editedContent && (
+          <Button
+            onClick={() => setEditedContent(null)}
             disabled={loading}
-            style={{ flex: 1, opacity: loading ? 0.5 : 1 }}
+            variant="ghost"
+            size="lg"
+            style={{ flex: 1, opacity: loading ? "var(--opacity-subtle)" : 1 }}
           >
-            <RefreshCw size={18} />
-            {t("rewrite")}
-          </CtaButton>
+            <RotateCcw size={14} />
+            {t("reset")}
+          </Button>
         )}
 
-        {/* Start over */}
-        <motion.button
+        <Button
           onClick={onStartOver}
           disabled={loading}
-          whileHover={!loading ? { scale: 1.02 } : undefined}
-          whileTap={!loading ? { scale: 0.96 } : undefined}
-          style={{
-            flex: 1,
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-2)",
-            borderRadius: "var(--radius-lg)",
-            border: "1px solid var(--color-border)",
-            background: "transparent",
-            color: "var(--color-foreground-secondary)", fontWeight: "var(--font-weight-semibold)", fontSize: "var(--text-base)",
-            padding: "var(--space-3) var(--space-6)",
-            cursor: loading ? "not-allowed" : "pointer",
-            opacity: loading ? 0.5 : 1,
-            transition: "var(--transition-normal)", fontFamily: "inherit",
-          }}
+          variant="ghost"
+          size="lg"
+          style={{ flex: 1, opacity: loading ? "var(--opacity-subtle)" : 1 }}
         >
           <PenLine size={14} />
           {t("newContent")}
-        </motion.button>
+        </Button>
       </motion.div>
+
+      <PostEditor
+        isOpen={isEditing}
+        initialText={copyContent}
+        onClose={() => setIsEditing(false)}
+        onSave={(text) => {
+          setEditedContent(text);
+          setIsEditing(false);
+        }}
+        onSaveAndCopy={(text) => {
+          setEditedContent(text);
+          setIsEditing(false);
+          navigator.clipboard.writeText(text);
+        }}
+      />
     </motion.div>
   );
 }
