@@ -1,11 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Mail, Lock, Loader2, Check } from "lucide-react";
+import { Mail, Loader2, Check } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabase/client";
-import CtaButton from "@/components/ui/CtaButton";
+import { useTranslations } from "next-intl";
 import { getTracker } from "@/lib/analytics/tracker";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/shadcn/dialog";
+import { Input } from "@/components/shadcn/input";
+import { Button } from "@/components/shadcn/button";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,130 +22,114 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
-  const [tab, setTab] = useState<"signup" | "login">("signup");
+  const t = useTranslations("AuthModal");
+  const tErrors = useTranslations("Errors");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCheckEmail, setShowCheckEmail] = useState(false);
   const supabase = getSupabaseClient();
   const tracker = getTracker();
 
-  if (!isOpen) return null;
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!email) return;
     setLoading(true);
     setError(null);
 
     try {
-      if (tab === "signup") {
-        tracker.track("signup_started");
-        const { error: signUpErr } = await supabase.auth.signUp({
-          email,
-          password,
-          // redirectTo points to our PKCE callback that handles merge + bonus automatically
-          options: {
-            emailRedirectTo: `${window.location.origin}/api/auth/callback`,
-          },
-        });
+      tracker.track("login_started", { method: "magic_link" });
+      const { error: signInErr } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/api/auth/callback?returnTo=${encodeURIComponent(window.location.pathname)}`,
+        },
+      });
 
-        if (signUpErr) {
-          setError(signUpErr.message);
-          tracker.track("signup_failed", { error: signUpErr.message });
-        } else {
-          // Signup accepted → user must confirm email → callback handles merge
-          tracker.track("signup_verification_required", { email });
-          setShowCheckEmail(true);
-        }
+      if (signInErr) {
+        setError(signInErr.message);
+        tracker.track("login_failed", { method: "magic_link", error: signInErr.message });
       } else {
-        tracker.track("login_started");
-        const { data: { session }, error: signInErr } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (signInErr || !session) {
-          setError(signInErr?.message || "Login failed");
-          tracker.track("login_failed", { error: signInErr?.message ?? "no_session" });
-        } else {
-          // Login path: merge anonymous session and award bonus (idempotent)
-          const mergeRes = await fetch("/api/auth/merge-session", {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${session.access_token}`
-            }
-          });
-          const mergeData = (await mergeRes.json()) as { success: boolean; balance?: number; error?: string };
-          if (mergeData.success) {
-            tracker.track("login_completed", { balance: mergeData.balance });
-            window.dispatchEvent(new Event("refresh_credits"));
-            onSuccess();
-          } else {
-            setError(mergeData.error || "Failed to sync account");
-            tracker.track("login_failed", { error: mergeData.error ?? "merge_failed" });
-          }
-        }
+        tracker.track("signup_verification_required");
+        setShowCheckEmail(true);
       }
     } catch (err) {
-      setError("An unexpected error occurred.");
+      setError(tErrors("INTERNAL_ERROR"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError(null);
+    tracker.track("login_started", { provider: "google" });
+
+    try {
+      const { error: signInErr } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/api/auth/callback?returnTo=${encodeURIComponent(window.location.pathname)}`,
+        },
+      });
+
+      if (signInErr) {
+        setError(signInErr.message);
+        tracker.track("login_failed", { provider: "google", error: signInErr.message });
+      }
+    } catch (err) {
+      setError(tErrors("INTERNAL_ERROR"));
+      tracker.track("login_failed", { provider: "google", error: "unexpected_error" });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: "var(--z-modal)",
-      display: "flex", alignItems: "center", justifyContent: "center",
-      padding: "var(--space-4)",
-    }}>
-      <div 
-        style={{ position: "absolute", inset: 0, background: "rgba(0, 0, 0, 0.4)", backdropFilter: "blur(4px)" }} 
-        onClick={onClose}
-      />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 10 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 10 }}
-        className="glass-card"
-        style={{
-          position: "relative",
-          width: "100%", maxWidth: "400px",
-          padding: "var(--space-6)",
-          borderRadius: "var(--radius-2xl)",
-          display: "flex", flexDirection: "column", gap: "var(--space-4)",
-        }}
-      >
-        <button 
-          onClick={onClose}
-          style={{ position: "absolute", top: "var(--space-4)", right: "var(--space-4)", background: "transparent", border: "none", cursor: "pointer", color: "var(--color-foreground-secondary)" }}
-        >
-          <X size={20} />
-        </button>
-
-        <div style={{ textAlign: "center", marginBottom: "var(--space-2)" }}>
-          <h2 style={{ fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-bold)", margin: "0 0 var(--space-2)" }}>
-            {tab === "signup" ? "أنشئ حسابًا مجانيًا" : "تسجيل الدخول"}
-          </h2>
-          <p style={{ color: "var(--color-foreground-secondary)", fontSize: "var(--text-sm)", margin: 0 }}>
-            {tab === "signup" ? "للحصول على رصيد إضافي وحفظ شغلك." : "أهلاً بك مجددًا."}
-          </p>
-        </div>
+    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="glass-card max-w-[400px] rounded-2xl p-6 sm:max-w-[400px] sm:p-8">
+        <DialogHeader className="text-center sm:text-center">
+          <DialogTitle className="text-xl font-bold">{t("title")}</DialogTitle>
+          <DialogDescription>{t("subtitle")}</DialogDescription>
+        </DialogHeader>
 
         {showCheckEmail ? (
-          <div style={{ textAlign: "center", padding: "var(--space-4)" }}>
+          <div style={{ textAlign: "center" }}>
             <div style={{ display: "inline-flex", background: "var(--color-success-surface)", color: "var(--color-success)", padding: "var(--space-3)", borderRadius: "var(--radius-full)", marginBottom: "var(--space-4)" }}>
               <Check size={24} />
             </div>
-            <h3 style={{ fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-semibold)", margin: "0 0 var(--space-2)" }}>تحقق من بريدك الإلكتروني</h3>
+            <h3 style={{ fontSize: "var(--text-lg)", fontWeight: "var(--font-weight-semibold)", margin: "0 0 var(--space-2)" }}>{t("checkEmailTitle")}</h3>
             <p style={{ color: "var(--color-foreground-secondary)", fontSize: "var(--text-sm)" }}>
-              أرسلنا رابط التفعيل إلى {email}. اضغط عليه لتفعيل حسابك.
+              {t("checkEmailBody", { email })}
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
+          <>
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleGoogleLogin}
+                disabled={loading}
+                className="w-full"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                {t("continueWithGoogle")}
+              </Button>
+              
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+                <div style={{ flex: 1, height: "1px", background: "var(--color-border)" }} />
+                <span style={{ fontSize: "var(--text-xs)", color: "var(--color-foreground-secondary)" }}>{t("orDivider")}</span>
+                <div style={{ flex: 1, height: "1px", background: "var(--color-border)" }} />
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
             {error && (
               <div style={{ color: "var(--color-danger)", background: "var(--color-danger-surface)", padding: "var(--space-2) var(--space-3)", borderRadius: "var(--radius-md)", fontSize: "var(--text-sm)" }}>
                 {error}
@@ -145,56 +137,24 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
             )}
             
             <div style={{ position: "relative" }}>
-              <Mail size={16} color="var(--color-foreground-secondary)" style={{ position: "absolute", right: "var(--space-3)", top: "50%", transform: "translateY(-50%)" }} />
-              <input
+              <Mail size={16} color="var(--color-foreground-secondary)" style={{ position: "absolute", insetInlineStart: "var(--space-3)", top: "50%", transform: "translateY(-50%)" }} />
+              <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="البريد الإلكتروني"
+                placeholder={t("emailPlaceholder")}
                 required
-                style={{
-                  width: "100%", padding: "var(--space-2-5) var(--space-3) var(--space-2-5) var(--space-8)",
-                  background: "var(--color-background)", border: "1px solid var(--color-border)",
-                  borderRadius: "var(--radius-lg)", color: "var(--color-foreground)", fontSize: "var(--text-sm)"
-                }}
+                className="ps-8 pe-3"
               />
             </div>
 
-            <div style={{ position: "relative" }}>
-              <Lock size={16} color="var(--color-foreground-secondary)" style={{ position: "absolute", right: "var(--space-3)", top: "50%", transform: "translateY(-50%)" }} />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="كلمة المرور"
-                required
-                minLength={6}
-                style={{
-                  width: "100%", padding: "var(--space-2-5) var(--space-3) var(--space-2-5) var(--space-8)",
-                  background: "var(--color-background)", border: "1px solid var(--color-border)",
-                  borderRadius: "var(--radius-lg)", color: "var(--color-foreground)", fontSize: "var(--text-sm)"
-                }}
-              />
-            </div>
-
-            <CtaButton type="submit" disabled={loading} fullWidth>
-              {loading ? <Loader2 size={16} className="animate-spin" /> : (tab === "signup" ? "إنشاء حساب مجاني" : "دخول")}
-            </CtaButton>
-          </form>
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? <Loader2 size={16} className="animate-spin" /> : t("sendLink")}
+            </Button>
+            </form>
+          </>
         )}
-
-        {!showCheckEmail && (
-          <div style={{ textAlign: "center", marginTop: "var(--space-2)" }}>
-            <button 
-              onClick={() => setTab(tab === "signup" ? "login" : "signup")}
-              type="button"
-              style={{ background: "none", border: "none", color: "var(--color-brand-primary)", fontSize: "var(--text-sm)", cursor: "pointer", fontWeight: "var(--font-weight-medium)" }}
-            >
-              {tab === "signup" ? "لديك حساب بالفعل؟ تسجيل الدخول" : "ليس لديك حساب؟ إنشاء حساب مجاني"}
-            </button>
-          </div>
-        )}
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
