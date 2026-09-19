@@ -2,7 +2,16 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { DropdownPill } from "./ContextPills";
+import type { Control } from "react-hook-form";
+import type { GeneratorFormValues } from "../ContentGenerator";
+import { FormField, FormItem, FormLabel, FormControl } from "@/components/shadcn/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/shadcn/select";
 
 interface Option {
   value: string;
@@ -18,13 +27,14 @@ interface CreatorCustomizerProps {
   selectedOriginality: string;
   onOriginalityChange: (val: string) => void;
 
+  control: Control<GeneratorFormValues>;
   disabled?: boolean;
 }
 
 export function CreatorCustomizer({
   styles, selectedStyle, onStyleChange,
   originalityOptions, selectedOriginality, onOriginalityChange,
-  disabled
+  control, disabled
 }: CreatorCustomizerProps) {
   const t = useTranslations("GeneratorSettings");
 
@@ -33,21 +43,38 @@ export function CreatorCustomizer({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--space-2-5)",
-        padding: "var(--space-3)",
-        background: "var(--color-surface)",
-        borderRadius: "var(--radius-md)",
-        border: "1px solid var(--color-border)",
-        marginTop: "var(--space-1)",
+        gap: "var(--space-3)",
       }}
     >
       <div>
-        <DropdownPill 
-          label={t("styleLabel")} 
-          options={styles} 
-          value={selectedStyle} 
-          onChange={onStyleChange} 
-          disabled={disabled} 
+        <FormField
+          control={control}
+          name="style"
+          render={() => (
+            <FormItem className="gap-1">
+              <FormLabel className="text-xs font-bold uppercase tracking-[var(--tracking-caps)] text-foreground-secondary">
+                {t("styleLabel")}
+              </FormLabel>
+              <Select
+                value={selectedStyle}
+                onValueChange={onStyleChange}
+                disabled={disabled}
+              >
+                <FormControl>
+                  <SelectTrigger className="w-full bg-surface text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {styles.map((s) => (
+                    <SelectItem key={s.value} value={s.value} className="text-xs">
+                      {s.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
         />
       </div>
 
@@ -105,7 +132,7 @@ export function CreatorCustomizer({
                       borderRadius: "var(--radius-2xl)",
                       zIndex: -1,
                     }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
                   />
                 )}
               </button>
