@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans_Arabic } from "next/font/google";
-import { Inter } from "next/font/google";
+import { IBM_Plex_Sans_Arabic, Inter, Outfit } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
@@ -13,6 +12,8 @@ import JsonLd, {
 } from "@/components/seo/JsonLd";
 import ServiceWorkerRegistration from "@/components/pwa/ServiceWorkerRegistration";
 import { Analytics } from "@vercel/analytics/react";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import { DirectionProvider } from "@radix-ui/react-direction";
 
 export const viewport: Viewport = {
   themeColor: "#08080c",
@@ -33,6 +34,12 @@ const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+  variable: "--font-outfit",
 });
 
 export async function generateMetadata({
@@ -135,10 +142,7 @@ export default async function RootLayout({
 
   const messages = await getMessages();
   const dir = locale === "ar" ? "rtl" : "ltr";
-  const fontClass = locale === "ar" ? ibmPlexSansArabic.variable : inter.variable;
-  const fontFamily = locale === "ar" 
-    ? "var(--font-ibm-plex-sans-arabic), 'IBM Plex Sans Arabic', sans-serif"
-    : "var(--font-inter), 'Inter', sans-serif";
+  const fontClass = `${locale === "ar" ? ibmPlexSansArabic.variable : inter.variable} ${outfit.variable}`;
 
   // Structured data schemas
   const schemas = [
@@ -154,20 +158,14 @@ export default async function RootLayout({
           <JsonLd key={i} data={schema} />
         ))}
       </head>
-      <body
-        suppressHydrationWarning
-        style={{
-          minHeight: "100vh",
-          fontFamily,
-          margin: 0,
-          padding: 0,
-          WebkitFontSmoothing: "antialiased",
-          MozOsxFontSmoothing: "grayscale",
-        }}
-      >
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+      <body suppressHydrationWarning className="min-h-screen antialiased">
+        <DirectionProvider dir={dir}>
+          <AuthProvider>
+            <NextIntlClientProvider messages={messages}>
+              {children}
+            </NextIntlClientProvider>
+          </AuthProvider>
+        </DirectionProvider>
         <ServiceWorkerRegistration />
         <Analytics />
       </body>

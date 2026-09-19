@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Button from "@/components/ui/Button";
 
 export default function Error({
   error,
@@ -71,28 +72,12 @@ export default function Error({
       >
         {t("description")}
       </p>
-      <button
+      <Button
         onClick={reset}
-        style={{
-          padding: "var(--space-3) var(--space-6)",
-          borderRadius: "var(--radius-md)",
-          background: "var(--color-brand-primary)",
-          color: "var(--color-foreground-inverse)",
-          border: "none",
-          fontSize: "var(--text-base)",
-          fontWeight: "var(--font-weight-semibold)",
-          cursor: "pointer",
-          transition: "background var(--transition-fast)",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = "var(--color-brand-hover)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = "var(--color-brand-primary)";
-        }}
+        size="lg"
       >
         {t("retry")}
-      </button>
+      </Button>
     </div>
   );
 }
