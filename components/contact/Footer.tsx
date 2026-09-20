@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
+import Link from "next/link";
 import ContactDrawer from "./ContactDrawer";
 
 // ---------------------------------------------------------------------------
@@ -123,6 +124,28 @@ export default function Footer() {
             {t("footerCTA", { name: founderName })}
             <ArrowUpRight size={14} style={{ opacity: "var(--opacity-muted)" }} />
           </button>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "var(--space-4)",
+              marginTop: "var(--space-4)",
+              fontSize: "var(--text-xs)",
+              color: "var(--color-foreground-secondary)",
+            }}
+          >
+            <Link href={`/${locale}/terms`} className="hover:text-foreground transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
+              {locale === "ar" ? "الشروط والأحكام" : "Terms"}
+            </Link>
+            <Link href={`/${locale}/privacy`} className="hover:text-foreground transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
+              {locale === "ar" ? "سياسة الخصوصية" : "Privacy"}
+            </Link>
+            <Link href={`/${locale}/refund`} className="hover:text-foreground transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
+              {locale === "ar" ? "سياسة الاسترجاع" : "Refund Policy"}
+            </Link>
+          </div>
 
           <p
             style={{

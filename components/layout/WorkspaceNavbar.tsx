@@ -17,7 +17,7 @@ export default function WorkspaceNavbar() {
   const locale = useLocale();
 
   return (
-    <div className="sticky top-3 sm:top-4 z-[var(--z-navbar)] px-4">
+    <div className="sticky top-3 sm:top-4 z-[var(--z-navbar)] px-4 mb-2">
       <header className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-3 rounded-full border border-border bg-[color-mix(in_srgb,var(--color-surface-elevated)_60%,transparent)] px-4 shadow-elevated backdrop-blur-xl">
         {/* Logo + Wordmark */}
         <Link
