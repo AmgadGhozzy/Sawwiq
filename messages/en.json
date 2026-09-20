@@ -546,5 +546,31 @@
     "signOut": "Sign out",
     "signInLabel": "Sign in",
     "avatarLabel": "Avatar"
+  },
+  "Compliance": {
+    "privacyTitle": "Privacy Policy",
+    "privacyIntro": "Your privacy is our top priority. This policy explains how we collect, use, and protect your data when you use the Sawwiq platform.",
+    "privacyDataTitle": "Data We Collect",
+    "privacyDataText": "We only collect data necessary to operate your account, including: email address, User ID, and your generation history to allow you to retrieve previous content.",
+    "privacyUsageTitle": "Data Usage and Protection",
+    "privacyUsageText": "Your data and generation history are used exclusively to provide the service and improve your experience. We guarantee that we do not sell or share your personal data or generated copy with any third parties for advertising purposes.",
+    "privacyPaymentTitle": "Payment Information",
+    "privacyPaymentText": "We do not store or process any credit card data on our servers. All payments are processed securely through our authorized payment partner (Tap Payments).",
+    "termsTitle": "Terms and Conditions",
+    "termsIntro": "Welcome to Sawwiq. By using our services, you agree to be bound by the following terms and conditions.",
+    "termsServiceTitle": "Nature of Service",
+    "termsServiceText": "Sawwiq is an AI-powered tool designed to assist content creators and marketers in writing marketing and advertising copy in multiple Arabic dialects. The service is provided \"as is\" and output accuracy may vary based on user input.",
+    "termsIpTitle": "Intellectual Property",
+    "termsIpText": "Content generated using Sawwiq is fully owned by the user. Sawwiq grants you a broad commercial license to use, modify, and publish the generated copy in your marketing campaigns without any attribution requirement.",
+    "termsProhibitedTitle": "Prohibited Use",
+    "termsProhibitedText": "It is strictly prohibited to use the tool to generate offensive, defamatory, illegal political content, or fraudulent copy intended to mislead consumers. We reserve the right to suspend or ban accounts that violate our safe content policies immediately and without prior notice.",
+    "refundTitle": "Refund Policy",
+    "refundIntro": "At Sawwiq, we are committed to providing a transparent and fair experience for all our users. This refund policy outlines your rights regarding purchased credits.",
+    "refundConsumedTitle": "Consumed Credits",
+    "refundConsumedText": "Credits that have already been consumed to generate content are strictly non-refundable under any circumstances, as the service and AI resources have already been utilized.",
+    "refundUnusedTitle": "Unused Credits",
+    "refundUnusedText": "Users may request a full refund for entirely unused credit packages within 14 days of the purchase date. If any portion of the package has been used, the remaining balance is non-refundable.",
+    "refundProcessTitle": "How to Request a Refund",
+    "refundProcessText": "To submit a refund request, please contact us at refunds@sawwiq.com with your Charge ID and registered email address. Requests will be processed within 5-7 business days and refunded to the original payment method."
   }
 }
