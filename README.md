@@ -1,4 +1,4 @@
-# Sawwiq (سويّق) 🚀
+# Sawwiq (سَوِّق) 🚀
 
 <p align="center">
   <img src="public/logo.png" alt="Sawwiq Logo" width="120" />

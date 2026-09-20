@@ -50,5 +50,17 @@ scripts/benchmark-reports/
 # supabase cli local state
 supabase/.temp/
 
+# Agent / AI tooling — local only, never committed
+AGENTS.md
+opencode.json
+opencode.jsonc
+.opencode/
+.claude/
+CLAUDE.md
+.ignore
+
+# Local audit reports (regenerable, not committed)
+AUDIT_REPORT.md
+
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
