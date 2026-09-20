@@ -40,7 +40,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob: https://www.google-analytics.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co https://generativelanguage.googleapis.com https://www.google-analytics.com",
+      "connect-src 'self' https://*.supabase.co https://generativelanguage.googleapis.com https://www.google-analytics.com https://api.tap.company",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

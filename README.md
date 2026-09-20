@@ -80,7 +80,7 @@
    ```env
    # ── AI Provider ───────────────────────────────────────────
    GEMINI_API_KEY=your_gemini_api_key_here
-   GEMINI_MODEL=gemini-2.5-flash-lite          # optional override
+   GEMINI_MODEL=-flash-lite          # optional override
 
    # ── Supabase ──────────────────────────────────────────────
    NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co

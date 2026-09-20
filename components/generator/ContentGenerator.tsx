@@ -293,262 +293,98 @@ export default function ContentGenerator() {
           setRemainingGenerations(null);
         }}
       />
-      {/* ── Mobile Sticky Generate Bar ── */}
-      <div className="sticky-generate-bar md:hidden">
-          {apiError && (
-            <div
-              style={{
-                marginBottom: "var(--space-2)",
-                padding: "var(--space-2) var(--space-3)",
-                borderRadius: "var(--radius-md)",
-                background: "var(--color-danger-surface)",
-                border: "1px solid var(--color-danger-border)",
-                color: "var(--color-danger)",
-                fontSize: "var(--text-sm)",
-                fontWeight: "var(--font-weight-medium)",
-              }}
-              role="alert"
-            >
-              {apiError}
+            <Form {...methods}>
+            <div className="flex flex-col md:flex-row md:h-full min-h-0 w-full max-w-[1280px] mx-auto items-stretch gap-3 lg:gap-4 px-3 py-4 sm:px-4 sm:py-6 lg:px-6 lg:py-8">
+        {/* ────────────────── Sidebar ────────────────── */}
+        <div className="w-full md:w-[320px] lg:w-[380px] shrink-0 bg-surface border border-border rounded-2xl overflow-hidden flex flex-col min-h-0 z-20">
+          {/* Sidebar Header */}
+          <div className="flex items-start gap-4 p-5 border-b border-border shrink-0">
+            <div className="w-9 h-9 rounded-lg shrink-0 bg-brand-surface border border-brand-soft flex items-center justify-center">
+              <Wand2 size={16} color="var(--color-brand-primary)" />
             </div>
-          )}
-          {isLocked ? (
-            <Button type="button" onClick={() => setShowAuthModal(true)} fullWidth>
-              <Sparkles size={16} />
-              {t("lockedStateButton")}
-            </Button>
-          ) : (
-            <form onSubmit={handleSubmit(doGenerate)} style={{ margin: 0 }}>
-              <GenerateButton
-                loading={viewState === "loading"}
-                disabled={!isValid || viewState === "loading"}
-                hasResult={Boolean(result)}
-              />
-            </form>
-          )}
-        </div>
+            <div className="flex-1">
+              <div className="flex justify-between items-center gap-2">
+                <p className="text-base font-bold text-foreground m-0 tracking-snug">
+                  {t("settingsTitle")}
+                </p>
+                {remainingGenerations !== null && (
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="px-2 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap"
+                    style={{
+                      background: remainingGenerations > 0 ? "var(--color-brand-surface)" : "var(--color-danger-surface)",
+                      border: `1px solid ${remainingGenerations > 0 ? "var(--color-brand-soft)" : "var(--color-danger-border)"}`,
+                      color: remainingGenerations > 0 ? "var(--color-brand-light)" : "var(--color-danger)",
+                    }}
+                  >
+                    {remainingGenerations > 0 ? t("creditsRemaining", { count: remainingGenerations }) : t("zeroCredits")}
+                  </motion.div>
+                )}
+              </div>
+              <p className="text-xs text-foreground-tertiary m-0 mt-1">
+                {t("settingsSubtitle")}
+              </p>
+            </div>
+          </div>
 
-      <div className="flex flex-col lg:flex-row items-stretch gap-5 lg:gap-7 pb-12 md:pb-0">
-        {/* ────────────────── Settings Panel ────────────────── */}
-        <div className="w-full lg:w-[380px] shrink-0 relative z-50">
-          <div className="lg:sticky lg:top-8">
-            <motion.div
-              initial={{ opacity: 0, x: 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              className="generator-card glass-card md:max-h-[calc(100vh-80px)]"
-              style={{
-                borderRadius: "var(--radius-xl)",
-                display: "flex",
-                flexDirection: "column",
-                overflow: "hidden",
-                position: "relative",
-              }}
->
-              {/* Card Header */}
-              <div style={{
-                display: "flex", alignItems: "flex-start", gap: "var(--space-4)",
-                padding: "var(--space-4) var(--space-5)",
-                flexShrink: 0,
-                position: "relative",
-              }}>
-                {/* Fading Divider */}
-                <div style={{
-                  position: "absolute",
-                  bottom: 0, left: 0, right: 0,
-                  height: "1px",
-                  background: "linear-gradient(90deg, transparent 0%, var(--color-border) 50%, transparent 100%)",
-                }} />
-
-                {/* Icon */}
-                <div style={{
-                  width: "var(--space-9)", height: "var(--space-9)",
-                  borderRadius: "var(--radius-lg)", flexShrink: 0,
-                  background: "var(--gradient-brand)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: "var(--shadow-brand), var(--highlight-inset)",
-                }}>
-                  <Wand2 size={16} color="var(--color-foreground-inverse)" />
-                </div>
-
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--space-2)" }}>
-                    <p style={{
-                      fontSize: "var(--text-base)",
-                      fontWeight: "var(--font-weight-bold)",
-                      color: "var(--color-foreground)",
-                      margin: 0,
-                      letterSpacing: "var(--tracking-snug)",
-                    }}>
-                      {t("settingsTitle")}
-                    </p>
-
-                    {/* Credits badge */}
-                    {remainingGenerations !== null && (
-                      <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        style={{
-                          padding: "var(--space-0-5) var(--space-2)",
-                          borderRadius: "var(--radius-full)",
-                          background: remainingGenerations > 0 ? "var(--color-brand-surface)" : "var(--color-danger-surface)",
-                          border: `1px solid ${remainingGenerations > 0 ? "var(--color-brand-soft)" : "var(--color-danger-border)"}`,
-                          color: remainingGenerations > 0 ? "var(--color-brand-light)" : "var(--color-danger)",
-                          fontSize: "var(--text-2xs)",
-                          fontWeight: "var(--font-weight-bold)",
-                          whiteSpace: "nowrap" as const,
-                        }}
-                      >
-                        {remainingGenerations > 0 ? t("creditsRemaining", { count: remainingGenerations }) : t("zeroCredits")}
-                      </motion.div>
-                    )}
-                  </div>
-                  
-                  <p style={{
-                    fontSize: "var(--text-xs)",
-                    color: "var(--color-foreground-tertiary)",
-                    margin: 0,
-                    marginTop: "var(--space-1)",
-                  }}>
-                    {t("settingsSubtitle")}
-                  </p>
-                </div>
+          {/* Form & Settings */}
+<form onSubmit={handleSubmit(doGenerate)} className="flex flex-col flex-1 min-h-0 relative">
+              <div className="p-5 flex-1 min-h-0 md:overflow-y-auto flex flex-col gap-5">
+                <SettingsFields disabled={viewState === "loading" || isLocked} />
               </div>
 
-              {/* Form */}
-              <form onSubmit={handleSubmit(doGenerate)} style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0, position: "relative" }}>
-                <Form {...methods}>
-                <div className="p-3 pb-4 md:pb-24" style={{
-                  overflowY: "auto",
-                  overflowX: "hidden",
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                  flex: 1,
-                  minHeight: 0
-                }}>
-                  <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-                    <RawInputField disabled={viewState === "loading" || isLocked} />
-                    <SettingsFields disabled={viewState === "loading" || isLocked} />
-                  </div>
-                </div>
+              {/* Generate Button Container - Sticky in sidebar */}
+              <div className="sticky bottom-0 hidden md:flex flex-col p-5 border-t border-border bg-surface shrink-0 gap-3">
+                {apiError && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    className="px-3 py-2 rounded-md bg-danger-surface border border-danger-border text-danger text-sm font-medium"
+                    role="alert"
+                  >
+                    {apiError}
+                  </motion.div>
+                )}
 
-                {/* Desktop: Floating Generate Button Container */}
-                <div className="hidden md:flex md:flex-col" style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    padding: "var(--space-4)",
-                    zIndex: 20,
-                    gap: "var(--space-3)",
-                    background: "var(--color-surface-elevated)",
-                    borderRadius: "var(--radius-3xl) var(--radius-3xl) 0 0",
-                  }}>
-
-                    {apiError && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        style={{
-                          padding: "var(--space-2) var(--space-3)", borderRadius: "var(--radius-md)",
-                          background: "var(--color-danger-surface)", border: "1px solid var(--color-danger-border)",
-                          color: "var(--color-danger)", fontSize: "var(--text-sm)", fontWeight: "var(--font-weight-medium)",
-                        }}
-                        role="alert"
-                      >
-                        {apiError}
-                      </motion.div>
-                    )}
-
-                    {isLocked ? (
-                      <Button type="button" onClick={() => setShowAuthModal(true)} fullWidth>
-                        <Sparkles size={15} />
-                        {t("lockedStateButton")}
-                      </Button>
-                    ) : (
-                      <GenerateButton
-                        loading={viewState === "loading"}
-                        disabled={!isValid || viewState === "loading"}
-                        hasResult={Boolean(result)}
-                      />
-                    )}
-                  </div>
-              </Form>
-              </form>
-            </motion.div>
-          </div>
+                {isLocked ? (
+                  <Button type="button" onClick={() => setShowAuthModal(true)} fullWidth>
+                    <Sparkles size={15} />
+                    {t("lockedStateButton")}
+                  </Button>
+                ) : (
+                  <GenerateButton
+                    loading={viewState === "loading"}
+                    disabled={!isValid || viewState === "loading"}
+                    hasResult={Boolean(result)}
+                  />
+                )}
+</div>
+          </form>
         </div>
 
-        {/* ────────────────── Result Area ────────────────── */}
-        <div id="result-area" className="flex-1 min-w-0 w-full flex flex-col">
-          <AnimatePresence mode="wait">
+{/* ────────────────── Result Area ────────────────── */}
+<div id="result-area" className="flex-1 flex flex-col min-w-0 md:min-h-0 md:overflow-y-auto bg-surface border border-border rounded-2xl relative">
+          <div className="max-w-3xl mx-auto w-full p-4 md:p-8 flex flex-col gap-6 md:gap-8 pb-28 md:pb-10">
+            
+            {/* The Input Field (Moved to Canvas) */}
+            <RawInputField disabled={viewState === "loading" || isLocked} />
+
+            <AnimatePresence mode="wait">
             {/* ── Empty State ── */}
             {viewState === "empty" && (
               <motion.div
                 key="empty"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.97 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="glass-card"
-                style={{
-                  minHeight: "480px",
-                  flex: 1,
-                  display: "flex", flexDirection: "column",
-                  alignItems: "center", justifyContent: "center",
-                  borderRadius: "var(--radius-xl)",
-                  padding: "var(--space-12) var(--space-8)",
-                  textAlign: "center",
-                  gap: "var(--space-7)",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="flex flex-col items-center justify-center text-center p-8 md:p-16 gap-6 rounded-2xl border border-dashed border-border bg-fill-subtle"
+                style={{ minHeight: "360px" }}
               >
-                {/* Background radial glow */}
-                <div style={{
-                  position: "absolute",
-                  top: "50%", left: "50%",
-                  transform: "translate(-50%, -55%)",
-                  width: "340px", height: "340px",
-                  borderRadius: "var(--radius-circle)",
-                  background: "radial-gradient(circle, var(--color-brand-surface) 0%, transparent 68%)",
-                  pointerEvents: "none",
-                }} />
-
-                {/* Icon stack: static dashed ring + inner solid ring + icon */}
-                <div style={{ position: "relative", width: "100px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  {/* Static dashed outer ring */}
-                  <div style={{
-                    position: "absolute",
-                    inset: 0,
-                    borderRadius: "var(--radius-circle)",
-                    border: "1.5px dashed var(--color-brand-soft)",
-                  }} />
-                  {/* Static mid ring */}
-                  <div style={{
-                    position: "absolute",
-                    inset: "12px",
-                    borderRadius: "var(--radius-circle)",
-                    border: "1px solid var(--color-border)",
-                  }} />
-                  {/* Icon circle */}
-                  <motion.div
-                    initial={{ scale: 0.7, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring", stiffness: 220, damping: 14 }}
-                    style={{
-                      width: "52px", height: "52px",
-                      borderRadius: "var(--radius-circle)",
-                      background: "var(--gradient-brand)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      boxShadow: "var(--shadow-brand), var(--highlight-inset)",
-                    }}
-                  >
-                    <Zap size={22} color="var(--color-foreground-inverse)" />
-                  </motion.div>
+                <div className="w-14 h-14 rounded-full bg-brand-surface border border-brand-soft flex items-center justify-center">
+                  <Zap size={24} color="var(--color-brand-primary)" />
                 </div>
-
                 {/* Text */}
                 <div style={{ maxWidth: "380px", position: "relative" }}>
                   <motion.h3
@@ -591,7 +427,7 @@ export default function ContentGenerator() {
                       key={tag}
                       initial={{ opacity: 0, y: 12, scale: 0.88 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ delay: 0.38 + i * 0.09, type: "spring", stiffness: 220 }}
+                      transition={{ delay: 0.38 + i * 0.09, duration: 0.15, ease: "easeOut" }}
                       style={{
                         padding: "var(--space-1-5) var(--space-4)",
                         borderRadius: "var(--radius-full)",
@@ -644,9 +480,8 @@ export default function ContentGenerator() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.25 }}
-                className="glass-card"
-                style={{ borderRadius: "var(--radius-xl)", padding: "var(--space-7)", flex: 1, display: "flex", flexDirection: "column" }}
+                transition={{ duration: 0.15 }}
+                className="rounded-2xl p-7 flex flex-col bg-surface border border-border shadow-sm"
               >
                 <GenerationSkeleton />
               </motion.div>
@@ -659,7 +494,7 @@ export default function ContentGenerator() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
                 style={{ flex: 1, display: "flex", flexDirection: "column" }}
               >
                 <GenerationResult
@@ -684,32 +519,16 @@ export default function ContentGenerator() {
             {viewState === "locked" && (
               <motion.div
                 key="locked"
-                initial={{ opacity: 0, scale: 0.96 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-                className="glass-card"
-                style={{
-                  minHeight: "520px",
-                  display: "flex", flexDirection: "column",
-                  alignItems: "center", justifyContent: "center",
-                  borderRadius: "var(--radius-xl)",
-                  border: "1px solid var(--color-brand-soft)",
-                  padding: "var(--space-12) var(--space-8)", textAlign: "center", gap: "var(--space-5)",
-                }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="flex flex-col items-center justify-center rounded-2xl border border-brand-soft bg-surface p-12 text-center gap-5 shadow-sm"
+                style={{ minHeight: "360px" }}
               >
-                <div
-                  style={{
-                    width: "var(--space-20)", height: "var(--space-20)", borderRadius: "var(--radius-circle)",
-                    background: "var(--color-brand-surface)",
-                    border: "1px solid var(--color-brand-soft)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "0 0 0 var(--space-4) var(--color-brand-surface), var(--shadow-glow)",
-                  }}
-                >
-                  <Lock size={30} color="var(--color-brand-primary)" />
+                <div className="w-16 h-16 rounded-full bg-brand-surface border border-brand-soft flex items-center justify-center mb-2">
+                  <Lock size={24} color="var(--color-brand-primary)" />
                 </div>
-
                 <div style={{ maxWidth: "380px" }}>
                   <h3 style={{
                     fontSize: "var(--text-xl)", fontWeight: "var(--font-weight-bold)", margin: "0 0 var(--space-3)",
@@ -738,8 +557,10 @@ export default function ContentGenerator() {
               </motion.div>
             )}
           </AnimatePresence>
+</div>
         </div>
       </div>
+      </Form>
     </>
   );
 }
@@ -763,7 +584,7 @@ function RawInputField({ disabled }: { disabled: boolean }) {
               disabled={disabled}
             />
           </FormControl>
-          <FormMessage role="alert" className="order-4 font-medium" />
+          <FormMessage role="alert" className="font-medium" />
         </FormItem>
       )}
     />

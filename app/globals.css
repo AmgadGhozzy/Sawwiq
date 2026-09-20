@@ -6,6 +6,7 @@
   --color-background: var(--color-background);
   --color-surface: var(--color-surface);
   --color-surface-elevated: var(--color-surface-elevated);
+  --color-surface-flyout: var(--color-surface-flyout);
   --color-surface-hover: var(--color-surface-hover);
   --color-surface-translucent: var(--color-surface-translucent);
   --color-surface-bar: var(--color-surface-bar);
@@ -246,10 +247,11 @@
   :root {
     /* Backgrounds */
     --color-background: #09090b;
-    --color-surface: rgba(24, 24, 27, 0.55);
-    --color-surface-elevated: #131316;
-    --color-surface-hover: rgba(39, 39, 42, 0.7);
-    --color-surface-translucent: color-mix(in srgb, #131316 88%, #09090b);
+    --color-surface: #111113;
+    --color-surface-elevated: #171719;
+    --color-surface-flyout: #1a1a1d;
+    --color-surface-hover: #1f1f22;
+    --color-surface-translucent: #111113;
     --color-overlay: rgba(0, 0, 0, 0.6);
     
     /* Text */
@@ -260,8 +262,8 @@
     --color-foreground-inverse: #ffffff;
 
     /* Borders */
-    --color-border: rgba(255, 255, 255, 0.06);
-    --color-border-subtle: rgba(255, 255, 255, 0.03);
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-subtle: rgba(255, 255, 255, 0.05);
     --color-border-focus: #5e6ad2;
 
     /* Brand */
@@ -293,13 +295,13 @@
     --highlight-inset: inset 0 1px 0 rgba(255, 255, 255, 0.18);
 
     /* Bars (sticky generate bar / result footer) */
-    --color-surface-bar: #0e0d18;
+    --color-surface-bar: #111113;
 
     /* Gradients */
     --gradient-brand: linear-gradient(135deg, #5e6ad2 0%, #4f46e5 100%);
     --gradient-hero-spotlight: radial-gradient(ellipse, rgba(94,106,210,0.12) 0%, transparent 70%);
     --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.3), rgba(79, 70, 229, 0.08));
-    --gradient-surface: linear-gradient(165deg, rgba(24,24,27,0.55) 0%, rgba(19,19,22,0.6) 50%, #131316 100%);
+    --gradient-surface: var(--color-surface);
     --gradient-headline: linear-gradient(135deg, #fafafa 0%, #d6d8f5 45%, #9ea2f2 100%);
     --gradient-divider: linear-gradient(90deg, transparent, rgba(124,58,237,0.3) 25%, rgba(124,58,237,0.2) 75%, transparent);
     --gradient-whatsapp: linear-gradient(135deg, #25d366, #128c7e);
@@ -331,8 +333,8 @@
     --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
-    --shadow-elevated: 0 8px 32px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    --shadow-card: 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+    --shadow-elevated: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 40px rgba(0, 0, 0, 0.5);
     --shadow-glow: 0 0 12px rgba(94, 106, 210, 0.3);
     --shadow-brand: 0 8px 24px -4px rgba(94, 106, 210, 0.4);
     --shadow-brand-glow: 0 0 0 3px var(--color-brand-soft), var(--shadow-brand);
@@ -476,8 +478,9 @@
     --color-background: #ffffff;
     --color-surface: #f8fafc;
     --color-surface-elevated: #ffffff;
+    --color-surface-flyout: #ffffff;
     --color-surface-hover: #f1f5f9;
-    --color-surface-translucent: rgba(255, 255, 255, 0.9);
+    --color-surface-translucent: #ffffff;
     --color-surface-bar: #ffffff;
     --color-overlay: rgba(15, 23, 42, 0.4);
     
@@ -515,13 +518,13 @@
     --gradient-brand: linear-gradient(135deg, #5e6ad2 0%, #4f46e5 100%);
     --gradient-hero-spotlight: radial-gradient(ellipse, rgba(94,106,210,0.10) 0%, transparent 70%);
     --gradient-glow: linear-gradient(180deg, rgba(124, 58, 237, 0.15), rgba(79, 70, 229, 0.05));
-    --gradient-surface: linear-gradient(165deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+    --gradient-surface: var(--color-surface);
     --gradient-headline: linear-gradient(135deg, #4c1d95 0%, #6d28d9 45%, #7c3aed 100%);
     --gradient-divider: linear-gradient(90deg, transparent, rgba(124,58,237,0.3) 25%, rgba(124,58,237,0.2) 75%, transparent);
     --gradient-whatsapp: linear-gradient(135deg, #25d366, #128c7e);
 
     --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    --shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    --shadow-elevated: 0 0 0 1px rgba(15, 23, 42, 0.08), 0 8px 32px rgba(15, 23, 42, 0.12);
     --shadow-glow: 0 0 12px rgba(94, 106, 210, 0.15);
     --shadow-brand: 0 8px 24px -4px rgba(94, 106, 210, 0.25);
     --shadow-brand-glow: 0 0 0 3px var(--color-brand-soft), var(--shadow-brand);
@@ -622,13 +625,9 @@
 }
 
 
-/* ── Shared glass surface: gradient bg + blur + border + elevated shadow ──
-   Components add their own radius/padding inline; inline overrides win when a
-   variant needs a different background or border color. */
+/* ── Shared solid surface. Kept as a migration alias for existing components. */
 .glass-card {
-  background: var(--gradient-surface);
-  backdrop-filter: blur(var(--blur-2xl)) saturate(180%);
-  -webkit-backdrop-filter: blur(var(--blur-2xl)) saturate(180%);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-elevated);
 }

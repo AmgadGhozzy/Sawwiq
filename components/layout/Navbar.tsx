@@ -1,34 +1,61 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
-import HistoryProvider from "@/components/history/HistoryProvider";
 import AccountButton from "@/components/auth/AccountButton";
 
+/**
+ * Marketing Navbar — no HistoryProvider.
+ * Used on the landing page where HistoryContextProvider is absent.
+ */
 export default function Navbar() {
   const tGlobal = useTranslations("Global");
+  const locale = useLocale();
 
   return (
-    <div className="sticky top-3 sm:top-4 z-[var(--z-navbar)] px-4">
-      <header className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-3 rounded-full border border-border bg-[color-mix(in_srgb,var(--color-surface-elevated)_60%,transparent)] px-4 shadow-elevated backdrop-blur-xl">
-        <div className="flex min-w-0 items-center gap-2.5">
+    <header
+      className="sticky top-4 z-[var(--z-navbar)] mx-4 md:mx-auto max-w-5xl"
+      style={{
+        background: "color-mix(in srgb, var(--color-surface) 80%, transparent)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: "1px solid var(--color-border)",
+        borderRadius: "var(--radius-full)",
+        boxShadow: "var(--shadow-sm)",
+      }}
+    >
+      <div className="flex h-14 items-center justify-between gap-3 px-5 sm:px-6">
+        {/* Logo + Wordmark */}
+        <Link
+          href={`/${locale}`}
+          className="flex min-w-0 items-center gap-2.5 shrink-0"
+          aria-label={tGlobal("productName")}
+        >
           <Image
             src="/logo.png"
             alt="Logo"
-            width={32}
-            height={32}
+            width={28}
+            height={28}
             className="shrink-0 object-contain"
+            priority
           />
-          <span className="truncate font-outfit text-xl font-extrabold leading-none tracking-[var(--ltr-tracking-snug)] text-foreground">
+          <span
+            className="font-outfit font-extrabold leading-none text-foreground"
+            style={{
+              fontSize: "var(--text-lg)",
+              letterSpacing: "var(--ltr-tracking-snug)",
+            }}
+          >
             {tGlobal("productName")}
           </span>
-        </div>
+        </Link>
 
+        {/* Controls */}
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
-          <HistoryProvider />
           <AccountButton />
         </div>
-      </header>
-    </div>
+      </div>
+    </header>
   );
 }

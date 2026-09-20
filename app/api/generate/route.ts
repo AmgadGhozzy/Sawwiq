@@ -13,6 +13,15 @@ import { extractPipelineBErrorCode, normalizePipelineBError } from "@/lib/utils/
 
 const MAX_BODY_SIZE = 10_240; // 10 KB hard ceiling
 
+// Sentinel value written by claim_and_merge_session for auth users.
+// If the pipeline leaks this (e.g. expired JWT → unauthenticated fallback),
+// return null so the badge stays hidden rather than showing 2 billion.
+const SESSION_UNLIMITED_SENTINEL = 2_147_483_647;
+function sanitizeRemaining(raw: number | null | undefined): number | null {
+  if (raw == null || raw >= SESSION_UNLIMITED_SENTINEL / 2) return null;
+  return raw;
+}
+
 function errorResponse(
   code: string,
   requestId: string,
@@ -327,13 +336,13 @@ export async function POST(
             requestId,
             pipeline: "B",
             platform: sanitized.platform,
-            remainingGenerations: authRemainingCredits ?? (bData.remainingGenerations as number) ?? 0,
+            remainingGenerations: authRemainingCredits ?? sanitizeRemaining(bData.remainingGenerations as number) ?? 0,
             is_authenticated: isAuthenticated
           });
           return NextResponse.json({
             success: true as const,
             data: bData.result as GenerateResponse extends { success: true } ? GenerateResponse["data"] : never,
-            remainingGenerations: authRemainingCredits ?? (bData.remainingGenerations as number) ?? 0,
+            remainingGenerations: authRemainingCredits ?? sanitizeRemaining(bData.remainingGenerations as number) ?? 0,
             meta: { requestId },
           });
         }
@@ -461,13 +470,13 @@ export async function POST(
       requestId,
       pipeline: "A",
       platform: sanitized.platform,
-      remainingGenerations: authRemainingCredits ?? (edgeData.remainingGenerations as number) ?? 0,
+      remainingGenerations: authRemainingCredits ?? sanitizeRemaining(edgeData.remainingGenerations as number) ?? 0,
       is_authenticated: isAuthenticated
     });
     return NextResponse.json({
       success: true as const,
       data: edgeData.result as GenerateResponse extends { success: true } ? GenerateResponse["data"] : never,
-      remainingGenerations: authRemainingCredits ?? (edgeData.remainingGenerations as number) ?? 0,
+      remainingGenerations: authRemainingCredits ?? sanitizeRemaining(edgeData.remainingGenerations as number) ?? 0,
       meta: { requestId },
     });
 

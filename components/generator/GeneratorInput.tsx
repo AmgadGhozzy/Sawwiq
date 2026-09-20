@@ -47,7 +47,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
     }, [onChange, value]);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", order: 3, marginTop: "var(--space-2)", marginBottom: "var(--space-2)" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
         <div style={{ position: "relative" }}>
           <Textarea
             ref={ref}
@@ -60,7 +60,7 @@ const GeneratorInput = forwardRef<HTMLTextAreaElement, GeneratorInputProps>(
             placeholder={showQuickChips ? "" : staticPlaceholder}
             rows={5}
             aria-invalid={invalid}
-            className="raw-input max-h-[var(--textarea-max-h)] min-h-[var(--textarea-min-h)] resize-none rounded-2xl bg-surface-elevated px-4 pt-3 pb-[var(--control-h-xl)] text-sm leading-[var(--leading-relaxed)] shadow-none placeholder:text-[var(--color-foreground-tertiary)] disabled:opacity-[0.4]"
+            className="raw-input max-h-[var(--textarea-max-h)] min-h-[var(--textarea-min-h)] resize-none rounded-2xl bg-surface-elevated px-4 pt-4 pb-[var(--control-h-xl)] text-sm leading-[var(--leading-relaxed)] shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-border focus:border-brand-primary focus:ring-1 focus:ring-brand-primary placeholder:text-foreground-tertiary disabled:opacity-40 transition-all duration-200"
           />
 
           {/* Action Button: Clear if has text, Paste if empty */}

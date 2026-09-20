@@ -1,6 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 
 function scrollToId(id: string) {
@@ -9,16 +10,16 @@ function scrollToId(id: string) {
 
 export default function HeroCTA() {
   const tHome = useTranslations("HomePage");
+  const locale = useLocale();
 
   return (
     <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
       <Button
-        type="button"
+        asChild
         size="lg"
-        onClick={() => scrollToId("generator")}
         className="rounded-xl px-8 font-extrabold active:scale-[0.98]"
       >
-        {tHome("ctaPrimary")}
+        <Link href={`/${locale}/generate`}>{tHome("ctaPrimary")}</Link>
       </Button>
       <Button
         type="button"
